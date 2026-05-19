@@ -6,10 +6,21 @@
 
 ## 빠른 실행
 
+처음 한 번만 의존성을 설치합니다.
+
 ```powershell
 npm install
+```
+
+Windows에서는 루트의 `INSTALL_DEPENDENCIES_WINDOWS.bat`을 더블클릭해도 됩니다.
+
+그 다음부터는 개발 서버만 빠르게 실행합니다.
+
+```powershell
 npm run dev
 ```
+
+Windows에서는 `START_DEV_WINDOWS.bat`을 더블클릭하면 됩니다.
 
 브라우저:
 
@@ -59,6 +70,8 @@ standalone/index.html 브라우저 바로 열리는 프리뷰
 npm run sync:thanosvibs
 ```
 
+Windows에서는 `SYNC_THANOSVIBS_WINDOWS.bat`을 더블클릭하면 됩니다.
+
 결과물:
 
 ```txt
@@ -94,9 +107,10 @@ npm run start
 
 ## 추천 개발 순서
 
-1. `npm install && npm run dev`로 웹앱 확인
-2. `src/lib/data.ts`의 샘플 계정/캐릭터 보유 상황 수정
-3. `npm run sync:thanosvibs`로 최신 Uniform/Artifact/Support CSV 생성
-4. Supabase에 schema/import 적용
-5. 관리자 CRUD 화면 추가
-6. iOS 앱은 마지막에 Expo로 연결
+1. `npm install`로 의존성 설치
+2. `npm run dev`로 웹앱 확인
+3. `src/lib/data.ts`의 샘플 계정/캐릭터 보유 상황 수정
+4. `npm run sync:thanosvibs`로 최신 Uniform/Artifact/Support CSV 생성
+5. Supabase에 schema/import 적용
+6. 관리자 CRUD 화면 추가
+7. iOS 앱은 마지막에 Expo로 연결

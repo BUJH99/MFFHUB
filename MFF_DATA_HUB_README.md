@@ -40,16 +40,16 @@ http://localhost:3000
 
 ### 1-2. Windows 편의 실행
 
-루트 폴더에 있는 파일을 더블클릭해도 됩니다.
+처음 한 번만 루트 폴더의 설치 파일을 실행합니다.
+
+```txt
+INSTALL_DEPENDENCIES_WINDOWS.bat
+```
+
+그 다음부터는 개발 서버 파일만 더블클릭하면 됩니다. 이 파일은 `npm install`을 다시 실행하지 않습니다.
 
 ```txt
 START_DEV_WINDOWS.bat
-```
-
-또는 PowerShell에서:
-
-```powershell
-.\START_DEV_POWERSHELL.ps1
 ```
 
 ### 1-3. 무설치 프리뷰
@@ -133,7 +133,9 @@ mff-data-hub-final/
 ├─ scripts/                # 루트 보조 스크립트
 ├─ package.json            # 루트 workspace 스크립트
 ├─ .env.example            # 환경변수 예시
-├─ START_DEV_WINDOWS.bat   # Windows 실행 편의 파일
+├─ INSTALL_DEPENDENCIES_WINDOWS.bat # Windows 의존성 설치
+├─ START_DEV_WINDOWS.bat   # Windows 개발 서버 빠른 실행
+├─ SYNC_THANOSVIBS_WINDOWS.bat # Windows THANO$VIB$ 동기화
 └─ README.md               # 이 문서
 ```
 
@@ -691,7 +693,7 @@ npm run sync:thanosvibs
 또는 Windows 편의 스크립트:
 
 ```powershell
-.\SYNC_THANOSVIBS_POWERSHELL.ps1
+.\SYNC_THANOSVIBS_WINDOWS.bat
 ```
 
 ### 8-2. 동기화 대상
@@ -883,13 +885,17 @@ Supabase, DB, sync URL 환경변수 예시.
 
 Drizzle 설정.
 
+#### `INSTALL_DEPENDENCIES_WINDOWS.bat`
+
+Windows에서 의존성만 설치하는 편의 파일.
+
 #### `START_DEV_WINDOWS.bat`
 
-Windows에서 개발 서버 실행 편의 파일.
+Windows에서 `npm install` 없이 개발 서버만 빠르게 실행하는 편의 파일.
 
-#### `INSTALL_AND_SYNC_WINDOWS.bat`
+#### `SYNC_THANOSVIBS_WINDOWS.bat`
 
-설치 후 sync까지 한 번에 돌리는 편의 파일.
+Windows에서 `npm install` 없이 THANO$VIB$ 데이터만 동기화하는 편의 파일.
 
 ---
 
