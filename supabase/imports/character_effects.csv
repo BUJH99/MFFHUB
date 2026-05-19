@@ -1,0 +1,201 @@
+character_id,source_kind,effect_name,magnitude,magnitude_text,restriction_text,raw_text,source_url
+abomination,Artifact Exclusive Skill,All Basic Attacks,18,18%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 18% | 0.2%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,HP,4,4%,This skill only applies to a specific ability: Gamma Radiation,HP | 4% | 0.1%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 20% | 0.3%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,HP,6,6%,This skill only applies to a specific ability: Gamma Radiation,HP | 6% | 0.1%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,All Basic Attacks,22,22%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 22% | 0.4%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,HP,8,8%,This skill only applies to a specific ability: Gamma Radiation,HP | 8% | 0.1%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,All Basic Attacks,25,25%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 25% | 0.5%,https://thanosvibs.money/supports
+abomination,Artifact Exclusive Skill,HP,10,10%,This skill only applies to a specific ability: Gamma Radiation,HP | 10% | 0.1%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,5,5%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 5% | 0.1%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Received,-15,-15%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -15% | 0.15%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,10,10%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 10% | 0.2%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Received,-20,-20%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -20% | 0.2%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,15,15%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 15% | 0.3%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Received,-25,-25%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -25% | 0.25%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,20,20%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 20% | 0.4%,https://thanosvibs.money/supports
+agentvenom,Artifact Exclusive Skill,Basic Damage Received,-30,-30%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -30% | 0.3%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Villains,4,4%,,Basic Damage Dealt to Villains | 4% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,4,4%,,Basic Damage Dealt to Heroes | 4% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,,Basic Damage Dealt to Boss Types | 8% | 0.1%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,12,12%,,Basic Damage Dealt to Boss Types | 12% | 0.1%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Villains,8,8%,,Basic Damage Dealt to Villains | 8% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,8,8%,,Basic Damage Dealt to Heroes | 8% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,16,16%,,Basic Damage Dealt to Boss Types | 16% | 0.1%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,,Basic Damage Dealt to Villains | 10% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,10,10%,,Basic Damage Dealt to Heroes | 10% | 0.2%,https://thanosvibs.money/supports
+blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,20,20%,,Basic Damage Dealt to Boss Types | 20% | 0.1%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,3,3%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 3% | 0.2%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,All Basic Attacks,13,13%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 13% | 0.2%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,5,5%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 5% | 0.3%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,All Basic Attacks,15,15%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 15% | 0.3%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,7,7%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 7% | 0.4%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,All Basic Attacks,17,17%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 17% | 0.4%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 10% | 0.5%,https://thanosvibs.money/supports
+dazzler,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,11,11%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 11% | 0.2%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,11,11%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 11% | 0.2%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,14,14%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 14% | 0.3%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,14,14%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 14% | 0.3%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,17,17%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 17% | 0.4%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,17,17%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 17% | 0.4%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,20,20%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 20% | 0.5%,https://thanosvibs.money/supports
+ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
+exodus,Artifact Exclusive Skill,HP,16,16%,This skill only applies to a specific allies: Mutant,HP | 16% | 0.1%,https://thanosvibs.money/supports
+exodus,Artifact Exclusive Skill,HP,19,19%,This skill only applies to a specific allies: Mutant,HP | 19% | 0.1%,https://thanosvibs.money/supports
+exodus,Artifact Exclusive Skill,HP,22,22%,This skill only applies to a specific allies: Mutant,HP | 22% | 0.1%,https://thanosvibs.money/supports
+exodus,Artifact Exclusive Skill,HP,25,25%,This skill only applies to a specific allies: Mutant,HP | 25% | 0.1%,https://thanosvibs.money/supports
+franklinrichards,Artifact Exclusive Skill,Immortality + Heal,5,5%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 5% | 0.5% | 1,https://thanosvibs.money/supports
+franklinrichards,Artifact Exclusive Skill,Immortality + Heal,10,10%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 10% | 0.5% | 2,https://thanosvibs.money/supports
+franklinrichards,Artifact Exclusive Skill,Immortality + Heal,15,15%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 15% | 0.5% | 3,https://thanosvibs.money/supports
+franklinrichards,Artifact Exclusive Skill,Immortality + Heal,20,20%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 20% | 0.5% | 4,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,20,20%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 20% | 0.2% | 7,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,8,8%,This skill only applies to a specific ability: Flame,Fire Damage | 8% | 0.2% | 7,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,23,23%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 23% | 0.3% | 8,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,10,10%,This skill only applies to a specific ability: Flame,Fire Damage | 10% | 0.2% | 8,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,26,26%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 26% | 0.4% | 9,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,12,12%,This skill only applies to a specific ability: Flame,Fire Damage | 12% | 0.2% | 9,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,30,30%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 30% | 0.5% | 10,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,15,15%,This skill only applies to a specific ability: Flame,Fire Damage | 15% | 0.2% | 10,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,6,6%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 6% | 0.2%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 9% | 0.3%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,9,9%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 9% | 0.3%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 12% | 0.4%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,12,12%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 12% | 0.4%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,15,15%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 15% | 0.5%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,5,5%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 5% | 0.2%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,HP,8,8%,This skill only applies to a specific side: Hero,HP | 8% | 0.1%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 10% | 0.3%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,HP,12,12%,This skill only applies to a specific side: Hero,HP | 12% | 0.2%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 15% | 0.4%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,HP,16,16%,This skill only applies to a specific side: Hero,HP | 16% | 0.3%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
+jeffthelandshark,Artifact Exclusive Skill,HP,20,20%,This skill only applies to a specific side: Hero,HP | 20% | 0.4%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 9% | 0.2%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 9% | 0.2%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,11,11%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 11% | 0.3%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,11,11%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 11% | 0.3%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,13,13%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 13% | 0.4%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,13,13%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 13% | 0.4%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 10% | 0.2%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,10,10%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 10% | 0.2%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,13,13%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 13% | 0.3%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,13,13%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 13% | 0.3%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,16,16%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 16% | 0.4%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,16,16%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 16% | 0.4%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
+marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,20,20%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 20% | 0.5%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Ignore Dodge,5,5%,,Ignore Dodge | 5% | 0.2%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Ignore Dodge,8,8%,,Ignore Dodge | 8% | 0.3%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,,Basic Damage Dealt to Boss Types | 8% | 0.15%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Ignore Dodge,11,11%,,Ignore Dodge | 11% | 0.4%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,,Basic Damage Dealt to Boss Types | 11% | 0.2%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Ignore Dodge,15,15%,,Ignore Dodge | 15% | 0.5%,https://thanosvibs.money/supports
+medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,,Basic Damage Dealt to Boss Types | 15% | 0.25%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Ignore Dodge,4,4%,This skill only applies to a specific side: Hero,Ignore Dodge | 4% | 0.2%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Ignore Dodge,6,6%,This skill only applies to a specific side: Hero,Ignore Dodge | 6% | 0.3%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 8% | 0.15%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Ignore Dodge,8,8%,This skill only applies to a specific side: Hero,Ignore Dodge | 8% | 0.4%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 11% | 0.2%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Ignore Dodge,10,10%,This skill only applies to a specific side: Hero,Ignore Dodge | 10% | 0.5%,https://thanosvibs.money/supports
+nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 15% | 0.25%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,,Basic Damage Dealt to Villains | 9% | 0.3%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,,Basic Damage Dealt to Heroes | 9% | 0.3%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,,Basic Damage Dealt to Villains | 12% | 0.4%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,12,12%,,Basic Damage Dealt to Heroes | 12% | 0.4%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Ignore Dodge,9,9%,This skill only applies to a specific side: Hero,Ignore Dodge | 9% | 0.2%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Ignore Dodge,11,11%,This skill only applies to a specific side: Hero,Ignore Dodge | 11% | 0.3%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 8% | 0.15%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Ignore Dodge,13,13%,This skill only applies to a specific side: Hero,Ignore Dodge | 13% | 0.4%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 11% | 0.2%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Ignore Dodge,15,15%,This skill only applies to a specific side: Hero,Ignore Dodge | 15% | 0.5%,https://thanosvibs.money/supports
+philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 15% | 0.25%,https://thanosvibs.money/supports
+quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,9,9%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 9% | 0.15%,https://thanosvibs.money/supports
+quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,11,11%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 11% | 0.2%,https://thanosvibs.money/supports
+quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,13,13%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 13% | 0.25%,https://thanosvibs.money/supports
+quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,15,15%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 15% | 0.3%,https://thanosvibs.money/supports
+ronan,Artifact Exclusive Skill,All Basic Attacks,14,14%,,All Basic Attacks | 14% | 0.2%,https://thanosvibs.money/supports
+ronan,Artifact Exclusive Skill,All Basic Attacks,16,16%,,All Basic Attacks | 16% | 0.3%,https://thanosvibs.money/supports
+ronan,Artifact Exclusive Skill,All Basic Attacks,18,18%,,All Basic Attacks | 18% | 0.4%,https://thanosvibs.money/supports
+ronan,Artifact Exclusive Skill,All Basic Attacks,20,20%,,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,All Basic Attacks,14,14%,This skill only applies to a specific type: Universal,All Basic Attacks | 14% | 0.2%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,4,4%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 4% | 0.1%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,All Basic Attacks,16,16%,This skill only applies to a specific type: Universal,All Basic Attacks | 16% | 0.3%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,6,6%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 6% | 0.15%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,All Basic Attacks,18,18%,This skill only applies to a specific type: Universal,All Basic Attacks | 18% | 0.4%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 8% | 0.2%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific type: Universal,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,10,10%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 10% | 0.25%,https://thanosvibs.money/supports
+shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),3,3%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 3% | 0.1% | 15% | 27,https://thanosvibs.money/supports
+shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),4,4%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 4% | 0.2% | 20% | 28,https://thanosvibs.money/supports
+shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),5,5%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 5% | 0.3% | 30% | 29,https://thanosvibs.money/supports
+shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),6,6%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 6% | 0.4% | 40% | 30,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 9% | 0.3%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 9% | 0.3%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,12,12%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 12% | 0.4%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 12% | 0.4%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
+sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,10,10%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 10% | 0.2%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,HP,10,10%,This skill only applies to a specific ability: Warriors of the Sky,HP | 10% | 0.1%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,13,13%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 13% | 0.3%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,HP,13,13%,This skill only applies to a specific ability: Warriors of the Sky,HP | 13% | 0.2%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,16,16%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 16% | 0.4%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,HP,16,16%,This skill only applies to a specific ability: Warriors of the Sky,HP | 16% | 0.3%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,20,20%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 20% | 0.5%,https://thanosvibs.money/supports
+sunbird,Artifact Exclusive Skill,HP,20,20%,This skill only applies to a specific ability: Warriors of the Sky,HP | 20% | 0.4%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Villains,8,8%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 8% | 0.2%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,All Basic Attacks,5,5%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 5% | 0.2%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,10,10%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 10% | 0.1%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 12% | 0.2%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,All Basic Attacks,8,8%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 8% | 0.3%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,13,13%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 13% | 0.15%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Villains,16,16%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 16% | 0.2%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,All Basic Attacks,11,11%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 11% | 0.4%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,16,16%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 16% | 0.2%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,All Basic Attacks,15,15%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 15% | 0.5%,https://thanosvibs.money/supports
+valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,20,20%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 20% | 0.3%,https://thanosvibs.money/supports
+valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
+valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,,Basic Damage Dealt to Boss Types | 8% | 0.1%,https://thanosvibs.money/supports
+valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,,Basic Damage Dealt to Boss Types | 11% | 0.1%,https://thanosvibs.money/supports
+valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,,Basic Damage Dealt to Boss Types | 15% | 0.1%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,Ignore Dodge,6,6%,This skill only applies to a specific type: Universal,Ignore Dodge | 6% | 0.2%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,All Basic Attacks,10,10%,This skill only applies to a specific type: Universal,All Basic Attacks | 10% | 0.2%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,Ignore Dodge,9,9%,This skill only applies to a specific type: Universal,Ignore Dodge | 9% | 0.3%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,All Basic Attacks,13,13%,This skill only applies to a specific type: Universal,All Basic Attacks | 13% | 0.3%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,Ignore Dodge,12,12%,This skill only applies to a specific type: Universal,Ignore Dodge | 12% | 0.4%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,All Basic Attacks,16,16%,This skill only applies to a specific type: Universal,All Basic Attacks | 16% | 0.4%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,Ignore Dodge,15,15%,This skill only applies to a specific type: Universal,Ignore Dodge | 15% | 0.5%,https://thanosvibs.money/supports
+victorious,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific type: Universal,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+vision,Artifact Exclusive Skill,Heal,40,40%,This skill only applies to a specific ability: Machine,Heal | 40% | 0.3% | 0.3,https://thanosvibs.money/supports
+vision,Artifact Exclusive Skill,Heal,50,50%,This skill only applies to a specific ability: Machine,Heal | 50% | 0.3% | 0.3,https://thanosvibs.money/supports
+vision,Artifact Exclusive Skill,Heal,60,60%,This skill only applies to a specific ability: Machine,Heal | 60% | 0.3% | 0.3,https://thanosvibs.money/supports
+vision,Artifact Exclusive Skill,Heal,70,70%,This skill only applies to a specific ability: Machine,Heal | 70% | 0.3% | 0.3,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 9% | 0.3%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 9% | 0.3%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,12,12%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 12% | 0.4%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 12% | 0.4%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
+warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+waspnadiavandyne,Artifact Exclusive Skill,Heal,5,5%,,Heal | 5% | 0.2% | 0.2,https://thanosvibs.money/supports
+waspnadiavandyne,Artifact Exclusive Skill,Heal,6.5,6.5%,,Heal | 6.5% | 0.3% | 0.3,https://thanosvibs.money/supports
+waspnadiavandyne,Artifact Exclusive Skill,Heal,8,8%,,Heal | 8% | 0.4% | 0.4,https://thanosvibs.money/supports
+waspnadiavandyne,Artifact Exclusive Skill,Heal,10,10%,,Heal | 10% | 0.5% | 0.5,https://thanosvibs.money/supports

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MFF Data Hub Final</title>
+  <style>
+    body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;color:#0f172a;margin:0;padding:40px} .card{max-width:860px;margin:auto;background:white;border:1px solid #e2e8f0;border-radius:28px;padding:32px;box-shadow:0 20px 60px rgba(15,23,42,.08)} code{background:#f1f5f9;border-radius:10px;padding:3px 7px} pre{background:#0f172a;color:#e2e8f0;padding:18px;border-radius:18px;overflow:auto}.btn{display:inline-block;background:#7c3aed;color:white;padding:12px 18px;border-radius:16px;text-decoration:none;font-weight:900}.muted{color:#64748b;font-weight:700;line-height:1.6}</style>
+</head>
+<body>
+  <main class="card">
+    <h1>MFF Data Hub Final</h1>
+    <p class="muted">무설치 미리보기는 아래 버튼으로 열면 됩니다. 실제 Next.js 앱은 터미널 명령어를 쓰세요.</p>
+    <p><a class="btn" href="standalone/index.html">무설치 프리뷰 열기</a></p>
+    <h2>실제 웹앱 실행</h2>
+    <pre>npm install
+npm run dev</pre>
+    <p class="muted">그다음 <code>http://localhost:3000</code> 접속.</p>
+    <h2>THANO$VIB$ 동기화</h2>
+    <pre>npm run sync:thanosvibs</pre>
+    <p class="muted">결과 CSV는 <code>supabase/imports</code>에 생성됩니다.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,18 @@
+export type Section =
+  | 'dashboard'
+  | 'pveOverall'
+  | 'worldBoss'
+  | 'abx'
+  | 'abl'
+  | 'infinityChallenge'
+  | 'pveTier'
+  | 'teamBattleArena'
+  | 'otherworld'
+  | 'timeline'
+  | 'pvpTier'
+  | 'custom'
+  | 'db'
+  | 'calculator'
+  | 'analysis'
+  | 'record'
+  | 'guide';

@@ -1,0 +1,77 @@
+id,rotation_id,round_no,mode,content,is_reset_day,restrictions,required_type,required_alignment,required_gender,required_tags,cancel_effects,source_url,note
+mff-abxl-r01-abx,mff-11-8-abxl-28-round,1,Extreme,ABX,true,"{""Speed"",""Hero"",""Female""}",Speed,Hero,Female,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Speed + Hero + Female
+mff-abxl-r01-abl,mff-11-8-abxl-28-round,1,Legend,ABL,true,"{""Universal"",""Male""}",Universal,,Male,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Universal + Male
+mff-abxl-r01-ab,mff-11-8-abxl-28-round,1,Normal,AB,true,"{""Blast""}",Blast,,,"{}","{}",https://thanosvibs.money/abxl,Blast
+mff-abxl-r02-abx,mff-11-8-abxl-28-round,2,Extreme,ABX,false,"{""No Restrictions""}",,,,"{}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r02-abl,mff-11-8-abxl-28-round,2,Legend,ABL,false,"{""No Restrictions""}",,,,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r02-ab,mff-11-8-abxl-28-round,2,Normal,AB,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r03-infinitychallenge,mff-11-8-abxl-28-round,3,Infinite Challenge,Infinity Challenge,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r04-abx,mff-11-8-abxl-28-round,4,Extreme,ABX,false,"{""Combat"",""Female""}",Combat,,Female,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Combat + Female
+mff-abxl-r04-abl,mff-11-8-abxl-28-round,4,Legend,ABL,false,"{""Villain"",""Human""}",,Villain,,"{""human""}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Villain + Human
+mff-abxl-r04-ab,mff-11-8-abxl-28-round,4,Normal,AB,false,"{""Speed""}",Speed,,,"{}","{}",https://thanosvibs.money/abxl,Speed
+mff-abxl-r05-abx,mff-11-8-abxl-28-round,5,Extreme,ABX,false,"{""Speed"",""Villain""}",Speed,Villain,,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Speed + Villain
+mff-abxl-r05-abl,mff-11-8-abxl-28-round,5,Legend,ABL,false,"{""Blast"",""Hero""}",Blast,Hero,,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Blast + Hero
+mff-abxl-r05-ab,mff-11-8-abxl-28-round,5,Normal,AB,false,"{""Universal""}",Universal,,,"{}","{}",https://thanosvibs.money/abxl,Universal
+mff-abxl-r06-abx,mff-11-8-abxl-28-round,6,Extreme,ABX,false,"{""Universal"",""Villain""}",Universal,Villain,,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Universal + Villain
+mff-abxl-r06-abl,mff-11-8-abxl-28-round,6,Legend,ABL,false,"{""Combat"",""Villain"",""Male""}",Combat,Villain,Male,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Combat + Villain + Male
+mff-abxl-r06-ab,mff-11-8-abxl-28-round,6,Normal,AB,false,"{""Female""}",,,Female,"{}","{}",https://thanosvibs.money/abxl,Female
+mff-abxl-r07-abx,mff-11-8-abxl-28-round,7,Extreme,ABX,false,"{""Male"",""Mutant""}",,,Male,"{""mutant""}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,Male + Mutant
+mff-abxl-r07-abl,mff-11-8-abxl-28-round,7,Legend,ABL,false,"{""Villain"",""Alien""}",,Villain,,"{""alien""}","{""snare"",""fracture"",""shock""}",https://thanosvibs.money/abxl,Villain + Alien
+mff-abxl-r07-ab,mff-11-8-abxl-28-round,7,Normal,AB,false,"{""Villain""}",,Villain,,"{}","{}",https://thanosvibs.money/abxl,Villain
+mff-abxl-r08-abx,mff-11-8-abxl-28-round,8,Extreme,ABX,true,"{""Combat"",""Hero""}",Combat,Hero,,"{}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,Combat + Hero
+mff-abxl-r08-abl,mff-11-8-abxl-28-round,8,Legend,ABL,true,"{""Universal"",""Human""}",Universal,,,"{""human""}","{""snare"",""fracture""}",https://thanosvibs.money/abxl,Universal + Human
+mff-abxl-r08-ab,mff-11-8-abxl-28-round,8,Normal,AB,true,"{""Combat""}",Combat,,,"{}","{}",https://thanosvibs.money/abxl,Combat
+mff-abxl-r09-abx,mff-11-8-abxl-28-round,9,Extreme,ABX,false,"{""No Restrictions""}",,,,"{}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r09-abl,mff-11-8-abxl-28-round,9,Legend,ABL,false,"{""No Restrictions""}",,,,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r09-ab,mff-11-8-abxl-28-round,9,Normal,AB,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r10-infinitychallenge,mff-11-8-abxl-28-round,10,Infinite Challenge,Infinity Challenge,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r11-abx,mff-11-8-abxl-28-round,11,Extreme,ABX,false,"{""Combat"",""Hero"",""Human""}",Combat,Hero,,"{""human""}","{""paralyze"",""silence"",""burn""}",https://thanosvibs.money/abxl,Combat + Hero + Human
+mff-abxl-r11-abl,mff-11-8-abxl-28-round,11,Legend,ABL,false,"{""Villain"",""Male""}",,Villain,Male,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Villain + Male
+mff-abxl-r11-ab,mff-11-8-abxl-28-round,11,Normal,AB,false,"{""Speed""}",Speed,,,"{}","{}",https://thanosvibs.money/abxl,Speed
+mff-abxl-r12-abx,mff-11-8-abxl-28-round,12,Extreme,ABX,false,"{""Universal"",""Hero"",""Male""}",Universal,Hero,Male,"{}","{""paralyze"",""silence"",""burn""}",https://thanosvibs.money/abxl,Universal + Hero + Male
+mff-abxl-r12-abl,mff-11-8-abxl-28-round,12,Legend,ABL,false,"{""Hero"",""Female"",""Human""}",,Hero,Female,"{""human""}","{""shock"",""snare"",""fracture""}",https://thanosvibs.money/abxl,Hero + Female + Human
+mff-abxl-r12-ab,mff-11-8-abxl-28-round,12,Normal,AB,false,"{""Universal""}",Universal,,,"{}","{}",https://thanosvibs.money/abxl,Universal
+mff-abxl-r13-abx,mff-11-8-abxl-28-round,13,Extreme,ABX,false,"{""Blast"",""Male""}",Blast,,Male,"{}","{""silence"",""paralyze""}",https://thanosvibs.money/abxl,Blast + Male
+mff-abxl-r13-abl,mff-11-8-abxl-28-round,13,Legend,ABL,false,"{""Female"",""Mutant""}",,,Female,"{""mutant""}","{""snare"",""fracture"",""shock""}",https://thanosvibs.money/abxl,Female + Mutant
+mff-abxl-r13-ab,mff-11-8-abxl-28-round,13,Normal,AB,false,"{""Female""}",,,Female,"{}","{}",https://thanosvibs.money/abxl,Female
+mff-abxl-r14-abx,mff-11-8-abxl-28-round,14,Extreme,ABX,false,"{""Villain"",""Mutant""}",,Villain,,"{""mutant""}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Villain + Mutant
+mff-abxl-r14-abl,mff-11-8-abxl-28-round,14,Legend,ABL,false,"{""Speed"",""Hero"",""Male""}",Speed,Hero,Male,"{}","{""shock"",""snare"",""fracture""}",https://thanosvibs.money/abxl,Speed + Hero + Male
+mff-abxl-r14-ab,mff-11-8-abxl-28-round,14,Normal,AB,false,"{""Villain""}",,Villain,,"{}","{}",https://thanosvibs.money/abxl,Villain
+mff-abxl-r15-abx,mff-11-8-abxl-28-round,15,Extreme,ABX,true,"{""Universal"",""Villain""}",Universal,Villain,,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Universal + Villain
+mff-abxl-r15-abl,mff-11-8-abxl-28-round,15,Legend,ABL,true,"{""Speed"",""Villain""}",Speed,Villain,,"{}","{""shock"",""fracture""}",https://thanosvibs.money/abxl,Speed + Villain
+mff-abxl-r15-ab,mff-11-8-abxl-28-round,15,Normal,AB,true,"{""Blast""}",Blast,,,"{}","{}",https://thanosvibs.money/abxl,Blast
+mff-abxl-r16-abx,mff-11-8-abxl-28-round,16,Extreme,ABX,false,"{""No Restrictions""}",,,,"{}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r16-abl,mff-11-8-abxl-28-round,16,Legend,ABL,false,"{""No Restrictions""}",,,,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r16-ab,mff-11-8-abxl-28-round,16,Normal,AB,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r17-infinitychallenge,mff-11-8-abxl-28-round,17,Infinite Challenge,Infinity Challenge,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r18-abx,mff-11-8-abxl-28-round,18,Extreme,ABX,false,"{""Blast"",""Villain""}",Blast,Villain,,"{}","{""silence"",""paralyze""}",https://thanosvibs.money/abxl,Blast + Villain
+mff-abxl-r18-abl,mff-11-8-abxl-28-round,18,Legend,ABL,false,"{""Speed"",""Female""}",Speed,,Female,"{}","{""shock"",""snare"",""fracture""}",https://thanosvibs.money/abxl,Speed + Female
+mff-abxl-r18-ab,mff-11-8-abxl-28-round,18,Normal,AB,false,"{""Speed""}",Speed,,,"{}","{}",https://thanosvibs.money/abxl,Speed
+mff-abxl-r19-abx,mff-11-8-abxl-28-round,19,Extreme,ABX,false,"{""Universal"",""Hero""}",Universal,Hero,,"{}","{""paralyze"",""silence"",""burn""}",https://thanosvibs.money/abxl,Universal + Hero
+mff-abxl-r19-abl,mff-11-8-abxl-28-round,19,Legend,ABL,false,"{""Combat"",""Alien""}",Combat,,,"{""alien""}","{""snare"",""fracture"",""shock""}",https://thanosvibs.money/abxl,Combat + Alien
+mff-abxl-r19-ab,mff-11-8-abxl-28-round,19,Normal,AB,false,"{""Universal""}",Universal,,,"{}","{}",https://thanosvibs.money/abxl,Universal
+mff-abxl-r20-abx,mff-11-8-abxl-28-round,20,Extreme,ABX,false,"{""Female"",""Alien""}",,,Female,"{""alien""}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Female + Alien
+mff-abxl-r20-abl,mff-11-8-abxl-28-round,20,Legend,ABL,false,"{""Blast"",""Hero"",""Male""}",Blast,Hero,Male,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Blast + Hero + Male
+mff-abxl-r20-ab,mff-11-8-abxl-28-round,20,Normal,AB,false,"{""Female""}",,,Female,"{}","{}",https://thanosvibs.money/abxl,Female
+mff-abxl-r21-abx,mff-11-8-abxl-28-round,21,Extreme,ABX,false,"{""Blast"",""Female"",""Human""}",Blast,,Female,"{""human""}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Blast + Female + Human
+mff-abxl-r21-abl,mff-11-8-abxl-28-round,21,Legend,ABL,false,"{""Inhuman""}",,,,"{""inhuman""}","{""shock"",""snare"",""fracture""}",https://thanosvibs.money/abxl,Inhuman
+mff-abxl-r21-ab,mff-11-8-abxl-28-round,21,Normal,AB,false,"{""Villain""}",,Villain,,"{}","{}",https://thanosvibs.money/abxl,Villain
+mff-abxl-r22-abx,mff-11-8-abxl-28-round,22,Extreme,ABX,true,"{""Speed"",""Male"",""Human""}",Speed,,Male,"{""human""}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,Speed + Male + Human
+mff-abxl-r22-abl,mff-11-8-abxl-28-round,22,Legend,ABL,true,"{""Universal"",""Hero"",""Male""}",Universal,Hero,Male,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Universal + Hero + Male
+mff-abxl-r22-ab,mff-11-8-abxl-28-round,22,Normal,AB,true,"{""Combat""}",Combat,,,"{}","{}",https://thanosvibs.money/abxl,Combat
+mff-abxl-r23-abx,mff-11-8-abxl-28-round,23,Extreme,ABX,false,"{""No Restrictions""}",,,,"{}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r23-abl,mff-11-8-abxl-28-round,23,Legend,ABL,false,"{""No Restrictions""}",,,,"{}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r23-ab,mff-11-8-abxl-28-round,23,Normal,AB,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r24-infinitychallenge,mff-11-8-abxl-28-round,24,Infinite Challenge,Infinity Challenge,false,"{""No Restrictions""}",,,,"{}","{}",https://thanosvibs.money/abxl,No Restrictions
+mff-abxl-r25-abx,mff-11-8-abxl-28-round,25,Extreme,ABX,false,"{""Hero"",""Male"",""Alien""}",,Hero,Male,"{""alien""}","{""paralyze"",""burn"",""silence""}",https://thanosvibs.money/abxl,Hero + Male + Alien
+mff-abxl-r25-abl,mff-11-8-abxl-28-round,25,Legend,ABL,false,"{""Universal"",""Female""}",Universal,,Female,"{}","{""snare"",""fracture""}",https://thanosvibs.money/abxl,Universal + Female
+mff-abxl-r25-ab,mff-11-8-abxl-28-round,25,Normal,AB,false,"{""Speed""}",Speed,,,"{}","{}",https://thanosvibs.money/abxl,Speed
+mff-abxl-r26-abx,mff-11-8-abxl-28-round,26,Extreme,ABX,false,"{""Combat"",""Villain""}",Combat,Villain,,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Combat + Villain
+mff-abxl-r26-abl,mff-11-8-abxl-28-round,26,Legend,ABL,false,"{""Hero"",""Alien""}",,Hero,,"{""alien""}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Hero + Alien
+mff-abxl-r26-ab,mff-11-8-abxl-28-round,26,Normal,AB,false,"{""Universal""}",Universal,,,"{}","{}",https://thanosvibs.money/abxl,Universal
+mff-abxl-r27-abx,mff-11-8-abxl-28-round,27,Extreme,ABX,false,"{""Universal"",""Human""}",Universal,,,"{""human""}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Universal + Human
+mff-abxl-r27-abl,mff-11-8-abxl-28-round,27,Legend,ABL,false,"{""Male"",""Mutant""}",,,Male,"{""mutant""}","{""snare"",""shock"",""fracture""}",https://thanosvibs.money/abxl,Male + Mutant
+mff-abxl-r27-ab,mff-11-8-abxl-28-round,27,Normal,AB,false,"{""Female""}",,,Female,"{}","{}",https://thanosvibs.money/abxl,Female
+mff-abxl-r28-abx,mff-11-8-abxl-28-round,28,Extreme,ABX,false,"{""Villain"",""Female""}",,Villain,Female,"{}","{""silence"",""paralyze"",""burn""}",https://thanosvibs.money/abxl,Villain + Female
+mff-abxl-r28-abl,mff-11-8-abxl-28-round,28,Legend,ABL,false,"{""Combat"",""Hero"",""Human""}",Combat,Hero,,"{""human""}","{""snare"",""fracture""}",https://thanosvibs.money/abxl,Combat + Hero + Human
+mff-abxl-r28-ab,mff-11-8-abxl-28-round,28,Normal,AB,false,"{""Villain""}",,Villain,,"{}","{}",https://thanosvibs.money/abxl,Villain

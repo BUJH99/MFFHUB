@@ -1,0 +1,22 @@
+{
+  "name": "@mff-data-hub/data",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "sync:thanosvibs": "tsx scripts/thanosvibs-sync.ts",
+    "sync:worldboss": "tsx scripts/worldboss-sync.ts"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

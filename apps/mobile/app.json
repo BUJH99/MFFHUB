@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "MFF Data Hub",
+    "slug": "mff-data-hub",
+    "scheme": "mffdatahub",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": { "supportsTablet": true },
+    "plugins": ["expo-router"]
+  }
+}

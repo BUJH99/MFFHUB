@@ -1,0 +1,42 @@
+{
+  "name": "mff-data-hub-final",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Personal MFF data hub monorepo: Next.js web app now, Supabase DB, shared TypeScript core, future Expo iOS shell.",
+  "scripts": {
+    "dev": "npm run dev -w @mff-data-hub/web",
+    "dev:web": "npm run dev -w @mff-data-hub/web",
+    "build": "npm run build -w @mff-data-hub/web",
+    "start": "npm run start -w @mff-data-hub/web",
+    "lint": "npm run lint -w @mff-data-hub/web",
+    "test": "vitest run",
+    "typecheck": "npm run typecheck -w @mff-data-hub/web && npm run typecheck -w @mff-data-hub/core && npm run typecheck -w @mff-data-hub/account && npm run typecheck -w @mff-data-hub/types && npm run typecheck -w @mff-data-hub/db && npm run typecheck -w @mff-data-hub/data",
+    "sync:thanosvibs": "tsx packages/data/scripts/thanosvibs-sync.ts",
+    "sync:worldboss": "tsx packages/data/scripts/worldboss-sync.ts",
+    "db:push": "drizzle-kit push --config drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts",
+    "ios:note": "node scripts/ios-note.mjs"
+  },
+  "workspaces": [
+    "apps/web",
+    "packages/account",
+    "packages/types",
+    "packages/core",
+    "packages/db",
+    "packages/data"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.10.10",
+    "cheerio": "^1.0.0",
+    "drizzle-kit": "^0.30.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.6"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "drizzle-orm": "^0.38.4",
+    "postgres": "^3.4.5",
+    "zod": "^3.24.1"
+  }
+}

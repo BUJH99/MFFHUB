@@ -1,0 +1,16 @@
+{
+  "name": "MFF Data Hub",
+  "short_name": "MFF Hub",
+  "description": "MFF recommendation dashboard and account-aware optimizer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6d36ff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
