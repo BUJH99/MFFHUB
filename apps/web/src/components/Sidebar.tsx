@@ -1,14 +1,14 @@
 import { account } from '@/lib/data';
 import type { Section } from '@/lib/navigation';
 
-const pveItems = ['PVE Overall', 'World Boss', 'ABL', 'ABX', 'Infinity Challenge', '티어리스트'];
+const pveItems = ['PVE Overall', 'World Boss', 'ABL', 'ABX', '시즌 유니폼', '티어리스트'];
 const pvpItems = ['Team Battle Arena', '아더월드', '타임라인', '티어리스트'];
 const pveSections: Record<string, Section> = {
   'PVE Overall': 'pveOverall',
   'World Boss': 'worldBoss',
   ABL: 'abl',
   ABX: 'abx',
-  'Infinity Challenge': 'infinityChallenge',
+  '시즌 유니폼': 'seasonUniforms',
   티어리스트: 'pveTier',
 };
 const pvpSections: Record<string, Section> = {

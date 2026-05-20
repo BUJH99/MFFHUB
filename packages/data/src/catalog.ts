@@ -1,4 +1,8 @@
 import syncedPayload from '../generated/thanosvibs.json';
+import { koreanCharacterNames } from './characterNames';
+
+export type CatalogCombatType = 'Combat' | 'Blast' | 'Speed' | 'Universal' | 'Unknown';
+export type CatalogSide = 'Hero' | 'Villain' | 'Neutral' | 'Unknown';
 
 export type CatalogUniform = {
   name: string;
@@ -6,6 +10,11 @@ export type CatalogUniform = {
   sourceImageUrl?: string;
   acquisition?: string;
   release?: string;
+  type?: CatalogCombatType;
+  side?: CatalogSide;
+  gender?: string;
+  species?: string;
+  tags?: string[];
   leader?: string[];
   passive?: string[];
   uniformEffect?: string[];
@@ -25,8 +34,8 @@ export type CatalogCharacter = {
   id: string;
   name: string;
   imageUrl: string;
-  type: 'Combat' | 'Blast' | 'Speed' | 'Universal' | 'Unknown';
-  side: 'Hero' | 'Villain' | 'Neutral' | 'Unknown';
+  type: CatalogCombatType;
+  side: CatalogSide;
   tags: string[];
   artifact?: CatalogArtifact;
   uniforms: CatalogUniform[];
@@ -43,8 +52,15 @@ const commonPassive = (damage = 35) => [`Basic Damage Dealt +${damage}%`, 'Ignor
 const artifact = (name: string, skill: string, effects: string[] = ['Exclusive Skill 효과', 'Instinct 계수 보정']): CatalogArtifact => ({ name, skill, pve: 'Medium', pvp: 'Medium', effects });
 const uni = (name: string, opts: Partial<CatalogUniform> = {}): CatalogUniform => ({
   name,
+  imageUrl: opts.imageUrl,
+  sourceImageUrl: opts.sourceImageUrl,
   acquisition: opts.acquisition ?? 'THANO$VIB$ sync 필요',
   release: opts.release ?? 'manual seed',
+  type: opts.type,
+  side: opts.side,
+  gender: opts.gender,
+  species: opts.species,
+  tags: opts.tags,
   leader: opts.leader ?? [],
   passive: opts.passive ?? [],
   uniformEffect: opts.uniformEffect ?? [],
@@ -60,7 +76,7 @@ const seed = (
   sourceStatus: CatalogCharacter['sourceStatus'] = 'manual',
 ): CatalogCharacter => ({
   id: slugify(name),
-  name,
+  name: koreanCharacterNames[name] ?? name,
   imageUrl: portraitUrl(name),
   type,
   side,
@@ -109,6 +125,19 @@ type GeneratedSync = {
     uniformEffect?: string[];
     artifactExclusiveSkill?: string[];
   }>;
+  attributes?: Array<{
+    characterId: string;
+    uniform?: string;
+    portraitUrl?: string;
+    localPortraitUrl?: string;
+    combatType?: CatalogCombatType;
+    side?: CatalogSide;
+    gender?: string;
+    species?: string;
+    tags?: string[];
+    latestUniform?: boolean;
+    baseCharacter?: boolean;
+  }>;
 };
 
 const synced = syncedPayload as GeneratedSync;
@@ -121,27 +150,58 @@ function releaseLabel(update?: string, date?: string) {
   return [update, date].filter(Boolean).join(' · ') || undefined;
 }
 
+type GeneratedAttribute = NonNullable<GeneratedSync['attributes']>[number];
+
+function uniformAttributeKey(characterId: string, uniform?: string) {
+  return `${characterId}|${slugify(uniform ?? 'Modern')}`;
+}
+
+function coreTags(gender?: string, species?: string, tags: string[] = []) {
+  return mergeStringList(gender ? [`Gender:${gender}`] : [], species ? [`Species:${species}`] : [], tags);
+}
+
+function uniformCoreAttributes(attribute?: GeneratedAttribute): Pick<CatalogUniform, 'type' | 'side' | 'gender' | 'species' | 'tags'> {
+  return {
+    type: attribute?.combatType,
+    side: attribute?.side,
+    gender: attribute?.gender,
+    species: attribute?.species,
+    tags: coreTags(attribute?.gender, attribute?.species, attribute?.tags ?? []),
+  };
+}
+
 function buildSyncedCatalogCharacters(): CatalogCharacter[] {
   const uniformsByCharacter = new Map<string, CatalogUniform[]>();
   const supportsByUniform = new Map<string, GeneratedSync['supports']>();
+  const attributesByUniform = new Map<string, GeneratedAttribute>();
   const characterImageById = new Map(
     (synced.characters ?? []).map((character) => [character.id, character.localPortraitUrl ?? character.portraitUrl ?? portraitUrl(character.name)]),
   );
 
+  for (const attribute of synced.attributes ?? []) {
+    const key = uniformAttributeKey(attribute.characterId, attribute.uniform);
+    const previous = attributesByUniform.get(key);
+    if (!previous || attribute.latestUniform || (!previous.baseCharacter && attribute.baseCharacter)) {
+      attributesByUniform.set(key, attribute);
+    }
+  }
+
   for (const support of synced.supports ?? []) {
-    const key = `${support.characterId}|${slugify(support.uniform ?? 'Modern')}`;
+    const key = uniformAttributeKey(support.characterId, support.uniform);
     supportsByUniform.set(key, [...(supportsByUniform.get(key) ?? []), support]);
   }
 
   for (const uniform of synced.uniforms ?? []) {
-    const key = `${uniform.characterId}|${slugify(uniform.name)}`;
+    const key = uniformAttributeKey(uniform.characterId, uniform.name);
     const supportRows = supportsByUniform.get(key) ?? [];
+    const attribute = attributesByUniform.get(key);
     const catalogUniform: CatalogUniform = {
       name: uniform.name,
-      imageUrl: uniform.localImageUrl ?? uniform.imageUrl,
-      sourceImageUrl: uniform.imageUrl,
+      imageUrl: uniform.localImageUrl ?? uniform.imageUrl ?? attribute?.localPortraitUrl ?? attribute?.portraitUrl,
+      sourceImageUrl: uniform.imageUrl ?? attribute?.portraitUrl,
       acquisition: uniform.acquisition,
       release: releaseLabel(uniform.releaseUpdate, uniform.releaseDate),
+      ...uniformCoreAttributes(attribute),
       leader: mergeStringList(...supportRows.map((row) => row?.leadership ?? [])),
       passive: mergeStringList(...supportRows.map((row) => row?.passive ?? [])),
       uniformEffect: mergeStringList(...supportRows.map((row) => row?.uniformEffect ?? [])),
@@ -150,12 +210,15 @@ function buildSyncedCatalogCharacters(): CatalogCharacter[] {
   }
 
   for (const support of synced.supports ?? []) {
-    const key = `${support.characterId}|${slugify(support.uniform ?? 'Modern')}`;
+    const key = uniformAttributeKey(support.characterId, support.uniform);
     const rows = uniformsByCharacter.get(support.characterId) ?? [];
     if (rows.some((row) => slugify(row.name) === slugify(support.uniform ?? 'Modern'))) continue;
+    const attribute = attributesByUniform.get(key);
     rows.push({
       name: support.uniform ?? 'Modern',
-      imageUrl: characterImageById.get(support.characterId),
+      imageUrl: attribute?.localPortraitUrl ?? attribute?.portraitUrl ?? characterImageById.get(support.characterId),
+      sourceImageUrl: attribute?.portraitUrl,
+      ...uniformCoreAttributes(attribute),
       leader: support.leadership ?? [],
       passive: support.passive ?? [],
       uniformEffect: support.uniformEffect ?? [],
@@ -168,11 +231,11 @@ function buildSyncedCatalogCharacters(): CatalogCharacter[] {
     const artifactRow = (synced.artifacts ?? []).find((row) => row.characterId === character.id);
     return {
       id: character.id,
-      name: character.name,
+      name: koreanCharacterNames[character.name] ?? character.name,
       imageUrl: character.localPortraitUrl ?? character.portraitUrl ?? portraitUrl(character.name),
       type: character.combatType ?? 'Unknown',
       side: character.side ?? 'Unknown',
-      tags: mergeStringList(character.gender ? [`Gender:${character.gender}`] : [], character.species ? [`Species:${character.species}`] : [], character.tags ?? []),
+      tags: coreTags(character.gender, character.species, character.tags ?? []),
       artifact: artifactRow
         ? {
             name: artifactRow.name,
@@ -303,8 +366,15 @@ function mergeUniforms(a: CatalogUniform[] = [], b: CatalogUniform[] = []) {
     byName.set(key, {
       ...prev,
       ...uniform,
+      imageUrl: uniform.imageUrl ?? prev.imageUrl,
+      sourceImageUrl: uniform.sourceImageUrl ?? prev.sourceImageUrl,
       acquisition: uniform.acquisition ?? prev.acquisition,
       release: uniform.release ?? prev.release,
+      type: uniform.type ?? prev.type,
+      side: uniform.side ?? prev.side,
+      gender: uniform.gender ?? prev.gender,
+      species: uniform.species ?? prev.species,
+      tags: mergeStringList(prev.tags ?? [], uniform.tags ?? []),
       leader: mergeStringList(prev.leader ?? [], uniform.leader ?? []),
       passive: mergeStringList(prev.passive ?? [], uniform.passive ?? []),
       uniformEffect: mergeStringList(prev.uniformEffect ?? [], uniform.uniformEffect ?? []),

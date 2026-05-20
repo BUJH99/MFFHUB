@@ -114,6 +114,19 @@ export async function cacheAssets(payload: SyncPayload) {
     });
   }
 
+  for (const attribute of payload.attributes) {
+    const loc = publicAssetLocation('uniforms', attribute.portraitUrl);
+    if (!loc || !attribute.portraitUrl) continue;
+    jobs.push({
+      sourceUrl: attribute.portraitUrl,
+      ...loc,
+      apply: () => {
+        attribute.localPortraitUrl = loc.publicUrl;
+        attribute.localPortraitPath = loc.filePath;
+      },
+    });
+  }
+
   for (const artifact of payload.artifacts) {
     const loc = publicAssetLocation('artifacts', artifact.imageUrl);
     if (!loc || !artifact.imageUrl) continue;

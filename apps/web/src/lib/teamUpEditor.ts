@@ -1,8 +1,11 @@
 import {
+  getTeamUpLevelStats,
   getTeamUpStats,
+  teamUpCollectionThemes,
+  teamUpLevelEffects,
   userTeamUpCollections,
-  type AccountStatKey,
   type StatBlock,
+  type TeamUpCollectionTheme,
   type UserTeamUpCollection,
 } from '@mff-data-hub/account';
 
@@ -18,22 +21,33 @@ function round1(value: number) {
   return Math.round(value * 10) / 10;
 }
 
+const teamUpMaxLevel = teamUpLevelEffects[teamUpLevelEffects.length - 1]?.level ?? 18;
+const teamUpEffectLabel = '모든 공격력 / 추가 관통 피해';
+
 export function clampTeamUpLevel(value: unknown) {
   const number = Number(value);
   if (!Number.isFinite(number)) return 0;
-  return Math.min(10, Math.max(0, Math.round(number)));
+  return Math.min(teamUpMaxLevel, Math.max(0, Math.round(number)));
 }
 
-function scaleStats(stats: StatBlock, level: number, baseLevel: number) {
-  if (level <= 0 || baseLevel <= 0) return {};
-  const ratio = level / baseLevel;
+const seededTeamUpCollectionsByThemeId = new Map(userTeamUpCollections.map((collection) => [collection.themeId, collection]));
 
-  return Object.entries(stats).reduce<StatBlock>((scaled, [key, value]) => {
-    const number = Number(value);
-    if (!Number.isFinite(number) || number === 0) return scaled;
-    scaled[key as AccountStatKey] = round1(number * ratio);
-    return scaled;
-  }, {});
+function createEmptyTeamUpCollection(theme: TeamUpCollectionTheme): UserTeamUpCollection {
+  return {
+    themeId: theme.id,
+    completedSteps: 0,
+    collectionLevel: 0,
+    optionLevel: 0,
+    appliedOption: teamUpEffectLabel,
+    stats: {},
+    tokenProgress: 0,
+    tokenGoal: 0,
+    status: 'locked',
+  };
+}
+
+function getDefaultTeamUpCollections() {
+  return teamUpCollectionThemes.map((theme) => seededTeamUpCollectionsByThemeId.get(theme.id) ?? createEmptyTeamUpCollection(theme));
 }
 
 function normalizeTeamUpCollection(value: unknown, fallback: UserTeamUpCollection): EditableTeamUpCollection {
@@ -41,24 +55,26 @@ function normalizeTeamUpCollection(value: unknown, fallback: UserTeamUpCollectio
     ? value as Partial<UserTeamUpCollection>
     : {};
   const collectionLevel = clampTeamUpLevel(raw.collectionLevel ?? fallback.collectionLevel);
-  const completedSteps = Math.min(10, collectionLevel + (collectionLevel > 0 ? 1 : 0));
+  const completedSteps = collectionLevel;
+  const unlockedStatus = fallback.status === 'locked' ? 'farm' : fallback.status;
 
   return {
     ...fallback,
     collectionLevel,
     optionLevel: collectionLevel,
     completedSteps,
-    stats: scaleStats(fallback.stats, collectionLevel, fallback.collectionLevel),
-    status: collectionLevel > 0 ? fallback.status : 'locked',
+    appliedOption: teamUpEffectLabel,
+    stats: getTeamUpLevelStats(collectionLevel),
+    status: collectionLevel > 0 ? unlockedStatus : 'locked',
   };
 }
 
 export function createDefaultTeamUpCollections(): EditableTeamUpCollection[] {
-  return userTeamUpCollections.map((collection) => normalizeTeamUpCollection(collection, collection));
+  return getDefaultTeamUpCollections().map((collection) => normalizeTeamUpCollection(collection, collection));
 }
 
 export function normalizeTeamUpCollections(value: unknown): EditableTeamUpCollection[] {
-  const defaults = userTeamUpCollections;
+  const defaults = getDefaultTeamUpCollections();
   if (!Array.isArray(value)) return createDefaultTeamUpCollections();
 
   const byThemeId = new Map(
@@ -74,7 +90,7 @@ export function normalizeTeamUpCollections(value: unknown): EditableTeamUpCollec
 }
 
 export function updateTeamUpCollectionLevel(collections: EditableTeamUpCollection[], collectionIndex: number, collectionLevel: unknown) {
-  const defaults = userTeamUpCollections;
+  const defaults = getDefaultTeamUpCollections();
 
   return normalizeTeamUpCollections(
     collections.map((collection, index) => (

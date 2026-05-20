@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 72" role="img" aria-labelledby="title">
+  <title id="title">The Avengers</title>
+  <rect width="180" height="72" fill="#ffffff"/>
+  <g transform="translate(90 39)">
+    <text x="0" y="9" text-anchor="middle" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif" font-size="31" font-weight="900" fill="#11c5f5" stroke="#111827" stroke-width="2">AVENGERS</text>
+    <text x="-2" y="-19" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="10" font-weight="900" fill="#d946ef" stroke="#111827" stroke-width=".8">THE</text>
+    <circle cx="-68" cy="-1" r="19" fill="none" stroke="#111827" stroke-width="4"/>
+    <path d="M-75 12 L-64 -23 L-51 12 M-70 3 H-58" fill="none" stroke="#11c5f5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

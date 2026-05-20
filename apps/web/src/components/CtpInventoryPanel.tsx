@@ -8,12 +8,13 @@ import {
   normalizeCtpInventory,
   summarizeCtpInventory,
   updateCtpInventoryCount,
-  type CtpDefinition,
   type CtpGrade,
   type CtpInventoryEntry,
+  type CtpRole,
 } from '@/lib/ctpInventory';
 import { userRoster } from '@/lib/data';
 import { Archive, PackageCheck, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const ctpInventoryStorageKey = 'mff-data-hub:ctp-inventory:v1';
@@ -86,19 +87,50 @@ function formatCount(value: number) {
   return String(Math.max(0, value));
 }
 
-function roleBadgeClass(role: CtpDefinition['role']) {
+function ctpIconSrc(ctpId: string) {
+  return `https://thanosvibs.money/static/assets/items/ctp_${ctpId}.png`;
+}
+
+function roleBadgeClass(role: CtpRole) {
   switch (role) {
     case 'PVE':
       return 'bg-blue-50 text-blue-700';
+    case 'SEMI PVE':
+      return 'bg-cyan-50 text-cyan-700';
     case 'PVP':
       return 'bg-rose-50 text-rose-700';
+    case 'SEMI PVP':
+      return 'bg-orange-50 text-orange-700';
     case 'Support':
       return 'bg-emerald-50 text-emerald-700';
-    case 'Hybrid':
-      return 'bg-purple-50 text-purple-700';
+    case 'WASTE':
+      return 'bg-slate-100 text-slate-600';
     default:
       return 'bg-slate-100 text-slate-600';
   }
+}
+
+function roleBarClass(role: CtpRole) {
+  switch (role) {
+    case 'PVE':
+      return 'bg-blue-600';
+    case 'SEMI PVE':
+      return 'bg-cyan-500';
+    case 'Support':
+      return 'bg-emerald-500';
+    case 'PVP':
+      return 'bg-rose-600';
+    case 'SEMI PVP':
+      return 'bg-orange-500';
+    case 'WASTE':
+      return 'bg-slate-500';
+    default:
+      return 'bg-slate-950';
+  }
+}
+
+function getRoleDefinitions(role: CtpRole) {
+  return ctpDefinitions.filter((definition) => definition.role === role);
 }
 
 function gradeInputClass(grade: CtpGrade) {
@@ -227,8 +259,16 @@ export function CtpInventoryPanel() {
                     <span>{row.role}</span>
                     <span>{row.total}</span>
                   </div>
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {getRoleDefinitions(row.role).map((definition) => (
+                      <span key={`${row.role}-${definition.id}`} className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-black ${roleBadgeClass(row.role)}`}>
+                        <Image src={ctpIconSrc(definition.id)} alt={definition.koreanName} width={16} height={16} unoptimized className="h-4 w-4 object-contain" />
+                        {definition.koreanName}
+                      </span>
+                    ))}
+                  </div>
                   <div className="mt-1 h-2 rounded-full bg-slate-100">
-                    <div className="h-2 rounded-full bg-slate-950" style={{ width: `${Math.round((row.total / maxRoleTotal) * 100)}%` }} />
+                    <div className={`h-2 rounded-full ${roleBarClass(row.role)}`} style={{ width: `${Math.round((row.total / maxRoleTotal) * 100)}%` }} />
                   </div>
                 </div>
               ))}
@@ -245,14 +285,19 @@ export function CtpInventoryPanel() {
           {rows.map(({ definition, entry, total, equippedTotal, spare }) => (
             <article key={definition.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-3">
               <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="truncate text-sm font-black text-slate-950">{definition.name}</h3>
-                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${roleBadgeClass(definition.role)}`}>{definition.role}</span>
+                <div className="flex min-w-0 items-start gap-3">
+                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white shadow-sm">
+                    <Image src={ctpIconSrc(definition.id)} alt={`${definition.koreanName} CTP`} width={42} height={42} unoptimized className="h-11 w-11 object-contain" />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="truncate text-sm font-black text-slate-950">{definition.name}</h3>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${roleBadgeClass(definition.role)}`}>{definition.role}</span>
+                    </div>
+                    <p className="mt-1 text-xs font-bold text-slate-500">{definition.koreanName}</p>
                   </div>
-                  <p className="mt-1 text-xs font-bold text-slate-500">{definition.koreanName}</p>
                 </div>
-                <div className="text-right">
+                <div className="shrink-0 text-right">
                   <p className="text-2xl font-black text-slate-950">{total}</p>
                   <p className="text-[10px] font-black text-slate-400">보유</p>
                 </div>

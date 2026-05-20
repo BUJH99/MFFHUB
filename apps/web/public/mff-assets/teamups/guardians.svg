@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 72" role="img" aria-labelledby="title">
+  <title id="title">Guardians of the Galaxy</title>
+  <rect width="180" height="72" fill="#ffffff"/>
+  <g transform="translate(90 34)">
+    <text x="0" y="-7" text-anchor="middle" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif" font-size="26" font-weight="900" fill="#ffd21f" stroke="#8b1a12" stroke-width="2">GUARDIANS</text>
+    <text x="0" y="12" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="9" font-weight="900" fill="#8b1a12" stroke="#ffffff" stroke-width=".8">OF THE</text>
+    <text x="0" y="30" text-anchor="middle" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif" font-size="19" font-weight="900" fill="#ffd21f" stroke="#8b1a12" stroke-width="1.4">GALAXY</text>
+  </g>
+  <path d="M18 18 H48 M132 18 H162 M19 55 H55 M125 55 H161" stroke="#facc15" stroke-width="2" opacity=".75"/>
+</svg>

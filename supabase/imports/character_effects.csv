@@ -1,4 +1,8 @@
 character_id,source_kind,effect_name,magnitude,magnitude_text,restriction_text,raw_text,source_url
+abomination,Leadership,All Basic Attacks,65,65%,This skill only applies to a specific ability: Zombie,All Basic Attacks | 65%,https://thanosvibs.money/supports
+abomination,Tier-2 Passive,Ignore Dodge,45,45%,This skill only applies to a specific ability: Gamma Radiation,Ignore Dodge | 45%,https://thanosvibs.money/supports
+abomination,Tier-2 Passive,Basic Damage Dealt to Villains,60,60%,This skill only applies to a specific ability: Gamma Radiation,Basic Damage Dealt to Villains | 60%,https://thanosvibs.money/supports
+abomination,Tier-2 Passive,Basic Damage Dealt to Heroes,60,60%,This skill only applies to a specific ability: Gamma Radiation,Basic Damage Dealt to Heroes | 60%,https://thanosvibs.money/supports
 abomination,Artifact Exclusive Skill,All Basic Attacks,18,18%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 18% | 0.2%,https://thanosvibs.money/supports
 abomination,Artifact Exclusive Skill,HP,4,4%,This skill only applies to a specific ability: Gamma Radiation,HP | 4% | 0.1%,https://thanosvibs.money/supports
 abomination,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 20% | 0.3%,https://thanosvibs.money/supports
@@ -7,6 +11,11 @@ abomination,Artifact Exclusive Skill,All Basic Attacks,22,22%,This skill only ap
 abomination,Artifact Exclusive Skill,HP,8,8%,This skill only applies to a specific ability: Gamma Radiation,HP | 8% | 0.1%,https://thanosvibs.money/supports
 abomination,Artifact Exclusive Skill,All Basic Attacks,25,25%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks | 25% | 0.5%,https://thanosvibs.money/supports
 abomination,Artifact Exclusive Skill,HP,10,10%,This skill only applies to a specific ability: Gamma Radiation,HP | 10% | 0.1%,https://thanosvibs.money/supports
+abomination,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific type: Combat,All Basic Attacks | 60%,https://thanosvibs.money/supports
+abomination,Tier-2 Passive,Chain Hit Damage,20,20%,This skill only applies to a specific ability: Gamma Radiation,Chain Hit Damage | 20%,https://thanosvibs.money/supports
+abomination,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific ability: Gamma Radiation,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+abomination,Tier-2 Passive,Basic Damage Dealt to Heroes,45,45%,This skill only applies to a specific ability: Gamma Radiation,Basic Damage Dealt to Heroes | 45%,https://thanosvibs.money/supports
+agentvenom,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
 agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,5,5%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 5% | 0.1%,https://thanosvibs.money/supports
 agentvenom,Artifact Exclusive Skill,Basic Damage Received,-15,-15%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -15% | 0.15%,https://thanosvibs.money/supports
 agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,10,10%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 10% | 0.2%,https://thanosvibs.money/supports
@@ -15,6 +24,66 @@ agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or
 agentvenom,Artifact Exclusive Skill,Basic Damage Received,-25,-25%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -25% | 0.25%,https://thanosvibs.money/supports
 agentvenom,Artifact Exclusive Skill,Basic Damage Dealt to Enemies with 25% HP or Higher,20,20%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Enemies with 25% HP or Higher | 20% | 0.4%,https://thanosvibs.money/supports
 agentvenom,Artifact Exclusive Skill,Basic Damage Received,-30,-30%,This skill only applies to a specific ability: Symbiote,Basic Damage Received | -30% | 0.3%,https://thanosvibs.money/supports
+agentvenom,Uniform Effect,Chain Hit Damage Received,-35,-35%,This skill only applies to a specific ability: Symbiote,Chain Hit Damage Received | -35%,https://thanosvibs.money/supports
+agentvenom,Uniform Effect,Chain Hit Damage,20,20%,This skill only applies to a specific ability: Symbiote,Chain Hit Damage | 20%,https://thanosvibs.money/supports
+agentvenom,Uniform Effect,Chain Hit Damage Received,-40,-40%,This skill only applies to a specific ability: Symbiote,Chain Hit Damage Received | -40%,https://thanosvibs.money/supports
+amadeuscho,Uniform Effect,Basic Damage Dealt to Villains,40,40%,,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+americachavez,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30%,https://thanosvibs.money/supports
+americachavez,Leadership,Dodge,6,6%,,Dodge | 6%,https://thanosvibs.money/supports
+americachavez,Uniform Effect,HP,40,40%,,HP | 40%,https://thanosvibs.money/supports
+americachavez,Uniform Effect,All Reflect Damage Received,-50,-50%,,All Reflect Damage Received | -50%,https://thanosvibs.money/supports
+americachavez,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+americachavez,Uniform Effect,HP,45,45%,,HP | 45%,https://thanosvibs.money/supports
+americachavez,Uniform Effect,All Reflect Damage Received,-60,-60%,,All Reflect Damage Received | -60%,https://thanosvibs.money/supports
+ancientone,Leadership,Energy Attack,45,45%,This skill only applies to a specific type: Blast,Energy Attack | 45%,https://thanosvibs.money/supports
+ancientone,Tier-2 Passive,Ignore Dodge,25,25%,,Ignore Dodge | 25%,https://thanosvibs.money/supports
+ancientone,Tier-2 Passive,All Element Damage,25,25%,,All Element Damage | 25%,https://thanosvibs.money/supports
+ancientone,Leadership,Energy Attack,55,55%,This skill only applies to a specific type: Blast,Energy Attack | 55%,https://thanosvibs.money/supports
+ancientone,Tier-2 Passive,All Resistances,30,30%,,All Resistances | 30%,https://thanosvibs.money/supports
+ancientone,Tier-2 Passive,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+ancientone,Tier-2 Passive,All Element Damage,45,45%,,All Element Damage | 45%,https://thanosvibs.money/supports
+ancientone,Leadership,Energy Attack,50,50%,This skill only applies to a specific type: Blast,Energy Attack | 50%,https://thanosvibs.money/supports
+ancientone,Tier-2 Passive,All Element Damage,40,40%,,All Element Damage | 40%,https://thanosvibs.money/supports
+angel,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+angel,Uniform Effect,Dodge,30,30%,,Dodge | 30%,https://thanosvibs.money/supports
+angel,Uniform Effect,Recovery Rate,50,50%,,Recovery Rate | 50%,https://thanosvibs.money/supports
+angel,Leadership,Recovery Rate,50,50%,,Recovery Rate | 50%,https://thanosvibs.money/supports
+angel,Leadership,Dodge,30,30%,,Dodge | 30%,https://thanosvibs.money/supports
+angel,Uniform Effect,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+angel,4★ Passive,Recovery Rate,30,30%,,Recovery Rate | 30%,https://thanosvibs.money/supports
+angela,Uniform Effect,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+antiman,Leadership,All Basic Attacks,45,45%,,All Basic Attacks | 45%,https://thanosvibs.money/supports
+antiman,Leadership,All Basic Attacks,60,60%,,All Basic Attacks | 60%,https://thanosvibs.money/supports
+antiman,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+apocalypse,Leadership,All Basic Attacks,18,18%,,All Basic Attacks | 18%,https://thanosvibs.money/supports
+apocalypse,Leadership,All Basic Defenses,18,18%,,All Basic Defenses | 18%,https://thanosvibs.money/supports
+apocalypse,Leadership,All Speeds,6,6%,,All Speeds | 6%,https://thanosvibs.money/supports
+apocalypse,4★ Passive,Remove All Debuffs,,N/A,This skill only applies to a specific allies: Mutant,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+arachknight,Leadership,All Basic Attacks,45,45%,,All Basic Attacks | 45% | when 1 Infinity Warp,https://thanosvibs.money/supports
+arachknight,Leadership,All Basic Attacks,55,55%,,All Basic Attacks | 55% | when 2 Infinity Warps,https://thanosvibs.money/supports
+arachknight,Leadership,All Basic Attacks,65,65%,,All Basic Attacks | 65% | when 3 Infinity Warps,https://thanosvibs.money/supports
+ares,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+athena,4★ Passive,All Basic Attacks,25,25%,,All Basic Attacks | 25%,https://thanosvibs.money/supports
+athena,4★ Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+baronzemo,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific side: Villain,All Basic Attacks | 60%,https://thanosvibs.money/supports
+baronzemo,Leadership,Ignore Dodge,35,35%,This skill only applies to a specific side: Villain,Ignore Dodge | 35%,https://thanosvibs.money/supports
+baronzemo,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific side: Villain,All Basic Attacks | 50%,https://thanosvibs.money/supports
+beast,Leadership,Physical Attack,50,50%,,Physical Attack | 50%,https://thanosvibs.money/supports
+beast,Tier-2 Passive,Recovery Rate,10,10%,,Recovery Rate | 10%,https://thanosvibs.money/supports
+beast,Tier-2 Passive,Guaranteed Critical Rate,8,8%,,Guaranteed Critical Rate | 8%,https://thanosvibs.money/supports
+beast,Tier-2 Passive,Basic Damage Received,-15,-15%,,Basic Damage Received | -15%,https://thanosvibs.money/supports
+beast,Leadership,Critical Damage,10,10%,,Critical Damage | 10%,https://thanosvibs.money/supports
+beast,Uniform Effect,HP,40,40%,,HP | 40%,https://thanosvibs.money/supports
+beast,Uniform Effect,Ignore Dodge,25,25%,,Ignore Dodge | 25%,https://thanosvibs.money/supports
+beast,Leadership,Physical Attack,45,45%,,Physical Attack | 45%,https://thanosvibs.money/supports
+beast,Uniform Effect,HP,45,45%,,HP | 45%,https://thanosvibs.money/supports
+betaraybill,Leadership,Fire Damage,60,60%,,Fire Damage | 60%,https://thanosvibs.money/supports
+betaraybill,Uniform Effect,Basic Damage Dealt to Villains,35,35%,This skill only applies to a specific allies: Alien,Basic Damage Dealt to Villains | 35%,https://thanosvibs.money/supports
+betaraybill,Leadership,Lightning Damage,60,60%,,Lightning Damage | 60%,https://thanosvibs.money/supports
+bishop,Leadership,Energy Defense,45,45%,,Energy Defense | 45%,https://thanosvibs.money/supports
+bishop,Leadership,Energy Attack,24,24%,,Energy Attack | 24%,https://thanosvibs.money/supports
+blackbolt,Leadership,All Basic Attacks,65,65%,This skill only applies to a specific allies: Inhuman,All Basic Attacks | 65%,https://thanosvibs.money/supports
+blackbolt,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
 blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Villains,4,4%,,Basic Damage Dealt to Villains | 4% | 0.2%,https://thanosvibs.money/supports
 blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,4,4%,,Basic Damage Dealt to Heroes | 4% | 0.2%,https://thanosvibs.money/supports
 blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,,Basic Damage Dealt to Boss Types | 8% | 0.1%,https://thanosvibs.money/supports
@@ -27,6 +96,56 @@ blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,16,16%,,Basic
 blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,,Basic Damage Dealt to Villains | 10% | 0.2%,https://thanosvibs.money/supports
 blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,10,10%,,Basic Damage Dealt to Heroes | 10% | 0.2%,https://thanosvibs.money/supports
 blackcat,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,20,20%,,Basic Damage Dealt to Boss Types | 20% | 0.1%,https://thanosvibs.money/supports
+blackcat,Leadership,All Basic Attacks,65,65%,This skill only applies to a specific side: Villain,All Basic Attacks | 65%,https://thanosvibs.money/supports
+blackcat,Leadership,Ignore Dodge,35,35%,This skill only applies to a specific side: Villain,Ignore Dodge | 35%,https://thanosvibs.money/supports
+blackcat,Tier-2 Passive,All Debuffs Effect,40,40%,,All Debuffs Effect | 40%,https://thanosvibs.money/supports
+blackdwarf,4★ Passive,Physical Reflect Damage Received,60,60%,This skill only applies to a specific ability: Black Order,Physical Reflect Damage Received | 60%,https://thanosvibs.money/supports
+blackdwarf,4★ Passive,Stun Immunity,,N/A,This skill only applies to a specific ability: Black Order,Stun Immunity | N/A,https://thanosvibs.money/supports
+blackdwarf,4★ Passive,Guard Break Immunity,,N/A,This skill only applies to a specific ability: Black Order,Guard Break Immunity | N/A,https://thanosvibs.money/supports
+blackknight,4★ Passive,HP,40,40%,,HP | 40%,https://thanosvibs.money/supports
+blackknight,4★ Passive,All Reflect Damage Received,-50,-50%,,All Reflect Damage Received | -50%,https://thanosvibs.money/supports
+blackpanther,Leadership,All Basic Attacks,35,35%,This skill only applies to a specific type: Speed,All Basic Attacks | 35%,https://thanosvibs.money/supports
+blackpanther,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,,Basic Damage Dealt to Villains | 55%,https://thanosvibs.money/supports
+blackpanther,Tier-2 Passive,Basic Damage Received from Villains,40,40%,,Basic Damage Received from Villains | 40%,https://thanosvibs.money/supports
+blackswan,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+blade,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Weapons Master,All Basic Attacks | 60%,https://thanosvibs.money/supports
+bluedragon,Leadership,All Basic Attacks,65,65%,This skill only applies to a specific ability: Warriors of the Sky,All Basic Attacks | 65%,https://thanosvibs.money/supports
+bluedragon,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Warriors of the Sky,Remove All Debuffs | N/A | 5,https://thanosvibs.money/supports
+bluedragon,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Warriors of the Sky,Remove All Debuffs | N/A | 10,https://thanosvibs.money/supports
+bullseye,Leadership,Ignore Dodge,50,50%,,Ignore Dodge | 50%,https://thanosvibs.money/supports
+cable,Leadership,Ignore Dodge,50,50%,,Ignore Dodge | 50%,https://thanosvibs.money/supports
+captainamerica,Leadership,HP,45,45%,,HP | 45%,https://thanosvibs.money/supports
+captainmarvel,Leadership,Energy Attack,35,35%,,Energy Attack | 35%,https://thanosvibs.money/supports
+captainmarvel,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+cassandranova,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific allies: Mutant,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+cassielang,4★ Passive,Ignore Dodge,25,25%,This skill only applies to a specific type: Speed,Ignore Dodge | 25%,https://thanosvibs.money/supports
+cassielang,4★ Passive,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific type: Speed,Basic Damage Dealt to Heroes | 15%,https://thanosvibs.money/supports
+cassielang,4★ Passive,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific type: Speed,Basic Damage Dealt to Villains | 15%,https://thanosvibs.money/supports
+chasm,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific ability: Spider-Sense,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+chasm,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,This skill only applies to a specific ability: Spider-Sense,Basic Damage Dealt to Heroes | 35%,https://thanosvibs.money/supports
+chasm,Tier-2 Passive,Skill Damage,35,35%,This skill only applies to a specific ability: Spider-Sense,Skill Damage | 35%,https://thanosvibs.money/supports
+chasm,Tier-2 Passive,Bonus Damage,35,35%,This skill only applies to a specific ability: Spider-Sense,Bonus Damage | 35%,https://thanosvibs.money/supports
+colossus,4★ Passive,Physical Reflect Damage Received,-65,-65%,,Physical Reflect Damage Received | -65%,https://thanosvibs.money/supports
+colossus,4★ Passive,Basic Damage Received from Villains,-50,-50%,,Basic Damage Received from Villains | -50%,https://thanosvibs.money/supports
+colossus,4★ Passive,Basic Damage Received from Heroes,-50,-50%,,Basic Damage Received from Heroes | -50%,https://thanosvibs.money/supports
+colossus,4★ Passive,Physical Reflect Damage Received,-60,-60%,,Physical Reflect Damage Received | -60%,https://thanosvibs.money/supports
+crescent,Leadership,Physical Attack,60,60%,,Physical Attack | 60%,https://thanosvibs.money/supports
+crescent,Leadership,Physical Attack,60,60%,This skill only applies to a specific type: Combat,Physical Attack | 60%,https://thanosvibs.money/supports
+crossbones,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+crystal,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+cyclops,Leadership,All Basic Attacks,25,25%,,All Basic Attacks | 25%,https://thanosvibs.money/supports
+cyclops,Leadership,All Basic Defenses,25,25%,,All Basic Defenses | 25%,https://thanosvibs.money/supports
+cyclops,4★ Passive,Energy Attack,15,15%,,Energy Attack | 15%,https://thanosvibs.money/supports
+cyclops,4★ Passive,Energy Attack,10,10%,,Energy Attack | 10%,https://thanosvibs.money/supports
+cyclops,Leadership,All Basic Attacks,50,50%,,All Basic Attacks | 50%,https://thanosvibs.money/supports
+cyclops,Leadership,All Basic Defenses,30,30%,,All Basic Defenses | 30%,https://thanosvibs.money/supports
+cyclops,4★ Passive,Energy Attack,40,40%,,Energy Attack | 40%,https://thanosvibs.money/supports
+cyclops,4★ Passive,Basic Damage Dealt to Villains,30,30%,,Basic Damage Dealt to Villains | 30%,https://thanosvibs.money/supports
+cyclops,Leadership,All Basic Attacks,35,35%,,All Basic Attacks | 35%,https://thanosvibs.money/supports
+cyclops,Leadership,All Basic Attacks,45,45%,,All Basic Attacks | 45%,https://thanosvibs.money/supports
+cyclops,4★ Passive,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+dazzler,Tier-2 Passive,Ignore Dodge,70,70%,This skill only applies to a specific allies: Mutant,Ignore Dodge | 70%,https://thanosvibs.money/supports
+dazzler,Tier-2 Passive,Basic Damage Dealt to Boss Types,65,65%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Boss Types | 65%,https://thanosvibs.money/supports
 dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,3,3%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 3% | 0.2%,https://thanosvibs.money/supports
 dazzler,Artifact Exclusive Skill,All Basic Attacks,13,13%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 13% | 0.2%,https://thanosvibs.money/supports
 dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,5,5%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 5% | 0.3%,https://thanosvibs.money/supports
@@ -35,6 +154,37 @@ dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,7,7%,This skill 
 dazzler,Artifact Exclusive Skill,All Basic Attacks,17,17%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 17% | 0.4%,https://thanosvibs.money/supports
 dazzler,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 10% | 0.5%,https://thanosvibs.money/supports
 dazzler,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+dazzler,Tier-2 Passive,All Basic Attacks,25,25%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 25%,https://thanosvibs.money/supports
+deadpool,Leadership,All Basic Attacks,40,40%,,All Basic Attacks | 40%,https://thanosvibs.money/supports
+deadpool,Leadership,All Basic Defenses,40,40%,,All Basic Defenses | 40%,https://thanosvibs.money/supports
+deadpool,Leadership,All Speeds,15,15%,,All Speeds | 15%,https://thanosvibs.money/supports
+deadpool,Leadership,Basic Damage Dealt to Boss Types,60,60%,This skill only applies to a specific character: Gwenpool,Basic Damage Dealt to Boss Types | 60%,https://thanosvibs.money/supports
+deadpool,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific character: Deadpool,Remove All Debuffs | N/A | 10,https://thanosvibs.money/supports
+deathlok,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+destroyer,4★ Passive,HP,55,55%,This skill only applies to a specific ability: Machine,HP | 55%,https://thanosvibs.money/supports
+doctordoom,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+doctoroctopus,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+doctorstrange,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+doctorstrange,Leadership,Ignore Dodge,20,20%,,Ignore Dodge | 20%,https://thanosvibs.money/supports
+doctorstrange,Leadership,Energy Attack,45,45%,,Energy Attack | 45%,https://thanosvibs.money/supports
+doctorvoodoo,Leadership,All Debuffs Effect,40,40%,,All Debuffs Effect | 40%,https://thanosvibs.money/supports
+doctorvoodoo,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30%,https://thanosvibs.money/supports
+doctorvoodoo,Tier-2 Passive,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+doctorvoodoo,Uniform Effect,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+doctorvoodoo,Uniform Effect,Basic Damage Received from Villains,-20,-20%,This skill only applies to a specific type: Universal,Basic Damage Received from Villains | -20%,https://thanosvibs.money/supports
+doctorvoodoo,Uniform Effect,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+domino,Leadership,Critical Rate,8,8%,,Critical Rate | 8%,https://thanosvibs.money/supports
+domino,Leadership,Ignore Dodge,45,45%,,Ignore Dodge | 45%,https://thanosvibs.money/supports
+dormammu,Leadership,Basic Damage Dealt to Heroes,60,60%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 60%,https://thanosvibs.money/supports
+drax,Leadership,HP,45,45%,,HP | 45% | when 1 Combat,https://thanosvibs.money/supports
+drax,Leadership,HP,55,55%,,HP | 55% | when 2 Combats,https://thanosvibs.money/supports
+drax,Leadership,HP,65,65%,,HP | 65% | when 3 Combats,https://thanosvibs.money/supports
+drax,Leadership,HP,21,21%,,HP | 21% | when 1 Combat,https://thanosvibs.money/supports
+drax,Leadership,HP,30,30%,,HP | 30% | when 2 Combats,https://thanosvibs.money/supports
+drax,Leadership,HP,45,45%,,HP | 45% | when 3 Combats,https://thanosvibs.money/supports
+ebonymaw,Leadership,Energy Attack,50,50%,,Energy Attack | 50%,https://thanosvibs.money/supports
+ebonymaw,Uniform Effect,Basic Damage Dealt to Universals,35,35%,,Basic Damage Dealt to Universals | 35%,https://thanosvibs.money/supports
+ebonymaw,Uniform Effect,Basic Damage Received from Universals,-35,-35%,,Basic Damage Received from Universals | -35%,https://thanosvibs.money/supports
 ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,11,11%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 11% | 0.2%,https://thanosvibs.money/supports
 ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,11,11%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 11% | 0.2%,https://thanosvibs.money/supports
 ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,14,14%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 14% | 0.3%,https://thanosvibs.money/supports
@@ -43,14 +193,62 @@ ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,17,17%,This skill
 ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,17,17%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 17% | 0.4%,https://thanosvibs.money/supports
 ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,20,20%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Heroes | 20% | 0.5%,https://thanosvibs.money/supports
 ebonymaw,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific ability: Black Order,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
+ebonymaw,Uniform Effect,Basic Damage Dealt to Universals,40,40%,,Basic Damage Dealt to Universals | 40%,https://thanosvibs.money/supports
+ebonymaw,Leadership,Energy Attack,40,40%,,Energy Attack | 40%,https://thanosvibs.money/supports
+ebonymaw,Uniform Effect,Basic Damage Dealt to Universals,25,25%,,Basic Damage Dealt to Universals | 25%,https://thanosvibs.money/supports
+ebonymaw,Uniform Effect,Basic Damage Received from Universals,-25,-25%,,Basic Damage Received from Universals | -25%,https://thanosvibs.money/supports
+echo,Leadership,Fire Damage,60,60%,,Fire Damage | 60%,https://thanosvibs.money/supports
+echo,4★ Passive,Fire Resist,25,25%,,Fire Resist | 25%,https://thanosvibs.money/supports
+echo,4★ Passive,All Element Damage,15,15%,,All Element Damage | 15%,https://thanosvibs.money/supports
+electro,Leadership,All Basic Attacks,40,40%,This skill only applies to a specific ability: Sinister Six,All Basic Attacks | 40%,https://thanosvibs.money/supports
+electro,Leadership,All Basic Defenses,40,40%,This skill only applies to a specific ability: Sinister Six,All Basic Defenses | 40%,https://thanosvibs.money/supports
+electro,Leadership,All Speeds,10,10%,This skill only applies to a specific ability: Sinister Six,All Speeds | 10%,https://thanosvibs.money/supports
+electro,4★ Passive,Lightning Damage,15,15%,,Lightning Damage | 15%,https://thanosvibs.money/supports
+electro,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Sinister Six,All Basic Attacks | 60%,https://thanosvibs.money/supports
+electro,Leadership,All Basic Defenses,60,60%,This skill only applies to a specific ability: Sinister Six,All Basic Defenses | 60%,https://thanosvibs.money/supports
+electro,Leadership,All Speeds,15,15%,This skill only applies to a specific ability: Sinister Six,All Speeds | 15%,https://thanosvibs.money/supports
+electro,4★ Passive,Lightning Damage,30,30%,,Lightning Damage | 30%,https://thanosvibs.money/supports
+elsabloodstone,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+enchantress,Leadership,All Debuffs Effect,25,25%,,All Debuffs Effect | 25%,https://thanosvibs.money/supports
+enchantress,Leadership,All Debuffs Effect,40,40%,,All Debuffs Effect | 40%,https://thanosvibs.money/supports
+enchantress,4★ Passive,Mind Damage,30,30%,,Mind Damage | 30%,https://thanosvibs.money/supports
+enchantress,4★ Passive,Mind Resist,20,20%,,Mind Resist | 20%,https://thanosvibs.money/supports
+enchantress,Uniform Effect,All Basic Attacks,20,20%,This skill only applies to a specific side: Villain,All Basic Attacks | 20%,https://thanosvibs.money/supports
+enchantress,Uniform Effect,Basic Damage Dealt to Boss Types,40,40%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Boss Types | 40%,https://thanosvibs.money/supports
+exodus,Leadership,All Basic Attacks,30,30%,This skill only applies to a specific character: Exodus,All Basic Attacks | 30% | when 1 Mutant,https://thanosvibs.money/supports
+exodus,Leadership,All Basic Attacks,40,40%,This skill only applies to a specific character: Exodus,All Basic Attacks | 40% | when 2 Mutants,https://thanosvibs.money/supports
+exodus,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific character: Exodus,All Basic Attacks | 50% | when 3 Mutants,https://thanosvibs.money/supports
+exodus,4★ Passive,Remove All Debuffs,,N/A,This skill only applies to a specific allies: Mutant,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
 exodus,Artifact Exclusive Skill,HP,16,16%,This skill only applies to a specific allies: Mutant,HP | 16% | 0.1%,https://thanosvibs.money/supports
 exodus,Artifact Exclusive Skill,HP,19,19%,This skill only applies to a specific allies: Mutant,HP | 19% | 0.1%,https://thanosvibs.money/supports
 exodus,Artifact Exclusive Skill,HP,22,22%,This skill only applies to a specific allies: Mutant,HP | 22% | 0.1%,https://thanosvibs.money/supports
 exodus,Artifact Exclusive Skill,HP,25,25%,This skill only applies to a specific allies: Mutant,HP | 25% | 0.1%,https://thanosvibs.money/supports
+falcon,4★ Passive,Basic Damage Dealt to Heroes,50,50%,This skill only applies to a specific ability: Zombie,Basic Damage Dealt to Heroes | 50%,https://thanosvibs.money/supports
+falcon,4★ Passive,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific ability: Zombie,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+falconjoaquintorres,4★ Passive,Basic Damage Dealt to Villains,60,60%,This skill only applies to a specific character: Falcon,Basic Damage Dealt to Villains | 60%,https://thanosvibs.money/supports
+franklinrichards,4★ Passive,Heal,40,40%,This skill only applies to a specific ability: Fantastic Four,Heal | 40% | 1,https://thanosvibs.money/supports
+franklinrichards,4★ Passive,HP,40,40%,This skill only applies to a specific ability: Fantastic Four,HP | 40% | 7,https://thanosvibs.money/supports
 franklinrichards,Artifact Exclusive Skill,Immortality + Heal,5,5%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 5% | 0.5% | 1,https://thanosvibs.money/supports
 franklinrichards,Artifact Exclusive Skill,Immortality + Heal,10,10%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 10% | 0.5% | 2,https://thanosvibs.money/supports
 franklinrichards,Artifact Exclusive Skill,Immortality + Heal,15,15%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 15% | 0.5% | 3,https://thanosvibs.money/supports
 franklinrichards,Artifact Exclusive Skill,Immortality + Heal,20,20%,This skill only applies to a specific ability: Fantastic Four,Immortality + Heal | 20% | 0.5% | 4,https://thanosvibs.money/supports
+gambit,Leadership,Ignore Dodge,50,50%,,Ignore Dodge | 50%,https://thanosvibs.money/supports
+gamora,Leadership,Physical Attack,60,60%,This skill only applies to a specific type: Speed,Physical Attack | 60%,https://thanosvibs.money/supports
+gamora,Leadership,All Speeds,6,6%,This skill only applies to a specific type: Speed,All Speeds | 6%,https://thanosvibs.money/supports
+gamora,Leadership,Physical Attack,55,55%,This skill only applies to a specific type: Speed,Physical Attack | 55%,https://thanosvibs.money/supports
+ghost,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific ability: Machine,All Basic Attacks | 50%,https://thanosvibs.money/supports
+ghost,Tier-2 Passive,Energy Attack,20,20%,,Energy Attack | 20%,https://thanosvibs.money/supports
+ghost,Uniform Effect,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Thunderbolts,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+ghost,Tier-2 Passive,Energy Attack,10,10%,This skill only applies to a specific side: Villain,Energy Attack | 10%,https://thanosvibs.money/supports
+ghostpanther,Leadership,Critical Rate,15,15%,,Critical Rate | 15%,https://thanosvibs.money/supports
+ghostpanther,Leadership,Fire Damage,30,30%,,Fire Damage | 30%,https://thanosvibs.money/supports
+ghostpanther,Tier-2 Passive,Fire Damage,50,50%,,Fire Damage | 50%,https://thanosvibs.money/supports
+ghostpanther,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+ghostpanther,Tier-2 Passive,Basic Damage Received from Villains,-15,-15%,,Basic Damage Received from Villains | -15%,https://thanosvibs.money/supports
+ghostriderrobbiereyes,Leadership,Ignore Dodge,50,50%,,Ignore Dodge | 50%,https://thanosvibs.money/supports
+ghostriderrobbiereyes,4★ Passive,Fire Resist,60,60%,This skill only applies to a specific ability: Flame,Fire Resist | 60%,https://thanosvibs.money/supports
+ghostriderrobbiereyes,4★ Passive,Fire Immunity Chance,80,80%,This skill only applies to a specific ability: Flame,Fire Immunity Chance | 80%,https://thanosvibs.money/supports
+ghostriderrobbiereyes,4★ Passive,Fire Damage,30,30%,This skill only applies to a specific ability: Flame,Fire Damage | 30%,https://thanosvibs.money/supports
 ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,20,20%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 20% | 0.2% | 7,https://thanosvibs.money/supports
 ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,8,8%,This skill only applies to a specific ability: Flame,Fire Damage | 8% | 0.2% | 7,https://thanosvibs.money/supports
 ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,23,23%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 23% | 0.3% | 8,https://thanosvibs.money/supports
@@ -59,6 +257,42 @@ ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,26,2
 ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,12,12%,This skill only applies to a specific ability: Flame,Fire Damage | 12% | 0.2% | 9,https://thanosvibs.money/supports
 ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage by % Fire Resist,30,30%,This skill only applies to a specific ability: Flame,Fire Damage by % Fire Resist | 30% | 0.5% | 10,https://thanosvibs.money/supports
 ghostriderrobbiereyes,Artifact Exclusive Skill,Fire Damage,15,15%,This skill only applies to a specific ability: Flame,Fire Damage | 15% | 0.2% | 10,https://thanosvibs.money/supports
+giantman,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+gilgamesh,Uniform Effect,All Basic Defenses,35,35%,This skill only applies to a specific ability: Eternals,All Basic Defenses | 35%,https://thanosvibs.money/supports
+gilgamesh,Uniform Effect,Chain Hit Damage Received,-15,-15%,This skill only applies to a specific ability: Eternals,Chain Hit Damage Received | -15%,https://thanosvibs.money/supports
+gilgamesh,Uniform Effect,Physical Reflect Damage Received,-80,-80%,This skill only applies to a specific ability: Eternals,Physical Reflect Damage Received | -80%,https://thanosvibs.money/supports
+gladiator,Leadership,All Basic Attacks,55,55%,,All Basic Attacks | 55%,https://thanosvibs.money/supports
+gladiator,Leadership,All Basic Attacks,60,60%,,All Basic Attacks | 60%,https://thanosvibs.money/supports
+goliath,Leadership,Physical Attack,45,45%,,Physical Attack | 45%,https://thanosvibs.money/supports
+gorgon,Leadership,Physical Attack,45,45%,,Physical Attack | 45%,https://thanosvibs.money/supports
+gorr,Leadership,HP,35,35%,This skill only applies to a specific side: Villain,HP | 35%,https://thanosvibs.money/supports
+gorr,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific side: Villain,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+greengoblin,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Dark Avengers,All Basic Attacks | 60%,https://thanosvibs.money/supports
+greengoblin,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific ability: Dark Avengers,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+greengoblin,Tier-2 Passive,Basic Damage Dealt to Heroes,40,40%,This skill only applies to a specific ability: Dark Avengers,Basic Damage Dealt to Heroes | 40%,https://thanosvibs.money/supports
+greengoblin,Leadership,All Basic Attacks,40,40%,,All Basic Attacks | 40%,https://thanosvibs.money/supports
+greengoblin,Leadership,Ignore Dodge,40,40%,,Ignore Dodge | 40%,https://thanosvibs.money/supports
+greengoblin,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+greengoblin,Tier-2 Passive,Basic Damage Dealt to Heroes,45,45%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 45%,https://thanosvibs.money/supports
+groot,Tier-2 Passive,Heal,20,20%,,Heal | 20% | 1,https://thanosvibs.money/supports
+groot,Tier-2 Passive,Basic Damage Dealt to Boss Types,40,40%,This skill only applies to a specific ability: Guardians of the Galaxy,Basic Damage Dealt to Boss Types | 40%,https://thanosvibs.money/supports
+groot,Tier-2 Passive,Basic Damage Dealt to Boss Types,45,45%,This skill only applies to a specific allies: Alien,Basic Damage Dealt to Boss Types | 45%,https://thanosvibs.money/supports
+gwenpool,Uniform Effect,Additional Pierce Damage,4,4%,This skill only applies to a specific character: Deadpool,Additional Pierce Damage | 4%,https://thanosvibs.money/supports
+hadespluto,Leadership,Fire Damage,60,60%,,Fire Damage | 60%,https://thanosvibs.money/supports
+havok,Leadership,Energy Attack,50,50%,,Energy Attack | 50%,https://thanosvibs.money/supports
+heimdall,Leadership,All Basic Defenses,40,40%,,All Basic Defenses | 40%,https://thanosvibs.money/supports
+heimdall,Leadership,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+hela,Leadership,Energy Attack,60,60%,,Energy Attack | 60%,https://thanosvibs.money/supports
+hela,Uniform Effect,Basic Damage Dealt to Heroes,50,50%,,Basic Damage Dealt to Heroes | 50%,https://thanosvibs.money/supports
+hela,Uniform Effect,Basic Damage Received from Heroes,-30,-30%,,Basic Damage Received from Heroes | -30%,https://thanosvibs.money/supports
+hela,Leadership,Energy Attack,45,45%,,Energy Attack | 45%,https://thanosvibs.money/supports
+hela,Uniform Effect,Basic Damage Dealt to Heroes,15,15%,,Basic Damage Dealt to Heroes | 15%,https://thanosvibs.money/supports
+hela,Uniform Effect,Basic Damage Received from Heroes,-15,-15%,,Basic Damage Received from Heroes | -15%,https://thanosvibs.money/supports
+hela,Uniform Effect,Ignore Dodge,20,20%,,Ignore Dodge | 20%,https://thanosvibs.money/supports
+hercules,Leadership,HP,40,40%,,HP | 40%,https://thanosvibs.money/supports
+hogun,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+hopesummers,Leadership,All Basic Attacks,30,30%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 30%,https://thanosvibs.money/supports
+hopesummers,Leadership,All Basic Attacks,70,70%,This skill only applies to a specific character: Cable,All Basic Attacks | 70%,https://thanosvibs.money/supports
 hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
 hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,6,6%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 6% | 0.2%,https://thanosvibs.money/supports
 hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 9% | 0.3%,https://thanosvibs.money/supports
@@ -67,6 +301,36 @@ hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This 
 hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,12,12%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 12% | 0.4%,https://thanosvibs.money/supports
 hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
 hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,15,15%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 15% | 0.5%,https://thanosvibs.money/supports
+hulk,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+hulkbuster,Leadership,All Basic Attacks,35,35%,,All Basic Attacks | 35%,https://thanosvibs.money/supports
+hulkbuster,Leadership,All Basic Attacks,70,70%,This skill only applies to a specific character: Iron Man,All Basic Attacks | 70%,https://thanosvibs.money/supports
+hulkbuster,4★ Passive,HP,35,35%,This skill only applies to a specific ability: Machine,HP | 35%,https://thanosvibs.money/supports
+hulkbusterironmanmark44,Leadership,All Basic Attacks,35,35%,,All Basic Attacks | 35%,https://thanosvibs.money/supports
+hulkbusterironmanmark44,Leadership,All Basic Attacks,70,70%,This skill only applies to a specific character: Iron Man,All Basic Attacks | 70%,https://thanosvibs.money/supports
+hulkbusterironmanmark44,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+humantorch,Leadership,Fire Damage,25,25%,,Fire Damage | 25%,https://thanosvibs.money/supports
+hyperion,Leadership,All Basic Attacks,45,45%,,All Basic Attacks | 45%,https://thanosvibs.money/supports
+hyperion,Leadership,All Basic Attacks,55,55%,,All Basic Attacks | 55%,https://thanosvibs.money/supports
+ikaris,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Eternals,All Basic Attacks | 60%,https://thanosvibs.money/supports
+infinityultron,Leadership,All Basic Attacks,55,55%,This skill only applies to a specific ability: Machine,All Basic Attacks | 55%,https://thanosvibs.money/supports
+invisiblewoman,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 6,https://thanosvibs.money/supports
+invisiblewoman,Leadership,Debuff Immunity,,N/A,,Debuff Immunity | N/A | 12,https://thanosvibs.money/supports
+invisiblewoman,Leadership,Energy Attack,45,45%,,Energy Attack | 45%,https://thanosvibs.money/supports
+invisiblewoman,4★ Passive,Barrier,1,1 hit%,,Barrier | 1 hit% | 2,https://thanosvibs.money/supports
+invisiblewoman,Uniform Effect,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+invisiblewoman,Uniform Effect,Debuff Immunity,,N/A,,Debuff Immunity | N/A | 12,https://thanosvibs.money/supports
+ironfist,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Defenders,All Basic Attacks | 60%,https://thanosvibs.money/supports
+ironhammer,Leadership,Skill Cooldown,-24,-24%,,Skill Cooldown | -24%,https://thanosvibs.money/supports
+ironhammer,Leadership,Energy Attack,15,15%,,Energy Attack | 15%,https://thanosvibs.money/supports
+ironhammer,Leadership,Lightning Damage,15,15%,,Lightning Damage | 15%,https://thanosvibs.money/supports
+ironheart,Leadership,Energy Attack,45,45%,,Energy Attack | 45%,https://thanosvibs.money/supports
+ironheart,Leadership,Energy Attack,55,55%,This skill only applies to a specific type: Blast,Energy Attack | 55%,https://thanosvibs.money/supports
+ironheart,Uniform Effect,Ignore Dodge,25,25%,,Ignore Dodge | 25%,https://thanosvibs.money/supports
+ironheart,Uniform Effect,Basic Damage Dealt to Boss Types,45,45%,,Basic Damage Dealt to Boss Types | 45%,https://thanosvibs.money/supports
+jeangrey,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+jeffthelandshark,4★ Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+jeffthelandshark,4★ Passive,Basic Damage Received from Villains,-40,-40%,This skill only applies to a specific side: Hero,Basic Damage Received from Villains | -40%,https://thanosvibs.money/supports
+jeffthelandshark,4★ Passive,Ignore Non-Boss Damage Decrease,10,10%,This skill only applies to a specific side: Hero,Ignore Non-Boss Damage Decrease | 10%,https://thanosvibs.money/supports
 jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,5,5%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 5% | 0.2%,https://thanosvibs.money/supports
 jeffthelandshark,Artifact Exclusive Skill,HP,8,8%,This skill only applies to a specific side: Hero,HP | 8% | 0.1%,https://thanosvibs.money/supports
 jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 10% | 0.3%,https://thanosvibs.money/supports
@@ -75,6 +339,21 @@ jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,
 jeffthelandshark,Artifact Exclusive Skill,HP,16,16%,This skill only applies to a specific side: Hero,HP | 16% | 0.3%,https://thanosvibs.money/supports
 jeffthelandshark,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
 jeffthelandshark,Artifact Exclusive Skill,HP,20,20%,This skill only applies to a specific side: Hero,HP | 20% | 0.4%,https://thanosvibs.money/supports
+jessicajones,4★ Passive,All Basic Attacks,50,50%,This skill only applies to a specific ability: Defenders,All Basic Attacks | 50%,https://thanosvibs.money/supports
+jessicajones,4★ Passive,Mind Immunity Chance,100,100%,This skill only applies to a specific ability: Defenders,Mind Immunity Chance | 100%,https://thanosvibs.money/supports
+jessicajones,Uniform Effect,Heal,25,25%,This skill only applies to a specific ability: Defenders,Heal | 25% | 1,https://thanosvibs.money/supports
+jessicajones,Uniform Effect,Basic Damage Received,-95,-95%,This skill only applies to a specific ability: Defenders,Basic Damage Received | -95% | 10,https://thanosvibs.money/supports
+kahhori,Tier-2 Passive,"Basic Damage Dealt to Enemies with ""Removes All Debuffs"" Effect",50,50%,This skill only applies to a specific side: Hero,"Basic Damage Dealt to Enemies with ""Removes All Debuffs"" Effect | 50%",https://thanosvibs.money/supports
+kahhori,Tier-2 Passive,"Basic Damage Dealt to Enemies with ""Debuff Removal (Instinct)"" Effect",50,50%,This skill only applies to a specific side: Hero,"Basic Damage Dealt to Enemies with ""Debuff Removal (Instinct)"" Effect | 50%",https://thanosvibs.money/supports
+kangtheconqueror,Leadership,All Basic Attacks,55,55%,This skill only applies to a specific character: Kang,All Basic Attacks | 55%,https://thanosvibs.money/supports
+kangtheconqueror,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+katy,Leadership,Critical Rate,18,18%,,Critical Rate | 18%,https://thanosvibs.money/supports
+katy,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific character: Shang-Chi,All Basic Attacks | 60%,https://thanosvibs.money/supports
+katy,4★ Passive,Critical Damage,30,30%,,Critical Damage | 30%,https://thanosvibs.money/supports
+katy,4★ Passive,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+kidkaiju,Leadership,All Basic Attacks,20,20%,,All Basic Attacks | 20%,https://thanosvibs.money/supports
+kidkaiju,Leadership,All Basic Defenses,20,20%,,All Basic Defenses | 20%,https://thanosvibs.money/supports
+kidkaiju,Leadership,All Speeds,10,10%,,All Speeds | 10%,https://thanosvibs.money/supports
 kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 9% | 0.2%,https://thanosvibs.money/supports
 kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 9% | 0.2%,https://thanosvibs.money/supports
 kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,11,11%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 11% | 0.3%,https://thanosvibs.money/supports
@@ -83,6 +362,49 @@ kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,13,13%,This ski
 kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,13,13%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 13% | 0.4%,https://thanosvibs.money/supports
 kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
 kidkaiju,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
+kidomega,Leadership,Mind Damage,40,40%,,Mind Damage | 40%,https://thanosvibs.money/supports
+kingpin,Leadership,Physical Attack,55,55%,This skill only applies to a specific side: Villain,Physical Attack | 55%,https://thanosvibs.money/supports
+kingpin,Leadership,HP,30,30%,This skill only applies to a specific side: Villain,HP | 30%,https://thanosvibs.money/supports
+kingpin,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+kingpin,Leadership,Physical Attack,40,40%,This skill only applies to a specific side: Villain,Physical Attack | 40%,https://thanosvibs.money/supports
+kittypryde,Leadership,All Basic Attacks,55,55%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 55%,https://thanosvibs.money/supports
+kittypryde,Leadership,Critical Rate,6,6%,This skill only applies to a specific allies: Mutant,Critical Rate | 6%,https://thanosvibs.money/supports
+kittypryde,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 60%,https://thanosvibs.money/supports
+knull,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Symbiote,All Basic Attacks | 60%,https://thanosvibs.money/supports
+kraventhehunter,Uniform Effect,Basic Damage Dealt to Villains,35,35%,This skill only applies to a specific ability: Sinister Six,Basic Damage Dealt to Villains | 35%,https://thanosvibs.money/supports
+kraventhehunter,Uniform Effect,Basic Damage Dealt to Heroes,35,35%,This skill only applies to a specific ability: Sinister Six,Basic Damage Dealt to Heroes | 35%,https://thanosvibs.money/supports
+kraventhehunter,Uniform Effect,Skill Damage,30,30%,This skill only applies to a specific ability: Sinister Six,Skill Damage | 30%,https://thanosvibs.money/supports
+kraventhehunter,Uniform Effect,Bonus Damage,30,30%,This skill only applies to a specific ability: Sinister Six,Bonus Damage | 30%,https://thanosvibs.money/supports
+lash,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+leader,Leadership,Energy Attack,50,50%,This skill only applies to a specific side: Villain,Energy Attack | 50%,https://thanosvibs.money/supports
+leader,4★ Passive,Basic Damage Dealt to Villains,25,25%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 25%,https://thanosvibs.money/supports
+leader,4★ Passive,Basic Damage Dealt to Heroes,25,25%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 25%,https://thanosvibs.money/supports
+lincolncampbell,Leadership,Lightning Damage,60,60%,,Lightning Damage | 60%,https://thanosvibs.money/supports
+lizard,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+loki,4★ Passive,Chain Hit Damage Received,-40,-40%,This skill only applies to a specific ability: Young Avengers,Chain Hit Damage Received | -40%,https://thanosvibs.money/supports
+loki,4★ Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+lukecage,Leadership,Physical Immunity Chance,100,100%,This skill only applies to a specific ability: Defenders,Physical Immunity Chance | 100% | 6,https://thanosvibs.money/supports
+lukecage,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Defenders,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+lukecage,Uniform Effect,Ignore Dodge,35,35%,This skill only applies to a specific ability: Defenders,Ignore Dodge | 35%,https://thanosvibs.money/supports
+modok,Leadership,Energy Attack,45,45%,,Energy Attack | 45%,https://thanosvibs.money/supports
+modok,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+mbaku,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+mbaku,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+mbaku,Tier-2 Passive,Basic Damage Received from Villains,35,35%,,Basic Damage Received from Villains | 35%,https://thanosvibs.money/supports
+madelynepryor,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+magik,Leadership,All Basic Attacks,40,40%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 40%,https://thanosvibs.money/supports
+magneto,Leadership,All Basic Attacks,45,45%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 45%,https://thanosvibs.money/supports
+magneto,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 50%,https://thanosvibs.money/supports
+malekith,Leadership,Energy Defense,30,30%,,Energy Defense | 30% | 20,https://thanosvibs.money/supports
+malekith,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 20,https://thanosvibs.money/supports
+manthing,Leadership,Debuff Duration,-30,-30%,,Debuff Duration | -30%,https://thanosvibs.money/supports
+manthing,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+mantis,Tier-2 Passive,Critical Damage,20,20%,,Critical Damage | 20%,https://thanosvibs.money/supports
+mantis,Tier-2 Passive,Ignore Defense,15,15%,,Ignore Defense | 15%,https://thanosvibs.money/supports
+mantis,Tier-2 Passive,Basic Damage Received from Villains,-30,-30%,,Basic Damage Received from Villains | -30%,https://thanosvibs.money/supports
+mantis,Tier-2 Passive,Basic Damage Received from Heroes,-30,-30%,,Basic Damage Received from Heroes | -30%,https://thanosvibs.money/supports
+marvelboy,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific ability: Young Avengers,All Basic Attacks | 60%,https://thanosvibs.money/supports
+marvelboy,4★ Passive,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Young Avengers,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,10,10%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 10% | 0.2%,https://thanosvibs.money/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,10,10%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 10% | 0.2%,https://thanosvibs.money/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,13,13%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 13% | 0.3%,https://thanosvibs.money/supports
@@ -91,6 +413,12 @@ marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,16,16%,This sk
 marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,16,16%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 16% | 0.4%,https://thanosvibs.money/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific ability: Young Avengers,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,20,20%,This skill only applies to a specific ability: Young Avengers,Basic Damage Received from Villains | 20% | 0.5%,https://thanosvibs.money/supports
+mayalopez,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific type: Speed,All Basic Attacks | 60%,https://thanosvibs.money/supports
+mayalopez,Leadership,All Basic Defenses,60,60%,This skill only applies to a specific type: Speed,All Basic Defenses | 60%,https://thanosvibs.money/supports
+mayalopez,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific type: Speed,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+mayalopez,4★ Passive,Chain Hit Damage Received,-20,-20%,This skill only applies to a specific type: Speed,Chain Hit Damage Received | -20%,https://thanosvibs.money/supports
+mayalopez,4★ Passive,Ignore Dodge,20,20%,This skill only applies to a specific type: Speed,Ignore Dodge | 20%,https://thanosvibs.money/supports
+medusa,Leadership,All Basic Attacks,36,36%,This skill only applies to a specific type: Universal,All Basic Attacks | 36%,https://thanosvibs.money/supports
 medusa,Artifact Exclusive Skill,Ignore Dodge,5,5%,,Ignore Dodge | 5% | 0.2%,https://thanosvibs.money/supports
 medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
 medusa,Artifact Exclusive Skill,Ignore Dodge,8,8%,,Ignore Dodge | 8% | 0.3%,https://thanosvibs.money/supports
@@ -99,6 +427,36 @@ medusa,Artifact Exclusive Skill,Ignore Dodge,11,11%,,Ignore Dodge | 11% | 0.4%,h
 medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,,Basic Damage Dealt to Boss Types | 11% | 0.2%,https://thanosvibs.money/supports
 medusa,Artifact Exclusive Skill,Ignore Dodge,15,15%,,Ignore Dodge | 15% | 0.5%,https://thanosvibs.money/supports
 medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,,Basic Damage Dealt to Boss Types | 15% | 0.25%,https://thanosvibs.money/supports
+medusa,Leadership,All Basic Attacks,45,45%,This skill only applies to a specific type: Universal,All Basic Attacks | 45%,https://thanosvibs.money/supports
+medusa,4★ Passive,All Basic Attacks,40,40%,This skill only applies to a specific allies: Inhuman,All Basic Attacks | 40%,https://thanosvibs.money/supports
+medusa,Uniform Effect,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+medusa,4★ Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific allies: Inhuman,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+medusa,Leadership,All Basic Attacks,42,42%,This skill only applies to a specific type: Universal,All Basic Attacks | 42%,https://thanosvibs.money/supports
+mephisto,Leadership,Fire Damage,30,30%,This skill only applies to a specific side: Villain,Fire Damage | 30%,https://thanosvibs.money/supports
+mephisto,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific side: Villain,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+misterfantastic,Leadership,All Basic Attacks,65,65%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 65%,https://thanosvibs.money/supports
+mistyknight,Leadership,Cold Damage,60,60%,,Cold Damage | 60%,https://thanosvibs.money/supports
+moleculeman,Leadership,Ignores Damage Increase/Decrease Effect Between Self and Opposing Faction,,N/A,,Ignores Damage Increase/Decrease Effect Between Self and Opposing Faction | N/A,https://thanosvibs.money/supports
+moleculeman,Leadership,Chain Hit Damage Received,-15,-15%,,Chain Hit Damage Received | -15%,https://thanosvibs.money/supports
+moleculeman,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 6,https://thanosvibs.money/supports
+moongirl,Leadership,All Basic Attacks,36,36%,,All Basic Attacks | 36%,https://thanosvibs.money/supports
+morbius,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+morganlefay,Uniform Effect,All Basic Attacks,35,35%,This skill only applies to a specific type: Universal,All Basic Attacks | 35%,https://thanosvibs.money/supports
+morganlefay,Uniform Effect,Basic Damage Dealt to Boss Types,35,35%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 35%,https://thanosvibs.money/supports
+morganlefay,Uniform Effect,Remove All Debuffs,,N/A,This skill only applies to a specific type: Universal,Remove All Debuffs | N/A | 10,https://thanosvibs.money/supports
+mysterio,Uniform Effect,All Basic Attacks,30,30%,This skill only applies to a specific side: Villain,All Basic Attacks | 30%,https://thanosvibs.money/supports
+mysterio,Uniform Effect,Basic Damage Dealt to Boss Types,40,40%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Boss Types | 40%,https://thanosvibs.money/supports
+mystique,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+mystique,Tier-2 Passive,Basic Damage Dealt to Heroes,50,50%,,Basic Damage Dealt to Heroes | 50%,https://thanosvibs.money/supports
+mystique,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+mystique,Tier-2 Passive,Basic Damage Dealt to Heroes,45,45%,,Basic Damage Dealt to Heroes | 45%,https://thanosvibs.money/supports
+nicepool,Leadership,All Basic Attacks,40,40%,,All Basic Attacks | 40%,https://thanosvibs.money/supports
+nicepool,Leadership,All Basic Defenses,40,40%,,All Basic Defenses | 40%,https://thanosvibs.money/supports
+nicepool,Leadership,All Speeds,15,15%,,All Speeds | 15%,https://thanosvibs.money/supports
+nicepool,Leadership,Basic Damage Dealt to Boss Types,40,40%,This skill only applies to a specific character: Deadpool,Basic Damage Dealt to Boss Types | 40%,https://thanosvibs.money/supports
+nickfury,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific side: Hero,All Basic Attacks | 50%,https://thanosvibs.money/supports
+nickfury,Tier-2 Passive,"Super Armor, All Basic Defenses",30,30%,This skill only applies to a specific side: Hero,"Super Armor, All Basic Defenses | 30%",https://thanosvibs.money/supports
+nickfury,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 55%,https://thanosvibs.money/supports
 nickfury,Artifact Exclusive Skill,Ignore Dodge,4,4%,This skill only applies to a specific side: Hero,Ignore Dodge | 4% | 0.2%,https://thanosvibs.money/supports
 nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
 nickfury,Artifact Exclusive Skill,Ignore Dodge,6,6%,This skill only applies to a specific side: Hero,Ignore Dodge | 6% | 0.3%,https://thanosvibs.money/supports
@@ -107,6 +465,13 @@ nickfury,Artifact Exclusive Skill,Ignore Dodge,8,8%,This skill only applies to a
 nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 11% | 0.2%,https://thanosvibs.money/supports
 nickfury,Artifact Exclusive Skill,Ignore Dodge,10,10%,This skill only applies to a specific side: Hero,Ignore Dodge | 10% | 0.5%,https://thanosvibs.money/supports
 nickfury,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 15% | 0.25%,https://thanosvibs.money/supports
+nickfury,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific side: Hero,All Basic Attacks | 60%,https://thanosvibs.money/supports
+nickfury,Tier-2 Passive,Incapacitation Immunity,,N/A,This skill only applies to a specific side: Hero,Incapacitation Immunity | N/A,https://thanosvibs.money/supports
+nickfury,Tier-2 Passive,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+nickfury,Tier-2 Passive,Basic Damage Dealt to Villains,60,60%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 60%,https://thanosvibs.money/supports
+novarichardrider,Leadership,Energy Attack,30,30%,This skill only applies to a specific side: Hero,Energy Attack | 30%,https://thanosvibs.money/supports
+novarichardrider,4★ Passive,Ignore Dodge,40,40%,This skill only applies to a specific side: Hero,Ignore Dodge | 40%,https://thanosvibs.money/supports
+novarichardrider,4★ Passive,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
 novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
 novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
 novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,9,9%,,Basic Damage Dealt to Villains | 9% | 0.3%,https://thanosvibs.money/supports
@@ -115,6 +480,15 @@ novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,
 novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,12,12%,,Basic Damage Dealt to Heroes | 12% | 0.4%,https://thanosvibs.money/supports
 novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
 novarichardrider,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
+novarichardrider,4★ Passive,Ignore Dodge,25,25%,This skill only applies to a specific side: Hero,Ignore Dodge | 25%,https://thanosvibs.money/supports
+novarichardrider,4★ Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+odin,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+odin,Leadership,All Resistances,30,30%,,All Resistances | 30% | 12,https://thanosvibs.money/supports
+odin,Leadership,Lightning Damage,50,50%,,Lightning Damage | 50%,https://thanosvibs.money/supports
+philcoulson,Tier-2 Passive,Guaranteed Critical Rate,20,20%,This skill only applies to a specific side: Hero,Guaranteed Critical Rate | 20%,https://thanosvibs.money/supports
+philcoulson,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+philcoulson,Tier-2 Passive,Basic Damage Received from Villains,15,15%,This skill only applies to a specific side: Hero,Basic Damage Received from Villains | 15%,https://thanosvibs.money/supports
+philcoulson,Uniform Effect,All Basic Defenses,10,10%,,All Basic Defenses | 10%,https://thanosvibs.money/supports
 philcoulson,Artifact Exclusive Skill,Ignore Dodge,9,9%,This skill only applies to a specific side: Hero,Ignore Dodge | 9% | 0.2%,https://thanosvibs.money/supports
 philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
 philcoulson,Artifact Exclusive Skill,Ignore Dodge,11,11%,This skill only applies to a specific side: Hero,Ignore Dodge | 11% | 0.3%,https://thanosvibs.money/supports
@@ -123,14 +497,70 @@ philcoulson,Artifact Exclusive Skill,Ignore Dodge,13,13%,This skill only applies
 philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 11% | 0.2%,https://thanosvibs.money/supports
 philcoulson,Artifact Exclusive Skill,Ignore Dodge,15,15%,This skill only applies to a specific side: Hero,Ignore Dodge | 15% | 0.5%,https://thanosvibs.money/supports
 philcoulson,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Boss Types | 15% | 0.25%,https://thanosvibs.money/supports
+philcoulson,Tier-2 Passive,Guaranteed Critical Rate,20,20%,,Guaranteed Critical Rate | 20%,https://thanosvibs.money/supports
+philcoulson,Tier-2 Passive,Basic Damage Dealt to Villains,50,50%,,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+philcoulson,Tier-2 Passive,Basic Damage Received from Villains,20,20%,,Basic Damage Received from Villains | 20%,https://thanosvibs.money/supports
+philcoulson,Uniform Effect,HP,30,30%,This skill only applies to a specific side: Hero,HP | 30%,https://thanosvibs.money/supports
+philcoulson,Uniform Effect,Basic Damage Received,-20,-20%,This skill only applies to a specific side: Hero,Basic Damage Received | -20%,https://thanosvibs.money/supports
+phylavell,Tier-2 Passive,All Basic Attacks,30,30%,This skill only applies to a specific type: Universal,All Basic Attacks | 30%,https://thanosvibs.money/supports
+phylavell,Tier-2 Passive,Basic Damage Dealt to Boss Types,45,45%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 45%,https://thanosvibs.money/supports
+phylavell,Tier-2 Passive,Skill Damage,25,25%,This skill only applies to a specific type: Universal,Skill Damage | 25%,https://thanosvibs.money/supports
+phylavell,Tier-2 Passive,Bonus Damage,15,15%,This skill only applies to a specific type: Universal,Bonus Damage | 15%,https://thanosvibs.money/supports
+polaris,Leadership,All Basic Attacks,45,45%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 45%,https://thanosvibs.money/supports
+polaris,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+polaris,Tier-2 Passive,Basic Damage Received from Villains,35,35%,This skill only applies to a specific allies: Mutant,Basic Damage Received from Villains | 35%,https://thanosvibs.money/supports
+polaris,Tier-2 Passive,Ignore Dodge,10,10%,This skill only applies to a specific allies: Mutant,Ignore Dodge | 10%,https://thanosvibs.money/supports
+polaris,Tier-2 Passive,Basic Damage Dealt to Enemies except Mutant Characters,55,55%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Enemies except Mutant Characters | 55%,https://thanosvibs.money/supports
+professorx,Leadership,All Basic Attacks,20,20%,This skill only applies to a specific allies: Mutant,All Basic Attacks | 20%,https://thanosvibs.money/supports
+professorx,Leadership,Mind Resist,50,50%,This skill only applies to a specific allies: Mutant,Mind Resist | 50%,https://thanosvibs.money/supports
+proximamidnight,Leadership,Ignore Dodge,45,45%,,Ignore Dodge | 45%,https://thanosvibs.money/supports
+proximamidnight,Leadership,Critical Damage,30,30%,,Critical Damage | 30%,https://thanosvibs.money/supports
+proximamidnight,Uniform Effect,Basic Damage Dealt to Villains,35,35%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 35%,https://thanosvibs.money/supports
+proximamidnight,Uniform Effect,Basic Damage Dealt to Heroes,40,40%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 40%,https://thanosvibs.money/supports
+proximamidnight,Leadership,Ignore Dodge,40,40%,,Ignore Dodge | 40%,https://thanosvibs.money/supports
+proximamidnight,Leadership,Critical Damage,18,18%,,Critical Damage | 18%,https://thanosvibs.money/supports
+punisher,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30%,https://thanosvibs.money/supports
+punisher,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+quasarwendellvaughn,Leadership,HP,40,40%,This skill only applies to a specific ability: Annihilators,HP | 40%,https://thanosvibs.money/supports
+quasarwendellvaughn,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Annihilators,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
 quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,9,9%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 9% | 0.15%,https://thanosvibs.money/supports
 quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,11,11%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 11% | 0.2%,https://thanosvibs.money/supports
 quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,13,13%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 13% | 0.25%,https://thanosvibs.money/supports
 quasarwendellvaughn,Artifact Exclusive Skill,Ignore Non-Boss Damage Decrease,15,15%,This skill only applies to a specific ability: Annihilators,Ignore Non-Boss Damage Decrease | 15% | 0.3%,https://thanosvibs.money/supports
+rachelsummers,Leadership,Mind Resist,40,40%,This skill only applies to a specific ability: Phoenix Force,Mind Resist | 40%,https://thanosvibs.money/supports
+rachelsummers,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Phoenix Force,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+redguardian,Leadership,HP,35,35%,This skill only applies to a specific side: Hero,HP | 35%,https://thanosvibs.money/supports
+redguardian,Leadership,HP,55,55%,This skill only applies to a specific side: Hero,HP | 55%,https://thanosvibs.money/supports
+redguardian,Leadership,HP,35,35%,This skill only applies to a specific side: Villain,HP | 35%,https://thanosvibs.money/supports
+redhulk,Leadership,Fire Damage,70,70%,,Fire Damage | 70%,https://thanosvibs.money/supports
+redhulk,Leadership,Burn Immunity,,N/A,,Burn Immunity | N/A,https://thanosvibs.money/supports
+redhulk,Uniform Effect,HP,15,15%,,HP | 15%,https://thanosvibs.money/supports
+redhulk,Uniform Effect,Basic Damage Dealt to Villains,25,25%,,Basic Damage Dealt to Villains | 25%,https://thanosvibs.money/supports
+redhulk,Leadership,Fire Damage,60,60%,,Fire Damage | 60%,https://thanosvibs.money/supports
+redshehulk,Leadership,Fire Damage,65,65%,,Fire Damage | 65%,https://thanosvibs.money/supports
+redshehulk,Leadership,HP,25,25%,,HP | 25%,https://thanosvibs.money/supports
+redshehulk,4★ Passive,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+redshehulk,4★ Passive,Basic Damage Received,-10,-10%,,Basic Damage Received | -10%,https://thanosvibs.money/supports
+rescue,Leadership,Max HP Shield,50,50%,,Max HP Shield | 50% | 5,https://thanosvibs.money/supports
+rescue,Uniform Effect,Recovery Rate,25,25%,,Recovery Rate | 25%,https://thanosvibs.money/supports
+rescue,Uniform Effect,HP,25,25%,,HP | 25%,https://thanosvibs.money/supports
+ririwilliams,Leadership,Energy Attack,55,55%,This skill only applies to a specific type: Blast,Energy Attack | 55%,https://thanosvibs.money/supports
+ririwilliams,Uniform Effect,Ignore Dodge,25,25%,,Ignore Dodge | 25%,https://thanosvibs.money/supports
+ririwilliams,Uniform Effect,Basic Damage Dealt to Boss Types,35,35%,,Basic Damage Dealt to Boss Types | 35%,https://thanosvibs.money/supports
+rocketraccoon,4★ Passive,Energy Attack,40,40%,This skill only applies to a specific ability: Guardians of the Galaxy,Energy Attack | 40%,https://thanosvibs.money/supports
+ronan,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific type: Universal,All Basic Attacks | 50%,https://thanosvibs.money/supports
+ronan,Leadership,All Basic Defenses,36,36%,This skill only applies to a specific type: Universal,All Basic Defenses | 36%,https://thanosvibs.money/supports
+ronan,Uniform Effect,Ignore Dodge,25,25%,This skill only applies to a specific type: Universal,Ignore Dodge | 25%,https://thanosvibs.money/supports
+ronan,Uniform Effect,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+ronan,Uniform Effect,Basic Damage Dealt to Heroes,40,40%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Heroes | 40%,https://thanosvibs.money/supports
 ronan,Artifact Exclusive Skill,All Basic Attacks,14,14%,,All Basic Attacks | 14% | 0.2%,https://thanosvibs.money/supports
 ronan,Artifact Exclusive Skill,All Basic Attacks,16,16%,,All Basic Attacks | 16% | 0.3%,https://thanosvibs.money/supports
 ronan,Artifact Exclusive Skill,All Basic Attacks,18,18%,,All Basic Attacks | 18% | 0.4%,https://thanosvibs.money/supports
 ronan,Artifact Exclusive Skill,All Basic Attacks,20,20%,,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+ronan,Leadership,All Basic Attacks,36,36%,This skill only applies to a specific type: Universal,All Basic Attacks | 36%,https://thanosvibs.money/supports
+ronan,Tier-2 Passive,Ignore Dodge,20,20%,,Ignore Dodge | 20%,https://thanosvibs.money/supports
+satana,Leadership,Fire Damage,70,70%,,Fire Damage | 70%,https://thanosvibs.money/supports
+satana,Uniform Effect,All Element Damage,35,35%,,All Element Damage | 35%,https://thanosvibs.money/supports
 satana,Artifact Exclusive Skill,All Basic Attacks,14,14%,This skill only applies to a specific type: Universal,All Basic Attacks | 14% | 0.2%,https://thanosvibs.money/supports
 satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,4,4%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 4% | 0.1%,https://thanosvibs.money/supports
 satana,Artifact Exclusive Skill,All Basic Attacks,16,16%,This skill only applies to a specific type: Universal,All Basic Attacks | 16% | 0.3%,https://thanosvibs.money/supports
@@ -139,10 +569,59 @@ satana,Artifact Exclusive Skill,All Basic Attacks,18,18%,This skill only applies
 satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 8% | 0.2%,https://thanosvibs.money/supports
 satana,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific type: Universal,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
 satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,10,10%,This skill only applies to a specific type: Universal,Basic Damage Dealt to Boss Types | 10% | 0.25%,https://thanosvibs.money/supports
+satana,Leadership,Fire Damage,60,60%,,Fire Damage | 60%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,All Basic Attacks,30,30%,This skill only applies to a specific type: Speed,All Basic Attacks | 30%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific type: Speed,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,This skill only applies to a specific type: Speed,Basic Damage Dealt to Heroes | 35%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific ability: Spider-Sense,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,This skill only applies to a specific ability: Spider-Sense,Basic Damage Dealt to Heroes | 35%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,Skill Damage,25,25%,This skill only applies to a specific ability: Spider-Sense,Skill Damage | 25%,https://thanosvibs.money/supports
+scarletspider,Tier-2 Passive,Bonus Damage,20,20%,This skill only applies to a specific ability: Spider-Sense,Bonus Damage | 20%,https://thanosvibs.money/supports
+scarletwitch,Leadership,Energy Attack,45,45%,,Energy Attack | 45%,https://thanosvibs.money/supports
+sentinel,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+sentry,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30%,https://thanosvibs.money/supports
+sentry,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+sentry,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30% | 12,https://thanosvibs.money/supports
+sersi,4★ Passive,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Eternals,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+sersi,Tier-2 Passive,All Basic Attacks,30,30%,This skill only applies to a specific ability: Eternals,All Basic Attacks | 30%,https://thanosvibs.money/supports
+sersi,Tier-2 Passive,Basic Damage Dealt to Villains,30,30%,This skill only applies to a specific ability: Eternals,Basic Damage Dealt to Villains | 30%,https://thanosvibs.money/supports
+sersi,Tier-2 Passive,Basic Damage Received from Villains,30,30%,This skill only applies to a specific ability: Eternals,Basic Damage Received from Villains | 30%,https://thanosvibs.money/supports
+sersi,4★ Passive,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Eternals,Remove All Debuffs | N/A | 10,https://thanosvibs.money/supports
+shadowshell,4★ Passive,All Basic Defenses,50,50%,This skill only applies to a specific ability: Warriors of the Sky,All Basic Defenses | 50%,https://thanosvibs.money/supports
+shadowshell,4★ Passive,Basic Damage Received,-25,-25%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received | -25%,https://thanosvibs.money/supports
+shangchi,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+shehulk,Leadership,Basic Damage Dealt to Males,55,55%,,Basic Damage Dealt to Males | 55%,https://thanosvibs.money/supports
 shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),3,3%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 3% | 0.1% | 15% | 27,https://thanosvibs.money/supports
 shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),4,4%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 4% | 0.2% | 20% | 28,https://thanosvibs.money/supports
 shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),5,5%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 5% | 0.3% | 30% | 29,https://thanosvibs.money/supports
 shehulk,Artifact Exclusive Skill,All Basic Attacks (Stackable),6,6%,This skill only applies to a specific ability: Gamma Radiation,All Basic Attacks (Stackable) | 6% | 0.4% | 40% | 30,https://thanosvibs.money/supports
+shehulk,Leadership,Basic Damage Dealt to Males,65,65%,,Basic Damage Dealt to Males | 65%,https://thanosvibs.money/supports
+shehulk,Leadership,Basic Damage Dealt to Males,60,60%,,Basic Damage Dealt to Males | 60%,https://thanosvibs.money/supports
+shehulk,Leadership,Basic Damage Dealt to Males,48,48%,,Basic Damage Dealt to Males | 48%,https://thanosvibs.money/supports
+shuri,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,,Basic Damage Dealt to Villains | 55%,https://thanosvibs.money/supports
+shuri,Tier-2 Passive,Basic Damage Received from Villains,40,40%,,Basic Damage Received from Villains | 40%,https://thanosvibs.money/supports
+shuri,Tier-2 Passive,Basic Damage Dealt to Villains,35,35%,,Basic Damage Dealt to Villains | 35%,https://thanosvibs.money/supports
+shuri,Tier-2 Passive,Basic Damage Received from Villains,25,25%,,Basic Damage Received from Villains | 25%,https://thanosvibs.money/supports
+shuri,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+shuri,Tier-2 Passive,Basic Damage Received from Villains,35,35%,,Basic Damage Received from Villains | 35%,https://thanosvibs.money/supports
+sif,Leadership,HP,30,30%,This skill only applies to a specific type: Combat,HP | 30%,https://thanosvibs.money/supports
+sif,Leadership,Physical Attack,35,35%,This skill only applies to a specific type: Combat,Physical Attack | 35%,https://thanosvibs.money/supports
+sif,Uniform Effect,All Speeds,10,10%,,All Speeds | 10%,https://thanosvibs.money/supports
+sif,Uniform Effect,Basic Damage Dealt to Boss Types,45,45%,,Basic Damage Dealt to Boss Types | 45%,https://thanosvibs.money/supports
+sif,Leadership,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+silversamurai,Leadership,HP,40,40%,,HP | 40%,https://thanosvibs.money/supports
+silversamurai,4★ Passive,Chain Hit Damage Received,-35,-35%,This skill only applies to a specific allies: Mutant,Chain Hit Damage Received | -35%,https://thanosvibs.money/supports
+silversamurai,4★ Passive,Basic Damage Dealt to Villains,30,30%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Villains | 30%,https://thanosvibs.money/supports
+silversamurai,4★ Passive,Basic Damage Dealt to Heroes,30,30%,This skill only applies to a specific allies: Mutant,Basic Damage Dealt to Heroes | 30%,https://thanosvibs.money/supports
+silversurfer,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+silversurfer,Leadership,All Basic Attacks,20,20%,,All Basic Attacks | 20% | 12,https://thanosvibs.money/supports
+silversurfer,Leadership,All Basic Defenses,20,20%,,All Basic Defenses | 20% | 12,https://thanosvibs.money/supports
+silversurfer,Leadership,All Speeds,1,1%,,All Speeds | 1% | 12,https://thanosvibs.money/supports
+silversurfer,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30% | 12,https://thanosvibs.money/supports
+silversurfer,Leadership,All Basic Defenses,30,30%,,All Basic Defenses | 30% | 12,https://thanosvibs.money/supports
+silversurfershallabal,4★ Passive,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+sin,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+sin,Tier-2 Passive,Basic Damage Dealt to Boss Types,55,55%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Boss Types | 55%,https://thanosvibs.money/supports
 sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
 sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
 sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 9% | 0.3%,https://thanosvibs.money/supports
@@ -151,6 +630,42 @@ sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,12,12%,This skill only
 sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 12% | 0.4%,https://thanosvibs.money/supports
 sin,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
 sin,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific side: Villain,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+singularity,Leadership,Energy Attack,30,30%,,Energy Attack | 30%,https://thanosvibs.money/supports
+sistergrimm,4★ Passive,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Magic,Remove All Debuffs | N/A | 15,https://thanosvibs.money/supports
+sleeper,Leadership,All Basic Attacks,20,20%,,All Basic Attacks | 20%,https://thanosvibs.money/supports
+sleeper,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific character: Venom,All Basic Attacks | 60%,https://thanosvibs.money/supports
+sleeper,4★ Passive,Basic Damage Dealt to Villains,35,35%,This skill only applies to a specific ability: Symbiote,Basic Damage Dealt to Villains | 35%,https://thanosvibs.money/supports
+sleeper,4★ Passive,Basic Damage Received from Villains,-30,-30%,This skill only applies to a specific ability: Symbiote,Basic Damage Received from Villains | -30%,https://thanosvibs.money/supports
+spectrum,Leadership,Energy Attack,36,36%,,Energy Attack | 36%,https://thanosvibs.money/supports
+spectrum,Leadership,Ignore Dodge,36,36%,,Ignore Dodge | 36%,https://thanosvibs.money/supports
+spidermanmilesmorales,Leadership,Debuff Duration,-24,-24%,,Debuff Duration | -24%,https://thanosvibs.money/supports
+spidermanmilesmorales,Leadership,All Basic Attacks,70,70%,This skill only applies to a specific character: Carnage,All Basic Attacks | 70%,https://thanosvibs.money/supports
+spidermanmilesmorales,Leadership,Basic Damage Received,-20,-20%,This skill only applies to a specific character: Carnage,Basic Damage Received | -20%,https://thanosvibs.money/supports
+spidermanmilesmorales,Leadership,All Speeds,6,6%,,All Speeds | 6%,https://thanosvibs.money/supports
+spidermanmilesmorales,Leadership,All Basic Attacks,70,70%,This skill only applies to a specific character: Spider-Man,All Basic Attacks | 70%,https://thanosvibs.money/supports
+spidermanmilesmorales,Leadership,All Basic Attacks,70,70%,This skill only applies to a specific character: Spider-Man (Miles Morales),All Basic Attacks | 70%,https://thanosvibs.money/supports
+spiderman2099,Leadership,Ignore Dodge,50,50%,,Ignore Dodge | 50%,https://thanosvibs.money/supports
+spiderwoman,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Spider-Sense,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+spiderwoman,Leadership,All Basic Attacks,40,40%,This skill only applies to a specific ability: Spider-Sense,All Basic Attacks | 40% | 12,https://thanosvibs.money/supports
+spiderwoman,Leadership,All Basic Attacks,40,40%,This skill only applies to a specific ability: Spider-Sense,All Basic Attacks | 40%,https://thanosvibs.money/supports
+spiderwoman,Uniform Effect,Chain Hit Damage Received,-30,-30%,This skill only applies to a specific ability: Spider-Sense,Chain Hit Damage Received | -30%,https://thanosvibs.money/supports
+spiderwoman,Uniform Effect,Ignore Dodge,25,25%,This skill only applies to a specific ability: Spider-Sense,Ignore Dodge | 25%,https://thanosvibs.money/supports
+spiderwoman,Uniform Effect,Basic Damage Dealt to Boss Types,35,35%,This skill only applies to a specific ability: Spider-Sense,Basic Damage Dealt to Boss Types | 35%,https://thanosvibs.money/supports
+squirrelgirl,Uniform Effect,Basic Damage Dealt to Boss Types,60,60%,This skill only applies to a specific character: Thanos,Basic Damage Dealt to Boss Types | 60%,https://thanosvibs.money/supports
+starlord,Leadership,Energy Attack,55,55%,This skill only applies to a specific type: Blast,Energy Attack | 55%,https://thanosvibs.money/supports
+starlord,Leadership,Energy Attack,45,45%,This skill only applies to a specific type: Blast,Energy Attack | 45%,https://thanosvibs.money/supports
+starlord,Leadership,Energy Attack,50,50%,This skill only applies to a specific type: Blast,Energy Attack | 50%,https://thanosvibs.money/supports
+starlord,Leadership,Energy Attack,60,60%,This skill only applies to a specific type: Blast,Energy Attack | 60%,https://thanosvibs.money/supports
+starlord,Leadership,Energy Attack,65,65%,This skill only applies to a specific type: Blast,Energy Attack | 65%,https://thanosvibs.money/supports
+storm,4★ Passive,All Element Damage,35,35%,,All Element Damage | 35%,https://thanosvibs.money/supports
+storm,4★ Passive,All Element Damage,55,55%,,All Element Damage | 55%,https://thanosvibs.money/supports
+storm,4★ Passive,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+storm,4★ Passive,Lightning Immunity Chance,50,50%,,Lightning Immunity Chance | 50%,https://thanosvibs.money/supports
+storm,4★ Passive,Lightning Damage,12,12%,,Lightning Damage | 12%,https://thanosvibs.money/supports
+stryfe,Leadership,All Basic Defenses,50,50%,,All Basic Defenses | 50%,https://thanosvibs.money/supports
+stryfe,Uniform Effect,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+stryfe,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+sunbird,4★ Passive,Revive with % HP,,N/A,This skill only applies to a specific ability: Warriors of the Sky,Revive with % HP | N/A | 50,https://thanosvibs.money/supports
 sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,10,10%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 10% | 0.2%,https://thanosvibs.money/supports
 sunbird,Artifact Exclusive Skill,HP,10,10%,This skill only applies to a specific ability: Warriors of the Sky,HP | 10% | 0.1%,https://thanosvibs.money/supports
 sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,13,13%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 13% | 0.3%,https://thanosvibs.money/supports
@@ -159,6 +674,60 @@ sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,16,16%,This
 sunbird,Artifact Exclusive Skill,HP,16,16%,This skill only applies to a specific ability: Warriors of the Sky,HP | 16% | 0.3%,https://thanosvibs.money/supports
 sunbird,Artifact Exclusive Skill,Basic Damage Received from Villains,20,20%,This skill only applies to a specific ability: Warriors of the Sky,Basic Damage Received from Villains | 20% | 0.5%,https://thanosvibs.money/supports
 sunbird,Artifact Exclusive Skill,HP,20,20%,This skill only applies to a specific ability: Warriors of the Sky,HP | 20% | 0.4%,https://thanosvibs.money/supports
+sunbird,4★ Passive,Revive with % HP,,N/A,This skill only applies to a specific ability: Warriors of the Sky,Revive with % HP | N/A | 60,https://thanosvibs.money/supports
+sunspot,4★ Passive,Fire Damage,40,40%,,Fire Damage | 40%,https://thanosvibs.money/supports
+supergiant,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 20,https://thanosvibs.money/supports
+swordmaster,Leadership,All Basic Defenses,50,50%,This skill only applies to a specific side: Hero,All Basic Defenses | 50%,https://thanosvibs.money/supports
+swordmaster,Leadership,HP,30,30%,This skill only applies to a specific side: Hero,HP | 30%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Guaranteed Critical Rate,20,20%,This skill only applies to a specific ability: Weapons Master,Guaranteed Critical Rate | 20%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Ignore Dodge,20,20%,This skill only applies to a specific ability: Weapons Master,Ignore Dodge | 20%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Skill Damage,25,25%,This skill only applies to a specific ability: Weapons Master,Skill Damage | 25%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Bonus Damage,20,20%,This skill only applies to a specific ability: Weapons Master,Bonus Damage | 20%,https://thanosvibs.money/supports
+taskmaster,Uniform Effect,Basic Damage Dealt to Villains,40,40%,,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+taskmaster,Uniform Effect,Basic Damage Dealt to Heroes,40,40%,,Basic Damage Dealt to Heroes | 40%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Chain Hit Damage Received,-30,-30%,This skill only applies to a specific ability: Thunderbolts,Chain Hit Damage Received | -30%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Guaranteed Critical Rate,20,20%,This skill only applies to a specific ability: Thunderbolts,Guaranteed Critical Rate | 20%,https://thanosvibs.money/supports
+taskmaster,Tier-2 Passive,Ignore Dodge,20,20%,This skill only applies to a specific ability: Thunderbolts,Ignore Dodge | 20%,https://thanosvibs.money/supports
+taskmaster,Uniform Effect,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+taskmaster,Uniform Effect,Basic Damage Dealt to Heroes,45,45%,,Basic Damage Dealt to Heroes | 45%,https://thanosvibs.money/supports
+thane,Leadership,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+thane,Leadership,All Basic Attacks,25,25%,,All Basic Attacks | 25% | 12,https://thanosvibs.money/supports
+thanos,Leadership,All Basic Attacks,36,36%,This skill only applies to a specific side: Villain,All Basic Attacks | 36%,https://thanosvibs.money/supports
+thanos,Leadership,All Basic Defenses,36,36%,This skill only applies to a specific side: Villain,All Basic Defenses | 36%,https://thanosvibs.money/supports
+thanos,Leadership,Debuff Duration,-30,-30%,This skill only applies to a specific side: Villain,Debuff Duration | -30%,https://thanosvibs.money/supports
+thanos,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific side: Villain,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+thanos,Leadership,All Basic Attacks,25,25%,This skill only applies to a specific side: Villain,All Basic Attacks | 25% | 12,https://thanosvibs.money/supports
+thanos,Leadership,All Basic Defenses,25,25%,This skill only applies to a specific side: Villain,All Basic Defenses | 25% | 12,https://thanosvibs.money/supports
+thanos,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific side: Villain,All Basic Attacks | 50%,https://thanosvibs.money/supports
+thanos,Leadership,All Basic Defenses,40,40%,This skill only applies to a specific side: Villain,All Basic Defenses | 40%,https://thanosvibs.money/supports
+thehood,Leadership,All Basic Attacks,60,60%,,All Basic Attacks | 60%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,All Basic Attacks,40,40%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 40%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,Physical Reflect Damage Received,-50,-50%,This skill only applies to a specific ability: Fantastic Four,Physical Reflect Damage Received | -50%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,"Super Armor, All Basic Defenses",25,25%,This skill only applies to a specific ability: Fantastic Four,"Super Armor, All Basic Defenses | 25%",https://thanosvibs.money/supports
+thething,Tier-2 Passive,Basic Damage Dealt to Boss Types,25,25%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 25%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,All Basic Attacks,45,45%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 45%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,All Reflect Damage Received,-50,-50%,This skill only applies to a specific ability: Fantastic Four,All Reflect Damage Received | -50%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,Basic Damage Dealt to Villains,35,35%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 35%,https://thanosvibs.money/supports
+thething,Uniform Effect,HP,35,35%,This skill only applies to a specific allies: Fantastic Four,HP | 35%,https://thanosvibs.money/supports
+thething,Tier-2 Passive,"Super Armor, All Basic Defenses",5,5%,This skill only applies to a specific ability: Fantastic Four,"Super Armor, All Basic Defenses | 5%",https://thanosvibs.money/supports
+thething,Tier-2 Passive,Basic Damage Dealt to Boss Types,35,35%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 35%,https://thanosvibs.money/supports
+thething,Uniform Effect,HP,25,25%,This skill only applies to a specific allies: Fantastic Four,HP | 25%,https://thanosvibs.money/supports
+thena,Leadership,All Basic Attacks,50,50%,,All Basic Attacks | 50%,https://thanosvibs.money/supports
+thena,Leadership,All Basic Defenses,20,20%,,All Basic Defenses | 20%,https://thanosvibs.money/supports
+thorjanefoster,4★ Passive,Ignore Dodge,30,30%,This skill only applies to a specific ability: Shock,Ignore Dodge | 30%,https://thanosvibs.money/supports
+thorjanefoster,4★ Passive,Lightning Damage,40,40%,This skill only applies to a specific ability: Shock,Lightning Damage | 40%,https://thanosvibs.money/supports
+titania,Leadership,Physical Attack,60,60%,This skill only applies to a specific type: Combat,Physical Attack | 60%,https://thanosvibs.money/supports
+titania,4★ Passive,All Basic Attacks,25,25%,This skill only applies to a specific ability: Strong,All Basic Attacks | 25%,https://thanosvibs.money/supports
+titania,Leadership,Physical Attack,50,50%,This skill only applies to a specific type: Combat,Physical Attack | 50%,https://thanosvibs.money/supports
+toxin,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+usagent,Leadership,All Basic Attacks,30,30%,This skill only applies to a specific ability: Thunderbolts,All Basic Attacks | 30%,https://thanosvibs.money/supports
+usagent,Leadership,HP,40,40%,This skill only applies to a specific ability: Thunderbolts,HP | 40%,https://thanosvibs.money/supports
+ulik,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+ultron,Leadership,All Basic Attacks,65,65%,This skill only applies to a specific ability: Machine,All Basic Attacks | 65%,https://thanosvibs.money/supports
+ultron,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+ulyssesklaue,4★ Passive,Critical Damage,30,30%,,Critical Damage | 30%,https://thanosvibs.money/supports
+valeriarichards,Leadership,HP,25,25%,This skill only applies to a specific ability: Fantastic Four,HP | 25%,https://thanosvibs.money/supports
+valeriarichards,Leadership,All Basic Attacks,55,55%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 55%,https://thanosvibs.money/supports
 valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Villains,8,8%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 8% | 0.2%,https://thanosvibs.money/supports
 valeriarichards,Artifact Exclusive Skill,All Basic Attacks,5,5%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 5% | 0.2%,https://thanosvibs.money/supports
 valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,10,10%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 10% | 0.1%,https://thanosvibs.money/supports
@@ -171,10 +740,23 @@ valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,16,16%
 valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Villains | 20% | 0.5%,https://thanosvibs.money/supports
 valeriarichards,Artifact Exclusive Skill,All Basic Attacks,15,15%,This skill only applies to a specific ability: Fantastic Four,All Basic Attacks | 15% | 0.5%,https://thanosvibs.money/supports
 valeriarichards,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,20,20%,This skill only applies to a specific ability: Fantastic Four,Basic Damage Dealt to Boss Types | 20% | 0.3%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Ignore Dodge,30,30%,,Ignore Dodge | 30%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Basic Damage Dealt to Villains,50,50%,,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Basic Damage Received from Villains,-25,-25%,,Basic Damage Received from Villains | -25%,https://thanosvibs.money/supports
 valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,,Basic Damage Dealt to Boss Types | 5% | 0.1%,https://thanosvibs.money/supports
 valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,,Basic Damage Dealt to Boss Types | 8% | 0.1%,https://thanosvibs.money/supports
 valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,11,11%,,Basic Damage Dealt to Boss Types | 11% | 0.1%,https://thanosvibs.money/supports
 valkyrie,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,15,15%,,Basic Damage Dealt to Boss Types | 15% | 0.1%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Ignore Dodge,35,35%,,Ignore Dodge | 35%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,,Basic Damage Dealt to Villains | 55%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+valkyrie,Tier-2 Passive,Basic Damage Received from Villains,-15,-15%,,Basic Damage Received from Villains | -15%,https://thanosvibs.money/supports
+venusaphrodite,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Olympus,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+venusaphrodite,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific ability: Olympus,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+venusaphrodite,Tier-2 Passive,Basic Damage Received from Villains,35,35%,This skill only applies to a specific ability: Olympus,Basic Damage Received from Villains | 35%,https://thanosvibs.money/supports
+victorious,Leadership,All Basic Attacks,35,35%,,All Basic Attacks | 35%,https://thanosvibs.money/supports
+victorious,Leadership,Energy Attack,65,65%,This skill only applies to a specific character: Doctor Doom,Energy Attack | 65%,https://thanosvibs.money/supports
+victorious,4★ Passive,HP,40,40%,,HP | 40%,https://thanosvibs.money/supports
 victorious,Artifact Exclusive Skill,Ignore Dodge,6,6%,This skill only applies to a specific type: Universal,Ignore Dodge | 6% | 0.2%,https://thanosvibs.money/supports
 victorious,Artifact Exclusive Skill,All Basic Attacks,10,10%,This skill only applies to a specific type: Universal,All Basic Attacks | 10% | 0.2%,https://thanosvibs.money/supports
 victorious,Artifact Exclusive Skill,Ignore Dodge,9,9%,This skill only applies to a specific type: Universal,Ignore Dodge | 9% | 0.3%,https://thanosvibs.money/supports
@@ -183,10 +765,29 @@ victorious,Artifact Exclusive Skill,Ignore Dodge,12,12%,This skill only applies 
 victorious,Artifact Exclusive Skill,All Basic Attacks,16,16%,This skill only applies to a specific type: Universal,All Basic Attacks | 16% | 0.4%,https://thanosvibs.money/supports
 victorious,Artifact Exclusive Skill,Ignore Dodge,15,15%,This skill only applies to a specific type: Universal,Ignore Dodge | 15% | 0.5%,https://thanosvibs.money/supports
 victorious,Artifact Exclusive Skill,All Basic Attacks,20,20%,This skill only applies to a specific type: Universal,All Basic Attacks | 20% | 0.5%,https://thanosvibs.money/supports
+victorious,Leadership,Basic Damage Received,-20,-20%,This skill only applies to a specific character: Doctor Doom,Basic Damage Received | -20%,https://thanosvibs.money/supports
+victorious,Leadership,Energy Attack,25,25%,This skill only applies to a specific character: Doctor Doom,Energy Attack | 25%,https://thanosvibs.money/supports
+victorious,4★ Passive,HP,30,30%,,HP | 30%,https://thanosvibs.money/supports
+viper,Leadership,Poison Damage,40,40%,,Poison Damage | 40%,https://thanosvibs.money/supports
+vision,Leadership,All Basic Attacks,20,20%,,All Basic Attacks | 20%,https://thanosvibs.money/supports
+vision,Leadership,All Basic Attacks,50,50%,This skill only applies to a specific character: Scarlet Witch,All Basic Attacks | 50%,https://thanosvibs.money/supports
 vision,Artifact Exclusive Skill,Heal,40,40%,This skill only applies to a specific ability: Machine,Heal | 40% | 0.3% | 0.3,https://thanosvibs.money/supports
 vision,Artifact Exclusive Skill,Heal,50,50%,This skill only applies to a specific ability: Machine,Heal | 50% | 0.3% | 0.3,https://thanosvibs.money/supports
 vision,Artifact Exclusive Skill,Heal,60,60%,This skill only applies to a specific ability: Machine,Heal | 60% | 0.3% | 0.3,https://thanosvibs.money/supports
 vision,Artifact Exclusive Skill,Heal,70,70%,This skill only applies to a specific ability: Machine,Heal | 70% | 0.3% | 0.3,https://thanosvibs.money/supports
+vision,Leadership,All Basic Attacks,45,45%,,All Basic Attacks | 45%,https://thanosvibs.money/supports
+vision,Leadership,All Basic Defenses,25,25%,,All Basic Defenses | 25%,https://thanosvibs.money/supports
+vision,Tier-2 Passive,Remove All Debuffs,,N/A,This skill only applies to a specific ability: Machine,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+volstagg,Tier-2 Passive,Basic Damage Received,-20,-20%,This skill only applies to a specific side: Hero,Basic Damage Received | -20%,https://thanosvibs.money/supports
+warmachine,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+warmachine,4★ Passive,All Basic Attacks,40,40%,This skill only applies to a specific ability: Machine,All Basic Attacks | 40%,https://thanosvibs.money/supports
+warmachine,4★ Passive,All Basic Defenses,40,40%,This skill only applies to a specific ability: Machine,All Basic Defenses | 40%,https://thanosvibs.money/supports
+warmachine,4★ Passive,HP,30,30%,This skill only applies to a specific ability: Machine,HP | 30%,https://thanosvibs.money/supports
+warmachine,Leadership,All Basic Attacks,40,40%,This skill only applies to a specific type: Blast,All Basic Attacks | 40%,https://thanosvibs.money/supports
+warmachine,4★ Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific ability: Machine,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+warmachine,4★ Passive,Basic Damage Received from Villains,20,20%,This skill only applies to a specific ability: Machine,Basic Damage Received from Villains | 20%,https://thanosvibs.money/supports
+warwolf,Tier-2 Passive,Critical Damage,30,30%,,Critical Damage | 30%,https://thanosvibs.money/supports
+warwolf,Tier-2 Passive,Guaranteed Critical Rate,20,20%,,Guaranteed Critical Rate | 20%,https://thanosvibs.money/supports
 warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,6,6%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 6% | 0.2%,https://thanosvibs.money/supports
 warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,6,6%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 6% | 0.2%,https://thanosvibs.money/supports
 warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,9,9%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 9% | 0.3%,https://thanosvibs.money/supports
@@ -195,7 +796,53 @@ warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,12,12%,This skill 
 warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,12,12%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 12% | 0.4%,https://thanosvibs.money/supports
 warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Heroes | 15% | 0.5%,https://thanosvibs.money/supports
 warwolf,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 15% | 0.5%,https://thanosvibs.money/supports
+wasp,Leadership,All Basic Attacks,30,30%,,All Basic Attacks | 30%,https://thanosvibs.money/supports
+wasp,Leadership,All Basic Defenses,20,20%,,All Basic Defenses | 20%,https://thanosvibs.money/supports
+wasp,Leadership,All Speeds,10,10%,,All Speeds | 10%,https://thanosvibs.money/supports
+wasp,Tier-2 Passive,Remove All Debuffs,,N/A,,Remove All Debuffs | N/A | 20,https://thanosvibs.money/supports
+wasp,Uniform Effect,HP,20,20%,,HP | 20%,https://thanosvibs.money/supports
+wasp,Leadership,All Basic Attacks,23,23%,,All Basic Attacks | 23%,https://thanosvibs.money/supports
+wasp,Leadership,All Basic Defenses,18,18%,,All Basic Defenses | 18%,https://thanosvibs.money/supports
+wasp,Leadership,All Speeds,6,6%,,All Speeds | 6%,https://thanosvibs.money/supports
+wasp,Uniform Effect,HP,10,10%,,HP | 10%,https://thanosvibs.money/supports
+wasp,Leadership,All Basic Attacks,18,18%,,All Basic Attacks | 18%,https://thanosvibs.money/supports
 waspnadiavandyne,Artifact Exclusive Skill,Heal,5,5%,,Heal | 5% | 0.2% | 0.2,https://thanosvibs.money/supports
 waspnadiavandyne,Artifact Exclusive Skill,Heal,6.5,6.5%,,Heal | 6.5% | 0.3% | 0.3,https://thanosvibs.money/supports
 waspnadiavandyne,Artifact Exclusive Skill,Heal,8,8%,,Heal | 8% | 0.4% | 0.4,https://thanosvibs.money/supports
 waspnadiavandyne,Artifact Exclusive Skill,Heal,10,10%,,Heal | 10% | 0.5% | 0.5,https://thanosvibs.money/supports
+wave,Leadership,All Basic Attacks,25,25%,,All Basic Attacks | 25%,https://thanosvibs.money/supports
+wave,Leadership,All Basic Attacks,60,60%,This skill only applies to a specific character: Namor,All Basic Attacks | 60%,https://thanosvibs.money/supports
+wave,Tier-2 Passive,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+wave,Tier-2 Passive,Basic Damage Received from Villains,15,15%,This skill only applies to a specific side: Hero,Basic Damage Received from Villains | 15%,https://thanosvibs.money/supports
+wave,Leadership,All Speeds,6,6%,,All Speeds | 6%,https://thanosvibs.money/supports
+wave,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,This skill only applies to a specific side: Hero,Basic Damage Dealt to Villains | 40%,https://thanosvibs.money/supports
+weaponhex,4★ Passive,Immortality + Death,,N/A,This skill only applies to a specific ability: Zombie,Immortality + Death | N/A | 7,https://thanosvibs.money/supports
+weaponhex,Uniform Effect,Basic Damage Dealt to Heroes,45,45%,This skill only applies to a specific ability: Zombie,Basic Damage Dealt to Heroes | 45%,https://thanosvibs.money/supports
+weaponhex,Uniform Effect,Basic Damage Dealt to Villains,45,45%,This skill only applies to a specific ability: Zombie,Basic Damage Dealt to Villains | 45%,https://thanosvibs.money/supports
+weaponhex,Uniform Effect,Remove All Debuffs,,N/A,This skill only applies to a specific type: Zombie,Remove All Debuffs | N/A | 12,https://thanosvibs.money/supports
+weaponhex,4★ Passive,Summon,,N/A,,Summon | N/A,https://thanosvibs.money/supports
+wenwu,Leadership,Remove All Debuffs,,N/A,This skill only applies to a specific side: Villain,Remove All Debuffs | N/A | 10,https://thanosvibs.money/supports
+wenwu,Leadership,Heal,10,10%,This skill only applies to a specific side: Villain,Heal | 10% | 5,https://thanosvibs.money/supports
+wenwu,4★ Passive,HP,30,30%,This skill only applies to a specific side: Villain,HP | 30%,https://thanosvibs.money/supports
+whitefox,Leadership,All Debuffs Effect,40,40%,,All Debuffs Effect | 40%,https://thanosvibs.money/supports
+whitefox,Leadership,Debuff Duration,-24,-24%,,Debuff Duration | -24%,https://thanosvibs.money/supports
+whitefox,Tier-2 Passive,Basic Damage Dealt to Villains,60,60%,This skill only applies to a specific ability: Leadership,Basic Damage Dealt to Villains | 60%,https://thanosvibs.money/supports
+whitefox,Uniform Effect,All Basic Attacks,10,10%,This skill only applies to a specific ability: Leadership,All Basic Attacks | 10%,https://thanosvibs.money/supports
+whitefox,Uniform Effect,Fear Immunity,,N/A,This skill only applies to a specific ability: Leadership,Fear Immunity | N/A,https://thanosvibs.money/supports
+whitefox,Tier-2 Passive,Basic Damage Dealt to Villains,65,65%,This skill only applies to a specific ability: Leadership,Basic Damage Dealt to Villains | 65%,https://thanosvibs.money/supports
+whitefox,Tier-2 Passive,Basic Damage Received from Villains,30,30%,This skill only applies to a specific ability: Leadership,Basic Damage Received from Villains | 30%,https://thanosvibs.money/supports
+whitefox,Uniform Effect,All Basic Attacks,15,15%,This skill only applies to a specific side: Hero,All Basic Attacks | 15%,https://thanosvibs.money/supports
+whitefox,Uniform Effect,Chain Hit Damage,10,10%,This skill only applies to a specific side: Hero,Chain Hit Damage | 10%,https://thanosvibs.money/supports
+whitefox,Uniform Effect,Ignore Dodge,30,30%,This skill only applies to a specific side: Hero,Ignore Dodge | 30%,https://thanosvibs.money/supports
+wiccan,Leadership,All Basic Attacks,24,24%,,All Basic Attacks | 24%,https://thanosvibs.money/supports
+wiccan,Tier-2 Passive,Ignore Dodge,20,20%,,Ignore Dodge | 20%,https://thanosvibs.money/supports
+wiccan,Tier-2 Passive,1s Pierce Duration Increase,,N/A,,1s Pierce Duration Increase | N/A,https://thanosvibs.money/supports
+wiccan,Tier-2 Passive,1s Snare Duration Increase,,N/A,,1s Snare Duration Increase | N/A,https://thanosvibs.money/supports
+wintersoldier,Leadership,Physical Attack,30,30%,,Physical Attack | 30%,https://thanosvibs.money/supports
+wintersoldier,Leadership,Physical Attack,45,45%,,Physical Attack | 45%,https://thanosvibs.money/supports
+wong,4★ Passive,Basic Damage Dealt to Heroes,53,53%,This skill only applies to a specific ability: Magic,Basic Damage Dealt to Heroes | 53%,https://thanosvibs.money/supports
+wong,4★ Passive,Basic Damage Dealt to Villains,53,53%,This skill only applies to a specific ability: Magic,Basic Damage Dealt to Villains | 53%,https://thanosvibs.money/supports
+yondu,4★ Passive,Basic Damage Dealt to Villains,50,50%,This skill only applies to a specific allies: Alien,Basic Damage Dealt to Villains | 50%,https://thanosvibs.money/supports
+yondu,Uniform Effect,All Basic Attacks,35,35%,This skill only applies to a specific allies: Alien,All Basic Attacks | 35%,https://thanosvibs.money/supports
+yondu,Uniform Effect,Basic Damage Dealt to Boss Types,40,40%,This skill only applies to a specific allies: Alien,Basic Damage Dealt to Boss Types | 40%,https://thanosvibs.money/supports
+zeus,Leadership,Lightning Damage,60,60%,,Lightning Damage | 60%,https://thanosvibs.money/supports

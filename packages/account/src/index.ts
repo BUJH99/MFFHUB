@@ -92,6 +92,14 @@ export type UserTeamUpCollection = {
   status: 'active' | 'farm' | 'locked';
 };
 
+export type TeamUpLevelEffect = {
+  level: number;
+  allBasicAttack: number;
+  pierce: number;
+  attackIncrease: number;
+  pierceIncrease: number;
+};
+
 const THANOSVIBS = 'https://thanosvibs.money';
 
 const statLabels: Record<AccountStatKey, string> = {
@@ -305,7 +313,7 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'Midnight Suns',
     targetHeroIds: ['ghost-rider', 'blade', 'doctor-strange', 'iron-fist', 'moon-knight', 'wong', 'doctor-voodoo', 'scarlet-spider', 'man-thing'],
     targetHeroes: ['Ghost Rider', 'Blade', 'Doctor Strange', 'Iron Fist', 'Moon Knight', 'Wong', 'Doctor Voodoo', 'Scarlet Spider', 'Man-Thing'],
-    iconImageUrl: '/mff-assets/characters/doctorstrange6.webp',
+    iconImageUrl: '/mff-assets/teamups/midnight-suns.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['Energy Attack', 'All Basic Attacks', 'Skill Cooldown'],
   },
@@ -314,7 +322,7 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'Sinister Six',
     targetHeroIds: ['doctor-octopus', 'green-goblin', 'venom', 'sandman', 'lizard', 'kraven', 'mysterio', 'vulture', 'electro'],
     targetHeroes: ['Doctor Octopus', 'Green Goblin', 'Venom', 'Sandman', 'Lizard', 'Kraven the Hunter', 'Mysterio', 'Vulture', 'Electro'],
-    iconImageUrl: '/mff-assets/characters/greengoblin4.webp',
+    iconImageUrl: '/mff-assets/teamups/sinister-six.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['Physical Attack', 'All Basic Attacks', 'Ignore Dodge'],
   },
@@ -323,7 +331,7 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'X-Force',
     targetHeroIds: ['wolverine', 'storm', 'cable', 'x23', 'angel', 'deadpool', 'domino', 'nightcrawler', 'warpath', 'bishop'],
     targetHeroes: ['Wolverine', 'Storm', 'Cable', 'X-23', 'Angel', 'Deadpool', 'Domino', 'Nightcrawler', 'Warpath', 'Bishop'],
-    iconImageUrl: '/mff-assets/characters/wolverine7.webp',
+    iconImageUrl: '/mff-assets/teamups/x-force.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['All Basic Attacks', 'Physical Attack', 'Energy Attack'],
   },
@@ -332,7 +340,7 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'Guardians of the Galaxy',
     targetHeroIds: ['rocket-raccoon', 'groot', 'gamora', 'drax', 'star-lord', 'mantis', 'adam-warlock', 'beta-ray-bill', 'phyla-vell', 'nova-richard-rider', 'quasar-wendell-vaughn'],
     targetHeroes: ['Rocket Raccoon', 'Groot', 'Gamora', 'Drax', 'Star-Lord', 'Mantis', 'Adam Warlock', 'Beta Ray Bill', 'Phyla-Vell', 'Nova (Richard Rider)', 'Quasar (Wendell Vaughn)'],
-    iconImageUrl: '/mff-assets/characters/starlord6.webp',
+    iconImageUrl: '/mff-assets/teamups/guardians.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['All Basic Attacks', 'Skill Cooldown', 'Max HP'],
   },
@@ -341,7 +349,7 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'The Avengers Part. 1',
     targetHeroIds: ['captain-america', 'hulk', 'iron-man', 'black-widow', 'thor', 'spider-man', 'hawkeye', 'captain-marvel', 'vision', 'ant-man', 'wasp'],
     targetHeroes: ['Captain America', 'Hulk', 'Iron Man', 'Black Widow', 'Thor', 'Spider-Man', 'Hawkeye', 'Captain Marvel', 'Vision', 'Ant-Man', 'Wasp'],
-    iconImageUrl: '/mff-assets/characters/captainamerica15.webp',
+    iconImageUrl: '/mff-assets/teamups/avengers.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['All Basic Attacks', 'Pierce', 'Max HP'],
   },
@@ -350,7 +358,7 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'Symbiote',
     targetHeroIds: ['spider-man', 'green-goblin', 'malekith', 'venom', 'spider-man-miles-morales', 'carnage', 'agent-venom', 'silver-surfer', 'scream', 'knull', 'toxin', 'sleeper'],
     targetHeroes: ['Spider-Man', 'Green Goblin', 'Malekith', 'Venom', 'Spider-Man (Miles Morales)', 'Carnage', 'Agent Venom', 'Silver Surfer', 'Scream', 'Knull', 'Toxin', 'Sleeper'],
-    iconImageUrl: '/mff-assets/characters/venom6.webp',
+    iconImageUrl: '/mff-assets/teamups/symbiote.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['All Basic Attacks', 'Max HP', 'Basic Damage'],
   },
@@ -359,67 +367,149 @@ export const teamUpCollectionThemes: TeamUpCollectionTheme[] = [
     name: 'Defenders',
     targetHeroIds: ['hulk', 'daredevil', 'doctor-strange', 'iron-fist', 'valkyrie', 'namor', 'luke-cage', 'jessica-jones', 'misty-knight', 'silver-surfer'],
     targetHeroes: ['Hulk', 'Daredevil', 'Doctor Strange', 'Iron Fist', 'Valkyrie', 'Namor', 'Luke Cage', 'Jessica Jones', 'Misty Knight', 'Silver Surfer'],
-    iconImageUrl: '/mff-assets/characters/valkyrie2.webp',
+    iconImageUrl: '/mff-assets/teamups/defenders.svg',
     sourceUrl: 'https://future-fight.fandom.com/wiki/Team-Up_Collection',
     recommendedOptions: ['Max HP', 'All Basic Attacks', 'Damage Reduction'],
   },
+  {
+    id: 'fantastic-four',
+    name: 'Fantastic Four',
+    targetHeroIds: ['invisible-woman', 'spider-man', 'mister-fantastic', 'medusa', 'human-torch', 'luke-cage', 'black-panther', 'the-thing', 'she-hulk', 'crystal', 'ant-man', 'iceman', 'moon-girl'],
+    targetHeroes: ['Invisible Woman', 'Spider-Man', 'Mister Fantastic', 'Medusa', 'Human Torch', 'Luke Cage', 'Black Panther', 'Thing', 'She-Hulk', 'Crystal', 'Ant-Man', 'Iceman', 'Moon Girl'],
+    iconImageUrl: '/mff-assets/teamups/fantastic-four.svg',
+    sourceUrl: 'https://apps.apple.com/us/app/marvel-future-fight/id955705796',
+    recommendedOptions: ['All Basic Attacks', 'Max HP', 'Skill Cooldown'],
+  },
 ];
+
+export const teamUpLevelEffects: TeamUpLevelEffect[] = [
+  { level: 1, allBasicAttack: 1, pierce: 0, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 2, allBasicAttack: 2, pierce: 0, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 3, allBasicAttack: 4, pierce: 0, attackIncrease: 2, pierceIncrease: 0 },
+  { level: 4, allBasicAttack: 5, pierce: 0, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 5, allBasicAttack: 6, pierce: 0, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 6, allBasicAttack: 9, pierce: 1, attackIncrease: 3, pierceIncrease: 1 },
+  { level: 7, allBasicAttack: 10, pierce: 1, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 8, allBasicAttack: 11, pierce: 1, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 9, allBasicAttack: 15, pierce: 2, attackIncrease: 4, pierceIncrease: 1 },
+  { level: 10, allBasicAttack: 16, pierce: 2, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 11, allBasicAttack: 17, pierce: 2, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 12, allBasicAttack: 22, pierce: 3, attackIncrease: 5, pierceIncrease: 1 },
+  { level: 13, allBasicAttack: 23, pierce: 3, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 14, allBasicAttack: 24, pierce: 3, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 15, allBasicAttack: 30, pierce: 5, attackIncrease: 6, pierceIncrease: 2 },
+  { level: 16, allBasicAttack: 31, pierce: 5, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 17, allBasicAttack: 32, pierce: 5, attackIncrease: 1, pierceIncrease: 0 },
+  { level: 18, allBasicAttack: 40, pierce: 10, attackIncrease: 8, pierceIncrease: 5 },
+];
+
+const teamUpLevelEffectByLevel = new Map(teamUpLevelEffects.map((effect) => [effect.level, effect]));
+const teamUpMaxLevel = teamUpLevelEffects[teamUpLevelEffects.length - 1]?.level ?? 18;
+
+export function getTeamUpLevelEffect(level: unknown): TeamUpLevelEffect | undefined {
+  const number = Number(level);
+  if (!Number.isFinite(number)) return undefined;
+  const normalizedLevel = Math.min(teamUpMaxLevel, Math.max(0, Math.round(number)));
+  return teamUpLevelEffectByLevel.get(normalizedLevel);
+}
+
+export function getTeamUpLevelStats(level: unknown): StatBlock {
+  const effect = getTeamUpLevelEffect(level);
+  if (!effect) return {};
+  return {
+    allBasicAttack: effect.allBasicAttack,
+    ...(effect.pierce > 0 ? { pierce: effect.pierce } : {}),
+  };
+}
 
 export const userTeamUpCollections: UserTeamUpCollection[] = [
   {
-    themeId: 'avengers-part-1',
-    completedSteps: 8,
-    collectionLevel: 7,
-    optionLevel: 7,
-    appliedOption: 'All Basic Attacks',
-    stats: { allBasicAttack: 7, pierce: 1 },
-    tokenProgress: 820,
-    tokenGoal: 1200,
-    status: 'active',
-  },
-  {
-    themeId: 'x-force',
-    completedSteps: 7,
-    collectionLevel: 6,
-    optionLevel: 6,
-    appliedOption: 'Attack split',
-    stats: { physicalAttack: 4, energyAttack: 4 },
-    tokenProgress: 540,
-    tokenGoal: 900,
-    status: 'active',
-  },
-  {
-    themeId: 'symbiote',
-    completedSteps: 6,
-    collectionLevel: 5,
-    optionLevel: 5,
-    appliedOption: 'All Basic Attacks',
-    stats: { allBasicAttack: 3, maxHp: 5 },
-    tokenProgress: 340,
-    tokenGoal: 720,
-    status: 'farm',
-  },
-  {
     themeId: 'midnight-suns',
-    completedSteps: 5,
+    completedSteps: 4,
     collectionLevel: 4,
     optionLevel: 4,
-    appliedOption: 'Energy Attack',
-    stats: { energyAttack: 3, elementalDamage: 3 },
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: getTeamUpLevelStats(4),
     tokenProgress: 260,
     tokenGoal: 520,
     status: 'farm',
   },
   {
+    themeId: 'sinister-six',
+    completedSteps: 0,
+    collectionLevel: 0,
+    optionLevel: 0,
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: {},
+    tokenProgress: 0,
+    tokenGoal: 0,
+    status: 'locked',
+  },
+  {
+    themeId: 'x-force',
+    completedSteps: 6,
+    collectionLevel: 6,
+    optionLevel: 6,
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: getTeamUpLevelStats(6),
+    tokenProgress: 540,
+    tokenGoal: 900,
+    status: 'active',
+  },
+  {
     themeId: 'guardians',
-    completedSteps: 4,
+    completedSteps: 3,
     collectionLevel: 3,
     optionLevel: 3,
-    appliedOption: 'Skill Cooldown',
-    stats: { cooldownDuration: 2, allBasicAttack: 2 },
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: getTeamUpLevelStats(3),
     tokenProgress: 140,
     tokenGoal: 420,
     status: 'farm',
+  },
+  {
+    themeId: 'avengers-part-1',
+    completedSteps: 7,
+    collectionLevel: 7,
+    optionLevel: 7,
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: getTeamUpLevelStats(7),
+    tokenProgress: 820,
+    tokenGoal: 1200,
+    status: 'active',
+  },
+  {
+    themeId: 'symbiote',
+    completedSteps: 5,
+    collectionLevel: 5,
+    optionLevel: 5,
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: getTeamUpLevelStats(5),
+    tokenProgress: 340,
+    tokenGoal: 720,
+    status: 'farm',
+  },
+  {
+    themeId: 'defenders',
+    completedSteps: 0,
+    collectionLevel: 0,
+    optionLevel: 0,
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: {},
+    tokenProgress: 0,
+    tokenGoal: 0,
+    status: 'locked',
+  },
+  {
+    themeId: 'fantastic-four',
+    completedSteps: 0,
+    collectionLevel: 0,
+    optionLevel: 0,
+    appliedOption: 'All Basic Attack + Additional Pierce Damage',
+    stats: {},
+    tokenProgress: 0,
+    tokenGoal: 0,
+    status: 'locked',
   },
 ];
 
@@ -584,7 +674,7 @@ export const accountSpecSummary = {
   teamUpAttackBudget,
   accountAttack: round1(cardAttack + swordStats.masteryAllAttack),
   totalPierce: equippedComicCards.reduce((sum, card) => sum + card.pierce, 0) + (teamUpStats.pierce ?? 0),
-  sourceLabel: 'cards/swords + Future Fight Wiki team-up themes + 커뮤니티 세팅 메모',
+  sourceLabel: 'cards/swords + Future Fight Wiki/App Store team-up themes + 커뮤니티 세팅 메모',
 };
 
 export const accountSpecRecommendations = [

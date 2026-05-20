@@ -3,7 +3,7 @@ import { CheckCircle2, CircleDashed, Database, FlaskConical } from 'lucide-react
 import { getAllianceAttributeIcon, type AllianceBattleIcon } from '@/lib/allianceBattle';
 
 type Tone = 'slate' | 'purple' | 'blue' | 'green' | 'red' | 'amber';
-type Size = 'sm' | 'md';
+type Size = 'xs' | 'sm' | 'md';
 
 const toneClasses: Record<Tone, string> = {
   slate: 'border-slate-200 bg-slate-100 text-slate-700',
@@ -15,6 +15,7 @@ const toneClasses: Record<Tone, string> = {
 };
 
 const sizeClasses: Record<Size, string> = {
+  xs: 'h-5 min-w-5 rounded-md p-0.5',
   sm: 'h-7 min-w-7 rounded-lg p-1',
   md: 'h-8 min-w-8 rounded-xl p-1.5',
 };

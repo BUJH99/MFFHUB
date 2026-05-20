@@ -92,6 +92,8 @@ export type AttributeRow = {
   uniform?: string;
   portraitId?: string;
   portraitUrl?: string;
+  localPortraitUrl?: string;
+  localPortraitPath?: string;
   combatType: CombatType;
   side: Side;
   gender?: string;
@@ -127,6 +129,7 @@ export type SyncPayload = {
   allianceBattleConditions: SyncedAllianceBattleCondition[];
   supports: SyncedSupport[];
   characterEffects: SyncedEffect[];
+  attributes: AttributeRow[];
   assetStats?: {
     requested: number;
     downloaded: number;

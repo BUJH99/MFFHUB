@@ -4,7 +4,7 @@ export type Section =
   | 'worldBoss'
   | 'abx'
   | 'abl'
-  | 'infinityChallenge'
+  | 'seasonUniforms'
   | 'pveTier'
   | 'teamBattleArena'
   | 'otherworld'

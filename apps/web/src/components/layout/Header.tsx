@@ -7,7 +7,7 @@ const titles: Record<Section, string> = {
   worldBoss: 'WORLD BOSS',
   abx: 'ABX',
   abl: 'ABL',
-  infinityChallenge: 'INFINITY CHALLENGE',
+  seasonUniforms: 'SEASON UNIFORMS',
   pveTier: 'PVE TIER LIST',
   teamBattleArena: 'TEAM BATTLE ARENA',
   otherworld: 'OTHERWORLD',

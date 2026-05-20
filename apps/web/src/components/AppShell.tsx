@@ -24,9 +24,6 @@ const DamageCalculator = dynamic(() => import('@/components/DamageCalculator').t
 const EnhancedCharacterDB = dynamic(() => import('@/components/EnhancedCharacterDB').then((mod) => mod.EnhancedCharacterDB), {
   loading: () => <PanelSkeleton title="캐릭터 DB" />,
 });
-const InfinityChallengeSection = dynamic(() => import('@/components/sections/InfinityChallengeSection').then((mod) => mod.InfinityChallengeSection), {
-  loading: () => <PanelSkeleton title="인피니티 챌린지" />,
-});
 const PveOverallSection = dynamic(() => import('@/components/sections/PveOverallSection').then((mod) => mod.PveOverallSection), {
   loading: () => <PanelSkeleton title="PVE 종합" />,
 });
@@ -35,6 +32,12 @@ const PvpModeSection = dynamic(() => import('@/components/sections/PvpModeSectio
 });
 const WorldBossSection = dynamic(() => import('@/components/sections/WorldBossSection').then((mod) => mod.WorldBossSection), {
   loading: () => <PanelSkeleton title="월드보스" />,
+});
+const SeasonUniformSection = dynamic(() => import('@/components/sections/SeasonUniformSection').then((mod) => mod.SeasonUniformSection), {
+  loading: () => <PanelSkeleton title="시즌 유니폼" />,
+});
+const TierListSection = dynamic(() => import('@/components/sections/TierListSection').then((mod) => mod.TierListSection), {
+  loading: () => <PanelSkeleton title="티어리스트" />,
 });
 
 export function AppShell() {
@@ -60,12 +63,12 @@ export function AppShell() {
               {section === 'worldBoss' ? <WorldBossSection /> : null}
               {section === 'abx' ? <AllianceBattleSection content="ABX" today={today} /> : null}
               {section === 'abl' ? <AllianceBattleSection content="ABL" today={today} /> : null}
-              {section === 'infinityChallenge' ? <InfinityChallengeSection /> : null}
-              {section === 'pveTier' ? <PlaceholderSection title="PVE 티어리스트" text="PVE Overall, World Boss, ABX, ABL, Infinity Challenge 기준으로 내 계정 보정과 공용 티어를 분리해서 보여주는 화면." /> : null}
-              {section === 'teamBattleArena' ? <PvpModeSection content="Team Battle Arena" selectedId={selectedId} setSelectedId={selectCoreCharacter} rosterLookup={rosterLookup} /> : null}
-              {section === 'otherworld' ? <PvpModeSection content="Otherworld" selectedId={selectedId} setSelectedId={selectCoreCharacter} rosterLookup={rosterLookup} /> : null}
-              {section === 'timeline' ? <PvpModeSection content="Timeline Battle" selectedId={selectedId} setSelectedId={selectCoreCharacter} rosterLookup={rosterLookup} /> : null}
-              {section === 'pvpTier' ? <PlaceholderSection title="PVP 티어리스트" text="타임라인, 아더월드, 팀 배틀 아레나 기준으로 제한 캐릭터와 덱 구성을 분리해서 보여주는 화면." /> : null}
+              {section === 'seasonUniforms' ? <SeasonUniformSection /> : null}
+              {section === 'pveTier' ? <TierListSection mode="pve" /> : null}
+              {section === 'teamBattleArena' ? <PvpModeSection content="Team Battle Arena" selectedId={selectedId} setSelectedId={selectCoreCharacter} /> : null}
+              {section === 'otherworld' ? <PvpModeSection content="Otherworld" selectedId={selectedId} setSelectedId={selectCoreCharacter} /> : null}
+              {section === 'timeline' ? <PvpModeSection content="Timeline Battle" selectedId={selectedId} setSelectedId={selectCoreCharacter} /> : null}
+              {section === 'pvpTier' ? <TierListSection mode="pvp" /> : null}
               {section === 'custom' ? <CustomOptimizer /> : null}
               {section === 'db' ? <EnhancedCharacterDB selectedId={selectedId} onSelect={setSelectedId} /> : null}
               {section === 'calculator' ? <DamageCalculator /> : null}

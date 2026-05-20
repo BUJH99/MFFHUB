@@ -35,7 +35,7 @@ npm run dev
 브라우저에서 엽니다.
 
 ```txt
-http://localhost:3000
+http://127.0.0.1:3600
 ```
 
 ### 1-2. Windows 편의 실행
@@ -1103,7 +1103,7 @@ npm install
 npm run dev
 ```
 
-### 12-2. 포트 3000이 이미 사용 중
+### 12-2. 포트가 이미 사용 중이거나 Windows에서 제외됨
 
 해결 1: 기존 dev 서버 종료
 
@@ -1115,7 +1115,7 @@ Ctrl + C
 
 ```powershell
 cd apps/web
-npx next dev -p 3001
+npx next dev --hostname 127.0.0.1 -p 3600
 ```
 
 ### 12-3. React key 중복 경고

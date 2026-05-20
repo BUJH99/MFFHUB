@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 72" role="img" aria-labelledby="title">
+  <title id="title">The Defenders</title>
+  <rect width="180" height="72" fill="#ffffff"/>
+  <g transform="translate(90 37)">
+    <text x="0" y="-16" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="10" font-weight="900" fill="#ffef5c" stroke="#9f1239" stroke-width=".7">THE</text>
+    <text x="0" y="14" text-anchor="middle" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif" font-size="35" font-weight="900" fill="#ffef5c" stroke="#9f1239" stroke-width="2">DEFENDERS</text>
+  </g>
+  <path d="M15 50 H165" stroke="#9f1239" stroke-width="5" opacity=".8"/>
+  <path d="M23 57 H157" stroke="#ffef5c" stroke-width="2" opacity=".9"/>
+</svg>

@@ -4,8 +4,8 @@
   "private": true,
   "description": "Personal MFF data hub monorepo: Next.js web app now, Supabase DB, shared TypeScript core, future Expo iOS shell.",
   "scripts": {
-    "dev": "npm run dev -w @mff-data-hub/web",
-    "dev:web": "npm run dev -w @mff-data-hub/web",
+    "dev": "npm run dev -w @mff-data-hub/web -- --hostname 127.0.0.1 -p 3600",
+    "dev:web": "npm run dev -w @mff-data-hub/web -- --hostname 127.0.0.1 -p 3600",
     "build": "npm run build -w @mff-data-hub/web",
     "start": "npm run start -w @mff-data-hub/web",
     "lint": "npm run lint -w @mff-data-hub/web",
@@ -38,5 +38,18 @@
     "drizzle-orm": "^0.38.4",
     "postgres": "^3.4.5",
     "zod": "^3.24.1"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BUJH99/MFFHUB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BUJH99/MFFHUB/issues"
+  },
+  "homepage": "https://github.com/BUJH99/MFFHUB#readme"
 }

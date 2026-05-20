@@ -25,7 +25,7 @@ Windows에서는 `START_DEV_WINDOWS.bat`을 더블클릭하면 됩니다.
 브라우저:
 
 ```txt
-http://localhost:3000
+http://127.0.0.1:3600
 ```
 
 무설치 미리보기는 루트의 `OPEN_ME_FIRST.html` 또는 `standalone/index.html`을 더블클릭하세요.

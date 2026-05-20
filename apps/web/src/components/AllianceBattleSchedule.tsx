@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { characters, userRoster } from '@/lib/data';
 import {
   ALLIANCE_BATTLE_ROTATION_START_DATE,
@@ -12,10 +12,13 @@ import {
   getCancelEffectIcons,
   getKoreanDayName,
   getKstDateKey,
+  getAllianceAttributeIcon,
   getRestrictionIcons,
   type AllianceBattleCalendarDay,
   type AllianceBattleIcon,
 } from '@/lib/allianceBattle';
+import { catalogCharacters, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
+import type { Character, CombatType } from '@mff-data-hub/types';
 
 type ScheduleContent = 'ABX' | 'ABL';
 type SheetTone = 'abx' | 'abl';
@@ -24,6 +27,7 @@ type SheetMember = {
   name: string;
   portraitUrl: string;
   ctp: string;
+  uniformName?: string;
 };
 type TeamKind = 'tagPlay' | 'soloDeal';
 type PickerState = {
@@ -32,6 +36,22 @@ type PickerState = {
   member: SheetMember;
   label: string;
 } | null;
+type UsageCountRow = {
+  member: SheetMember;
+  tagPlay: number;
+  soloDeal: number;
+  total: number;
+};
+type UsageRoleGroup = 'buffer' | 'dealer';
+type UsageCombatType = CombatType | 'Unknown';
+type UsageTypeGroup = {
+  type: UsageCombatType;
+  rows: UsageCountRow[];
+};
+type UsageCountSummary = {
+  buffers: UsageTypeGroup[];
+  dealers: UsageTypeGroup[];
+};
 
 const contentMeta: Record<ScheduleContent, { title: string; tone: SheetTone; modeLabel: string }> = {
   ABX: { title: 'ABX 표', tone: 'abx', modeLabel: 'Extreme' },
@@ -41,9 +61,41 @@ const contentMeta: Record<ScheduleContent, { title: string; tone: SheetTone; mod
 const sheetCustomizationStorageKey = 'mff-data-hub:alliance-battle-sheet:v1';
 
 const portrait = (slug: string) => `/mff-assets/characters/${slug}.webp`;
+const normalizeCharacterKey = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
 
 const characterById = new Map(characters.map((character) => [character.id, character]));
+const appCharacterByCatalogKey = new Map<string, Character>();
+const catalogCharacterByKey = new Map<string, CatalogCharacter>();
 const rosterByCharacterId = new Map(userRoster.map((item) => [item.characterId, item]));
+const catalogCharacterIdAliases: Record<string, string> = {
+  hades: 'hadespluto',
+  'hulk-red': 'redhulk',
+  valeria: 'valeriarichards',
+};
+
+for (const character of characters) {
+  appCharacterByCatalogKey.set(normalizeCharacterKey(character.id), character);
+  appCharacterByCatalogKey.set(normalizeCharacterKey(character.slug), character);
+  appCharacterByCatalogKey.set(normalizeCharacterKey(character.name), character);
+}
+
+for (const character of catalogCharacters) {
+  const appCharacter = appCharacterByCatalogKey.get(normalizeCharacterKey(character.id)) ?? appCharacterByCatalogKey.get(normalizeCharacterKey(character.name));
+  catalogCharacterByKey.set(normalizeCharacterKey(character.id), character);
+  catalogCharacterByKey.set(normalizeCharacterKey(character.name), character);
+  if (appCharacter) {
+    catalogCharacterByKey.set(normalizeCharacterKey(appCharacter.id), character);
+    catalogCharacterByKey.set(normalizeCharacterKey(appCharacter.slug), character);
+    catalogCharacterByKey.set(normalizeCharacterKey(appCharacter.name), character);
+  }
+}
+
+for (const [aliasId, catalogId] of Object.entries(catalogCharacterIdAliases)) {
+  const catalogCharacter = catalogCharacterByKey.get(normalizeCharacterKey(catalogId));
+  if (catalogCharacter) {
+    catalogCharacterByKey.set(normalizeCharacterKey(aliasId), catalogCharacter);
+  }
+}
 
 const defaultCtpByCharacterId: Record<string, string> = {
   'agent-venom': 'Rage',
@@ -287,9 +339,57 @@ function toAbxMember(key: AbxCharacterKey): SheetMember {
   };
 }
 
-const characterPickerMembers = (Object.keys(abxCharacterCatalog) as AbxCharacterKey[])
-  .map(toAbxMember)
-  .sort((left, right) => left.name.localeCompare(right.name, 'ko'));
+function toCatalogMember(character: CatalogCharacter): SheetMember {
+  const appCharacter = appCharacterByCatalogKey.get(normalizeCharacterKey(character.id)) ?? appCharacterByCatalogKey.get(normalizeCharacterKey(character.name));
+  const characterId = appCharacter?.id ?? character.id;
+
+  return {
+    id: characterId,
+    name: appCharacter?.name ?? character.name,
+    portraitUrl: appCharacter?.portraitUrl ?? character.imageUrl,
+    ctp: getEquippedCtp(characterId, appCharacter?.ctpRecommendations[0]),
+  };
+}
+
+function getCatalogCharacterForMember(member: SheetMember) {
+  return catalogCharacterByKey.get(normalizeCharacterKey(member.id)) ?? catalogCharacterByKey.get(normalizeCharacterKey(member.name));
+}
+
+function getUniformOptionsForMember(member: SheetMember): CatalogUniform[] {
+  return getCatalogCharacterForMember(member)?.uniforms ?? [{ name: '기본', imageUrl: member.portraitUrl, leader: [], passive: [], uniformEffect: [] }];
+}
+
+function applyUniformToMember(member: SheetMember, uniform: CatalogUniform): SheetMember {
+  const catalogCharacter = getCatalogCharacterForMember(member);
+  const appCharacter = appCharacterByCatalogKey.get(normalizeCharacterKey(catalogCharacter?.id ?? member.id)) ?? appCharacterByCatalogKey.get(normalizeCharacterKey(catalogCharacter?.name ?? member.name));
+  const characterId = appCharacter?.id ?? member.id;
+
+  return {
+    id: characterId,
+    name: member.name,
+    portraitUrl: uniform.imageUrl ?? catalogCharacter?.imageUrl ?? appCharacter?.portraitUrl ?? member.portraitUrl,
+    ctp: getEquippedCtp(characterId, appCharacter?.ctpRecommendations[0] ?? member.ctp),
+    uniformName: uniform.name,
+  };
+}
+
+function mergePickerMembers(...groups: SheetMember[][]) {
+  const byCharacterKey = new Map<string, SheetMember>();
+
+  for (const group of groups) {
+    for (const member of group) {
+      const key = normalizeCharacterKey(member.id || member.name);
+      if (!byCharacterKey.has(key)) byCharacterKey.set(key, member);
+    }
+  }
+
+  return Array.from(byCharacterKey.values()).sort((left, right) => left.name.localeCompare(right.name, 'ko'));
+}
+
+const characterPickerMembers = mergePickerMembers(
+  (Object.keys(abxCharacterCatalog) as AbxCharacterKey[]).map(toAbxMember),
+  catalogCharacters.map(toCatalogMember),
+);
 
 function normalizeCtpSlug(ctp: string) {
   return ctp
@@ -355,11 +455,12 @@ function PlayerCell({
   }
 
   return (
-    <div className="flex min-h-[82px] flex-col items-center justify-start text-center" title={`${label} · ${member.name} · ${member.ctp}`}>
+    <div className="flex min-h-[82px] flex-col items-center justify-start text-center" title={`${label} · ${member.name}${member.uniformName ? ` · ${member.uniformName}` : ''} · ${member.ctp}`}>
       <button type="button" onClick={onCharacterClick} className="group grid h-[48px] w-[48px] place-items-center border border-slate-300 bg-white transition hover:border-purple-500 hover:ring-2 hover:ring-purple-100" aria-label={`${member.name} 캐릭터 교체`}>
         <Image src={member.portraitUrl} alt={member.name} width={46} height={46} unoptimized className="h-[46px] w-[46px] object-cover" />
       </button>
       <p className="mt-1 max-w-[66px] truncate text-[10px] font-black leading-tight text-slate-950">{member.name}</p>
+      {member.uniformName ? <p className="max-w-[66px] truncate text-[9px] font-bold leading-tight text-purple-600">{member.uniformName}</p> : null}
       <button type="button" onClick={onCtpClick} className="mt-0.5 grid h-[24px] w-[24px] place-items-center rounded-full transition hover:bg-purple-50 hover:ring-2 hover:ring-purple-100" aria-label={`${member.name} CTP 교체`}>
         <Image src={ctpIconSrc(member.ctp)} alt={`${member.name} ${member.ctp}`} width={22} height={22} unoptimized className="h-[22px] w-[22px] object-contain drop-shadow-sm" />
       </button>
@@ -419,6 +520,114 @@ function resolveMember(baseMember: SheetMember, slotKey: string, memberOverrides
   return { ...member, ctp: ctpOverrides[slotKey] ?? member.ctp };
 }
 
+function getBestComboForDay(day: AllianceBattleCalendarDay, content: ScheduleContent) {
+  const condition = content === 'ABX' ? day.abx : day.abl;
+  if (!condition && day.infinite) return infinityChallengeCombo;
+
+  return content === 'ABX' ? abxBestCombos[day.round] : ablBestCombos[day.round];
+}
+
+const usageCombatTypes: UsageCombatType[] = ['Combat', 'Blast', 'Speed', 'Universal'];
+const usageContents: ScheduleContent[] = ['ABX', 'ABL'];
+const usageTeamLabels: Record<TeamKind, string> = {
+  tagPlay: '굇수',
+  soloDeal: '일반',
+};
+const usageRoleLabels: Record<UsageRoleGroup, string> = {
+  buffer: '버퍼',
+  dealer: '딜러',
+};
+
+function getMemberCombatType(member: SheetMember): UsageCombatType {
+  const appCharacter = characterById.get(member.id)
+    ?? appCharacterByCatalogKey.get(normalizeCharacterKey(member.id))
+    ?? appCharacterByCatalogKey.get(normalizeCharacterKey(member.name));
+  const catalogCharacter = getCatalogCharacterForMember(member);
+  const type = appCharacter?.type ?? catalogCharacter?.type;
+
+  return type === 'Combat' || type === 'Blast' || type === 'Speed' || type === 'Universal' ? type : 'Unknown';
+}
+
+function buildUsageRows(counts: Map<string, UsageCountRow>) {
+  return Array.from(counts.values()).sort((left, right) => {
+    if (right.total !== left.total) return right.total - left.total;
+    if (right.tagPlay !== left.tagPlay) return right.tagPlay - left.tagPlay;
+    if (right.soloDeal !== left.soloDeal) return right.soloDeal - left.soloDeal;
+    return left.member.name.localeCompare(right.member.name, 'ko');
+  });
+}
+
+function addUsageCount(counts: Map<string, UsageCountRow>, member: SheetMember, teamKind: TeamKind) {
+  const key = normalizeCharacterKey(member.id || member.name);
+  const current = counts.get(key);
+
+  if (current) {
+    current[teamKind] += 1;
+    current.total += 1;
+    return;
+  }
+
+  counts.set(key, {
+    member,
+    tagPlay: teamKind === 'tagPlay' ? 1 : 0,
+    soloDeal: teamKind === 'soloDeal' ? 1 : 0,
+    total: 1,
+  });
+}
+
+function createUsageBuckets() {
+  return {
+    buffer: new Map<string, UsageCountRow>(),
+    dealer: new Map<string, UsageCountRow>(),
+  } satisfies Record<UsageRoleGroup, Map<string, UsageCountRow>>;
+}
+
+function groupUsageRowsByType(rows: UsageCountRow[]) {
+  const rowsByType = new Map<UsageCombatType, UsageCountRow[]>();
+
+  for (const row of rows) {
+    const type = getMemberCombatType(row.member);
+    rowsByType.set(type, [...(rowsByType.get(type) ?? []), row]);
+  }
+
+  const types = [...usageCombatTypes, ...Array.from(rowsByType.keys()).filter((type) => !usageCombatTypes.includes(type))];
+  return types
+    .map((type) => ({ type, rows: rowsByType.get(type) ?? [] }))
+    .filter((group) => group.rows.length > 0 || group.type !== 'Unknown');
+}
+
+function getUsageCountSummary(
+  calendar: AllianceBattleCalendarDay[],
+  memberOverrides: Record<string, SheetMember>,
+  ctpOverrides: Record<string, string>,
+): UsageCountSummary {
+  const buckets = createUsageBuckets();
+
+  for (const day of calendar) {
+    for (const content of usageContents) {
+      const comboForDay = getBestComboForDay(day, content);
+      const teams: Array<{ teamKind: TeamKind; members: SheetMember[] }> = [
+        { teamKind: 'tagPlay', members: abxComboMembers(comboForDay?.tagPlay) },
+        { teamKind: 'soloDeal', members: abxComboMembers(comboForDay?.soloDeal) },
+      ];
+
+      for (const team of teams) {
+        team.members.slice(0, 3).forEach((baseMember, index) => {
+          const slotKey = makeSlotKey(content, day.round, team.teamKind, index);
+          const member = resolveMember(baseMember, slotKey, memberOverrides, ctpOverrides);
+          const role: UsageRoleGroup = index === 1 ? 'dealer' : 'buffer';
+          addUsageCount(buckets[role], member, team.teamKind);
+        });
+      }
+    }
+  }
+
+  return {
+    buffers: groupUsageRowsByType(buildUsageRows(buckets.buffer)),
+    dealers: groupUsageRowsByType(buildUsageRows(buckets.dealer)),
+  };
+}
+
 function addDays(date: string, days: number) {
   const [year, month, day] = date.split('-').map(Number);
   const value = new Date(Date.UTC(year, month - 1, day + days));
@@ -463,11 +672,11 @@ function ScheduleRow({
   onOpenPicker: (picker: PickerState) => void;
 }) {
   const condition = content === 'ABX' ? day.abx : day.abl;
-  const manualCombo = content === 'ABX' ? abxBestCombos[day.round] : ablBestCombos[day.round];
+  const isInfinityChallenge = !condition && Boolean(day.infinite);
+  const manualCombo = getBestComboForDay(day, content);
   const cancelIcons = getCancelEffectIcons(condition);
   const tagPlayMembers = abxComboMembers(manualCombo?.tagPlay);
   const soloDealMembers = abxComboMembers(manualCombo?.soloDeal);
-  const isInfinityChallenge = content === 'ABX' && !condition && Boolean(day.infinite);
 
   if (!condition && !manualCombo) {
     return (
@@ -542,11 +751,32 @@ function PickerPanel({
   onSelectCtp: (ctp: string) => void;
   onClose: () => void;
 }) {
+  const [characterQuery, setCharacterQuery] = useState('');
+  const [selectedMember, setSelectedMember] = useState<SheetMember | null>(null);
+  const deferredCharacterQuery = useDeferredValue(characterQuery);
+  const visibleCharacterPickerMembers = useMemo(() => {
+    const query = deferredCharacterQuery.trim().toLowerCase();
+    if (!query) return characterPickerMembers;
+
+    return characterPickerMembers.filter((member) => `${member.name} ${member.id}`.toLowerCase().includes(query));
+  }, [deferredCharacterQuery]);
+  const selectedUniformOptions = useMemo(() => (selectedMember ? getUniformOptionsForMember(selectedMember) : []), [selectedMember]);
+
+  useEffect(() => {
+    if (picker?.kind === 'character') {
+      setCharacterQuery('');
+      setSelectedMember(picker.member);
+      return;
+    }
+    setSelectedMember(null);
+  }, [picker]);
+
   if (!picker) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-h-[78vh] w-[min(720px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-      <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/45 px-4 py-6" data-testid="alliance-battle-picker">
+      <div className="flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+      <div className="shrink-0 flex items-center justify-between border-b border-slate-100 px-4 py-3">
         <div>
           <p className="text-xs font-black uppercase tracking-wide text-purple-600">{picker.kind === 'character' ? '캐릭터 교체' : 'CTP 교체'}</p>
           <h3 className="text-sm font-black text-slate-950">{picker.label} · {picker.member.name}</h3>
@@ -555,21 +785,80 @@ function PickerPanel({
       </div>
 
       {picker.kind === 'character' ? (
-        <div className="grid max-h-[64vh] grid-cols-[repeat(auto-fill,minmax(82px,1fr))] gap-2 overflow-y-auto p-3">
-          {characterPickerMembers.map((member) => (
-            <button
-              key={member.id}
-              type="button"
-              onClick={() => onSelectCharacter(member)}
-              className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-center transition hover:border-purple-300 hover:bg-purple-50"
-            >
-              <Image src={member.portraitUrl} alt={member.name} width={54} height={54} unoptimized className="mx-auto h-[54px] w-[54px] object-cover" />
-              <span className="mt-1 block truncate text-[10px] font-black text-slate-800">{member.name}</span>
-            </button>
-          ))}
-        </div>
+        <>
+          <div className="shrink-0 border-b border-slate-100 p-3">
+            <div className="flex items-center gap-2">
+              <input
+                value={characterQuery}
+                onChange={(event) => setCharacterQuery(event.target.value)}
+                placeholder="캐릭터 검색"
+                aria-label="캐릭터 검색"
+                className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold outline-none transition focus:border-purple-300 focus:ring-4 focus:ring-purple-100"
+              />
+              <span className="rounded-xl bg-slate-100 px-3 py-2 text-[11px] font-black text-slate-600">{visibleCharacterPickerMembers.length}/{characterPickerMembers.length}</span>
+            </div>
+          </div>
+          <div className="grid min-h-0 flex-1 gap-3 overflow-hidden p-3 lg:grid-cols-[260px_1fr]">
+            <div data-testid="alliance-battle-character-scroll" className="min-h-0 overscroll-contain overflow-y-auto rounded-xl border border-slate-100 bg-slate-50 p-2">
+              <p className="mb-2 px-1 text-[11px] font-black text-slate-500">1. 캐릭터 선택</p>
+              <div className="grid grid-cols-2 gap-2">
+                {visibleCharacterPickerMembers.length ? visibleCharacterPickerMembers.map((member) => {
+                  const selected = selectedMember?.id === member.id;
+                  return (
+                    <button
+                      key={member.id}
+                      type="button"
+                      onClick={() => setSelectedMember(member)}
+                      className={`rounded-xl border p-2 text-center transition hover:border-purple-300 hover:bg-purple-50 ${selected ? 'border-purple-400 bg-purple-50 ring-2 ring-purple-100' : 'border-slate-200 bg-white'}`}
+                    >
+                      <Image src={member.portraitUrl} alt={member.name} width={54} height={54} unoptimized className="mx-auto h-[54px] w-[54px] object-cover" />
+                      <span className="mt-1 block truncate text-[10px] font-black text-slate-800">{member.name}</span>
+                    </button>
+                  );
+                }) : (
+                  <p className="col-span-full rounded-xl bg-white p-4 text-center text-xs font-black text-slate-400">검색 결과 없음</p>
+                )}
+              </div>
+            </div>
+            <div data-testid="alliance-battle-uniform-scroll" className="min-h-0 overscroll-contain overflow-y-auto rounded-xl border border-slate-100 bg-white p-2">
+              <div className="mb-2 flex items-center justify-between gap-2 px-1">
+                <p className="text-[11px] font-black text-slate-500">2. 유니폼 최종 선택</p>
+                {selectedMember ? <span className="rounded-full bg-purple-50 px-2.5 py-1 text-[10px] font-black text-purple-700">{selectedUniformOptions.length}개</span> : null}
+              </div>
+              {selectedMember ? (
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(116px,1fr))] gap-2">
+                  {selectedUniformOptions.map((uniform, index) => {
+                    const selectedUniformName = selectedMember.uniformName ?? getCatalogCharacterForMember(selectedMember)?.uniforms[0]?.name;
+                    const active = selectedUniformName === uniform.name;
+                    return (
+                      <button
+                        key={`${selectedMember.id}-${uniform.name}-${index}`}
+                        type="button"
+                        onClick={() => onSelectCharacter(applyUniformToMember(selectedMember, uniform))}
+                        className={`min-w-0 rounded-xl border p-2 text-left transition hover:border-purple-300 hover:bg-purple-50 ${active ? 'border-purple-400 bg-purple-50' : 'border-slate-200 bg-slate-50'}`}
+                      >
+                        <Image
+                          src={uniform.imageUrl ?? selectedMember.portraitUrl}
+                          alt={`${selectedMember.name} ${uniform.name}`}
+                          width={88}
+                          height={88}
+                          unoptimized
+                          className="mx-auto h-[88px] w-[88px] rounded-xl object-cover"
+                        />
+                        <span className="mt-2 block truncate text-[11px] font-black text-slate-900">{selectedMember.name}</span>
+                        <span className="line-clamp-2 block min-h-8 text-[10px] font-bold leading-tight text-purple-600">{uniform.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="rounded-xl bg-slate-50 p-4 text-center text-xs font-black text-slate-400">캐릭터를 먼저 선택하세요</p>
+              )}
+            </div>
+          </div>
+        </>
       ) : (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2 p-3">
+        <div className="grid min-h-0 grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2 overflow-y-auto overscroll-contain p-3">
           {ctpOptions.map((ctp) => (
             <button
               key={ctp}
@@ -583,6 +872,109 @@ function PickerPanel({
           ))}
         </div>
       )}
+      </div>
+    </div>
+  );
+}
+
+const usageTypeLabels: Record<UsageCombatType, string> = {
+  Combat: '컴뱃',
+  Blast: '블래스트',
+  Speed: '스피드',
+  Universal: '유니버셜',
+  Unknown: '기타',
+};
+const usageTypeColors: Record<UsageCombatType, string> = {
+  Combat: 'border-red-200 bg-red-50 text-red-700',
+  Blast: 'border-sky-200 bg-sky-50 text-sky-700',
+  Speed: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+  Universal: 'border-purple-200 bg-purple-50 text-purple-700',
+  Unknown: 'border-slate-200 bg-slate-50 text-slate-700',
+};
+
+function UsageTypeHeader({ type }: { type: UsageCombatType }) {
+  const icon = getAllianceAttributeIcon(type);
+
+  return (
+    <div className={`flex items-center justify-between border-b px-2 py-2 ${usageTypeColors[type]}`}>
+      <div className="flex min-w-0 items-center gap-2">
+        {icon ? (
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white ring-1 ring-white/60">
+            <Image src={icon.src} alt={icon.label} width={28} height={28} unoptimized className="h-7 w-7 object-contain" />
+          </span>
+        ) : null}
+        <p className="truncate text-sm font-black">{usageTypeLabels[type]}</p>
+      </div>
+      <div className="grid w-[132px] grid-cols-3 text-center text-[11px] font-black">
+        <span>{usageTeamLabels.tagPlay}</span>
+        <span>{usageTeamLabels.soloDeal}</span>
+        <span>합계</span>
+      </div>
+    </div>
+  );
+}
+
+function UsageMemberRow({ row }: { row: UsageCountRow }) {
+  return (
+    <div className="grid min-h-[58px] grid-cols-[minmax(0,1fr)_132px] items-center border-b border-slate-200 bg-white last:border-b-0">
+      <div className="flex min-w-0 items-center gap-2 px-2 py-1.5">
+        <Image src={row.member.portraitUrl} alt={row.member.name} width={42} height={42} unoptimized className="h-[42px] w-[42px] shrink-0 object-cover ring-1 ring-slate-200" />
+        <div className="min-w-0">
+          <p className="truncate text-xs font-black text-slate-950">{row.member.name}</p>
+          {row.member.uniformName ? <p className="truncate text-[10px] font-bold text-purple-600">{row.member.uniformName}</p> : null}
+        </div>
+      </div>
+      <div className="grid h-full grid-cols-3 text-center text-sm font-black text-slate-950">
+        <span className="grid place-items-center border-l border-slate-200">{row.tagPlay || ''}</span>
+        <span className="grid place-items-center border-l border-slate-200">{row.soloDeal || ''}</span>
+        <span className="grid place-items-center border-l border-slate-200 bg-yellow-50 text-base">{row.total}</span>
+      </div>
+    </div>
+  );
+}
+
+function UsageTypeGroupPanel({ group }: { group: UsageTypeGroup }) {
+  return (
+    <div className="min-w-0 overflow-hidden border border-slate-300 bg-white">
+      <UsageTypeHeader type={group.type} />
+      <div className="max-h-[390px] overflow-y-auto">
+        {group.rows.length ? group.rows.map((row) => (
+          <UsageMemberRow key={`${group.type}-${row.member.id}`} row={row} />
+        )) : (
+          <p className="px-3 py-8 text-center text-xs font-black text-slate-400">사용 캐릭터 없음</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function UsageRoleSection({ role, groups }: { role: UsageRoleGroup; groups: UsageTypeGroup[] }) {
+  return (
+    <section className="overflow-hidden border-2 border-black bg-slate-50">
+      <div className="border-b-2 border-black bg-blue-700 px-4 py-3 text-center">
+        <h3 className="text-xl font-black text-yellow-300">{usageRoleLabels[role]} 사용 횟수</h3>
+      </div>
+      <div className="grid gap-3 p-3 xl:grid-cols-4">
+        {groups.map((group) => <UsageTypeGroupPanel key={`${role}-${group.type}`} group={group} />)}
+      </div>
+    </section>
+  );
+}
+
+function UsageCountSummaryPanel({ summary }: { summary: UsageCountSummary }) {
+  return (
+    <div className="border-t-2 border-black bg-slate-100 p-4">
+      <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="text-xs font-black uppercase tracking-wide text-slate-500">ABX + ABL combined usage count</p>
+          <h2 className="text-xl font-black text-slate-950">ABX/ABL 합산 사용횟수</h2>
+        </div>
+        <p className="text-xs font-bold text-slate-500">타입별 분리 · 굇수/일반 조합 별도 집계 · 합계 많이 쓰는 순</p>
+      </div>
+      <div className="grid gap-4">
+        <UsageRoleSection role="buffer" groups={summary.buffers} />
+        <UsageRoleSection role="dealer" groups={summary.dealers} />
+      </div>
     </div>
   );
 }
@@ -590,11 +982,15 @@ function PickerPanel({
 function AllianceBattleSheet({ calendar, content, today }: { calendar: AllianceBattleCalendarDay[]; content: ScheduleContent; today: string }) {
   const meta = contentMeta[content];
   const toneClass = meta.tone === 'abx' ? 'text-blue-700' : 'text-purple-700';
-  const conditionDays = calendar.filter((day) => (content === 'ABX' ? day.abx || day.infinite : day.abl)).length;
+  const conditionDays = calendar.filter((day) => (content === 'ABX' ? day.abx || day.infinite : day.abl || day.infinite)).length;
   const [memberOverrides, setMemberOverrides] = useState<Record<string, SheetMember>>({});
   const [ctpOverrides, setCtpOverrides] = useState<Record<string, string>>({});
   const [customizationsReady, setCustomizationsReady] = useState(false);
   const [picker, setPicker] = useState<PickerState>(null);
+  const usageSummary = useMemo(
+    () => getUsageCountSummary(calendar, memberOverrides, ctpOverrides),
+    [calendar, memberOverrides, ctpOverrides],
+  );
 
   useEffect(() => {
     const stored = readStoredCustomizations();
@@ -611,6 +1007,17 @@ function AllianceBattleSheet({ calendar, content, today }: { calendar: AllianceB
       // Local customizations are optional; the table still works if storage is blocked.
     }
   }, [customizationsReady, memberOverrides, ctpOverrides]);
+
+  useEffect(() => {
+    if (!picker) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [picker]);
 
   const selectCharacter = (member: SheetMember) => {
     if (!picker) return;
@@ -681,6 +1088,7 @@ function AllianceBattleSheet({ calendar, content, today }: { calendar: AllianceB
           </tbody>
         </table>
       </div>
+      <UsageCountSummaryPanel summary={usageSummary} />
       <PickerPanel picker={picker} onSelectCharacter={selectCharacter} onSelectCtp={selectCtp} onClose={() => setPicker(null)} />
     </section>
   );

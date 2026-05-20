@@ -6,6 +6,9 @@ import {
   getComicCard,
   getTeamUpAttackBonusForCharacter,
   getTeamUpCoverage,
+  getTeamUpLevelStats,
+  teamUpCollectionThemes,
+  teamUpLevelEffects,
   teamUpAttackBonusByCharacter,
   userTeamUpCollections,
 } from './index';
@@ -39,6 +42,36 @@ describe('account spec calculations', () => {
 
     expect(characterId).toBeTruthy();
     expect(teamUpAttackBonusByCharacter[characterId]).toBe(getTeamUpAttackBonusForCharacter(characterId));
+  });
+
+  it('keeps the in-game team-up collection order with Fantastic Four last', () => {
+    const finalTheme = teamUpCollectionThemes[teamUpCollectionThemes.length - 1];
+
+    expect(teamUpCollectionThemes).toHaveLength(8);
+    expect(finalTheme?.id).toBe('fantastic-four');
+    expect(finalTheme?.targetHeroes).toEqual([
+      'Invisible Woman',
+      'Spider-Man',
+      'Mister Fantastic',
+      'Medusa',
+      'Human Torch',
+      'Luke Cage',
+      'Black Panther',
+      'Thing',
+      'She-Hulk',
+      'Crystal',
+      'Ant-Man',
+      'Iceman',
+      'Moon Girl',
+    ]);
+  });
+
+  it('uses the in-game team-up level table for cumulative all attack and additional pierce', () => {
+    expect(teamUpLevelEffects).toHaveLength(18);
+    expect(getTeamUpLevelStats(1)).toEqual({ allBasicAttack: 1 });
+    expect(getTeamUpLevelStats(6)).toEqual({ allBasicAttack: 9, pierce: 1 });
+    expect(getTeamUpLevelStats(15)).toEqual({ allBasicAttack: 30, pierce: 5 });
+    expect(getTeamUpLevelStats(18)).toEqual({ allBasicAttack: 40, pierce: 10 });
   });
 
   it('computes coverage without leaking UI state into the domain package', () => {

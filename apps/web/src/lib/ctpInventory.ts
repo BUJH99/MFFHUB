@@ -1,12 +1,13 @@
 import type { UserCharacter } from '@mff-data-hub/types';
 
 export type CtpGrade = 'normal' | 'mighty' | 'brilliant';
+export type CtpRole = 'PVE' | 'SEMI PVE' | 'Support' | 'PVP' | 'SEMI PVP' | 'WASTE';
 
 export type CtpDefinition = {
   id: string;
   name: string;
   koreanName: string;
-  role: 'PVE' | 'PVP' | 'Support' | 'Hybrid' | 'Fodder';
+  role: CtpRole;
   priority: 'core' | 'situational' | 'low';
 };
 
@@ -25,7 +26,7 @@ export type CtpInventorySummary = {
   reforged: number;
   equipped: number;
   spare: number;
-  byRole: Array<{ role: CtpDefinition['role']; total: number }>;
+  byRole: Array<{ role: CtpRole; total: number }>;
 };
 
 export const ctpGradeLabels: Record<CtpGrade, string> = {
@@ -34,22 +35,23 @@ export const ctpGradeLabels: Record<CtpGrade, string> = {
   brilliant: '찬란',
 };
 
+export const ctpRoleOrder: CtpRole[] = ['PVE', 'SEMI PVE', 'Support', 'PVP', 'SEMI PVP', 'WASTE'];
+
 export const ctpDefinitions: CtpDefinition[] = [
   { id: 'rage', name: 'Rage', koreanName: '분노', role: 'PVE', priority: 'core' },
-  { id: 'judgement', name: 'Judgement', koreanName: '심판', role: 'PVE', priority: 'core' },
-  { id: 'energy', name: 'Energy', koreanName: '에너지', role: 'PVE', priority: 'core' },
   { id: 'competition', name: 'Competition', koreanName: '경쟁', role: 'PVE', priority: 'core' },
+  { id: 'judgement', name: 'Judgement', koreanName: '심판', role: 'SEMI PVE', priority: 'core' },
+  { id: 'energy', name: 'Energy', koreanName: '격동[에너지]', role: 'SEMI PVE', priority: 'core' },
+  { id: 'destruction', name: 'Destruction', koreanName: '파괴', role: 'SEMI PVE', priority: 'situational' },
   { id: 'insight', name: 'Insight', koreanName: '통찰', role: 'Support', priority: 'core' },
   { id: 'liberation', name: 'Liberation', koreanName: '해방', role: 'Support', priority: 'situational' },
-  { id: 'destruction', name: 'Destruction', koreanName: '파괴', role: 'Hybrid', priority: 'situational' },
+  { id: 'conquest', name: 'Conquest', koreanName: '극복', role: 'PVP', priority: 'situational' },
   { id: 'greed', name: 'Greed', koreanName: '탐욕', role: 'PVP', priority: 'situational' },
-  { id: 'authority', name: 'Authority', koreanName: '권능', role: 'PVP', priority: 'situational' },
-  { id: 'regeneration', name: 'Regeneration', koreanName: '재생', role: 'PVP', priority: 'situational' },
-  { id: 'refinement', name: 'Refinement', koreanName: '정제', role: 'PVP', priority: 'situational' },
-  { id: 'conquest', name: 'Conquest', koreanName: '정복', role: 'PVP', priority: 'situational' },
-  { id: 'veteran', name: 'Veteran', koreanName: '베테랑', role: 'Hybrid', priority: 'situational' },
-  { id: 'transcendence', name: 'Transcendence', koreanName: '초월', role: 'Fodder', priority: 'low' },
-  { id: 'patience', name: 'Patience', koreanName: '인내', role: 'Fodder', priority: 'low' },
+  { id: 'regeneration', name: 'Regeneration', koreanName: '재생', role: 'SEMI PVP', priority: 'situational' },
+  { id: 'refinement', name: 'Refinement', koreanName: '제련', role: 'SEMI PVP', priority: 'situational' },
+  { id: 'authority', name: 'Authority', koreanName: '권능', role: 'SEMI PVP', priority: 'situational' },
+  { id: 'transcendence', name: 'Transcendence', koreanName: '초월', role: 'WASTE', priority: 'low' },
+  { id: 'patience', name: 'Patience', koreanName: '인내', role: 'WASTE', priority: 'low' },
 ];
 
 const ctpAliases: Record<string, string> = {
@@ -159,7 +161,7 @@ export function summarizeCtpInventory(
     },
     { total: 0, normal: 0, mighty: 0, brilliant: 0, equipped: 0 },
   );
-  const roleTotals = new Map<CtpDefinition['role'], number>();
+  const roleTotals = new Map<CtpRole, number>();
 
   for (const entry of normalized) {
     const definition = ctpDefinitions.find((ctp) => ctp.id === entry.ctpId);
@@ -171,6 +173,6 @@ export function summarizeCtpInventory(
     ...totals,
     reforged: totals.mighty + totals.brilliant,
     spare: Math.max(0, totals.total - totals.equipped),
-    byRole: Array.from(roleTotals.entries()).map(([role, total]) => ({ role, total })),
+    byRole: ctpRoleOrder.map((role) => ({ role, total: roleTotals.get(role) ?? 0 })),
   };
 }

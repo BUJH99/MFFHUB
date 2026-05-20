@@ -39,17 +39,17 @@ export const craftColors: Array<{ id: CraftColor; label: string; className: stri
 ];
 
 export const craftStatOptions: Array<{ key: AccountStatKey; label: string }> = [
-  { key: 'allBasicAttack', label: 'All Basic Attacks' },
-  { key: 'physicalAttack', label: 'Physical Attack' },
-  { key: 'energyAttack', label: 'Energy Attack' },
-  { key: 'maxHp', label: 'Max HP' },
-  { key: 'cooldownDuration', label: 'Cooldown Duration' },
-  { key: 'ignoreDefense', label: 'Ignore Defense' },
-  { key: 'criticalRate', label: 'Critical Rate' },
-  { key: 'criticalDamage', label: 'Critical Damage' },
-  { key: 'attackSpeed', label: 'Attack Speed' },
-  { key: 'ignoreDodge', label: 'Ignore Dodge' },
-  { key: 'instinctAttack', label: 'Instinct Attack' },
+  { key: 'allBasicAttack', label: '모든 일반 공격력 상승' },
+  { key: 'physicalAttack', label: '물리 공격력 상승' },
+  { key: 'energyAttack', label: '에너지 공격력 상승' },
+  { key: 'maxHp', label: '생명력 상승' },
+  { key: 'cooldownDuration', label: '스킬 재사용 시간 감소' },
+  { key: 'ignoreDefense', label: '방어 무시' },
+  { key: 'criticalRate', label: '치명타율 상승' },
+  { key: 'criticalDamage', label: '치명타 피해율 상승' },
+  { key: 'attackSpeed', label: '공격 속도 상승' },
+  { key: 'ignoreDodge', label: '회피 무시' },
+  { key: 'instinctAttack', label: '본능 공격력 상승' },
 ];
 
 const defaultCraftStats: AccountStatKey[] = [
@@ -85,6 +85,18 @@ function clampQuality(value: unknown) {
 
 function round1(value: number) {
   return Math.round(value * 10) / 10;
+}
+
+function getComicCardDefinition(cardId?: string) {
+  return comicCardDatabase.find((item) => item.id === cardId);
+}
+
+function getFirstUnusedCard(usedCardIds: Set<string>, candidates: Array<ComicCardDefinition | undefined>) {
+  for (const card of candidates) {
+    if (card && !usedCardIds.has(card.id)) return card;
+  }
+  return premiumComicCards.find((card) => !usedCardIds.has(card.id))
+    ?? comicCardDatabase.find((card) => !usedCardIds.has(card.id));
 }
 
 function readStatKey(label: string) {
@@ -136,7 +148,7 @@ export function createDefaultCraftState(blueStars = 6): CardCraftState[] {
 
 export function createDefaultCardSlots(): EditableComicCardSlot[] {
   return equippedComicCards.map((equipped, index) => {
-    const card = comicCardDatabase.find((item) => item.id === equipped.cardId);
+    const card = getComicCardDefinition(equipped.cardId);
     return {
       slotId: `card-slot-${index + 1}`,
       cardId: equipped.cardId,
@@ -155,22 +167,27 @@ export function normalizeCardSlots(value: unknown): EditableComicCardSlot[] {
   const defaults = createDefaultCardSlots();
   if (!Array.isArray(value)) return defaults;
 
+  const usedCardIds = new Set<string>();
   return defaults.map((fallback, index) => {
     const raw = value[index] as Partial<EditableComicCardSlot> | undefined;
-    const card = comicCardDatabase.find((item) => item.id === raw?.cardId) ?? comicCardDatabase.find((item) => item.id === fallback.cardId);
-    if (!raw || !card) return fallback;
+    const card = getFirstUnusedCard(usedCardIds, [
+      getComicCardDefinition(raw?.cardId),
+      getComicCardDefinition(fallback.cardId),
+    ]);
+    if (!card) return fallback;
+    usedCardIds.add(card.id);
 
     return {
       slotId: fallback.slotId,
       cardId: card.id,
-      quality: clampQuality(raw.quality),
+      quality: clampQuality(raw?.quality ?? fallback.quality),
       selectedOptions: {
-        stat4: card.optionalStats.stat4.includes(raw.selectedOptions?.stat4 ?? '') ? raw.selectedOptions!.stat4 : card.optionalStats.stat4[0],
-        stat5: card.optionalStats.stat5.includes(raw.selectedOptions?.stat5 ?? '') ? raw.selectedOptions!.stat5 : card.optionalStats.stat5[0],
-        stat6: card.optionalStats.stat6.includes(raw.selectedOptions?.stat6 ?? '') ? raw.selectedOptions!.stat6 : card.optionalStats.stat6[0],
+        stat4: card.optionalStats.stat4.includes(raw?.selectedOptions?.stat4 ?? '') ? raw!.selectedOptions!.stat4 : card.optionalStats.stat4[0],
+        stat5: card.optionalStats.stat5.includes(raw?.selectedOptions?.stat5 ?? '') ? raw!.selectedOptions!.stat5 : card.optionalStats.stat5[0],
+        stat6: card.optionalStats.stat6.includes(raw?.selectedOptions?.stat6 ?? '') ? raw!.selectedOptions!.stat6 : card.optionalStats.stat6[0],
       },
       crafted: Array.from({ length: 6 }, (_, craftIndex) => {
-        const craft = raw.crafted?.[craftIndex];
+        const craft = raw?.crafted?.[craftIndex];
         return {
           color: craft?.color === 'blue' || craft?.color === 'red' || craft?.color === 'green' ? craft.color : 'blue',
           stat: craftStatOptions.some((option) => option.key === craft?.stat) ? craft!.stat : defaultCraftStats[craftIndex],
@@ -181,7 +198,7 @@ export function normalizeCardSlots(value: unknown): EditableComicCardSlot[] {
 }
 
 export function calculateComicCardSlot(slot: EditableComicCardSlot, card?: ComicCardDefinition): CalculatedComicCard {
-  const definition = card ?? comicCardDatabase.find((item) => item.id === slot.cardId);
+  const definition = card ?? getComicCardDefinition(slot.cardId);
   if (!definition) {
     return { attackContribution: 0, pierce: 0, blueStars: 0, craftedStars: 0, stats: {} };
   }

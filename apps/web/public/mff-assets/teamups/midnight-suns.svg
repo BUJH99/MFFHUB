@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 72" role="img" aria-labelledby="title">
+  <title id="title">Midnight Suns</title>
+  <rect width="180" height="72" fill="#ffffff"/>
+  <g transform="translate(90 35) skewX(-8)">
+    <text x="0" y="-5" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="900" fill="#0e1726" stroke="#dbeafe" stroke-width="1.2">MIDNIGHT</text>
+    <text x="0" y="22" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-weight="900" fill="#111827" stroke="#f8fafc" stroke-width="1.1">SUNS</text>
+  </g>
+  <path d="M22 58 L31 44 L39 61 L50 42 L58 62" fill="none" stroke="#1f2937" stroke-width="3" opacity=".55"/>
+  <path d="M126 61 L137 42 L146 62 L156 45" fill="none" stroke="#1f2937" stroke-width="3" opacity=".55"/>
+</svg>

@@ -452,7 +452,10 @@ function parseSupportCards(html: string, sourceUrl: string) {
         const segment = $(h6).nextUntil('h6');
         const restriction = restrictionText($, segment);
 
-        segment.find('table').each((___, table) => {
+        segment
+          .filter('table')
+          .add(segment.find('table'))
+          .each((___, table) => {
           for (const row of tableRows($, $(table))) {
             if (row.length < 2) continue;
             const [effectName, magnitudeText, ...rest] = row;
@@ -683,6 +686,7 @@ async function main() {
     allianceBattleConditions,
     supports,
     characterEffects: effects,
+    attributes,
     warnings,
   };
 

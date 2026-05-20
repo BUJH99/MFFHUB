@@ -9,6 +9,10 @@ export interface PvpRestrictionCharacter {
   name: string;
   kind: string;
   note: string;
+  catalogId?: string;
+  characterImageUrl?: string;
+  uniformName?: string;
+  uniformImageUrl?: string;
   custom?: boolean;
 }
 
@@ -60,6 +64,15 @@ export function findRestrictionCharacter(value: string, content: PvpScoreContent
   };
 }
 
+function normalizeRestrictionInput(value: string | PvpRestrictionCharacter, content: PvpScoreContent) {
+  if (typeof value === 'string') return findRestrictionCharacter(value, content);
+  return {
+    ...value,
+    kind: value.kind || contentKind[content],
+    custom: value.custom ?? true,
+  };
+}
+
 function mergeRestrictions(defaults: readonly PvpRestrictionCharacter[], custom: readonly PvpRestrictionCharacter[]) {
   const seen = new Set<string>();
   return [...defaults, ...custom].filter((item) => {
@@ -87,13 +100,17 @@ export function usePvpRestrictionOverrides(content: PvpScoreContent, defaults: r
   const restrictions = useMemo(() => mergeRestrictions(defaults, customRestrictions), [customRestrictions, defaults]);
   const restrictedIds = useMemo(() => new Set<string>(restrictions.map((item) => item.id)), [restrictions]);
 
-  const addRestriction = useCallback((value: string) => {
-    const restriction = findRestrictionCharacter(value, content);
+  const addRestriction = useCallback((value: string | PvpRestrictionCharacter) => {
+    const restriction = normalizeRestrictionInput(value, content);
     if (!restriction) return false;
 
     const nextStore = readStore();
     const current = nextStore[content] ?? [];
-    if (current.some((item) => item.id === restriction.id)) return false;
+    if (current.some((item) => item.id === restriction.id)) {
+      nextStore[content] = current.map((item) => item.id === restriction.id ? restriction : item);
+      writeStore(nextStore);
+      return true;
+    }
 
     nextStore[content] = [...current, restriction];
     writeStore(nextStore);
