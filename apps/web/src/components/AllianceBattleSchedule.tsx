@@ -6,15 +6,15 @@ import { characters, userRoster } from '@/lib/data';
 import {
   ALLIANCE_BATTLE_ROTATION_START_DATE,
   allianceBattleRotation,
-  cancelEffectLabels,
-  formatRestrictionLabel,
   getAllianceBattleRoundForDate,
   getCancelEffectIcons,
   getKoreanDayName,
   getKstDateKey,
   getAllianceAttributeIcon,
   getRestrictionIcons,
+  formatRestrictionLabel,
   type AllianceBattleCalendarDay,
+  type AllianceBattleCondition,
   type AllianceBattleIcon,
 } from '@/lib/allianceBattle';
 import { catalogCharacters, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
@@ -35,6 +35,8 @@ type PickerState = {
   slotKey: string;
   member: SheetMember;
   label: string;
+  condition?: AllianceBattleCondition;
+  conditionLabel?: string;
 } | null;
 type UsageCountRow = {
   member: SheetMember;
@@ -51,6 +53,22 @@ type UsageTypeGroup = {
 type UsageCountSummary = {
   buffers: UsageTypeGroup[];
   dealers: UsageTypeGroup[];
+};
+type RoleOverrides = Record<string, UsageRoleGroup>;
+type UsageCountOptions = {
+  contents?: ScheduleContent[];
+  teamKinds?: TeamKind[];
+  roleOverrides?: RoleOverrides;
+};
+type UsageLookup = Record<UsageRoleGroup, Map<string, UsageCountRow>>;
+type BattleRoundChunk = {
+  label: string;
+  days: AllianceBattleCalendarDay[];
+};
+type SheetCustomizations = {
+  memberOverrides: Record<string, SheetMember>;
+  ctpOverrides: Record<string, string>;
+  roleOverrides: RoleOverrides;
 };
 
 const contentMeta: Record<ScheduleContent, { title: string; tone: SheetTone; modeLabel: string }> = {
@@ -247,28 +265,24 @@ const universalVillainCombo = combo(['dormammu', 'hades', 'mephisto'], ['morganL
 const abxBestCombos: Partial<Record<number, AbxBestCombo>> = {
   1: combo(['whiteFox', 'mistyKnight', 'lunaSnow'], ['whiteFox', 'mistyKnight', 'lunaSnow']),
   2: abxFreeCombo,
-  3: infinityChallengeCombo,
   4: combo(['valkyrie', 'crescent', 'athena'], ['valkyrie', 'crescent', 'athena']),
   5: combo(['sin', 'bullseye', 'blackCat'], ['sin', 'blackCat', 'bullseye']),
   6: universalVillainCombo,
   7: combo(['wolverine', 'gambit', 'cyclops'], ['silverSamurai', 'cyclops', 'gambit']),
   8: combo(['valkyrie', 'gladiator', 'athena'], ['valkyrie', 'sleeper', 'venom']),
   9: abxFreeCombo,
-  10: infinityChallengeCombo,
   11: combo(['mbaku', 'crescent', 'venom'], ['agentVenom', 'mbaku', 'venom']),
   12: combo(['novaRichardRider', 'loki', 'odin'], ['novaRichardRider', 'ronan', 'loki']),
   13: combo(['cyclops', 'doctorStrange', 'philCoulson'], ['philCoulson', 'cyclops', 'gambit']),
   14: combo(['madelynePryor', 'polaris', 'jeanGrey'], ['mystique', 'polaris', 'jeanGrey']),
   15: universalVillainCombo,
   16: abxFreeCombo,
-  17: infinityChallengeCombo,
   18: combo(['mysterio', 'doctorStrange', 'ironMan'], ['mysterio', 'doctorStrange', 'enchantress']),
   19: combo(['novaRichardRider', 'loki', 'sylvie'], ['novaRichardRider', 'ronan', 'loki']),
   20: combo(['valkyrie', 'gamora', 'athena'], ['valkyrie', 'gamora', 'athena']),
   21: combo(['ironheart', 'invisibleWoman', 'valeriaRichards'], ['ironheart', 'invisibleWoman', 'valeriaRichards']),
   22: combo(['scarletSpider', 'bullseye', 'moonKnight'], ['scarletSpider', 'greenGoblin', 'bullseye']),
   23: abxFreeCombo,
-  24: infinityChallengeCombo,
   25: combo(['yondu', 'loki', 'odin'], ['yondu', 'ronan', 'loki']),
   26: combo(['hulk', 'ares', 'winterSoldier'], ['taskmaster', 'ares', 'redHulk']),
   27: combo(['satana', 'scarletWitch', 'doctorVoodoo'], ['satana', 'scarletWitch', 'doctorVoodoo']),
@@ -391,6 +405,94 @@ const characterPickerMembers = mergePickerMembers(
   catalogCharacters.map(toCatalogMember),
 );
 
+function getAppCharacterForMember(member: SheetMember) {
+  return characterById.get(member.id)
+    ?? appCharacterByCatalogKey.get(normalizeCharacterKey(member.id))
+    ?? appCharacterByCatalogKey.get(normalizeCharacterKey(member.name));
+}
+
+function addConditionToken(tokens: Set<string>, value?: string) {
+  if (!value || value === 'Any' || value === 'Unknown') return;
+  const token = normalizeCharacterKey(value);
+  if (token) tokens.add(token);
+}
+
+function addConditionTags(tokens: Set<string>, tags?: readonly string[]) {
+  tags?.forEach((tag) => addConditionToken(tokens, tag));
+}
+
+function addAppCharacterConditionTokens(tokens: Set<string>, character?: Character) {
+  if (!character) return;
+  addConditionToken(tokens, character.type);
+  addConditionToken(tokens, character.alignment);
+  addConditionToken(tokens, character.gender);
+  addConditionToken(tokens, character.species);
+  addConditionTags(tokens, character.tags);
+}
+
+function addCatalogCharacterConditionTokens(tokens: Set<string>, character?: CatalogCharacter) {
+  if (!character) return;
+  addConditionToken(tokens, character.type);
+  addConditionToken(tokens, character.side);
+  addConditionTags(tokens, character.tags);
+}
+
+function addUniformConditionTokens(tokens: Set<string>, uniform: CatalogUniform) {
+  addConditionToken(tokens, uniform.type);
+  addConditionToken(tokens, uniform.side);
+  addConditionToken(tokens, uniform.gender);
+  addConditionToken(tokens, uniform.species);
+  addConditionTags(tokens, uniform.tags);
+}
+
+function getMemberConditionTokenGroups(member: SheetMember) {
+  const appCharacter = getAppCharacterForMember(member);
+  const catalogCharacter = getCatalogCharacterForMember(member);
+  const baseTokens = new Set<string>();
+  addAppCharacterConditionTokens(baseTokens, appCharacter);
+  addCatalogCharacterConditionTokens(baseTokens, catalogCharacter);
+
+  const tokenGroups = [baseTokens];
+  for (const uniform of catalogCharacter?.uniforms ?? []) {
+    const uniformTokens = new Set(baseTokens);
+    addUniformConditionTokens(uniformTokens, uniform);
+    tokenGroups.push(uniformTokens);
+  }
+
+  return tokenGroups;
+}
+
+function getConditionRequiredTokens(condition?: AllianceBattleCondition) {
+  if (!condition) return [];
+
+  return [
+    condition.recommendedType,
+    condition.requiredAlignment,
+    condition.requiredGender,
+    ...condition.requiredTags,
+  ]
+    .filter((value) => value !== 'Any')
+    .map((value) => normalizeCharacterKey(value))
+    .filter(Boolean);
+}
+
+function hasConditionToken(tokens: Set<string>, token: string) {
+  if (token === 'hero') return tokens.has('hero') || tokens.has('superhero');
+  if (token === 'villain') return tokens.has('villain') || tokens.has('supervillain');
+  return tokens.has(token);
+}
+
+function matchesAllianceBattleCondition(member: SheetMember, condition?: AllianceBattleCondition) {
+  const requiredTokens = getConditionRequiredTokens(condition);
+  if (requiredTokens.length === 0) return true;
+
+  return getMemberConditionTokenGroups(member).some((tokens) => requiredTokens.every((token) => hasConditionToken(tokens, token)));
+}
+
+function getRestrictedPickerMembers(condition?: AllianceBattleCondition) {
+  return characterPickerMembers.filter((member) => matchesAllianceBattleCondition(member, condition));
+}
+
 function normalizeCtpSlug(ctp: string) {
   return ctp
     .replace(/^Mighty\s+/i, '')
@@ -403,31 +505,60 @@ function ctpIconSrc(ctp: string) {
   return `https://thanosvibs.money/static/assets/items/ctp_${normalizeCtpSlug(ctp)}.png`;
 }
 
-function readStoredCustomizations() {
-  if (typeof window === 'undefined') return { memberOverrides: {}, ctpOverrides: {} };
+function emptySheetCustomizations(): SheetCustomizations {
+  return { memberOverrides: {}, ctpOverrides: {}, roleOverrides: {} };
+}
+
+function migrateDealerSlotOverrides(dealerSlotOverrides: Record<string, number> = {}): RoleOverrides {
+  return Object.entries(dealerSlotOverrides).reduce<RoleOverrides>((roles, [dealerKey, index]) => {
+    if (!dealerKey.endsWith(':dealer') || typeof index !== 'number' || index < 0 || index > 2) return roles;
+    roles[`${dealerKey.slice(0, -':dealer'.length)}:${index}`] = 'dealer';
+    return roles;
+  }, {});
+}
+
+function readStoredCustomizations(): SheetCustomizations {
+  if (typeof window === 'undefined') return emptySheetCustomizations();
 
   try {
     const parsed = JSON.parse(window.localStorage.getItem(sheetCustomizationStorageKey) ?? '{}') as {
       memberOverrides?: Record<string, SheetMember>;
       ctpOverrides?: Record<string, string>;
+      roleOverrides?: RoleOverrides;
+      dealerSlotOverrides?: Record<string, number>;
     };
     return {
       memberOverrides: parsed.memberOverrides ?? {},
       ctpOverrides: parsed.ctpOverrides ?? {},
+      roleOverrides: parsed.roleOverrides ?? migrateDealerSlotOverrides(parsed.dealerSlotOverrides),
     };
   } catch {
-    return { memberOverrides: {}, ctpOverrides: {} };
+    return emptySheetCustomizations();
   }
+}
+
+function writeStoredCustomizations(customizations: SheetCustomizations) {
+  if (typeof window === 'undefined') return;
+
+  try {
+    window.localStorage.setItem(sheetCustomizationStorageKey, JSON.stringify(customizations));
+  } catch {
+    // Local customizations are optional; the table still works if storage is blocked.
+  }
+}
+
+function areCustomizationsEqual(left: SheetCustomizations, right: SheetCustomizations) {
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 function IconStrip({ icons, size = 'md' }: { icons: AllianceBattleIcon[]; size?: 'sm' | 'md' }) {
   const sizeClass = size === 'sm' ? 'h-7 w-7 p-0.5' : 'h-10 w-10 p-1';
 
   return (
-    <div className="flex flex-wrap justify-center gap-1">
+    <div className="flex flex-nowrap items-center justify-center gap-1 leading-none">
       {icons.map((icon) => (
-        <span key={`${icon.kind}-${icon.key}`} className={`${sizeClass} grid place-items-center bg-white`} title={icon.label}>
-          <Image src={icon.src} alt={icon.label} width={36} height={36} unoptimized className="h-full w-full object-contain" />
+        <span key={`${icon.kind}-${icon.key}`} className={`${sizeClass} grid shrink-0 place-items-center bg-white`} title={icon.label}>
+          <Image src={icon.src} alt={icon.label} width={36} height={36} unoptimized className="block h-full w-full object-contain" />
         </span>
       ))}
     </div>
@@ -437,33 +568,55 @@ function IconStrip({ icons, size = 'md' }: { icons: AllianceBattleIcon[]; size?:
 function PlayerCell({
   member,
   label,
+  slotKey,
+  role,
   onCharacterClick,
   onCtpClick,
+  onToggleRole,
 }: {
   member?: SheetMember | null;
   label: string;
+  slotKey: string;
+  role: UsageRoleGroup;
   onCharacterClick?: () => void;
   onCtpClick?: () => void;
+  onToggleRole?: () => void;
 }) {
+  const roleLabel = role === 'dealer' ? '딜러' : '버퍼';
+
   if (!member) {
     return (
-      <div className="flex min-h-[82px] flex-col items-center justify-center text-[10px] font-bold text-slate-400">
-        <span className="grid h-10 w-10 place-items-center border border-slate-300 bg-slate-50">-</span>
+      <div className="flex min-h-[60px] flex-col items-center justify-center text-[10px] font-bold text-slate-400">
+        <span className="grid h-9 w-9 place-items-center border border-slate-300 bg-slate-50">-</span>
         <span className="mt-1">{label}</span>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-[82px] flex-col items-center justify-start text-center" title={`${label} · ${member.name}${member.uniformName ? ` · ${member.uniformName}` : ''} · ${member.ctp}`}>
-      <button type="button" onClick={onCharacterClick} className="group grid h-[48px] w-[48px] place-items-center border border-slate-300 bg-white transition hover:border-purple-500 hover:ring-2 hover:ring-purple-100" aria-label={`${member.name} 캐릭터 교체`}>
-        <Image src={member.portraitUrl} alt={member.name} width={46} height={46} unoptimized className="h-[46px] w-[46px] object-cover" />
-      </button>
-      <p className="mt-1 max-w-[66px] truncate text-[10px] font-black leading-tight text-slate-950">{member.name}</p>
-      {member.uniformName ? <p className="max-w-[66px] truncate text-[9px] font-bold leading-tight text-purple-600">{member.uniformName}</p> : null}
-      <button type="button" onClick={onCtpClick} className="mt-0.5 grid h-[24px] w-[24px] place-items-center rounded-full transition hover:bg-purple-50 hover:ring-2 hover:ring-purple-100" aria-label={`${member.name} CTP 교체`}>
-        <Image src={ctpIconSrc(member.ctp)} alt={`${member.name} ${member.ctp}`} width={22} height={22} unoptimized className="h-[22px] w-[22px] object-contain drop-shadow-sm" />
-      </button>
+    <div className="flex min-h-[64px] flex-col items-center justify-center text-center" title={`${roleLabel} · ${member.name}${member.uniformName ? ` · ${member.uniformName}` : ''} · ${member.ctp}`}>
+      <div className="grid grid-cols-[18px_40px_22px] items-center gap-1">
+        <button
+          type="button"
+          onClick={onToggleRole}
+          data-testid={`alliance-battle-toggle-role-${slotKey}`}
+          aria-pressed={role === 'dealer'}
+          className={`flex h-10 w-[18px] flex-col items-center justify-center border text-[9px] font-black leading-none transition ${role === 'dealer' ? 'border-yellow-500 bg-yellow-300 text-slate-950' : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-yellow-300 hover:bg-yellow-50 hover:text-slate-950'}`}
+          aria-label={`${member.name} ${role === 'dealer' ? '버퍼로 변경' : '딜러로 변경'}`}
+        >
+          {roleLabel.split('').map((syllable, syllableIndex) => (
+            <span key={`${syllable}-${syllableIndex}`}>{syllable}</span>
+          ))}
+        </button>
+        <button type="button" onClick={onCharacterClick} className="group grid h-10 w-10 place-items-center border border-slate-300 bg-white transition hover:border-purple-500 hover:ring-2 hover:ring-purple-100" aria-label={`${member.name} 캐릭터 교체`}>
+          <Image src={member.portraitUrl} alt={member.name} width={38} height={38} unoptimized className="h-[38px] w-[38px] object-cover" />
+        </button>
+        <button type="button" onClick={onCtpClick} className="grid h-[22px] w-[22px] place-items-center rounded-full transition hover:bg-purple-50 hover:ring-2 hover:ring-purple-100" aria-label={`${member.name} CTP 교체`}>
+          <Image src={ctpIconSrc(member.ctp)} alt={`${member.name} ${member.ctp}`} width={20} height={20} unoptimized className="h-5 w-5 object-contain drop-shadow-sm" />
+        </button>
+      </div>
+      <p className="mt-0.5 max-w-[64px] truncate text-[10px] font-black leading-tight text-slate-950">{member.name}</p>
+      {member.uniformName ? <p className="max-w-[112px] whitespace-normal break-words text-[9px] font-bold leading-[1.05] text-purple-600">{member.uniformName}</p> : null}
     </div>
   );
 }
@@ -474,32 +627,36 @@ function TeamBlock({
   teamKind,
   members,
   label,
-  memberOverrides,
-  ctpOverrides,
+  condition,
+  roleOverrides,
+  onToggleRole,
   onOpenPicker,
 }: {
   content: ScheduleContent;
   round: number;
   teamKind: TeamKind;
-  members: SheetMember[];
+  members: Array<SheetMember | null>;
   label: string;
-  memberOverrides: Record<string, SheetMember>;
-  ctpOverrides: Record<string, string>;
+  condition?: AllianceBattleCondition;
+  roleOverrides: RoleOverrides;
+  onToggleRole: (slotKey: string) => void;
   onOpenPicker: (picker: PickerState) => void;
 }) {
   return (
-    <div className="grid min-w-[222px] grid-cols-3 gap-1 px-1 py-1">
-      {(members.length ? members : [null, null, null]).slice(0, 3).map((baseMember, index) => {
+    <div className="grid min-w-[276px] grid-cols-3 items-center gap-1 px-0.5 py-0">
+      {members.map((member, index) => {
         const key = makeSlotKey(content, round, teamKind, index);
-        const member = baseMember ? resolveMember(baseMember, key, memberOverrides, ctpOverrides) : null;
-        const roleLabel = index === 0 ? '리더' : index === 1 ? '딜러' : '지원';
+        const slotLabel = `${index + 1}번`;
         return (
           <PlayerCell
             key={key}
             member={member}
-            label={roleLabel}
-            onCharacterClick={member ? () => onOpenPicker({ kind: 'character', slotKey: key, member, label: `${round}회차 ${label} ${roleLabel}` }) : undefined}
-            onCtpClick={member ? () => onOpenPicker({ kind: 'ctp', slotKey: key, member, label: `${round}회차 ${label} ${roleLabel}` }) : undefined}
+            label={slotLabel}
+            slotKey={key}
+            role={getSlotRole(content, round, teamKind, index, roleOverrides)}
+            onToggleRole={member ? () => onToggleRole(key) : undefined}
+            onCharacterClick={member ? () => onOpenPicker({ kind: 'character', slotKey: key, member, label: `${round}회차 ${label} ${slotLabel}`, condition, conditionLabel: formatRestrictionLabel(condition) }) : undefined}
+            onCtpClick={member ? () => onOpenPicker({ kind: 'ctp', slotKey: key, member, label: `${round}회차 ${label} ${slotLabel}` }) : undefined}
           />
         );
       })}
@@ -515,20 +672,45 @@ function makeSlotKey(content: ScheduleContent, round: number, teamKind: TeamKind
   return `${content}:${round}:${teamKind}:${index}`;
 }
 
+function getDefaultSlotRole(index: number): UsageRoleGroup {
+  return index === 1 ? 'dealer' : 'buffer';
+}
+
+function getSlotRole(content: ScheduleContent, round: number, teamKind: TeamKind, index: number, roleOverrides: RoleOverrides) {
+  return roleOverrides[makeSlotKey(content, round, teamKind, index)] ?? getDefaultSlotRole(index);
+}
+
 function resolveMember(baseMember: SheetMember, slotKey: string, memberOverrides: Record<string, SheetMember>, ctpOverrides: Record<string, string>) {
   const member = memberOverrides[slotKey] ?? baseMember;
   return { ...member, ctp: ctpOverrides[slotKey] ?? member.ctp };
 }
 
+function resolveTeamMembers(
+  content: ScheduleContent,
+  round: number,
+  teamKind: TeamKind,
+  members: SheetMember[],
+  memberOverrides: Record<string, SheetMember>,
+  ctpOverrides: Record<string, string>,
+) {
+  const slots = (members.length ? [...members, null, null, null] : [null, null, null]).slice(0, 3);
+
+  return slots.map((baseMember, index) => {
+    if (!baseMember) return null;
+    return resolveMember(baseMember, makeSlotKey(content, round, teamKind, index), memberOverrides, ctpOverrides);
+  });
+}
+
 function getBestComboForDay(day: AllianceBattleCalendarDay, content: ScheduleContent) {
   const condition = content === 'ABX' ? day.abx : day.abl;
-  if (!condition && day.infinite) return infinityChallengeCombo;
+  if (content === 'ABL' && !condition && day.infinite) return infinityChallengeCombo;
 
   return content === 'ABX' ? abxBestCombos[day.round] : ablBestCombos[day.round];
 }
 
 const usageCombatTypes: UsageCombatType[] = ['Combat', 'Blast', 'Speed', 'Universal'];
 const usageContents: ScheduleContent[] = ['ABX', 'ABL'];
+const usageTeamKinds: TeamKind[] = ['tagPlay', 'soloDeal'];
 const usageTeamLabels: Record<TeamKind, string> = {
   tagPlay: '굇수',
   soloDeal: '일반',
@@ -579,7 +761,7 @@ function createUsageBuckets() {
   return {
     buffer: new Map<string, UsageCountRow>(),
     dealer: new Map<string, UsageCountRow>(),
-  } satisfies Record<UsageRoleGroup, Map<string, UsageCountRow>>;
+  } satisfies UsageLookup;
 }
 
 function groupUsageRowsByType(rows: UsageCountRow[]) {
@@ -596,35 +778,39 @@ function groupUsageRowsByType(rows: UsageCountRow[]) {
     .filter((group) => group.rows.length > 0 || group.type !== 'Unknown');
 }
 
-function getUsageCountSummary(
+function buildUsageLookup(
   calendar: AllianceBattleCalendarDay[],
   memberOverrides: Record<string, SheetMember>,
   ctpOverrides: Record<string, string>,
-): UsageCountSummary {
+  options: UsageCountOptions = {},
+): UsageLookup {
   const buckets = createUsageBuckets();
+  const contents = options.contents ?? usageContents;
+  const teamKinds = options.teamKinds ?? usageTeamKinds;
+  const roleOverrides = options.roleOverrides ?? {};
 
   for (const day of calendar) {
-    for (const content of usageContents) {
+    for (const content of contents) {
       const comboForDay = getBestComboForDay(day, content);
-      const teams: Array<{ teamKind: TeamKind; members: SheetMember[] }> = [
-        { teamKind: 'tagPlay', members: abxComboMembers(comboForDay?.tagPlay) },
-        { teamKind: 'soloDeal', members: abxComboMembers(comboForDay?.soloDeal) },
-      ];
 
-      for (const team of teams) {
-        team.members.slice(0, 3).forEach((baseMember, index) => {
-          const slotKey = makeSlotKey(content, day.round, team.teamKind, index);
+      for (const teamKind of teamKinds) {
+        abxComboMembers(comboForDay?.[teamKind]).slice(0, 3).forEach((baseMember, index) => {
+          const slotKey = makeSlotKey(content, day.round, teamKind, index);
           const member = resolveMember(baseMember, slotKey, memberOverrides, ctpOverrides);
-          const role: UsageRoleGroup = index === 1 ? 'dealer' : 'buffer';
-          addUsageCount(buckets[role], member, team.teamKind);
+          const role = getSlotRole(content, day.round, teamKind, index, roleOverrides);
+          addUsageCount(buckets[role], member, teamKind);
         });
       }
     }
   }
 
+  return buckets;
+}
+
+function summarizeUsageLookup(lookup: UsageLookup): UsageCountSummary {
   return {
-    buffers: groupUsageRowsByType(buildUsageRows(buckets.buffer)),
-    dealers: groupUsageRowsByType(buildUsageRows(buckets.dealer)),
+    buffers: groupUsageRowsByType(buildUsageRows(lookup.buffer)),
+    dealers: groupUsageRowsByType(buildUsageRows(lookup.dealer)),
   };
 }
 
@@ -658,83 +844,102 @@ function buildRotationSheetCalendar(today: string): AllianceBattleCalendarDay[] 
   });
 }
 
+function getUsageCount(row: UsageCountRow | undefined, teamKind: TeamKind) {
+  if (!row) return 0;
+  return teamKind === 'tagPlay' ? row.tagPlay : row.soloDeal;
+}
+
 function ScheduleRow({
   day,
   content,
+  teamKind,
+  roleOverrides,
   memberOverrides,
   ctpOverrides,
+  onToggleRole,
   onOpenPicker,
 }: {
   day: AllianceBattleCalendarDay;
   content: ScheduleContent;
+  teamKind: TeamKind;
+  roleOverrides: RoleOverrides;
   memberOverrides: Record<string, SheetMember>;
   ctpOverrides: Record<string, string>;
+  onToggleRole: (slotKey: string) => void;
   onOpenPicker: (picker: PickerState) => void;
 }) {
   const condition = content === 'ABX' ? day.abx : day.abl;
   const isInfinityChallenge = !condition && Boolean(day.infinite);
   const manualCombo = getBestComboForDay(day, content);
   const cancelIcons = getCancelEffectIcons(condition);
-  const tagPlayMembers = abxComboMembers(manualCombo?.tagPlay);
-  const soloDealMembers = abxComboMembers(manualCombo?.soloDeal);
+  const activeMembers = resolveTeamMembers(
+    content,
+    day.round,
+    teamKind,
+    abxComboMembers(manualCombo?.[teamKind]),
+    memberOverrides,
+    ctpOverrides,
+  );
+  const activeTeamLabel = usageTeamLabels[teamKind];
 
   if (!condition && !manualCombo) {
     return (
       <tr className={day.isToday ? 'bg-lime-50' : 'bg-white'}>
-        <td className="border border-black bg-white px-4 py-12 text-center text-xl font-black text-slate-950" colSpan={8}>ㅇㅅㅇ</td>
+        <td className="w-[136px] border border-black bg-white px-0.5 py-0.5 align-middle">
+          <div className="grid min-h-[64px] place-items-center px-1 text-center text-sm font-black leading-snug text-slate-950">
+            {isInfinityChallenge ? '-' : 'ㅇㅅㅇ'}
+          </div>
+        </td>
+        <td className="w-[104px] border border-black bg-white px-0.5 py-0.5 align-middle">
+          <div className="flex min-h-[64px] flex-col items-center justify-center gap-0.5">
+            <div className="grid h-7 place-items-center text-xs font-black leading-none text-slate-400">-</div>
+            <div className="grid w-full max-w-[76px] grid-cols-2 border-t border-black text-center text-[10px] font-black leading-none text-slate-700">
+              <span className="border-r border-black py-0.5">{day.round}회차</span>
+              <span className="py-0.5">{day.dayName}</span>
+            </div>
+          </div>
+        </td>
+        <td className="border border-black px-0.5 py-0.5 align-middle" data-testid="alliance-battle-empty-combo">
+          <div className="grid min-h-[64px] place-items-center text-sm font-black text-slate-500">없음</div>
+        </td>
       </tr>
     );
   }
 
   return (
-    <tr className={day.isToday ? 'bg-lime-50' : day.isResetDay ? 'bg-amber-50' : 'bg-white'}>
-      <td className="w-[118px] border border-black bg-white px-1 py-1">
+    <tr className={day.isToday ? 'bg-lime-50' : 'bg-white'}>
+      <td className="w-[136px] border border-black bg-white px-0.5 py-0.5 align-middle">
         {isInfinityChallenge ? (
-          <div className="grid min-h-[82px] place-items-center px-1 text-center text-base font-black leading-snug text-slate-950">
+          <div className="grid min-h-[64px] place-items-center px-1 text-center text-sm font-black leading-snug text-slate-950">
             인피니티<br />챌린지
           </div>
         ) : (
-          <IconStrip icons={getRestrictionIcons(condition)} />
+          <div className="flex min-h-[64px] items-center justify-center">
+            <IconStrip icons={getRestrictionIcons(condition)} />
+          </div>
         )}
       </td>
-      <td className="w-[92px] border border-black bg-white px-1 py-1">
-        <IconStrip icons={cancelIcons} size="sm" />
-        <div className="mt-1 grid grid-cols-2 border-t border-black text-center text-[10px] font-black text-slate-700">
-          <span className="border-r border-black py-1">{day.round}회차</span>
-          <span className="py-1">{day.dayName}</span>
+      <td className="w-[104px] border border-black bg-white px-0.5 py-0.5 align-middle">
+        <div className="flex min-h-[64px] flex-col items-center justify-center gap-0.5">
+          <IconStrip icons={cancelIcons} size="sm" />
+          <div className="grid w-full max-w-[76px] grid-cols-2 border-t border-black text-center text-[10px] font-black leading-none text-slate-700">
+            <span className="border-r border-black py-0.5">{day.round}회차</span>
+            <span className="py-0.5">{day.dayName}</span>
+          </div>
         </div>
       </td>
-      <td className="border border-black px-2 py-1 text-center text-[11px] font-black text-slate-800">굇수</td>
-      <td className="border border-black px-1 py-1">
+      <td className="border border-black px-0.5 py-0.5 align-middle">
         <TeamBlock
           content={content}
           round={day.round}
-          teamKind="tagPlay"
-          members={tagPlayMembers}
-          label="굇수"
-          memberOverrides={memberOverrides}
-          ctpOverrides={ctpOverrides}
+          teamKind={teamKind}
+          members={activeMembers}
+          label={activeTeamLabel}
+          condition={condition}
+          roleOverrides={roleOverrides}
+          onToggleRole={onToggleRole}
           onOpenPicker={onOpenPicker}
         />
-      </td>
-      <td className="border border-black px-2 py-1 text-center text-[11px] font-black text-slate-800">일반</td>
-      <td className="border border-black px-1 py-1">
-        <TeamBlock
-          content={content}
-          round={day.round}
-          teamKind="soloDeal"
-          members={soloDealMembers}
-          label="일반"
-          memberOverrides={memberOverrides}
-          ctpOverrides={ctpOverrides}
-          onOpenPicker={onOpenPicker}
-        />
-      </td>
-      <td className="border border-black px-2 py-1 text-center text-[11px] font-bold leading-relaxed text-slate-600">
-        {isInfinityChallenge ? '인피니티 챌린지' : formatRestrictionLabel(condition)}
-      </td>
-      <td className="border border-black px-2 py-1 text-center text-[11px] font-bold leading-relaxed text-slate-600">
-        {condition?.cancelEffects.map((effect) => cancelEffectLabels[effect] ?? effect).join(' / ') || '자유'}
       </td>
     </tr>
   );
@@ -754,12 +959,13 @@ function PickerPanel({
   const [characterQuery, setCharacterQuery] = useState('');
   const [selectedMember, setSelectedMember] = useState<SheetMember | null>(null);
   const deferredCharacterQuery = useDeferredValue(characterQuery);
+  const restrictedCharacterPickerMembers = useMemo(() => getRestrictedPickerMembers(picker?.condition), [picker?.condition]);
   const visibleCharacterPickerMembers = useMemo(() => {
     const query = deferredCharacterQuery.trim().toLowerCase();
-    if (!query) return characterPickerMembers;
+    if (!query) return restrictedCharacterPickerMembers;
 
-    return characterPickerMembers.filter((member) => `${member.name} ${member.id}`.toLowerCase().includes(query));
-  }, [deferredCharacterQuery]);
+    return restrictedCharacterPickerMembers.filter((member) => `${member.name} ${member.id}`.toLowerCase().includes(query));
+  }, [deferredCharacterQuery, restrictedCharacterPickerMembers]);
   const selectedUniformOptions = useMemo(() => (selectedMember ? getUniformOptionsForMember(selectedMember) : []), [selectedMember]);
 
   useEffect(() => {
@@ -795,8 +1001,13 @@ function PickerPanel({
                 aria-label="캐릭터 검색"
                 className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold outline-none transition focus:border-purple-300 focus:ring-4 focus:ring-purple-100"
               />
-              <span className="rounded-xl bg-slate-100 px-3 py-2 text-[11px] font-black text-slate-600">{visibleCharacterPickerMembers.length}/{characterPickerMembers.length}</span>
+              <span className="rounded-xl bg-slate-100 px-3 py-2 text-[11px] font-black text-slate-600">{visibleCharacterPickerMembers.length}/{restrictedCharacterPickerMembers.length}</span>
             </div>
+            {picker.conditionLabel ? (
+              <p data-testid="alliance-battle-picker-condition" className="mt-2 rounded-xl bg-purple-50 px-3 py-2 text-[11px] font-black text-purple-700">
+                조건: {picker.conditionLabel}
+              </p>
+            ) : null}
           </div>
           <div className="grid min-h-0 flex-1 gap-3 overflow-hidden p-3 lg:grid-cols-[260px_1fr]">
             <div data-testid="alliance-battle-character-scroll" className="min-h-0 overscroll-contain overflow-y-auto rounded-xl border border-slate-100 bg-slate-50 p-2">
@@ -858,16 +1069,16 @@ function PickerPanel({
           </div>
         </>
       ) : (
-        <div className="grid min-h-0 grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2 overflow-y-auto overscroll-contain p-3">
+        <div data-testid="alliance-battle-ctp-grid" className="grid min-h-0 grid-cols-5 grid-rows-3 gap-2 overflow-y-auto overscroll-contain p-3">
           {ctpOptions.map((ctp) => (
             <button
               key={ctp}
               type="button"
               onClick={() => onSelectCtp(ctp)}
-              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-2 text-left transition hover:border-purple-300 hover:bg-purple-50"
+              className="flex min-h-[64px] flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 p-2 text-center transition hover:border-purple-300 hover:bg-purple-50"
             >
               <Image src={ctpIconSrc(ctp)} alt={ctp} width={28} height={28} unoptimized className="h-7 w-7 object-contain" />
-              <span className="truncate text-xs font-black text-slate-800">{ctp}</span>
+              <span className="max-w-full truncate text-xs font-black text-slate-800">{ctp}</span>
             </button>
           ))}
         </div>
@@ -892,6 +1103,64 @@ const usageTypeColors: Record<UsageCombatType, string> = {
   Unknown: 'border-slate-200 bg-slate-50 text-slate-700',
 };
 
+function flattenUsageGroups(groups: UsageTypeGroup[], teamKind: TeamKind) {
+  return groups
+    .flatMap((group) => group.rows)
+    .sort((left, right) => {
+      const rightCount = getUsageCount(right, teamKind);
+      const leftCount = getUsageCount(left, teamKind);
+      if (rightCount !== leftCount) return rightCount - leftCount;
+      return left.member.name.localeCompare(right.member.name, 'ko');
+    });
+}
+
+function UsageRankingList({ title, rows, teamKind }: { title: string; rows: UsageCountRow[]; teamKind: TeamKind }) {
+  return (
+    <section className="min-w-0 border border-black bg-white">
+      <div className="flex items-center justify-between border-b border-black bg-slate-950 px-2 py-2 text-white">
+        <h3 className="text-sm font-black text-yellow-300">{title}</h3>
+        <span className="text-[10px] font-black text-slate-300">많은순</span>
+      </div>
+      <div className="divide-y divide-slate-200">
+        {rows.map((row, index) => {
+          const count = getUsageCount(row, teamKind);
+          return (
+            <div key={`${title}-${row.member.id}`} className="grid grid-cols-[24px_minmax(0,1fr)_36px] items-center gap-1.5 px-1.5 py-1">
+              <span className="text-center text-[11px] font-black text-slate-500">{index + 1}</span>
+              <div className="flex min-w-0 items-center gap-1.5">
+                <Image src={row.member.portraitUrl} alt={row.member.name} width={30} height={30} unoptimized className="h-[30px] w-[30px] shrink-0 object-cover ring-1 ring-slate-200" />
+                <div className="min-w-0">
+                  <p className="truncate text-[11px] font-black text-slate-950">{row.member.name}</p>
+                  {row.member.uniformName ? <p className="truncate text-[9px] font-bold text-purple-600">{row.member.uniformName}</p> : null}
+                </div>
+              </div>
+              <span className="text-right text-xs font-black text-purple-700">{count}회</span>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function UsageRankingPanel({ summary, teamKind }: { summary: UsageCountSummary; teamKind: TeamKind }) {
+  const dealerRows = flattenUsageGroups(summary.dealers, teamKind);
+  const bufferRows = flattenUsageGroups(summary.buffers, teamKind);
+
+  return (
+    <aside className="min-w-0 border-2 border-black bg-slate-100" data-testid="alliance-battle-usage-ranking">
+      <div className="border-b-2 border-black bg-blue-700 px-2 py-2 text-center">
+        <p className="text-[10px] font-black uppercase tracking-wide text-blue-100">ABX + ABL {usageTeamLabels[teamKind]}</p>
+        <h2 className="text-lg font-black text-yellow-300">사용 순위</h2>
+      </div>
+      <div data-testid="alliance-battle-usage-ranking-lists" className="grid gap-1.5 p-1.5 lg:grid-cols-2">
+        <UsageRankingList title="딜러 순위" rows={dealerRows} teamKind={teamKind} />
+        <UsageRankingList title="버퍼 순위" rows={bufferRows} teamKind={teamKind} />
+      </div>
+    </aside>
+  );
+}
+
 function UsageTypeHeader({ type }: { type: UsageCombatType }) {
   const icon = getAllianceAttributeIcon(type);
 
@@ -905,41 +1174,35 @@ function UsageTypeHeader({ type }: { type: UsageCombatType }) {
         ) : null}
         <p className="truncate text-sm font-black">{usageTypeLabels[type]}</p>
       </div>
-      <div className="grid w-[132px] grid-cols-3 text-center text-[11px] font-black">
-        <span>{usageTeamLabels.tagPlay}</span>
-        <span>{usageTeamLabels.soloDeal}</span>
-        <span>합계</span>
-      </div>
+      <span className="w-[64px] text-center text-[11px] font-black">횟수</span>
     </div>
   );
 }
 
-function UsageMemberRow({ row }: { row: UsageCountRow }) {
+function UsageMemberRow({ row, teamKind }: { row: UsageCountRow; teamKind: TeamKind }) {
+  const count = getUsageCount(row, teamKind);
+
   return (
-    <div className="grid min-h-[58px] grid-cols-[minmax(0,1fr)_132px] items-center border-b border-slate-200 bg-white last:border-b-0">
-      <div className="flex min-w-0 items-center gap-2 px-2 py-1.5">
-        <Image src={row.member.portraitUrl} alt={row.member.name} width={42} height={42} unoptimized className="h-[42px] w-[42px] shrink-0 object-cover ring-1 ring-slate-200" />
+    <div className="grid min-h-[48px] grid-cols-[minmax(0,1fr)_48px] items-center border-b border-slate-200 bg-white last:border-b-0">
+      <div className="flex min-w-0 items-center gap-1.5 px-2 py-1">
+        <Image src={row.member.portraitUrl} alt={row.member.name} width={34} height={34} unoptimized className="h-[34px] w-[34px] shrink-0 object-cover ring-1 ring-slate-200" />
         <div className="min-w-0">
           <p className="truncate text-xs font-black text-slate-950">{row.member.name}</p>
-          {row.member.uniformName ? <p className="truncate text-[10px] font-bold text-purple-600">{row.member.uniformName}</p> : null}
+          {row.member.uniformName ? <p className="truncate text-[9px] font-bold text-purple-600">{row.member.uniformName}</p> : null}
         </div>
       </div>
-      <div className="grid h-full grid-cols-3 text-center text-sm font-black text-slate-950">
-        <span className="grid place-items-center border-l border-slate-200">{row.tagPlay || ''}</span>
-        <span className="grid place-items-center border-l border-slate-200">{row.soloDeal || ''}</span>
-        <span className="grid place-items-center border-l border-slate-200 bg-yellow-50 text-base">{row.total}</span>
-      </div>
+      <span className="grid h-full place-items-center border-l border-slate-200 bg-yellow-50 text-sm font-black text-slate-950">{count}</span>
     </div>
   );
 }
 
-function UsageTypeGroupPanel({ group }: { group: UsageTypeGroup }) {
+function UsageTypeGroupPanel({ group, teamKind }: { group: UsageTypeGroup; teamKind: TeamKind }) {
   return (
     <div className="min-w-0 overflow-hidden border border-slate-300 bg-white">
       <UsageTypeHeader type={group.type} />
-      <div className="max-h-[390px] overflow-y-auto">
+      <div>
         {group.rows.length ? group.rows.map((row) => (
-          <UsageMemberRow key={`${group.type}-${row.member.id}`} row={row} />
+          <UsageMemberRow key={`${group.type}-${row.member.id}`} row={row} teamKind={teamKind} />
         )) : (
           <p className="px-3 py-8 text-center text-xs font-black text-slate-400">사용 캐릭터 없음</p>
         )}
@@ -948,33 +1211,109 @@ function UsageTypeGroupPanel({ group }: { group: UsageTypeGroup }) {
   );
 }
 
-function UsageRoleSection({ role, groups }: { role: UsageRoleGroup; groups: UsageTypeGroup[] }) {
+function UsageRoleSection({ role, groups, teamKind }: { role: UsageRoleGroup; groups: UsageTypeGroup[]; teamKind: TeamKind }) {
   return (
     <section className="overflow-hidden border-2 border-black bg-slate-50">
-      <div className="border-b-2 border-black bg-blue-700 px-4 py-3 text-center">
-        <h3 className="text-xl font-black text-yellow-300">{usageRoleLabels[role]} 사용 횟수</h3>
+      <div className="border-b-2 border-black bg-blue-700 px-3 py-2 text-center">
+        <h3 className="text-base font-black text-yellow-300">{usageRoleLabels[role]} 상세 순위</h3>
       </div>
-      <div className="grid gap-3 p-3 xl:grid-cols-4">
-        {groups.map((group) => <UsageTypeGroupPanel key={`${role}-${group.type}`} group={group} />)}
+      <div className="grid gap-2 p-2 md:grid-cols-2">
+        {groups.map((group) => <UsageTypeGroupPanel key={`${role}-${group.type}`} group={group} teamKind={teamKind} />)}
       </div>
     </section>
   );
 }
 
-function UsageCountSummaryPanel({ summary }: { summary: UsageCountSummary }) {
+function UsageCountSummaryPanel({ summary, teamKind }: { summary: UsageCountSummary; teamKind: TeamKind }) {
+  const teamLabel = usageTeamLabels[teamKind];
+
   return (
-    <div className="border-t-2 border-black bg-slate-100 p-4">
-      <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+    <div className="min-w-0 border-2 border-black bg-slate-100" data-testid="alliance-battle-usage-detail-panel">
+      <div className="flex flex-wrap items-end justify-between gap-2 border-b-2 border-black bg-white px-3 py-2">
         <div>
-          <p className="text-xs font-black uppercase tracking-wide text-slate-500">ABX + ABL combined usage count</p>
-          <h2 className="text-xl font-black text-slate-950">ABX/ABL 합산 사용횟수</h2>
+          <p className="text-xs font-black uppercase tracking-wide text-slate-500">ABX + ABL {teamLabel} usage count</p>
+          <h2 className="text-lg font-black text-slate-950">상세 순위</h2>
         </div>
-        <p className="text-xs font-bold text-slate-500">타입별 분리 · 굇수/일반 조합 별도 집계 · 합계 많이 쓰는 순</p>
       </div>
-      <div className="grid gap-4">
-        <UsageRoleSection role="buffer" groups={summary.buffers} />
-        <UsageRoleSection role="dealer" groups={summary.dealers} />
+      <div data-testid="alliance-battle-usage-detail-sections" className="grid gap-2 p-2 2xl:grid-cols-2">
+        <UsageRoleSection role="dealer" groups={summary.dealers} teamKind={teamKind} />
+        <UsageRoleSection role="buffer" groups={summary.buffers} teamKind={teamKind} />
       </div>
+    </div>
+  );
+}
+
+function UsageAnalysisPanel({ summary, teamKind }: { summary: UsageCountSummary; teamKind: TeamKind }) {
+  return (
+    <div data-testid="alliance-battle-usage-analysis-layout" className="grid items-start gap-2 p-2 xl:grid-cols-[minmax(360px,520px)_minmax(0,1fr)]">
+      <UsageRankingPanel summary={summary} teamKind={teamKind} />
+      <UsageCountSummaryPanel summary={summary} teamKind={teamKind} />
+    </div>
+  );
+}
+
+function AllianceBattleTableChunk({
+  chunk,
+  content,
+  activeTeamLabel,
+  toneClass,
+  teamKind,
+  roleOverrides,
+  memberOverrides,
+  ctpOverrides,
+  onToggleRole,
+  onOpenPicker,
+}: {
+  chunk: BattleRoundChunk;
+  content: ScheduleContent;
+  activeTeamLabel: string;
+  toneClass: string;
+  teamKind: TeamKind;
+  roleOverrides: RoleOverrides;
+  memberOverrides: Record<string, SheetMember>;
+  ctpOverrides: Record<string, string>;
+  onToggleRole: (slotKey: string) => void;
+  onOpenPicker: (picker: PickerState) => void;
+}) {
+  return (
+    <div data-testid={`alliance-battle-round-chunk-${chunk.label}`} className="min-w-0 overflow-x-auto">
+      <table className="w-full min-w-[680px] border-collapse text-sm">
+        <thead>
+          <tr>
+            <th className="border border-black bg-slate-950 px-2 py-1 text-center text-xs font-black text-yellow-300" colSpan={3}>
+              {chunk.label}
+            </th>
+          </tr>
+          <tr>
+            <th className="border border-black bg-fuchsia-800 px-2 py-1 text-white" colSpan={2}>
+              <span className="text-xs font-black">조건 / 해제</span>
+            </th>
+            <th className="border border-black bg-yellow-300 px-2 py-2 text-center text-base font-black">
+              <span className={toneClass}>{content} 표 · {activeTeamLabel} 조합</span>
+            </th>
+          </tr>
+          <tr className="bg-white text-[11px] font-black text-slate-700">
+            <th className="border border-black px-1 py-1.5">조건</th>
+            <th className="border border-black px-1 py-1.5">해제/회차</th>
+            <th className="border border-black px-1 py-1.5">{activeTeamLabel} 조합</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chunk.days.map((day) => (
+            <ScheduleRow
+              key={`${content}-${day.date}`}
+              day={day}
+              content={content}
+              teamKind={teamKind}
+              roleOverrides={roleOverrides}
+              memberOverrides={memberOverrides}
+              ctpOverrides={ctpOverrides}
+              onToggleRole={onToggleRole}
+              onOpenPicker={onOpenPicker}
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -982,31 +1321,42 @@ function UsageCountSummaryPanel({ summary }: { summary: UsageCountSummary }) {
 function AllianceBattleSheet({ calendar, content, today }: { calendar: AllianceBattleCalendarDay[]; content: ScheduleContent; today: string }) {
   const meta = contentMeta[content];
   const toneClass = meta.tone === 'abx' ? 'text-blue-700' : 'text-purple-700';
-  const conditionDays = calendar.filter((day) => (content === 'ABX' ? day.abx || day.infinite : day.abl || day.infinite)).length;
+  const conditionDays = calendar.filter((day) => (content === 'ABX' ? day.abx : day.abl || day.infinite)).length;
   const [memberOverrides, setMemberOverrides] = useState<Record<string, SheetMember>>({});
   const [ctpOverrides, setCtpOverrides] = useState<Record<string, string>>({});
-  const [customizationsReady, setCustomizationsReady] = useState(false);
+  const [roleOverrides, setRoleOverrides] = useState<RoleOverrides>({});
+  const [savedMemberOverrides, setSavedMemberOverrides] = useState<Record<string, SheetMember>>({});
+  const [savedCtpOverrides, setSavedCtpOverrides] = useState<Record<string, string>>({});
+  const [savedRoleOverrides, setSavedRoleOverrides] = useState<RoleOverrides>({});
   const [picker, setPicker] = useState<PickerState>(null);
-  const usageSummary = useMemo(
-    () => getUsageCountSummary(calendar, memberOverrides, ctpOverrides),
-    [calendar, memberOverrides, ctpOverrides],
+  const [activeTeamKind, setActiveTeamKind] = useState<TeamKind>('tagPlay');
+  const activeTeamLabel = usageTeamLabels[activeTeamKind];
+  const hasPendingCustomizations = !areCustomizationsEqual(
+    { memberOverrides, ctpOverrides, roleOverrides },
+    { memberOverrides: savedMemberOverrides, ctpOverrides: savedCtpOverrides, roleOverrides: savedRoleOverrides },
   );
+  const usageLookup = useMemo(
+    () => buildUsageLookup(calendar, savedMemberOverrides, savedCtpOverrides, { contents: usageContents, teamKinds: [activeTeamKind], roleOverrides: savedRoleOverrides }),
+    [calendar, activeTeamKind, savedMemberOverrides, savedCtpOverrides, savedRoleOverrides],
+  );
+  const usageSummary = useMemo(
+    () => summarizeUsageLookup(usageLookup),
+    [usageLookup],
+  );
+  const calendarChunks = useMemo<BattleRoundChunk[]>(() => [
+    { label: '1-14회', days: calendar.slice(0, 14) },
+    { label: '15-28회', days: calendar.slice(14, 28) },
+  ], [calendar]);
 
   useEffect(() => {
     const stored = readStoredCustomizations();
     setMemberOverrides(stored.memberOverrides);
     setCtpOverrides(stored.ctpOverrides);
-    setCustomizationsReady(true);
+    setRoleOverrides(stored.roleOverrides);
+    setSavedMemberOverrides(stored.memberOverrides);
+    setSavedCtpOverrides(stored.ctpOverrides);
+    setSavedRoleOverrides(stored.roleOverrides);
   }, []);
-
-  useEffect(() => {
-    if (!customizationsReady) return;
-    try {
-      window.localStorage.setItem(sheetCustomizationStorageKey, JSON.stringify({ memberOverrides, ctpOverrides }));
-    } catch {
-      // Local customizations are optional; the table still works if storage is blocked.
-    }
-  }, [customizationsReady, memberOverrides, ctpOverrides]);
 
   useEffect(() => {
     if (!picker) return;
@@ -1037,58 +1387,90 @@ function AllianceBattleSheet({ calendar, content, today }: { calendar: AllianceB
   };
 
   const resetCustomizations = () => {
-    setMemberOverrides({});
-    setCtpOverrides({});
+    const emptyCustomizations = emptySheetCustomizations();
+    setMemberOverrides(emptyCustomizations.memberOverrides);
+    setCtpOverrides(emptyCustomizations.ctpOverrides);
+    setRoleOverrides(emptyCustomizations.roleOverrides);
+    setSavedMemberOverrides(emptyCustomizations.memberOverrides);
+    setSavedCtpOverrides(emptyCustomizations.ctpOverrides);
+    setSavedRoleOverrides(emptyCustomizations.roleOverrides);
+    writeStoredCustomizations(emptyCustomizations);
     setPicker(null);
+  };
+
+  const toggleSlotRole = (slotKey: string) => {
+    setRoleOverrides((previous) => ({
+      ...previous,
+      [slotKey]: previous[slotKey] === 'dealer' ? 'buffer' : 'dealer',
+    }));
+  };
+
+  const saveAllCustomizations = () => {
+    setSavedMemberOverrides(memberOverrides);
+    setSavedCtpOverrides(ctpOverrides);
+    setSavedRoleOverrides(roleOverrides);
+    writeStoredCustomizations({ memberOverrides, ctpOverrides, roleOverrides });
   };
 
   return (
     <section className="overflow-hidden rounded-none border-2 border-black bg-white shadow-sm">
       <div className="border-b-2 border-black bg-emerald-700 px-4 py-4 text-center">
-        <h2 className="text-2xl font-black text-yellow-300">ABX & ABL 표</h2>
+        <h2 className="text-2xl font-black text-yellow-300">{meta.title}</h2>
         <div className="mt-1 flex flex-wrap items-center justify-center gap-2 text-xs font-black text-emerald-50">
           <span>28라운드 로테이션 · {today} 기준 오늘 회차 표시 · {meta.modeLabel} · {conditionDays} 조건일</span>
+          <button
+            type="button"
+            onClick={saveAllCustomizations}
+            disabled={!hasPendingCustomizations}
+            data-testid="alliance-battle-save-all"
+            className={`rounded-full border px-2 py-0.5 text-[10px] font-black transition ${hasPendingCustomizations ? 'border-yellow-200 bg-yellow-300 text-slate-950 hover:bg-yellow-200' : 'border-emerald-200/40 text-emerald-100 opacity-60'}`}
+          >
+            전체 저장
+          </button>
           <button type="button" onClick={resetCustomizations} className="rounded-full border border-emerald-200/60 px-2 py-0.5 text-[10px] font-black text-white hover:bg-emerald-600">기본값</button>
+          <span className="rounded-full bg-emerald-900/60 px-2 py-0.5 text-[10px] text-emerald-100">
+            {hasPendingCustomizations ? '사용순위 갱신 대기' : '사용순위 반영됨'}
+          </span>
+        </div>
+        <div className="mt-3 inline-grid grid-cols-2 overflow-hidden border-2 border-emerald-200 bg-emerald-900 text-xs font-black text-white">
+          {usageTeamKinds.map((kind) => {
+            const active = activeTeamKind === kind;
+            return (
+              <button
+                key={kind}
+                type="button"
+                data-testid={`alliance-battle-team-toggle-${kind}`}
+                aria-pressed={active}
+                onClick={() => setActiveTeamKind(kind)}
+                className={`px-8 py-2 transition ${active ? 'bg-yellow-300 text-slate-950' : 'bg-emerald-900 text-emerald-50 hover:bg-emerald-800'}`}
+              >
+                {usageTeamLabels[kind]}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[1060px] border-collapse text-sm">
-          <thead>
-            <tr>
-              <th className="border border-black bg-fuchsia-800 px-2 py-1 text-white" colSpan={2}>
-                <span className="text-xs font-black">조건 / 해제</span>
-              </th>
-              <th className="border border-black bg-yellow-300 px-3 py-3 text-center text-lg font-black" colSpan={6}>
-                <span className={toneClass}>{meta.title}</span>
-              </th>
-            </tr>
-            <tr className="bg-white text-[11px] font-black text-slate-700">
-              <th className="border border-black px-2 py-2">조건</th>
-              <th className="border border-black px-2 py-2">해제/회차</th>
-              <th className="border border-black px-2 py-2">태그플</th>
-              <th className="border border-black px-2 py-2">굇수 조합</th>
-              <th className="border border-black px-2 py-2">솔딜</th>
-              <th className="border border-black px-2 py-2">일반 조합</th>
-              <th className="border border-black px-2 py-2">조건명</th>
-              <th className="border border-black px-2 py-2">캔슬</th>
-            </tr>
-          </thead>
-          <tbody>
-            {calendar.map((day) => (
-              <ScheduleRow
-                key={`${content}-${day.date}`}
-                day={day}
-                content={content}
-                memberOverrides={memberOverrides}
-                ctpOverrides={ctpOverrides}
-                onOpenPicker={setPicker}
-              />
-            ))}
-          </tbody>
-        </table>
+      <div data-testid="alliance-battle-compact-table-layout" className="space-y-2 p-2">
+        <div data-testid="alliance-battle-round-split" className="grid items-start gap-2 2xl:grid-cols-2">
+          {calendarChunks.map((chunk) => (
+            <AllianceBattleTableChunk
+              key={chunk.label}
+              chunk={chunk}
+              content={content}
+              activeTeamLabel={activeTeamLabel}
+              toneClass={toneClass}
+              teamKind={activeTeamKind}
+              roleOverrides={roleOverrides}
+              memberOverrides={memberOverrides}
+              ctpOverrides={ctpOverrides}
+              onToggleRole={toggleSlotRole}
+              onOpenPicker={setPicker}
+            />
+          ))}
+        </div>
       </div>
-      <UsageCountSummaryPanel summary={usageSummary} />
+      <UsageAnalysisPanel summary={usageSummary} teamKind={activeTeamKind} />
       <PickerPanel picker={picker} onSelectCharacter={selectCharacter} onSelectCtp={selectCtp} onClose={() => setPicker(null)} />
     </section>
   );

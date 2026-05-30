@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { Ban, Plus, RotateCcw, X } from 'lucide-react';
+import { useCallback, useDeferredValue, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { flushSync } from 'react-dom';
 import { characters, pvpDecks, pvpModeRules } from '@/lib/data';
 import {
   buildCatalogCharacterOptions,
@@ -10,7 +12,7 @@ import {
   type CatalogCharacterPickerOption,
 } from '@/lib/catalogCharacterPicker';
 import { usePvpRestrictionOverrides, type PvpRestrictionCharacter } from '@/lib/pvpRestrictions';
-import { gradeForScore, pvpScoreModes, type PvpScoreContent } from '@/lib/scoreDisplay';
+import { type PvpScoreContent } from '@/lib/scoreDisplay';
 import { catalogCharacters, type CatalogUniform } from '@mff-data-hub/data';
 import type { Character } from '@mff-data-hub/types';
 
@@ -21,7 +23,6 @@ type PvpDeckMember = {
   portraitUrl: string;
   uniformName?: string;
   uniformImageUrl?: string;
-  score: number;
 };
 type PvpDeckOverrideStore = Partial<Record<PvpScoreContent, Record<string, PvpDeckMember>>>;
 type DeckPickerState = {
@@ -29,23 +30,55 @@ type DeckPickerState = {
   label: string;
   current: PvpDeckMember;
 } | null;
+type PvpDeck = (typeof pvpDecks)[number];
+type BuiltDeckSlot = {
+  slotKey: string;
+  member: PvpDeckMember | null;
+  teamIndex: number;
+  slotIndex: number;
+  fallbackId: string;
+};
+type PvpDeckRow = {
+  rowKey: string;
+  rowLabel?: string;
+  tierIds?: readonly TeamBattleTierId[];
+  members: BuiltDeckSlot[];
+};
+type PvpModeRule = {
+  content: PvpScoreContent;
+  formation: string;
+  teamCount: number;
+  membersPerTeam: number;
+  leaguePolicy: string;
+  restrictionSummary: string;
+  sourceUrl: string;
+  restrictionCharacters: readonly { id: string; name: string; kind: string; note: string }[];
+};
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (callback: () => void) => void;
+};
+type ViewTransitionStyle = CSSProperties & {
+  viewTransitionName?: string;
+};
 
-const modeCopy: Record<PvpScoreContent, { eyebrow: string; title: string; note: string }> = {
-  Otherworld: {
-    eyebrow: 'Otherworld Battle',
-    title: '아더월드 점수 / 덱',
-    note: '자동전투 안정성, 부활, 회복, 광역 제어를 같이 보는 PVP 모드',
-  },
-  'Timeline Battle': {
-    eyebrow: 'Timeline Battle',
-    title: '타임라인 점수 / 덱',
-    note: '방어덱과 공격덱 양쪽에서 생존 앵커와 디버프 대응을 우선 확인',
-  },
-  'Team Battle Arena': {
-    eyebrow: 'Team Battle Arena',
-    title: '팀 배틀 아레나 점수 / 덱',
-    note: '여러 팀에 전력을 분산해야 하므로 단일 고점보다 덱 평균과 안정성이 중요',
-  },
+const TEAM_BATTLE_RESTRICTION_SLOT_COUNT = 5;
+const TEAM_BATTLE_TEAM_COUNT = 5;
+const TEAM_BATTLE_MEMBERS_PER_TEAM = 3;
+const TEAM_BATTLE_TIERS = [
+  { id: 'bronze', label: 'Bronze', iconUrl: '/mff-assets/pvp/tier-bronze.svg', tone: 'text-amber-700' },
+  { id: 'silver', label: 'Silver', iconUrl: '/mff-assets/pvp/tier-silver.svg', tone: 'text-slate-600' },
+  { id: 'gold', label: 'Gold', iconUrl: '/mff-assets/pvp/tier-gold.svg', tone: 'text-yellow-700' },
+  { id: 'platinum', label: 'Platinum', iconUrl: '/mff-assets/pvp/tier-platinum.svg', tone: 'text-cyan-700' },
+  { id: 'vibranium', label: 'Vibranium', iconUrl: '/mff-assets/pvp/tier-vibranium.svg', tone: 'text-red-600' },
+  { id: 'challenger', label: 'Challenger', iconUrl: '/mff-assets/pvp/tier-challenger.svg', tone: 'text-purple-700' },
+] as const;
+type TeamBattleTierId = (typeof TEAM_BATTLE_TIERS)[number]['id'];
+type TeamBattleTier = (typeof TEAM_BATTLE_TIERS)[number];
+
+const pvpArenaTitles: Record<PvpScoreContent, string> = {
+  Otherworld: 'OTHERWORLD',
+  'Timeline Battle': 'TIMELINE BATTLE',
+  'Team Battle Arena': 'TEAM BATTLE ARENA',
 };
 
 const restrictionKindByContent: Record<PvpScoreContent, string> = {
@@ -75,6 +108,67 @@ function imageFallback(event: React.SyntheticEvent<HTMLImageElement>, label: str
   const img = event.currentTarget;
   img.onerror = null;
   img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(label)}&background=fee2e2&color=b91c1c&bold=true`;
+}
+
+function runPvpViewTransition(update: () => void) {
+  if (typeof document === 'undefined') {
+    update();
+    return;
+  }
+
+  const transitionDocument = document as ViewTransitionDocument;
+  if (typeof transitionDocument.startViewTransition === 'function') {
+    transitionDocument.startViewTransition(() => flushSync(update));
+    return;
+  }
+
+  update();
+}
+
+function getPvpRowViewTransitionName(rowKey: string) {
+  return `tba-best-${rowKey.replace(/[^a-z0-9_-]/gi, '-')}`;
+}
+
+function getPvpTier(tierId: TeamBattleTierId) {
+  return TEAM_BATTLE_TIERS.find((tier) => tier.id === tierId) ?? TEAM_BATTLE_TIERS[0];
+}
+
+function PvpTierIconStrip({
+  tierIds,
+  ariaLabel,
+  size = 24,
+}: {
+  tierIds: readonly TeamBattleTierId[];
+  ariaLabel: string;
+  size?: number;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1" aria-label={ariaLabel} title={ariaLabel}>
+      {tierIds.map((tierId) => {
+        const tier = getPvpTier(tierId);
+        return (
+          <Image
+            key={tier.id}
+            src={tier.iconUrl}
+            alt={tier.label}
+            width={size}
+            height={size}
+            unoptimized
+            className="shrink-0 drop-shadow-sm"
+          />
+        );
+      })}
+    </span>
+  );
+}
+
+function PvpDeckRowBadge({ row }: { row: PvpDeckRow }) {
+  if (row.tierIds?.length) {
+    return <PvpTierIconStrip tierIds={row.tierIds} ariaLabel={row.rowLabel ?? 'PVP 등급 덱'} size={26} />;
+  }
+
+  if (!row.rowLabel) return null;
+  return <span className="rounded-full bg-red-50 px-3 py-1 text-[11px] font-black text-red-600 ring-1 ring-red-100">{row.rowLabel}</span>;
 }
 
 function restrictionFromSelection(content: PvpScoreContent, option: CatalogCharacterPickerOption): PvpRestrictionCharacter {
@@ -111,7 +205,7 @@ function makeDeckSlotKey(content: PvpScoreContent, teamIndex: number, slotIndex:
   return `${content}:${teamIndex}:${slotIndex}`;
 }
 
-function deckMemberFromCharacter(content: PvpScoreContent, character: Character): PvpDeckMember {
+function deckMemberFromCharacter(character: Character): PvpDeckMember {
   const option = baseCatalogOptionByAppId.get(character.id);
   const uniform = option?.uniforms[0];
 
@@ -122,11 +216,10 @@ function deckMemberFromCharacter(content: PvpScoreContent, character: Character)
     portraitUrl: uniform?.imageUrl ?? option?.imageUrl ?? character.portraitUrl,
     uniformName: uniform?.name,
     uniformImageUrl: uniform?.imageUrl,
-    score: character.scores[content],
   };
 }
 
-function deckMemberFromSelection(content: PvpScoreContent, option: CatalogCharacterPickerOption, uniform: CatalogUniform): PvpDeckMember {
+function deckMemberFromSelection(option: CatalogCharacterPickerOption, uniform: CatalogUniform): PvpDeckMember {
   const appCharacter = option.appCharacter;
   const catalogCharacter = option.catalogCharacter;
   return {
@@ -136,13 +229,47 @@ function deckMemberFromSelection(content: PvpScoreContent, option: CatalogCharac
     portraitUrl: uniform.imageUrl ?? catalogCharacter.imageUrl,
     uniformName: uniform.name,
     uniformImageUrl: uniform.imageUrl,
-    score: appCharacter?.scores[content] ?? 0,
   };
 }
 
-function averageMemberScore(members: readonly PvpDeckMember[]) {
-  if (!members.length) return 0;
-  return members.reduce((sum, member) => sum + member.score, 0) / members.length;
+function buildDeckSlotsFromIds(content: PvpScoreContent, memberIds: readonly string[], teamIndex: number, overrides: Record<string, PvpDeckMember>) {
+  return memberIds.map((id, slotIndex): BuiltDeckSlot => {
+    const slotKey = makeDeckSlotKey(content, teamIndex, slotIndex);
+    const character = findCharacter(id);
+    const member = overrides[slotKey] ?? (character ? deckMemberFromCharacter(character) : null);
+    return { slotKey, member, teamIndex, slotIndex, fallbackId: id };
+  });
+}
+
+function buildDeckTeams(deck: PvpDeck, overrides: Record<string, PvpDeckMember>) {
+  return deck.teams.map((deckTeam, teamIndex) => ({
+    members: buildDeckSlotsFromIds(deck.content, deckTeam.memberIds, teamIndex, overrides),
+  }));
+}
+
+function getPvpDeckRows(content: PvpScoreContent, deck: PvpDeck, overrides: Record<string, PvpDeckMember>): PvpDeckRow[] {
+  if (content === 'Otherworld') {
+    const baseMemberIds = deck.teams[0]?.memberIds ?? [];
+    return [
+      {
+        rowKey: 'otherworld-bronze-platinum',
+        rowLabel: '브론즈~플래 덱',
+        tierIds: ['bronze', 'silver', 'gold', 'platinum'],
+        members: buildDeckSlotsFromIds(content, baseMemberIds, 0, overrides),
+      },
+      {
+        rowKey: 'otherworld-vibranium-challenger',
+        rowLabel: '비브라늄~챌린저 덱',
+        tierIds: ['vibranium', 'challenger'],
+        members: buildDeckSlotsFromIds(content, baseMemberIds, 1, overrides),
+      },
+    ];
+  }
+
+  return buildDeckTeams(deck, overrides).map((deckRow, rowIndex) => ({
+    rowKey: `${content}-row-${rowIndex}`,
+    members: deckRow.members,
+  }));
 }
 
 function usePvpDeckOverrides(content: PvpScoreContent) {
@@ -174,56 +301,6 @@ function usePvpDeckOverrides(content: PvpScoreContent) {
   return { overrides, setOverride, clearOverrides };
 }
 
-function RestrictionEditor({
-  restrictions,
-  removeRestriction,
-  clearRestrictions,
-  onOpenPicker,
-}: {
-  restrictions: PvpRestrictionCharacter[];
-  removeRestriction: (id: string) => void;
-  clearRestrictions: () => void;
-  onOpenPicker: () => void;
-}) {
-  return (
-    <section className="rounded-3xl border border-red-100 bg-red-50/50 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-sm font-black text-red-700">제한 캐릭터 커스텀</p>
-          <h3 className="text-xl font-black text-slate-950">GUI 선택 목록</h3>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={onOpenPicker} className="rounded-xl bg-red-600 px-4 py-2 text-xs font-black text-white shadow-sm">+ 캐릭터 선택</button>
-          <button type="button" onClick={clearRestrictions} className="rounded-xl bg-white px-3 py-2 text-xs font-black text-slate-600 ring-1 ring-red-100 hover:text-red-600">초기화</button>
-        </div>
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {restrictions.length ? restrictions.map((restriction) => {
-          const character = findCharacter(restriction.id);
-          const imageUrl = getRestrictionImage(restriction, character);
-          return (
-            <span key={restriction.id} className="inline-flex items-center gap-2 rounded-2xl bg-white px-2 py-2 text-xs font-black text-slate-700 ring-1 ring-red-100">
-              {imageUrl ? (
-                <span className="relative h-7 w-7 overflow-hidden rounded-xl">
-                  <Image src={imageUrl} alt={restriction.name} fill sizes="28px" unoptimized className="object-cover" onError={(event) => imageFallback(event, restriction.name)} />
-                </span>
-              ) : (
-                <span className="grid h-7 w-7 place-items-center rounded-xl bg-slate-100 text-[10px] text-slate-500">?</span>
-              )}
-              <span className="grid min-w-0">
-                <span className="max-w-[132px] truncate">{restriction.name}</span>
-                <span className="max-w-[132px] truncate text-[10px] text-red-600">{restriction.kind}</span>
-              </span>
-              <button type="button" onClick={() => removeRestriction(restriction.id)} className="rounded-lg px-1.5 py-0.5 text-red-600 hover:bg-red-50" aria-label={`${restriction.name} 제한 삭제`}>×</button>
-            </span>
-          );
-        }) : <p className="rounded-2xl bg-white px-3 py-2 text-xs font-bold text-slate-500 ring-1 ring-red-100">등록된 제한 캐릭터 없음</p>}
-      </div>
-    </section>
-  );
-}
-
 function RestrictionPickerPanel({
   content,
   restrictedIds,
@@ -242,10 +319,9 @@ function RestrictionPickerPanel({
     return buildCatalogCharacterOptions({
       catalogCharacters,
       appCharacters: characters,
-      scoreForCharacter: (character) => character.scores[content],
       includeUniformSearch: false,
     });
-  }, [content]);
+  }, []);
 
   const normalizedQuery = normalizeCatalogPickerKey(deferredQuery);
   const visibleOptions = useMemo(() => {
@@ -306,7 +382,6 @@ function RestrictionPickerPanel({
                       {alreadyRestricted ? <span className="rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-black text-white">등록됨</span> : null}
                     </span>
                   </span>
-                  <span className="rounded-xl bg-slate-950 px-2 py-1 text-[10px] font-black text-white">{option.score ? option.score.toFixed(0) : '-'}</span>
                 </button>
               );
             }) : (
@@ -320,12 +395,10 @@ function RestrictionPickerPanel({
 }
 
 function DeckMemberPickerPanel({
-  content,
   picker,
   onSelect,
   onClose,
 }: {
-  content: PvpScoreContent;
   picker: Exclude<DeckPickerState, null>;
   onSelect: (member: PvpDeckMember) => void;
   onClose: () => void;
@@ -338,9 +411,8 @@ function DeckMemberPickerPanel({
     return buildCatalogCharacterOptions({
       catalogCharacters,
       appCharacters: characters,
-      scoreForCharacter: (character) => character.scores[content],
     });
-  }, [content]);
+  }, []);
 
   const normalizedQuery = normalizeCatalogPickerKey(deferredQuery);
   const visibleOptions = useMemo(() => {
@@ -353,7 +425,7 @@ function DeckMemberPickerPanel({
 
   const selectUniform = (uniform: CatalogUniform) => {
     if (!selectedOption) return;
-    onSelect(deckMemberFromSelection(content, selectedOption, uniform));
+    onSelect(deckMemberFromSelection(selectedOption, uniform));
   };
 
   return (
@@ -400,7 +472,6 @@ function DeckMemberPickerPanel({
                       <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-600">{option.catalogCharacter.side}</span>
                     </span>
                   </span>
-                  <span className="rounded-xl bg-slate-950 px-2 py-1 text-[10px] font-black text-white">{option.score ? option.score.toFixed(0) : '-'}</span>
                 </button>
               );
             }) : (
@@ -441,70 +512,258 @@ function DeckMemberPickerPanel({
   );
 }
 
-function DeckCard({
+function TeamBattleTierButton({
+  currentTier,
+  selectedTierId,
+  onSelectTier,
+}: {
+  currentTier: TeamBattleTier;
+  selectedTierId: TeamBattleTierId;
+  onSelectTier: (tierId: TeamBattleTierId) => void;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative w-full md:w-[150px]">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className="flex h-11 w-full items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 text-left shadow-sm transition hover:border-red-300 hover:bg-red-50"
+        aria-label={`현재 티어: ${currentTier.label}`}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
+        <Image src={currentTier.iconUrl} alt="" width={28} height={28} unoptimized className="h-7 w-7 shrink-0" />
+        <span className="min-w-0">
+          <span className="block text-[10px] font-black uppercase text-slate-400">현재 티어</span>
+          <span className={`block truncate text-xs font-black ${currentTier.tone}`}>{currentTier.label}</span>
+        </span>
+      </button>
+
+      {open ? (
+        <div className="absolute left-0 top-[calc(100%+8px)] z-20 grid w-full gap-1 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl" role="menu">
+          {TEAM_BATTLE_TIERS.map((tier) => {
+            const active = tier.id === selectedTierId;
+            return (
+              <button
+                key={tier.id}
+                type="button"
+                onClick={() => {
+                  onSelectTier(tier.id);
+                  setOpen(false);
+                }}
+                className={`flex items-center gap-2 rounded-xl px-2 py-2 text-left transition ${active ? 'bg-red-50' : 'hover:bg-slate-50'}`}
+                role="menuitem"
+                aria-label={`${tier.label} 티어 선택`}
+              >
+                <Image src={tier.iconUrl} alt="" width={24} height={24} unoptimized className="h-6 w-6 shrink-0" />
+                <span className={`truncate text-xs font-black ${tier.tone}`}>{tier.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function TeamBattleRestrictionPanel({
+  restrictions,
+  removeRestriction,
+  clearRestrictions,
+  onOpenPicker,
+}: {
+  restrictions: PvpRestrictionCharacter[];
+  removeRestriction: (id: string) => void;
+  clearRestrictions: () => void;
+  onOpenPicker: () => void;
+}) {
+  const slots = Array.from(
+    { length: Math.max(TEAM_BATTLE_RESTRICTION_SLOT_COUNT, restrictions.length + 1) },
+    (_, index) => restrictions[index] ?? null,
+  );
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-2xl font-black text-slate-950">캐릭터 제한 목록</h2>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onOpenPicker}
+            className="grid h-9 w-9 place-items-center rounded-lg border border-slate-300 bg-white text-slate-600 transition hover:border-red-300 hover:text-red-600"
+            aria-label="제한 캐릭터 추가"
+            title="제한 캐릭터 추가"
+          >
+            <Plus size={18} />
+          </button>
+          {restrictions.length ? (
+            <button
+              type="button"
+              onClick={clearRestrictions}
+              className="grid h-9 w-9 place-items-center rounded-lg border border-slate-300 bg-white text-slate-600 transition hover:border-red-300 hover:text-red-600"
+              aria-label="제한 목록 초기화"
+              title="제한 목록 초기화"
+            >
+              <RotateCcw size={16} />
+            </button>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-5 gap-2 md:gap-4">
+        {slots.map((restriction, index) => {
+          const character = restriction ? findCharacter(restriction.id) : undefined;
+          const imageUrl = restriction ? getRestrictionImage(restriction, character) : undefined;
+          return (
+            <div key={restriction?.id ?? `empty-restriction-${index}`} className="relative">
+              <button
+                type="button"
+                onClick={onOpenPicker}
+                className="grid aspect-square w-full place-items-center rounded-lg border border-slate-300 bg-white p-2 text-center shadow-sm transition hover:border-red-300 hover:bg-red-50"
+                aria-label={restriction ? `${restriction.name} 제한 캐릭터 변경` : `제한 캐릭터 슬롯 ${index + 1} 선택`}
+              >
+                {restriction && imageUrl ? (
+                  <span className="grid min-w-0 place-items-center gap-2">
+                    <span className="relative h-12 w-12 overflow-hidden rounded-full bg-slate-100 ring-1 ring-red-100 md:h-16 md:w-16">
+                      <Image src={imageUrl} alt={restriction.name} fill sizes="64px" unoptimized className="object-cover" onError={(event) => imageFallback(event, restriction.name)} />
+                    </span>
+                    <span className="max-w-full truncate text-xs font-black text-slate-950">{restriction.name}</span>
+                    <span className="text-[11px] font-black text-red-600">선택 불가</span>
+                  </span>
+                ) : (
+                  <span className="grid place-items-center gap-2 text-slate-400">
+                    <Ban size={38} strokeWidth={1.8} className="md:h-14 md:w-14" />
+                    <span className="text-xs font-black md:text-sm">선택 불가</span>
+                  </span>
+                )}
+              </button>
+              {restriction ? (
+                <button
+                  type="button"
+                  onClick={() => removeRestriction(restriction.id)}
+                  className="absolute right-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-white text-red-600 shadow-sm ring-1 ring-red-100 transition hover:bg-red-600 hover:text-white"
+                  aria-label={`${restriction.name} 제한 삭제`}
+                  title="제한 삭제"
+                >
+                  <X size={14} />
+                </button>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function PvpModeDeckBoard({
+  content,
+  title,
+  teamCount,
+  membersPerTeam,
   deck,
   selectedId,
   restrictedIds,
   overrides,
   onOpenPicker,
+  onClearOverrides,
 }: {
-  deck: (typeof pvpDecks)[number];
+  content: PvpScoreContent;
+  title: string;
+  teamCount: number;
+  membersPerTeam: number;
+  deck?: PvpDeck;
   selectedId: string;
   restrictedIds: Set<string>;
   overrides: Record<string, PvpDeckMember>;
   onOpenPicker: (picker: Exclude<DeckPickerState, null>) => void;
+  onClearOverrides: () => void;
 }) {
-  const teams = deck.teams.map((team, teamIndex) => ({
-    ...team,
-    members: team.memberIds
-      .map((id, slotIndex) => ({ id, slotIndex }))
-      .map(({ id, slotIndex }) => {
-        const slotKey = makeDeckSlotKey(deck.content, teamIndex, slotIndex);
-        const character = findCharacter(id);
-        const member = overrides[slotKey] ?? (character ? deckMemberFromCharacter(deck.content, character) : null);
-        return member ? { slotKey, member } : null;
-      })
-      .filter((slot): slot is { slotKey: string; member: PvpDeckMember } => Boolean(slot)),
-  }));
-  const members = teams.flatMap((team) => team.members);
-  const score = averageMemberScore(members.map((slot) => slot.member));
-  const restrictedCount = members.filter((slot) => restrictedIds.has(slot.member.id)).length;
+  const gridClass = membersPerTeam === 5 ? 'grid-cols-5' : 'grid-cols-3';
+  const deckRows = deck ? getPvpDeckRows(content, deck, overrides) : [];
+  const rowCount = Math.max(content === 'Otherworld' ? 2 : teamCount, deckRows.length);
+  const rows = Array.from({ length: rowCount }, (_, teamIndex): PvpDeckRow => {
+    const deckRow = deckRows[teamIndex];
+    return {
+      rowKey: deckRow?.rowKey ?? `${content}-empty-row-${teamIndex}`,
+      rowLabel: deckRow?.rowLabel,
+      tierIds: deckRow?.tierIds,
+      members: Array.from({ length: membersPerTeam }, (_, slotIndex): BuiltDeckSlot => {
+        return deckRow?.members[slotIndex] ?? {
+          slotKey: makeDeckSlotKey(content, teamIndex, slotIndex),
+          member: null,
+          teamIndex,
+          slotIndex,
+          fallbackId: '',
+        };
+      }),
+    };
+  });
+
+  const slotPickerLabel = (slot: BuiltDeckSlot, rowLabel?: string) => {
+    if (rowLabel) return `${content} · ${rowLabel} ${slot.slotIndex + 1}번 슬롯`;
+    return `${content} · ${slot.teamIndex + 1}-${slot.slotIndex + 1}`;
+  };
 
   return (
-    <article className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <p className="text-sm font-black text-red-600">{deck.label}</p>
-          <h3 className="text-xl font-black text-slate-950">{gradeForScore(score)} · {score.toFixed(1)}</h3>
-        </div>
-        <span className={`rounded-full px-3 py-1 text-[10px] font-black ${restrictedCount ? 'bg-red-600 text-white' : 'bg-slate-950 text-white'}`}>
-          {restrictedCount ? `제한 ${restrictedCount}` : `${members.length}명`}
-        </span>
+    <section className="space-y-4 border-t border-slate-300 pt-6">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-2xl font-black text-slate-950">{title}</h2>
+        <button
+          type="button"
+          onClick={onClearOverrides}
+          className="grid h-9 w-9 place-items-center rounded-lg border border-slate-300 bg-white text-slate-600 transition hover:border-red-300 hover:text-red-600"
+          aria-label="덱 초기화"
+          title="덱 초기화"
+        >
+          <RotateCcw size={16} />
+        </button>
       </div>
+
       <div className="grid gap-3">
-        {teams.map((team) => (
-          <div key={team.label} className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-100">
-            <div className="mb-2 flex items-center justify-between">
-              <p className="text-xs font-black text-slate-500">{team.label}</p>
-              <p className="text-xs font-black text-slate-950">{averageMemberScore(team.members.map((slot) => slot.member)).toFixed(1)}</p>
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              {team.members.map(({ slotKey, member }) => {
-                const restricted = restrictedIds.has(member.id);
+        {rows.map((row) => (
+          <div key={row.rowKey} className="space-y-2">
+            {row.rowLabel ? (
+              <div className="flex items-center justify-between gap-2">
+                <PvpDeckRowBadge row={row} />
+                <span className="text-[11px] font-black text-slate-400">{row.members.length}명</span>
+              </div>
+            ) : null}
+            <div className={`grid ${gridClass} gap-2 md:gap-3`}>
+              {row.members.map((slot) => {
+                const member = slot.member;
+                const restricted = member ? restrictedIds.has(member.id) : false;
+                const active = member ? member.id === selectedId : false;
                 return (
                   <button
-                    key={slotKey}
+                    key={slot.slotKey}
                     type="button"
-                    onClick={() => onOpenPicker({ slotKey, label: `${deck.label} · ${team.label}`, current: member })}
-                    className={`rounded-2xl p-2 text-center ring-1 transition hover:ring-red-300 ${member.id === selectedId ? 'bg-purple-50 ring-purple-200' : restricted ? 'bg-red-50 ring-red-200' : 'bg-white ring-slate-100'}`}
-                    aria-label={`${member.name} 덱 캐릭터 교체`}
+                    onClick={() => {
+                      if (!member) return;
+                      onOpenPicker({ slotKey: slot.slotKey, label: slotPickerLabel(slot, row.rowLabel), current: member });
+                    }}
+                    className={`relative flex min-h-[78px] items-center justify-start rounded-2xl border p-2.5 text-left shadow-sm transition hover:border-red-300 hover:bg-red-50 md:min-h-[96px] ${
+                      active ? 'border-purple-300 bg-purple-50 ring-2 ring-purple-100' : restricted ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-white'
+                    }`}
+                    aria-label={member ? `${member.name} 덱 캐릭터 교체` : `팀 ${slot.teamIndex + 1} 슬롯 ${slot.slotIndex + 1} 선택`}
                   >
-                    <div className="relative mx-auto h-14 w-14 overflow-hidden rounded-2xl">
-                      <Image src={member.uniformImageUrl ?? member.portraitUrl} alt={member.name} fill sizes="56px" unoptimized className="object-cover" onError={(event) => imageFallback(event, member.name)} />
-                    </div>
-                    <p className="mt-2 truncate text-xs font-black text-slate-950">{member.name}</p>
-                    {member.uniformName ? <p className="truncate text-[10px] font-bold text-red-600">{member.uniformName}</p> : null}
-                    <p className={`text-xs font-black ${restricted ? 'text-red-600' : 'text-slate-600'}`}>{restricted ? '제한' : member.score ? member.score.toFixed(0) : '-'}</p>
+                    {member ? (
+                      <span className="flex min-w-0 items-center gap-2 md:gap-3">
+                        <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200 md:h-14 md:w-14">
+                          <Image src={member.uniformImageUrl ?? member.portraitUrl} alt={member.name} fill sizes="56px" unoptimized className="object-cover" onError={(event) => imageFallback(event, member.name)} />
+                        </span>
+                        <span className="min-w-0 text-left">
+                          <span className="block truncate text-xs font-black text-slate-950 md:text-sm">{member.name}</span>
+                          {member.uniformName ? <span className="mt-0.5 block truncate text-[10px] font-bold text-red-600">{member.uniformName}</span> : null}
+                          {restricted ? <span className="mt-0.5 block truncate text-[10px] font-black text-red-600">제한</span> : null}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="grid w-full place-items-center">
+                        <Plus size={30} strokeWidth={1.8} className="text-slate-300 md:h-9 md:w-9" />
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -512,11 +771,376 @@ function DeckCard({
           </div>
         ))}
       </div>
-      <p className="mt-3 text-xs font-bold leading-relaxed text-slate-500">{deck.note}</p>
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        {deck.tags.map((tag) => <span key={tag} className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-black text-slate-600">#{tag}</span>)}
+    </section>
+  );
+}
+
+function PvpBestIconButton({
+  slot,
+  pickerLabel,
+  selectedId,
+  restrictedIds,
+  onOpenPicker,
+}: {
+  slot: BuiltDeckSlot;
+  pickerLabel: string;
+  selectedId: string;
+  restrictedIds: Set<string>;
+  onOpenPicker: (picker: Exclude<DeckPickerState, null>) => void;
+}) {
+  const member = slot.member;
+  const restricted = member ? restrictedIds.has(member.id) : false;
+  const active = member ? member.id === selectedId : false;
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        if (!member) return;
+        onOpenPicker({ slotKey: slot.slotKey, label: pickerLabel, current: member });
+      }}
+      className={`relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full border bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-red-300 hover:shadow-md md:h-12 md:w-12 ${
+        active ? 'border-red-400 ring-2 ring-red-100' : restricted ? 'border-red-300 ring-2 ring-red-100' : 'border-slate-200 ring-1 ring-slate-100'
+      }`}
+      aria-label={member ? `${member.name} BEST 슬롯 교체` : pickerLabel}
+      title={member ? `${member.name}${member.uniformName ? ` · ${member.uniformName}` : ''}` : pickerLabel}
+    >
+      {member ? (
+        <>
+          <Image src={member.uniformImageUrl ?? member.portraitUrl} alt={member.name} fill sizes="48px" unoptimized className="object-cover" onError={(event) => imageFallback(event, member.name)} />
+          {restricted ? <span className="absolute inset-0 rounded-full bg-red-600/20 ring-2 ring-inset ring-red-500" aria-hidden="true" /> : null}
+        </>
+      ) : (
+        <Plus size={18} strokeWidth={1.8} className="text-slate-300" />
+      )}
+    </button>
+  );
+}
+
+function PvpBestIconRow({
+  row,
+  rowLabel,
+  selectedId,
+  restrictedIds,
+  onOpenPicker,
+}: {
+  row: PvpDeckRow;
+  rowLabel?: string;
+  selectedId: string;
+  restrictedIds: Set<string>;
+  onOpenPicker: (picker: Exclude<DeckPickerState, null>) => void;
+}) {
+  return (
+    <div className="flex min-w-0 flex-wrap items-center gap-2">
+      {row.members.map((slot) => (
+        <PvpBestIconButton
+          key={slot.slotKey}
+          slot={slot}
+          pickerLabel={rowLabel ? `BEST · ${rowLabel} ${slot.slotIndex + 1}번 슬롯` : `BEST · ${slot.teamIndex + 1}-${slot.slotIndex + 1} 슬롯`}
+          selectedId={selectedId}
+          restrictedIds={restrictedIds}
+          onOpenPicker={onOpenPicker}
+        />
+      ))}
+    </div>
+  );
+}
+
+function PvpBestDeckPanel({
+  content,
+  deck,
+  selectedId,
+  restrictedIds,
+  overrides,
+  onOpenPicker,
+}: {
+  content: PvpScoreContent;
+  deck?: PvpDeck;
+  selectedId: string;
+  restrictedIds: Set<string>;
+  overrides: Record<string, PvpDeckMember>;
+  onOpenPicker: (picker: Exclude<DeckPickerState, null>) => void;
+}) {
+  const rows = deck ? getPvpDeckRows(content, deck, overrides) : [];
+  const slotCount = rows.reduce((count, row) => count + row.members.length, 0);
+
+  return (
+    <aside className="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6 xl:sticky xl:top-4" aria-label={`${pvpArenaTitles[content]} BEST`}>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-2xl font-black text-red-600">BEST</h2>
+        <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-slate-600 ring-1 ring-slate-200">{slotCount}명</span>
       </div>
-    </article>
+
+      <div className="grid gap-3">
+        {rows.map((row, rowIndex) => {
+          const rowLabel = row.rowLabel ?? `${rowIndex + 1}행`;
+          return (
+            <div key={row.rowKey} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3">
+              <div className="mb-2 flex items-center justify-between gap-2">
+                {row.tierIds?.length ? <PvpDeckRowBadge row={row} /> : <span className="text-[11px] font-black text-slate-500">{row.rowLabel ?? 'BEST'}</span>}
+                <span className="text-[10px] font-black text-red-600">{row.members.length}명</span>
+              </div>
+              <PvpBestIconRow row={row} rowLabel={rowLabel} selectedId={selectedId} restrictedIds={restrictedIds} onOpenPicker={onOpenPicker} />
+            </div>
+          );
+        })}
+      </div>
+    </aside>
+  );
+}
+
+function TeamBattleBestDeckPanel({
+  deck,
+  selectedId,
+  restrictedIds,
+  overrides,
+  onOpenPicker,
+}: {
+  deck?: PvpDeck;
+  selectedId: string;
+  restrictedIds: Set<string>;
+  overrides: Record<string, PvpDeckMember>;
+  onOpenPicker: (picker: Exclude<DeckPickerState, null>) => void;
+}) {
+  const [strongestTeamKey, setStrongestTeamKey] = useState<string | null>(null);
+  const [rowOrder, setRowOrder] = useState<string[]>([]);
+  const [draggingTeamKey, setDraggingTeamKey] = useState<string | null>(null);
+  const rows = useMemo(() => (deck ? getPvpDeckRows('Team Battle Arena', deck, overrides) : []), [deck, overrides]);
+  const rowKeysSignature = rows.map((row) => row.rowKey).join('|');
+  const rowByKey = new Map(rows.map((row) => [row.rowKey, row]));
+  const activeRowOrder = rowOrder.length ? rowOrder : rows.map((row) => row.rowKey);
+  const orderedRows = activeRowOrder.map((rowKey) => rowByKey.get(rowKey)).filter((row): row is PvpDeckRow => Boolean(row));
+  const strongestRow = orderedRows.find((row) => row.rowKey === strongestTeamKey) ?? orderedRows[0];
+  const strongestTeamIndex = Math.max(0, orderedRows.findIndex((row) => row.rowKey === strongestRow?.rowKey));
+
+  useEffect(() => {
+    const rowKeys = rowKeysSignature ? rowKeysSignature.split('|') : [];
+    setRowOrder((previousOrder) => {
+      const validKeys = previousOrder.filter((rowKey) => rowKeys.includes(rowKey));
+      const missingKeys = rowKeys.filter((rowKey) => !validKeys.includes(rowKey));
+      const nextOrder = [...validKeys, ...missingKeys];
+      if (nextOrder.length === previousOrder.length && nextOrder.every((rowKey, index) => rowKey === previousOrder[index])) return previousOrder;
+      return nextOrder;
+    });
+    setStrongestTeamKey((previousKey) => (previousKey && rowKeys.includes(previousKey) ? previousKey : rowKeys[0] ?? null));
+  }, [rowKeysSignature]);
+
+  const moveTeamRow = useCallback((sourceKey: string, targetKey: string) => {
+    if (!sourceKey || sourceKey === targetKey) return;
+    runPvpViewTransition(() => {
+      setRowOrder((previousOrder) => {
+        const nextOrder = previousOrder.length ? [...previousOrder] : rows.map((row) => row.rowKey);
+        const sourceIndex = nextOrder.indexOf(sourceKey);
+        const targetIndex = nextOrder.indexOf(targetKey);
+        if (sourceIndex < 0 || targetIndex < 0) return previousOrder;
+
+        const [movedKey] = nextOrder.splice(sourceIndex, 1);
+        const targetIndexAfterRemoval = nextOrder.indexOf(targetKey);
+        const insertionIndex = sourceIndex < targetIndex ? targetIndexAfterRemoval + 1 : targetIndexAfterRemoval;
+        nextOrder.splice(insertionIndex, 0, movedKey);
+
+        if (nextOrder.every((rowKey, index) => rowKey === previousOrder[index])) return previousOrder;
+        return nextOrder;
+      });
+    });
+  }, [rows]);
+
+  return (
+    <aside className="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6 xl:sticky xl:top-4" aria-label="TEAM BATTLE ARENA BEST">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-2xl font-black text-red-600">BEST</h2>
+        <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-slate-600 ring-1 ring-slate-200">{rows.length}행</span>
+      </div>
+
+      {strongestRow ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50/70 p-3 shadow-sm">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <span className="text-[11px] font-black text-red-600">가장 강한팀</span>
+            <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-red-600 ring-1 ring-red-100">{strongestTeamIndex + 1}행</span>
+          </div>
+          <PvpBestIconRow row={strongestRow} rowLabel={`${strongestTeamIndex + 1}행 대표`} selectedId={selectedId} restrictedIds={restrictedIds} onOpenPicker={onOpenPicker} />
+        </div>
+      ) : null}
+
+      <div className="grid gap-2">
+        {orderedRows.map((row, teamIndex) => {
+          const selectedStrongest = row.rowKey === strongestRow?.rowKey;
+          return (
+            <div
+              key={row.rowKey}
+              draggable
+              data-row-key={row.rowKey}
+              role="button"
+              tabIndex={0}
+              aria-label={`팀 ${teamIndex + 1} BEST 행 드래그`}
+              style={{ viewTransitionName: getPvpRowViewTransitionName(row.rowKey) } as ViewTransitionStyle}
+              onClick={() => setStrongestTeamKey(row.rowKey)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setStrongestTeamKey(row.rowKey);
+                }
+              }}
+              onDragStart={(event) => {
+                setDraggingTeamKey(row.rowKey);
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', row.rowKey);
+              }}
+              onDragEnter={(event) => {
+                event.preventDefault();
+                const sourceKey = event.dataTransfer.getData('text/plain') || draggingTeamKey;
+                if (sourceKey) moveTeamRow(sourceKey, row.rowKey);
+              }}
+              onDragOver={(event) => {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'move';
+              }}
+              onDrop={(event) => {
+                event.preventDefault();
+                const sourceKey = event.dataTransfer.getData('text/plain') || draggingTeamKey;
+                if (sourceKey) moveTeamRow(sourceKey, row.rowKey);
+                setDraggingTeamKey(null);
+              }}
+              onDragEnd={() => setDraggingTeamKey(null)}
+              className={`flex items-center gap-3 rounded-2xl border p-2.5 transition-[transform,opacity,background-color,border-color,box-shadow] duration-200 ease-out motion-reduce:transition-none ${
+                selectedStrongest ? 'border-red-300 bg-red-50/80 shadow-sm' : 'border-slate-200 bg-slate-50/70'
+              } ${draggingTeamKey === row.rowKey ? 'opacity-60 ring-2 ring-red-100' : 'cursor-grab active:cursor-grabbing'}`}
+            >
+              <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition ${selectedStrongest ? 'bg-red-600 text-white shadow-sm' : 'bg-white text-slate-400 ring-1 ring-slate-200'}`} aria-hidden="true">
+                <span className="grid gap-0.5">
+                  <span className="h-1 w-4 rounded-full bg-current" />
+                  <span className="h-1 w-4 rounded-full bg-current" />
+                  <span className="h-1 w-4 rounded-full bg-current" />
+                </span>
+              </span>
+              <PvpBestIconRow row={row} rowLabel={`${teamIndex + 1}행`} selectedId={selectedId} restrictedIds={restrictedIds} onOpenPicker={onOpenPicker} />
+            </div>
+          );
+        })}
+      </div>
+    </aside>
+  );
+}
+
+function PvpModeArenaLayout({
+  content,
+  modeTitle,
+  rule,
+  headerLead,
+  bestPanel,
+  deck,
+  selectedId,
+  restrictedIds,
+  restrictions,
+  overrides,
+  removeRestriction,
+  clearRestrictions,
+  clearOverrides,
+  onOpenRestrictionPicker,
+  onOpenDeckPicker,
+}: {
+  content: PvpScoreContent;
+  modeTitle: string;
+  rule: PvpModeRule;
+  headerLead: ReactNode;
+  bestPanel: ReactNode;
+  deck?: PvpDeck;
+  selectedId: string;
+  restrictedIds: Set<string>;
+  restrictions: PvpRestrictionCharacter[];
+  overrides: Record<string, PvpDeckMember>;
+  removeRestriction: (id: string) => void;
+  clearRestrictions: () => void;
+  clearOverrides: () => void;
+  onOpenRestrictionPicker: () => void;
+  onOpenDeckPicker: (picker: Exclude<DeckPickerState, null>) => void;
+}) {
+  const deckTitle = '덱 구성';
+
+  return (
+    <section className="grid w-full gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(360px,430px)] xl:items-start">
+      <section className="space-y-7 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div className="grid gap-3 md:grid-cols-[150px_minmax(0,1fr)_150px] md:items-center">
+          {headerLead}
+          <h1 className="text-center text-3xl font-black text-red-600 md:text-4xl 2xl:text-5xl" style={{ fontFamily: 'Pretendard, system-ui, sans-serif' }}>{modeTitle}</h1>
+          <span className="hidden md:block" aria-hidden="true" />
+        </div>
+        {content !== 'Team Battle Arena' ? (
+          <div className="rounded-2xl bg-slate-50 px-4 py-3 text-xs font-bold leading-relaxed text-slate-500 ring-1 ring-slate-200">
+            {rule.restrictionSummary}
+          </div>
+        ) : null}
+        <TeamBattleRestrictionPanel
+          restrictions={restrictions}
+          removeRestriction={removeRestriction}
+          clearRestrictions={clearRestrictions}
+          onOpenPicker={onOpenRestrictionPicker}
+        />
+        <PvpModeDeckBoard
+          content={content}
+          title={deckTitle}
+          teamCount={rule.teamCount}
+          membersPerTeam={rule.membersPerTeam}
+          deck={deck}
+          selectedId={selectedId}
+          restrictedIds={restrictedIds}
+          overrides={overrides}
+          onOpenPicker={onOpenDeckPicker}
+          onClearOverrides={clearOverrides}
+        />
+      </section>
+      {bestPanel}
+    </section>
+  );
+}
+
+function TeamBattleArenaLayout({
+  rule,
+  deck,
+  selectedId,
+  restrictedIds,
+  restrictions,
+  overrides,
+  removeRestriction,
+  clearRestrictions,
+  clearOverrides,
+  onOpenRestrictionPicker,
+  onOpenDeckPicker,
+}: {
+  rule: PvpModeRule;
+  deck?: PvpDeck;
+  selectedId: string;
+  restrictedIds: Set<string>;
+  restrictions: PvpRestrictionCharacter[];
+  overrides: Record<string, PvpDeckMember>;
+  removeRestriction: (id: string) => void;
+  clearRestrictions: () => void;
+  clearOverrides: () => void;
+  onOpenRestrictionPicker: () => void;
+  onOpenDeckPicker: (picker: Exclude<DeckPickerState, null>) => void;
+}) {
+  const [selectedTierId, setSelectedTierId] = useState<TeamBattleTierId>('vibranium');
+  const currentTier = TEAM_BATTLE_TIERS.find((tier) => tier.id === selectedTierId) ?? TEAM_BATTLE_TIERS[4];
+  const teamBattleRule = { ...rule, teamCount: TEAM_BATTLE_TEAM_COUNT, membersPerTeam: TEAM_BATTLE_MEMBERS_PER_TEAM };
+
+  return (
+    <PvpModeArenaLayout
+      content="Team Battle Arena"
+      modeTitle="TEAM BATTLE ARENA"
+      rule={teamBattleRule}
+      headerLead={<TeamBattleTierButton currentTier={currentTier} selectedTierId={selectedTierId} onSelectTier={setSelectedTierId} />}
+      bestPanel={<TeamBattleBestDeckPanel deck={deck} selectedId={selectedId} restrictedIds={restrictedIds} overrides={overrides} onOpenPicker={onOpenDeckPicker} />}
+      deck={deck}
+      selectedId={selectedId}
+      restrictedIds={restrictedIds}
+      restrictions={restrictions}
+      overrides={overrides}
+      removeRestriction={removeRestriction}
+      clearRestrictions={clearRestrictions}
+      clearOverrides={clearOverrides}
+      onOpenRestrictionPicker={onOpenRestrictionPicker}
+      onOpenDeckPicker={onOpenDeckPicker}
+    />
   );
 }
 
@@ -529,15 +1153,14 @@ export function PvpModeSection({
   selectedId: string;
   setSelectedId: (id: string) => void;
 }) {
-  const topScore = useMemo(() => Math.max(...characters.map((character) => character.scores[content])), [content]);
-  const mode = pvpScoreModes.find((item) => item.content === content)!;
   const rule = pvpModeRules.find((item) => item.content === content)!;
   const decks = pvpDecks.filter((deck) => deck.content === content);
-  const average = Math.round((characters.reduce((sum, character) => sum + character.scores[content], 0) / characters.length) * 10) / 10;
   const { restrictions, restrictedIds, addRestriction, removeRestriction, clearRestrictions } = usePvpRestrictionOverrides(content, rule.restrictionCharacters);
   const { overrides, setOverride, clearOverrides } = usePvpDeckOverrides(content);
   const [restrictionPickerOpen, setRestrictionPickerOpen] = useState(false);
   const [deckPicker, setDeckPicker] = useState<DeckPickerState>(null);
+  const [selectedTierId, setSelectedTierId] = useState<TeamBattleTierId>('vibranium');
+  const currentTier = getPvpTier(selectedTierId);
 
   const selectDeckMember = (member: PvpDeckMember) => {
     if (!deckPicker) return;
@@ -546,92 +1169,8 @@ export function PvpModeSection({
     setDeckPicker(null);
   };
 
-  return (
-    <section className="space-y-5">
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-sm font-black text-red-600">{modeCopy[content].eyebrow}</p>
-            <h2 className="text-2xl font-black text-slate-950">{modeCopy[content].title}</h2>
-            <p className="mt-1 text-sm font-bold text-slate-500">{modeCopy[content].note}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 text-center">
-            <div className={`rounded-2xl px-4 py-3 ring-1 ${mode.accent}`}>
-              <p className="text-xs font-black">{mode.shortLabel}</p>
-              <p className="text-xl font-black">{average}</p>
-            </div>
-            <div className="rounded-2xl bg-slate-950 px-4 py-3 text-white">
-              <p className="text-xs font-black">TOP1</p>
-              <p className="text-xl font-black">{Number.isFinite(topScore) ? topScore.toFixed(0) : '-'}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="grid gap-4 xl:grid-cols-[280px_1fr]">
-          <div>
-            <p className="text-sm font-black text-red-600">룰 / 제한 인식</p>
-            <h3 className="mt-1 text-xl font-black text-slate-950">{rule.formation}</h3>
-            <p className="mt-2 text-sm font-bold leading-relaxed text-slate-500">{rule.leaguePolicy}</p>
-            <p className="mt-2 text-xs font-bold leading-relaxed text-slate-400">{rule.restrictionSummary}</p>
-          </div>
-          <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-            {restrictions.map((restricted) => {
-              const character = findCharacter(restricted.id);
-              const imageUrl = getRestrictionImage(restricted, character);
-              return (
-                <article key={restricted.id} className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-100">
-                  <div className="flex items-center gap-3">
-                    {imageUrl ? (
-                      <span className="relative h-11 w-11 overflow-hidden rounded-2xl ring-1 ring-red-100">
-                        <Image src={imageUrl} alt={restricted.name} fill sizes="44px" unoptimized className="object-cover" onError={(event) => imageFallback(event, restricted.name)} />
-                      </span>
-                    ) : (
-                      <span className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-200 text-xs font-black text-slate-500">?</span>
-                    )}
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-black text-slate-950">{restricted.name}</p>
-                      <p className="truncate text-[10px] font-black text-red-600">{restricted.kind}</p>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs font-bold leading-relaxed text-slate-500">{restricted.note}</p>
-                </article>
-              );
-            })}
-            {restrictions.length === 0 ? (
-              <article className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-100">
-                <p className="text-sm font-black text-slate-950">제한 목록 없음</p>
-                <p className="mt-2 text-xs font-bold leading-relaxed text-slate-500">캐릭터 선택 버튼에서 이번 주/이번 시즌 제한 캐릭터를 추가하세요.</p>
-              </article>
-            ) : null}
-          </div>
-        </div>
-      </section>
-
-      <RestrictionEditor
-        restrictions={restrictions}
-        removeRestriction={removeRestriction}
-        clearRestrictions={clearRestrictions}
-        onOpenPicker={() => setRestrictionPickerOpen(true)}
-      />
-
-      <div className="flex justify-end">
-        <button type="button" onClick={clearOverrides} className="rounded-xl bg-white px-3 py-2 text-xs font-black text-slate-600 ring-1 ring-slate-200 hover:text-red-600">덱 초기화</button>
-      </div>
-      <section className="grid gap-4 xl:grid-cols-3">
-        {decks.map((deck) => (
-          <DeckCard
-            key={deck.content}
-            deck={deck}
-            selectedId={selectedId}
-            restrictedIds={restrictedIds}
-            overrides={overrides}
-            onOpenPicker={setDeckPicker}
-          />
-        ))}
-      </section>
-
+  const pickerPanels = (
+    <>
       {restrictionPickerOpen ? (
         <RestrictionPickerPanel
           content={content}
@@ -642,12 +1181,56 @@ export function PvpModeSection({
       ) : null}
       {deckPicker ? (
         <DeckMemberPickerPanel
-          content={content}
           picker={deckPicker}
           onSelect={selectDeckMember}
           onClose={() => setDeckPicker(null)}
         />
       ) : null}
+    </>
+  );
+
+  if (content === 'Team Battle Arena') {
+    return (
+      <section className="space-y-5">
+        <TeamBattleArenaLayout
+          rule={rule}
+          deck={decks[0]}
+          selectedId={selectedId}
+          restrictedIds={restrictedIds}
+          restrictions={restrictions}
+          overrides={overrides}
+          removeRestriction={removeRestriction}
+          clearRestrictions={clearRestrictions}
+          clearOverrides={clearOverrides}
+          onOpenRestrictionPicker={() => setRestrictionPickerOpen(true)}
+          onOpenDeckPicker={setDeckPicker}
+        />
+        {pickerPanels}
+      </section>
+    );
+  }
+
+  return (
+    <section className="space-y-5">
+      <PvpModeArenaLayout
+        content={content}
+        modeTitle={pvpArenaTitles[content]}
+        rule={rule}
+        headerLead={<TeamBattleTierButton currentTier={currentTier} selectedTierId={selectedTierId} onSelectTier={setSelectedTierId} />}
+        bestPanel={<PvpBestDeckPanel content={content} deck={decks[0]} selectedId={selectedId} restrictedIds={restrictedIds} overrides={overrides} onOpenPicker={setDeckPicker} />}
+        deck={decks[0]}
+        selectedId={selectedId}
+        restrictedIds={restrictedIds}
+        restrictions={restrictions}
+        overrides={overrides}
+        removeRestriction={removeRestriction}
+        clearRestrictions={clearRestrictions}
+        clearOverrides={clearOverrides}
+        onOpenRestrictionPicker={() => setRestrictionPickerOpen(true)}
+        onOpenDeckPicker={setDeckPicker}
+      />
+
+      {pickerPanels}
     </section>
   );
 }

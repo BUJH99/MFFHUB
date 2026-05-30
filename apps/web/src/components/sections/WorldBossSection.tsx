@@ -6,6 +6,7 @@ import { catalogCharacters, type CatalogCharacter, type CatalogUniform, worldBos
 
 const noRestrictionIcon = 'https://thanosvibs.money/static/attributes/nores.png';
 const customPicksStorageKey = 'mff-data-hub:world-boss-stage-picks:v2';
+const worldBossProgressStorageKey = 'mff-data-hub:world-boss-progress:v1';
 const knownRestrictionLabels = new Set([
   'Agility',
   'Alien',
@@ -41,6 +42,12 @@ type StagePick = {
   uniformImageUrl?: string;
 };
 type StagePickStore = Record<string, StagePick[]>;
+type BossProgress = {
+  currentStage: string;
+  conquestLevel: string;
+};
+type BossProgressStore = Record<string, BossProgress>;
+type BossProgressField = keyof BossProgress;
 type PickerState = {
   stageKey: string;
   bossName: string;
@@ -136,6 +143,56 @@ function readStoredPicks(): StagePickStore {
   }
 }
 
+function sanitizeNumericInput(value: unknown) {
+  if (typeof value === 'number' && Number.isFinite(value)) return String(Math.max(0, Math.round(value)));
+  if (typeof value !== 'string') return '';
+  return value.replace(/\D/g, '').slice(0, 3);
+}
+
+function numericProgressValue(value: string) {
+  const sanitized = sanitizeNumericInput(value);
+  return sanitized ? Number(sanitized) : undefined;
+}
+
+function stageRangeIncludes(range: string, stage?: number) {
+  if (typeof stage !== 'number' || !Number.isFinite(stage)) return false;
+  const [start, end] = range.split('-').map((part) => Number(part));
+  if (!Number.isFinite(start)) return false;
+  const normalizedEnd = Number.isFinite(end) ? end : start;
+  return stage >= start && stage <= normalizedEnd;
+}
+
+function createEmptyBossProgress(): BossProgress {
+  return { currentStage: '', conquestLevel: '' };
+}
+
+function normalizeBossProgress(value: unknown): BossProgress {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return createEmptyBossProgress();
+  const progress = value as Partial<Record<BossProgressField, unknown>>;
+
+  return {
+    currentStage: sanitizeNumericInput(progress.currentStage),
+    conquestLevel: sanitizeNumericInput(progress.conquestLevel),
+  };
+}
+
+function readStoredProgress(): BossProgressStore {
+  if (typeof window === 'undefined') return {};
+
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(worldBossProgressStorageKey) ?? '{}') as unknown;
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+
+    return Object.fromEntries(
+      Object.entries(parsed)
+        .filter(([bossId]) => worldBosses.some((boss) => boss.id === bossId))
+        .map(([bossId, value]) => [bossId, normalizeBossProgress(value)]),
+    );
+  } catch {
+    return {};
+  }
+}
+
 function stagePickFromOption(option: UniformOption): StagePick {
   return {
     id: `${option.character.id}:${option.uniform.name}:${Date.now()}`,
@@ -153,21 +210,43 @@ function imageFallback(e: React.SyntheticEvent<HTMLImageElement>, label: string)
   img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(label)}&background=ede9fe&color=6d28d9&bold=true`;
 }
 
-function BossButton({ boss, active, onClick }: { boss: WorldBoss; active: boolean; onClick: () => void }) {
+function BossButton({
+  boss,
+  active,
+  progress,
+  onClick,
+}: {
+  boss: WorldBoss;
+  active: boolean;
+  progress: BossProgress;
+  onClick: () => void;
+}) {
+  const currentStageLabel = progress.currentStage ? `도전 ${progress.currentStage}층` : '도전 -';
+  const conquestLevelLabel = progress.conquestLevel ? `정복 Lv.${progress.conquestLevel}` : '정복 -';
+
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={`group flex min-h-[96px] items-center gap-3 rounded-2xl border p-3 text-left transition ${
-        active ? 'border-purple-300 bg-purple-50 shadow-sm' : 'border-slate-200 bg-white hover:border-purple-200 hover:bg-slate-50'
+      className={`group relative min-h-[72px] overflow-hidden rounded-xl border text-left shadow-sm transition ${
+        active ? 'border-purple-300 ring-2 ring-purple-100' : 'border-slate-200 hover:border-purple-200'
       }`}
     >
-      <span className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl bg-slate-950 ring-1 ring-slate-200">
-        <Image src={boss.portraitUrl} alt={boss.name} width={64} height={64} unoptimized className="h-full w-full object-cover" />
-      </span>
-      <span className="min-w-0">
-        <span className="block truncate text-sm font-black text-slate-950">{boss.name}</span>
-        <span className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-black ${boss.mode === 'Legend+' ? 'bg-fuchsia-100 text-fuchsia-700' : 'bg-blue-100 text-blue-700'}`}>
-          {boss.mode}
+      <Image src={boss.bannerUrl} alt="" fill sizes="(min-width: 1536px) 20vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" unoptimized className="object-cover transition duration-300 group-hover:scale-[1.02]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-slate-950/20" />
+      <span className="relative z-10 flex min-h-[72px] items-center gap-2 p-2">
+        <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg bg-slate-950 ring-2 ring-white/30">
+          <Image src={boss.portraitUrl} alt="" width={40} height={40} unoptimized className="h-full w-full object-cover" />
+        </span>
+        <span className="min-w-0">
+          <span className="block truncate text-xs font-black text-white drop-shadow">{boss.name}</span>
+          <span className={`mt-0.5 inline-flex rounded-full px-1.5 py-0.5 text-[9px] font-black shadow-sm ${boss.mode === 'Legend+' ? 'bg-fuchsia-500 text-white' : 'bg-blue-500 text-white'}`}>
+            {boss.mode}
+          </span>
+          <span className="mt-1 flex flex-wrap gap-1 text-[8px] font-black text-white/90">
+            <span className="truncate rounded bg-white/15 px-1 py-0.5 ring-1 ring-white/15">{currentStageLabel}</span>
+            <span className="truncate rounded bg-white/15 px-1 py-0.5 ring-1 ring-white/15">{conquestLevelLabel}</span>
+          </span>
         </span>
       </span>
     </button>
@@ -199,9 +278,9 @@ function RestrictionIcons({ stage }: { stage: WorldBossStageRule }) {
     : [{ label: 'No Restrictions', iconUrl: noRestrictionIcon }];
 
   return (
-    <div className="flex flex-wrap justify-center gap-1.5">
+    <div className="flex flex-nowrap justify-center gap-1 overflow-hidden">
       {restrictions.map((restriction) => (
-        <span key={`${stage.range}-${restriction.label}`} className="grid h-9 w-9 place-items-center rounded-xl bg-slate-100 p-1.5 ring-1 ring-slate-200" title={displayRestrictionLabel(restriction.label)}>
+        <span key={`${stage.range}-${restriction.label}`} className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-slate-100 p-1 ring-1 ring-slate-200" title={displayRestrictionLabel(restriction.label)}>
           <Image src={restriction.iconUrl} alt={displayRestrictionLabel(restriction.label)} width={32} height={32} unoptimized className="h-full w-full object-contain" />
         </span>
       ))}
@@ -211,15 +290,15 @@ function RestrictionIcons({ stage }: { stage: WorldBossStageRule }) {
 
 function StagePickCard({ pick, onRemove }: { pick: StagePick; onRemove: () => void }) {
   return (
-    <div className="group relative grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-purple-100 bg-white p-1 shadow-sm" title={`${pick.characterName} · ${pick.uniformName}`}>
+    <div className="group relative grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-purple-100 bg-white p-0.5 shadow-sm" title={`${pick.characterName} · ${pick.uniformName}`}>
       <Image
         src={pick.uniformImageUrl ?? pick.characterImageUrl}
         alt={`${pick.characterName} ${pick.uniformName}`}
-        width={44}
-        height={44}
+        width={36}
+        height={36}
         unoptimized
         onError={(event) => imageFallback(event, pick.characterName)}
-        className="h-full w-full rounded-lg object-cover"
+        className="h-full w-full rounded-md object-cover"
       />
       <button type="button" onClick={onRemove} className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-slate-950 text-[10px] font-black text-white shadow-sm opacity-90 hover:bg-rose-600" aria-label={`${pick.characterName} 제거`}>
         ×
@@ -369,25 +448,17 @@ function StagePickerPanel({
 
 function StageRuleGrid({
   boss,
+  currentStage,
   picks,
   onOpenPicker,
   onRemovePick,
 }: {
   boss: WorldBoss;
+  currentStage?: number;
   picks: StagePickStore;
   onOpenPicker: (picker: PickerState) => void;
   onRemovePick: (stageKey: string, pickId: string) => void;
 }) {
-  const stageOptionCounts = useMemo(() => {
-    const counts = new Map<string, number>();
-
-    for (const stage of boss.stages) {
-      counts.set(makeStageKey(boss.id, stage.range), getCharacterOptions(stage).length);
-    }
-
-    return counts;
-  }, [boss]);
-
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-3">
@@ -398,28 +469,35 @@ function StageRuleGrid({
         {boss.stages.map((stage) => {
           const stageKey = makeStageKey(boss.id, stage.range);
           const stagePicks = picks[stageKey] ?? [];
+          const stageActive = stageRangeIncludes(stage.range, currentStage);
 
           return (
-            <article key={`${boss.id}-${stage.range}`} className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3 md:grid-cols-[72px_150px_minmax(0,1fr)] md:items-start">
-              <div className="grid place-items-center rounded-2xl bg-slate-950 px-3 py-3 text-sm font-black text-white">{stage.range}</div>
+            <article
+              key={`${boss.id}-${stage.range}`}
+              className={`grid gap-2 rounded-xl border p-2 transition md:grid-cols-[58px_148px_176px] md:items-center ${
+                stageActive
+                  ? 'border-purple-300 bg-purple-50/80 shadow-[0_0_0_3px_rgba(168,85,247,0.12),0_12px_26px_rgba(88,28,135,0.08)]'
+                  : 'border-slate-200 bg-slate-50'
+              }`}
+            >
+              <div className={`grid min-h-9 place-items-center rounded-xl px-2 py-2 text-xs font-black ${
+                stageActive ? 'bg-purple-600 text-white' : 'bg-slate-950 text-white'
+              }`}>{stage.range}</div>
               <RestrictionIcons stage={stage} />
               <div className="min-w-0">
-                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                  <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-black text-slate-500 ring-1 ring-slate-200">DB {stageOptionCounts.get(stageKey) ?? 0}명</span>
+                <div className="flex min-h-9 w-full flex-wrap gap-1 rounded-lg border border-dashed border-slate-200 bg-white/70 p-1">
+                  {stagePicks.map((pick) => (
+                    <StagePickCard key={pick.id} pick={pick} onRemove={() => onRemovePick(stageKey, pick.id)} />
+                  ))}
                   <button
                     type="button"
                     onClick={() => onOpenPicker({ stageKey, bossName: boss.name, stage })}
-                    className="rounded-full bg-purple-600 px-3 py-1 text-[11px] font-black text-white shadow-sm hover:bg-purple-700"
+                    aria-label={`${boss.name} ${stage.range}층 조건 영웅 추가`}
+                    title="영웅 추가"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-dashed border-purple-200 bg-white text-xl font-black leading-none text-purple-600 shadow-sm transition hover:border-purple-400 hover:bg-purple-50"
                   >
-                    + 영웅
+                    +
                   </button>
-                </div>
-                <div className="mt-3 flex min-h-12 flex-wrap gap-2 rounded-xl border border-dashed border-slate-200 bg-white/70 p-2">
-                  {stagePicks.length ? stagePicks.map((pick) => (
-                    <StagePickCard key={pick.id} pick={pick} onRemove={() => onRemovePick(stageKey, pick.id)} />
-                  )) : (
-                    <div className="min-h-8 flex-1" aria-label="추가된 월드보스 조건 영웅 없음" />
-                  )}
                 </div>
               </div>
             </article>
@@ -430,16 +508,56 @@ function StageRuleGrid({
   );
 }
 
-function BossHero({ boss }: { boss: WorldBoss }) {
+function BossHero({
+  boss,
+  progress,
+  onProgressChange,
+}: {
+  boss: WorldBoss;
+  progress: BossProgress;
+  onProgressChange: (bossId: string, field: BossProgressField, value: string) => void;
+}) {
   return (
     <section className="relative min-h-[280px] overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 shadow-sm">
-      <Image src={boss.bannerUrl} alt={boss.name} fill priority unoptimized className="object-cover opacity-75" />
+      <Image src={boss.bannerUrl} alt="" fill priority unoptimized className="object-cover opacity-75" />
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/35 to-transparent" />
-      <div className="relative flex min-h-[280px] items-end gap-5 p-6">
-        <Image src={boss.portraitUrl} alt={boss.name} width={108} height={108} unoptimized className="h-24 w-24 rounded-3xl object-cover ring-4 ring-white/20" />
-        <div className="pb-2">
-          <span className={`mb-2 inline-flex rounded-full px-3 py-1 text-xs font-black ${boss.mode === 'Legend+' ? 'bg-fuchsia-500 text-white' : 'bg-blue-500 text-white'}`}>{boss.mode}</span>
-          <h1 className="text-3xl font-black leading-tight text-white sm:text-4xl">{boss.name}</h1>
+      <div className="relative grid min-h-[280px] gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
+        <div className="flex items-end gap-5 self-end">
+          <Image src={boss.portraitUrl} alt={boss.name} width={108} height={108} unoptimized className="h-24 w-24 rounded-3xl object-cover ring-4 ring-white/20" />
+          <div className="pb-2">
+            <span className={`mb-2 inline-flex rounded-full px-3 py-1 text-xs font-black ${boss.mode === 'Legend+' ? 'bg-fuchsia-500 text-white' : 'bg-blue-500 text-white'}`}>{boss.mode}</span>
+            <h1 className="text-3xl font-black leading-tight text-white sm:text-4xl">{boss.name}</h1>
+          </div>
+        </div>
+        <div className="grid self-end rounded-2xl border border-white/20 bg-white/12 p-3 shadow-2xl backdrop-blur-md sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <label className="min-w-0 rounded-xl bg-white/90 px-3 py-2 shadow-sm ring-1 ring-white/70">
+            <span className="block text-[10px] font-black text-slate-500">도전 층</span>
+            <input
+              type="number"
+              min={0}
+              max={999}
+              inputMode="numeric"
+              value={progress.currentStage}
+              onChange={(event) => onProgressChange(boss.id, 'currentStage', event.target.value)}
+              aria-label={`${boss.name} 도전중인 층`}
+              placeholder="-"
+              className="mt-1 w-full bg-transparent text-2xl font-black leading-none text-slate-950 outline-none placeholder:text-slate-400"
+            />
+          </label>
+          <label className="mt-2 min-w-0 rounded-xl bg-white/90 px-3 py-2 shadow-sm ring-1 ring-white/70 sm:ml-2 sm:mt-0 lg:ml-0 lg:mt-2 xl:ml-2 xl:mt-0">
+            <span className="block text-[10px] font-black text-slate-500">정복 Lv</span>
+            <input
+              type="number"
+              min={0}
+              max={999}
+              inputMode="numeric"
+              value={progress.conquestLevel}
+              onChange={(event) => onProgressChange(boss.id, 'conquestLevel', event.target.value)}
+              aria-label={`${boss.name} 현재 정복 레벨`}
+              placeholder="-"
+              className="mt-1 w-full bg-transparent text-2xl font-black leading-none text-slate-950 outline-none placeholder:text-slate-400"
+            />
+          </label>
         </div>
       </div>
     </section>
@@ -449,16 +567,25 @@ function BossHero({ boss }: { boss: WorldBoss }) {
 export function WorldBossSection() {
   const [selectedId, setSelectedId] = useState(worldBosses[0]?.id ?? '');
   const [stagePicks, setStagePicks] = useState<StagePickStore>({});
+  const [bossProgress, setBossProgress] = useState<BossProgressStore>({});
   const [picksReady, setPicksReady] = useState(false);
+  const [progressReady, setProgressReady] = useState(false);
   const [picker, setPicker] = useState<PickerState>(null);
   const selectedBoss = useMemo(
     () => worldBosses.find((boss) => boss.id === selectedId) ?? worldBosses[0],
     [selectedId],
   );
+  const selectedBossProgress = selectedBoss ? bossProgress[selectedBoss.id] ?? createEmptyBossProgress() : createEmptyBossProgress();
+  const selectedCurrentStage = numericProgressValue(selectedBossProgress.currentStage);
 
   useEffect(() => {
     setStagePicks(readStoredPicks());
     setPicksReady(true);
+  }, []);
+
+  useEffect(() => {
+    setBossProgress(readStoredProgress());
+    setProgressReady(true);
   }, []);
 
   useEffect(() => {
@@ -469,6 +596,15 @@ export function WorldBossSection() {
       // Custom stage picks are local convenience data; the World Boss screen remains usable without storage.
     }
   }, [picksReady, stagePicks]);
+
+  useEffect(() => {
+    if (!progressReady) return;
+    try {
+      window.localStorage.setItem(worldBossProgressStorageKey, JSON.stringify(bossProgress));
+    } catch {
+      // Progress inputs are personal local data; the World Boss screen remains usable without storage.
+    }
+  }, [bossProgress, progressReady]);
 
   useEffect(() => {
     if (!picker) return;
@@ -499,17 +635,39 @@ export function WorldBossSection() {
     }));
   };
 
+  const updateBossProgress = (bossId: string, field: BossProgressField, value: string) => {
+    const nextValue = sanitizeNumericInput(value);
+
+    setBossProgress((current) => {
+      const nextProgress = {
+        ...(current[bossId] ?? createEmptyBossProgress()),
+        [field]: nextValue,
+      };
+
+      return {
+        ...current,
+        [bossId]: nextProgress,
+      };
+    });
+  };
+
   return (
     <section className="space-y-5">
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
+      <section className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
         {worldBosses.map((boss) => (
-          <BossButton key={boss.id} boss={boss} active={boss.id === selectedBoss.id} onClick={() => setSelectedId(boss.id)} />
+          <BossButton
+            key={boss.id}
+            boss={boss}
+            active={boss.id === selectedBoss.id}
+            progress={bossProgress[boss.id] ?? createEmptyBossProgress()}
+            onClick={() => setSelectedId(boss.id)}
+          />
         ))}
       </section>
 
-      <BossHero boss={selectedBoss} />
+      <BossHero boss={selectedBoss} progress={selectedBossProgress} onProgressChange={updateBossProgress} />
       <UnlockStrip boss={selectedBoss} />
-      <StageRuleGrid boss={selectedBoss} picks={stagePicks} onOpenPicker={setPicker} onRemovePick={removePick} />
+      <StageRuleGrid boss={selectedBoss} currentStage={selectedCurrentStage} picks={stagePicks} onOpenPicker={setPicker} onRemovePick={removePick} />
       <StagePickerPanel picker={picker} onClose={() => setPicker(null)} onSelect={addPick} />
     </section>
   );

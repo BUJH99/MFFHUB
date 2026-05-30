@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Platinum tier">
+  <defs>
+    <linearGradient id="platinum-g" x1="10" y1="8" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ecfeff"/>
+      <stop offset=".5" stop-color="#67e8f9"/>
+      <stop offset="1" stop-color="#0e7490"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 4 56 17v30L32 60 8 47V17L32 4Z" fill="#083344"/>
+  <path d="M32 8 52 19v26L32 56 12 45V19L32 8Z" fill="url(#platinum-g)" stroke="#ecfeff" stroke-width="2"/>
+  <path d="M32 14 48 26v12L32 50 16 38V26l16-12Z" fill="#ecfeff" opacity=".28"/>
+  <path d="M21 25h22l-5 20H26L21 25Z" fill="#f0fdff"/>
+  <path d="M27 20h10l6 5H21l6-5Z" fill="#e0faff"/>
+</svg>

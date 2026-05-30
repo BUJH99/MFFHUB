@@ -4,8 +4,9 @@
   "private": true,
   "description": "Personal MFF data hub monorepo: Next.js web app now, Supabase DB, shared TypeScript core, future Expo iOS shell.",
   "scripts": {
-    "dev": "npm run dev -w @mff-data-hub/web -- --hostname 127.0.0.1 -p 3600",
-    "dev:web": "npm run dev -w @mff-data-hub/web -- --hostname 127.0.0.1 -p 3600",
+    "dev": "npm run dev -w @mff-data-hub/web -- --hostname 127.0.0.1 -p 3700",
+    "dev:web": "npm run dev -w @mff-data-hub/web -- --hostname 127.0.0.1 -p 3700",
+    "hub": "tsx scripts/mff-cli.ts",
     "build": "npm run build -w @mff-data-hub/web",
     "start": "npm run start -w @mff-data-hub/web",
     "lint": "npm run lint -w @mff-data-hub/web",

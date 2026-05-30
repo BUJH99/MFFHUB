@@ -568,15 +568,6 @@ function formatStatValue(key: AccountStatKey, value: number) {
   return key === 'instinctAttack' ? `+${formatted}` : `+${formatted}%`;
 }
 
-function CardEffectMetric({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="border border-slate-200 bg-white px-4 py-3">
-      <p className="text-[10px] font-black text-slate-500">{label}</p>
-      <p className="text-xl font-black text-slate-950">{value}</p>
-    </div>
-  );
-}
-
 function CardEffectStatRow({ group, statKey, value }: { group: (typeof cardEffectGroups)[number]; statKey: AccountStatKey; value: number }) {
   return (
     <div className={`grid grid-cols-[minmax(0,1fr)_86px] items-center gap-3 px-3 py-2 text-sm font-black ${value === 0 ? 'text-slate-600' : group.rowClassName}`}>
@@ -588,9 +579,6 @@ function CardEffectStatRow({ group, statKey, value }: { group: (typeof cardEffec
 
 function CardEffectSummary({ cardSummary }: { cardSummary: ReturnType<typeof summarizeComicCardSlots> }) {
   const totalStats = useMemo(() => aggregateCardStats(cardSummary), [cardSummary]);
-  const allBasicAttack = Number(totalStats.allBasicAttack ?? 0);
-  const physicalAttackTotal = round1(allBasicAttack + Number(totalStats.physicalAttack ?? 0));
-  const energyAttackTotal = round1(allBasicAttack + Number(totalStats.energyAttack ?? 0));
   const equippedCards = cardSummary.calculatedCards.filter((row) => row.card);
   const triggerRows = equippedCards
     .flatMap(({ slot, card }, index) => (
@@ -601,26 +589,7 @@ function CardEffectSummary({ cardSummary }: { cardSummary: ReturnType<typeof sum
 
   return (
     <section className="mb-4 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 bg-white px-4 py-4">
-        <div className="text-center">
-          <p className="text-xs font-black uppercase tracking-wide text-slate-500">Comic Card Effects</p>
-          <h4 className="text-2xl font-black text-slate-950">전체 카드 효과</h4>
-        </div>
-      </div>
-      <div className="flex flex-wrap items-start justify-between gap-3 px-4 py-4">
-        <div>
-          <p className="text-sm font-black text-slate-950">카드 덱 1</p>
-          <p className="mt-1 text-sm font-bold text-slate-500">{cardSummary.equippedCardCount}장 장착 · 옵션 자동 합산</p>
-        </div>
-        <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
-          <CardEffectMetric label="물리 공격력" value={`+${formatNumber(physicalAttackTotal)}%`} />
-          <CardEffectMetric label="에너지 공격력" value={`+${formatNumber(energyAttackTotal)}%`} />
-          <CardEffectMetric label="관통 피해" value={`+${formatNumber(cardSummary.pierce)}%`} />
-          <CardEffectMetric label="파랑 별" value={`${cardSummary.fullBlueCards}/${cardSummary.equippedCardCount}`} />
-        </div>
-      </div>
-
-      <div className="grid gap-3 px-4 pb-4 xl:grid-cols-4">
+      <div className="grid gap-3 px-4 py-4 xl:grid-cols-4">
         {cardEffectGroups.map((group) => {
           const rows = group.keys.map((key) => ({ key, value: Number(totalStats[key] ?? 0) }));
           return (
@@ -1467,7 +1436,15 @@ const cardOptionSlots: Array<{ key: CardOptionSlot; label: string }> = [
   { key: 'stat6', label: '옵션 6' },
 ];
 
-export function AccountSpecPanel() {
+export type AccountSpecPage = 'cards' | 'xSwords' | 'teamUps';
+
+const accountSpecPageMeta: Record<AccountSpecPage, { title: string; testId: string }> = {
+  cards: { title: '카드', testId: 'account-card-page' },
+  xSwords: { title: 'X-소드', testId: 'account-x-sword-page' },
+  teamUps: { title: '팀업', testId: 'account-team-up-page' },
+};
+
+export function AccountSpecPanel({ page = 'cards' }: { page?: AccountSpecPage }) {
   const { slots: comicCardSlots, assignCard, updateCardSlot, updateCardOption, updateCraft, resetCards } = useComicCardSlots();
   const { slots: xSwordSlots, updateMasteryLevel, updateOption: updateXSwordOption, resetSwords } = useXSwordSlots();
   const { collections: teamUpCollections, updateLevel: updateTeamUpLevel, resetTeamUps } = useTeamUpCollections();
@@ -1506,8 +1483,18 @@ export function AccountSpecPanel() {
     [swordRows],
   );
   const selectedSwordRow = swordRows.find((row) => row.slotIndex === selectedXSwordSlot) ?? orderedSwordRows[0] ?? swordRows[0];
-  const customAccountAttack = round1(cardSummary.attack + xSwordSummary.masteryAllAttack);
+  const cardTotalStats = useMemo(() => aggregateCardStats(cardSummary), [cardSummary]);
+  const cardAllBasicAttack = Number(cardTotalStats.allBasicAttack ?? 0);
+  const cardPhysicalAttack = round1(cardAllBasicAttack + Number(cardTotalStats.physicalAttack ?? 0));
+  const cardEnergyAttack = round1(cardAllBasicAttack + Number(cardTotalStats.energyAttack ?? 0));
   const customTotalPierce = round1(cardSummary.pierce + Number(xSwordSummary.stats.pierce ?? 0));
+  const teamUpStats = useMemo(() => {
+    const completed = teamCoverage.filter((row) => row.total > 0 && row.covered === row.total).length;
+    const averageCoverage = teamCoverage.length ? Math.round(teamCoverage.reduce((sum, row) => sum + row.coverage, 0) / teamCoverage.length) : 0;
+    const totalLevel = teamUpCollections.reduce((sum, collection) => sum + collection.collectionLevel, 0);
+    return { completed, averageCoverage, totalLevel };
+  }, [teamCoverage, teamUpCollections]);
+  const pageMeta = accountSpecPageMeta[page];
   const pickerCard = cardPickerSlot === null ? undefined : cardSummary.calculatedCards[cardPickerSlot]?.card;
 
   const openCardPicker = (index: number) => {
@@ -1523,30 +1510,53 @@ export function AccountSpecPanel() {
   };
 
   return (
-    <section className="mt-5 space-y-5">
+    <section className="mt-5 space-y-5" data-testid={pageMeta.testId}>
       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-black text-purple-700">계정 스펙 현황</p>
-            <h2 className="text-2xl font-black text-slate-950">카드 / X-소드 / 팀업</h2>
+            <p className="text-sm font-black text-purple-700">캐릭터 정보</p>
+            <h2 className="text-2xl font-black text-slate-950">{pageMeta.title}</h2>
           </div>
           <div className="flex flex-wrap gap-2">
-            <p className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-black text-white">
-              <TrendingUp size={16} />
-              계정공 {formatNumber(customAccountAttack)}%
-            </p>
-            <p className="rounded-2xl bg-purple-50 px-4 py-2 text-sm font-black text-purple-700">피어스 {formatNumber(customTotalPierce)}%</p>
+            {page === 'cards' ? (
+              <>
+                <p className="inline-flex items-center gap-2 rounded-2xl bg-rose-50 px-3 py-2 text-xs font-black text-rose-700 sm:text-sm">
+                  <TrendingUp size={16} />
+                  물리공격력 +{formatNumber(cardPhysicalAttack)}%
+                </p>
+                <p className="rounded-2xl bg-sky-50 px-3 py-2 text-xs font-black text-sky-700 sm:text-sm">에너지공격력 +{formatNumber(cardEnergyAttack)}%</p>
+                <p className="rounded-2xl bg-purple-50 px-3 py-2 text-xs font-black text-purple-700 sm:text-sm">관통 {formatNumber(customTotalPierce)}%</p>
+              </>
+            ) : null}
+            {page === 'xSwords' ? (
+              <>
+                <p className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-black text-white">
+                  <Swords size={16} />
+                  마스터리 {xSwordSummary.masteryLevel}
+                </p>
+                <p className="rounded-2xl bg-purple-50 px-4 py-2 text-sm font-black text-purple-700">공격 +{formatNumber(xSwordSummary.masteryAllAttack)}%</p>
+              </>
+            ) : null}
+            {page === 'teamUps' ? (
+              <>
+                <p className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 text-sm font-black text-white">
+                  <Users size={16} />
+                  완성 {teamUpStats.completed}/{teamCoverage.length}
+                </p>
+                <p className="rounded-2xl bg-purple-50 px-4 py-2 text-sm font-black text-purple-700">평균 {teamUpStats.averageCoverage}% · Lv {teamUpStats.totalLevel}</p>
+              </>
+            ) : null}
           </div>
         </div>
       </div>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      {page === 'cards' ? <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-start gap-3">
             <span className="rounded-2xl bg-slate-950 p-3 text-white"><BookOpen size={20} /></span>
             <div>
               <h3 className="text-xl font-black text-slate-950">카드</h3>
-              <p className="text-sm font-bold text-slate-500">카드별 교체 버튼으로 장착 카드를 선택하고, 옵션과 세공 색상으로 공격/피어스를 자동 계산합니다.</p>
+              <p className="text-xs font-bold text-slate-500">전체 카드 효과</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -1583,15 +1593,14 @@ export function AccountSpecPanel() {
             onClose={() => setCardPickerSlot(null)}
           />
         ) : null}
-      </section>
+      </section> : null}
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      {page === 'xSwords' ? <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-start gap-3">
             <span className="rounded-2xl bg-purple-50 p-3 text-purple-700"><Swords size={20} /></span>
             <div>
               <h3 className="text-xl font-black text-slate-950">X-소드</h3>
-              <p className="text-sm font-bold text-slate-500">각 소드별 마스터리 숫자와 실제 게임 옵션 6줄을 편집합니다.</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -1643,15 +1652,14 @@ export function AccountSpecPanel() {
             <StatPills stats={xSwordSummary.stats} limit={8} />
           </div>
         </div>
-      </section>
+      </section> : null}
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      {page === 'teamUps' ? <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-start gap-3">
             <span className="rounded-2xl bg-blue-50 p-3 text-blue-700"><Users size={20} /></span>
             <div>
               <h3 className="text-xl font-black text-slate-950">팀업</h3>
-              <p className="text-sm font-bold text-slate-500">각 팀업 컬렉션 레벨을 개별 입력하고 대상 캐릭터 적용 범위를 확인합니다.</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -1676,7 +1684,7 @@ export function AccountSpecPanel() {
             );
           })}
         </div>
-      </section>
+      </section> : null}
     </section>
   );
 }

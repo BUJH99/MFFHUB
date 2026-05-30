@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 72" role="img" aria-labelledby="title">
+  <title id="title">X-Force</title>
+  <rect width="180" height="72" fill="#ffffff"/>
+  <g transform="translate(16 38)">
+    <path d="M23 -30 L53 -30 L83 -4 L113 -30 L143 -30 L98 9 L147 32 L113 32 L84 16 L55 32 L22 32 L70 9 Z" fill="#e0f2fe" stroke="#073763" stroke-width="3"/>
+    <text x="25" y="12" text-anchor="middle" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif" font-size="38" font-weight="900" fill="#0f172a" stroke="#bae6fd" stroke-width="1.4">X</text>
+    <text x="78" y="11" font-family="Impact, Haettenschweiler, 'Arial Black', sans-serif" font-size="22" font-weight="900" fill="#0284c7" stroke="#ffffff" stroke-width=".8">FORCE</text>
+  </g>
+</svg>

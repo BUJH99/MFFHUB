@@ -35,7 +35,7 @@ npm run dev
 브라우저에서 엽니다.
 
 ```txt
-http://127.0.0.1:3600
+http://127.0.0.1:3700
 ```
 
 ### 1-2. Windows 편의 실행
@@ -1115,7 +1115,7 @@ Ctrl + C
 
 ```powershell
 cd apps/web
-npx next dev --hostname 127.0.0.1 -p 3600
+npx next dev --hostname 127.0.0.1 -p 3700
 ```
 
 ### 12-3. React key 중복 경고

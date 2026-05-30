@@ -9,6 +9,7 @@ const eslintConfig = [
   {
     ignores: [
       '.next/**',
+      'out/**',
       'next-env.d.ts',
       'tsconfig.tsbuildinfo',
       'public/**',

@@ -26,3 +26,13 @@ img {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.tier-motion-card[data-dragging='true'] {
+  will-change: transform, opacity;
+}
+
+.tier-type-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 112px), 1fr));
+  justify-content: start;
+  width: min(100%, calc(112px * 3 + 0.5rem * 2));
+}

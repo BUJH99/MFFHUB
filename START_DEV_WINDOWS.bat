@@ -3,7 +3,7 @@ setlocal
 cd /d "%~dp0"
 
 if "%MFF_DEV_HOST%"=="" set "MFF_DEV_HOST=127.0.0.1"
-if "%MFF_DEV_PORT%"=="" set "MFF_DEV_PORT=3600"
+if "%MFF_DEV_PORT%"=="" set "MFF_DEV_PORT=3700"
 
 if not exist "node_modules\" (
   echo [MFF Data Hub] Dependencies are not installed.

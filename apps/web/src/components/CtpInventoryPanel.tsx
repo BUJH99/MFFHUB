@@ -223,7 +223,6 @@ export function CtpInventoryPanel() {
           <div>
             <p className="text-sm font-black text-slate-500">보유 장비</p>
             <h2 className="text-2xl font-black text-slate-950">CTP 인벤토리 현황</h2>
-            <p className="mt-1 text-sm font-bold text-slate-500">일반, 강력, 찬란 수량을 CTP별로 관리합니다.</p>
           </div>
         </div>
         <button
