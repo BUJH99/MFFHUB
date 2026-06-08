@@ -6,18 +6,21 @@ const sourcePath = fileURLToPath(new URL('./Header.tsx', import.meta.url));
 const source = readFileSync(sourcePath, 'utf8');
 
 describe('Header action buttons', () => {
-  it('removes the heart action and keeps the purple gear as a placeholder', () => {
+  it('removes the heart action and turns the gear into diagnostics', () => {
     expect(source).not.toContain('♡');
-    expect(source).toContain('label="보류 중인 기능"');
-    expect(source).toContain('className="text-purple-300"');
+    expect(source).toContain('label="앱 진단"');
+    expect(source).toContain("openSettings('diagnostics')");
   });
 
   it('adds settings/data management controls backed by local storage', () => {
     expect(source).toContain('설정 / 데이터 관리');
     expect(source).toContain("appStoragePrefix = 'mff-data-hub:'");
+    expect(source).toContain("uiPreferenceStorageKey = 'mff-data-hub:ui-preferences:v1'");
     expect(source).toContain('createBackupJson()');
     expect(source).toContain('extractBackupData(importText)');
     expect(source).toContain('clearAppData');
+    expect(source).toContain('createStorageRows');
+    expect(source).toContain('createDiagnosticsText');
   });
 
   it('adds today todo and notification checklist state', () => {

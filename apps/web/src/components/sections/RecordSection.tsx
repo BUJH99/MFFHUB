@@ -280,7 +280,52 @@ export function RecordSection() {
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <section className="space-y-3 lg:hidden">
+        {sortedRecords.map((record) => (
+          <article key={`mobile-${record.date}`} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-purple-500">Score Day</p>
+                <h3 className="mt-1 text-lg font-black text-slate-950">{record.date}</h3>
+              </div>
+              <div className="text-right">
+                <p className="text-xs font-black text-slate-500">합계</p>
+                <p className="mt-1 text-xl font-black text-purple-700">{formatScore(recordTotal(record))}</p>
+              </div>
+            </div>
+            <div className="mt-4 grid gap-3">
+              {pveWeeklyModes.map((mode) => (
+                <section key={`${record.date}-${mode.content}-mobile`} className={`rounded-2xl p-3 ring-1 ${mode.accent}`}>
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-black">{mode.label}</p>
+                    <ComboIconSlots
+                      record={record}
+                      content={mode.content}
+                      onOpenPicker={(slotIndex) => setPicker({ recordDate: record.date, content: mode.content, slotIndex })}
+                      onClearSlot={(slotIndex) => clearComboSlot(record.date, mode.content, slotIndex)}
+                    />
+                  </div>
+                  <label className="mt-3 block">
+                    <span className="sr-only">{record.date} {mode.label} 점수</span>
+                    <input
+                      type="number"
+                      min={0}
+                      step={1}
+                      value={record.scores[mode.content] || ''}
+                      onChange={(event) => updateScore(record.date, mode.content, event.target.value)}
+                      placeholder="0"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-right text-sm font-black text-slate-950 outline-none focus:border-purple-300 focus:ring-4 focus:ring-purple-100"
+                    />
+                  </label>
+                </section>
+              ))}
+            </div>
+            <button type="button" onClick={() => removeRecord(record.date)} className="mt-3 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-black text-slate-500 hover:border-red-200 hover:text-red-600">삭제</button>
+          </article>
+        ))}
+      </section>
+
+      <section className="hidden overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:block">
         <div className="grid grid-cols-[116px_repeat(3,minmax(190px,1fr))_92px] bg-slate-950 text-xs font-black text-white">
           <div className="px-3 py-3">날짜</div>
           {pveWeeklyModes.map((mode) => <div key={`head-${mode.content}`} className="px-3 py-3">{mode.label}</div>)}

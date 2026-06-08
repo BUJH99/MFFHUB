@@ -24,7 +24,7 @@ describe('Custom optimizer page removal', () => {
   it('removes the mobile recommendation tab and component file', () => {
     expect(mobileNavSource).not.toContain("'custom'");
     expect(mobileNavSource).not.toContain("['추천'");
-    expect(mobileNavSource).toContain('grid-cols-4');
+    expect(mobileNavSource).toContain('grid-cols-5');
     expect(existsSync(customOptimizerPath)).toBe(false);
   });
 });

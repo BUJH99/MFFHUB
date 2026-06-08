@@ -301,6 +301,8 @@ function SidebarPanel({ section, selectSection, showCloseButton, onMobileClose }
         <div className="my-3 h-px bg-slate-100" />
         <NavItem icon="📊" label="통계 / 분석" active={section === 'analysis'} onClick={() => selectSection('analysis')} />
         <NavItem icon="📋" label="내 기록" active={section === 'record'} onClick={() => selectSection('record')} />
+        <NavItem icon="▦" label="점수 입력" sub="ABX, ABL, 인피니티 챌린지" active={section === 'userScores'} onClick={() => selectSection('userScores')} />
+        <NavItem icon="▧" label="게시판" sub="공지, 공략, 질문, 자유" active={section === 'board'} onClick={() => selectSection('board')} />
         <NavItem icon="📖" label="캐릭터 가이드" active={section === 'guide'} onClick={() => selectSection('guide')} />
         <NavItem icon="▣" label="캐릭터 DB" sub="캐릭터명, 유니폼, 아티팩트, 버프" active={section === 'db'} onClick={() => selectSection('db')} />
         <NavItem icon="▤" label="나의 캐릭터" sub="티어, 레벨, CTP, 유니폼 보유" active={section === 'myCharacters'} onClick={() => selectSection('myCharacters')} />
@@ -322,9 +324,9 @@ export function Sidebar({ section, setSection, mobileOpen = false, onMobileClose
         <SidebarPanel section={section} selectSection={selectSection} />
       </aside>
       {mobileOpen ? (
-        <div className="fixed inset-0 z-50 xl:hidden" role="dialog" aria-modal="true">
-          <button type="button" aria-label="좌측 메뉴 닫기" onClick={onMobileClose} className="absolute inset-0 bg-slate-950/40" />
-          <aside className="relative z-10 h-full w-[306px] max-w-[84vw] overflow-y-auto border-r border-slate-200 bg-white px-5 py-6 shadow-2xl">
+        <div className="fixed inset-0 z-[90] xl:hidden" role="dialog" aria-modal="true">
+          <button type="button" aria-label="배경을 눌러 좌측 메뉴 닫기" onClick={onMobileClose} className="absolute inset-0 bg-slate-950/40" />
+          <aside className="relative z-10 h-full w-[306px] max-w-[92vw] overflow-y-auto border-r border-slate-200 bg-white px-4 py-5 shadow-2xl sm:px-5 sm:py-6">
             <SidebarPanel section={section} selectSection={selectSection} showCloseButton onMobileClose={onMobileClose} />
           </aside>
         </div>

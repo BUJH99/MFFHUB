@@ -459,8 +459,8 @@ function CharacterAttributeIcons({ character, selectedUniform }: { character: Ca
   return (
     <div data-testid={`character-core-icons-${character.id}`} className="flex max-h-12 flex-wrap justify-center gap-1 overflow-hidden">
       {icons.map((icon, index) => (
-        <span key={`${character.id}-${icon.key}-${index}`} className="grid h-5 w-5 shrink-0 place-items-center rounded-md border border-slate-200 bg-slate-100 p-0.5" title={icon.label} aria-label={icon.label}>
-          <Image src={icon.src} alt={icon.label} width={16} height={16} unoptimized className="h-4 w-4 object-contain" />
+        <span key={`${character.id}-${icon.key}-${index}`} className="relative grid h-5 w-5 shrink-0 place-items-center rounded-md border border-slate-200 bg-slate-100" title={icon.label} aria-label={icon.label}>
+          <Image src={icon.src} alt={icon.label} fill unoptimized sizes="16px" className="object-contain p-0.5" />
         </span>
       ))}
     </div>
@@ -473,8 +473,8 @@ function CharacterAbilityIcons({ character, selectedUniform }: { character: Cata
   return (
     <div data-testid={`character-ability-icons-${character.id}`} className="flex flex-nowrap justify-center gap-1 overflow-hidden">
       {icons.length ? icons.map((icon) => (
-        <span key={`${character.id}-ability-${icon.key}`} className="grid h-5 w-5 shrink-0 place-items-center rounded-md border border-slate-200 bg-white p-0.5" title={icon.label} aria-label={icon.label}>
-          <Image src={icon.src} alt={icon.label} width={16} height={16} unoptimized className="h-4 w-4 object-contain" />
+        <span key={`${character.id}-ability-${icon.key}`} className="relative grid h-5 w-5 shrink-0 place-items-center rounded-md border border-slate-200 bg-white" title={icon.label} aria-label={icon.label}>
+          <Image src={icon.src} alt={icon.label} fill unoptimized sizes="16px" className="object-contain p-0.5" />
         </span>
       )) : (
         <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-400">능력 없음</span>
@@ -1419,7 +1419,7 @@ function UruCell({
                 >
                   종류 다시 선택
                 </button>
-                <div className="grid max-h-[60vh] grid-cols-3 gap-1 overflow-y-auto p-1 sm:grid-cols-4">
+                <div className="grid max-h-[60vh] grid-cols-3 gap-1 overflow-auto p-1 sm:grid-cols-4">
                   {(openUruKind === 'normal' ? normalUruOptions : odinBlessingOptions).map((option) => {
                     const value = openUruKind === 'normal'
                       ? `normal:${(option as NormalUruOption).value}` as UruSlotValue
@@ -1454,7 +1454,7 @@ function UruCell({
   );
 }
 
-function UniformOwnershipCell({
+function UniformOwnershipPanel({
   character,
   selectedUniformIndex,
   build,
@@ -1483,7 +1483,7 @@ function UniformOwnershipCell({
   }, [character.id, selectedUniformIndex]);
 
   return (
-    <td className="border-b border-slate-100 px-2 py-2 align-top">
+    <div>
       {hasUniformPages ? (
         <div className="mb-2 flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1.5">
           <button
@@ -1570,6 +1570,14 @@ function UniformOwnershipCell({
           <p className="col-span-3 rounded-lg bg-slate-50 p-3 text-center text-xs font-black text-slate-400">유니폼 없음</p>
         )}
       </div>
+    </div>
+  );
+}
+
+function UniformOwnershipCell(props: Parameters<typeof UniformOwnershipPanel>[0]) {
+  return (
+    <td className="border-b border-slate-100 px-2 py-2 align-top">
+      <UniformOwnershipPanel {...props} />
     </td>
   );
 }
@@ -1604,7 +1612,7 @@ function FilterIconGroup({
               onClick={() => onToggle(group.key, option.key)}
               className={`grid h-8 w-8 place-items-center rounded-lg border p-1 transition ${isActive ? 'border-purple-400 bg-purple-100 ring-1 ring-purple-200' : 'border-slate-200 bg-white hover:border-purple-300 hover:bg-purple-50'}`}
             >
-              <Image src={option.src} alt={option.label} width={22} height={22} unoptimized className="h-5 w-5 object-contain" />
+              <Image src={option.src} alt={option.label} width={20} height={20} unoptimized className="object-contain" style={{ width: 20, height: 20 }} />
             </button>
           );
         })}
@@ -1845,7 +1853,73 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
       </div>
 
       {effectiveView === 'matrix' ? (
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <>
+        <div className="grid gap-4 xl:hidden">
+          {currentPageCharacters.map((character) => {
+            const selectedUniformIndex = Math.min(selectedUniformByCharacter[character.id] ?? 0, character.uniforms.length - 1);
+            const selectedUniform = character.uniforms[selectedUniformIndex];
+            const selectedArtifactStar = selectedArtifactStarByCharacter[character.id] ?? 6;
+            const myBuild = normalizeMyBuild(character, myCharacterBuilds[character.id]);
+
+            return (
+              <article key={`${character.id}-mobile-matrix`} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                {isMyMode ? (
+                  <>
+                    <MyCharacterCell character={character} selectedUniform={selectedUniform} active={character.id === selectedId} build={myBuild} onSelect={() => selectCharacter(character)} onBuildChange={(patch) => updateMyBuild(character, patch)} />
+                    <div className="mt-3 grid gap-3">
+                      <MyCharacterArtifactCell
+                        character={character}
+                        artifactStars={myBuild.artifactStars}
+                        ctp={myBuild.ctp}
+                        iso8Set={myBuild.iso8Set}
+                        onArtifactStarsChange={(artifactStars) => updateMyBuild(character, { artifactStars })}
+                        onCtpChange={(ctp) => updateMyBuild(character, { ctp })}
+                        onIso8SetChange={(iso8Set) => updateMyBuild(character, { iso8Set })}
+                      />
+                      <UruCell character={character} build={myBuild} onBuildChange={(patch) => updateMyBuild(character, patch)} />
+                      <section className="rounded-xl border border-slate-200 bg-slate-50 p-2">
+                        <p className="text-xs font-black text-slate-950">유니폼 보유</p>
+                        <div className="mt-2 rounded-xl bg-white p-2 ring-1 ring-slate-100">
+                          <UniformOwnershipPanel
+                            character={character}
+                            selectedUniformIndex={selectedUniformIndex}
+                            build={myBuild}
+                            onSelectUniform={(index) => selectUniform(character.id, index)}
+                            onOwnedUniformsChange={(ownedUniforms) => updateMyBuild(character, { ownedUniforms })}
+                            onUniformRanksChange={(uniformRanks) => updateMyBuild(character, { uniformRanks })}
+                          />
+                        </div>
+                      </section>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <CharacterCell character={character} selectedUniform={selectedUniform} active={character.id === selectedId} onSelect={() => selectCharacter(character)} />
+                    <div className="mt-4"><ArtifactCell character={character} selectedStar={selectedArtifactStar} onStarChange={(star) => selectArtifactStar(character.id, star)} /></div>
+                    <div className="mt-4"><SkillCell uniform={selectedUniform} /></div>
+                    <div className="mt-4 grid grid-cols-2 gap-2">
+                      {character.uniforms.map((uniform, index) => (
+                        <button key={`${character.id}-mobile-uniform-${uniform.name}-${index}`} type="button" data-testid={`uniform-mobile-card-${character.id}-${index}`} onClick={() => selectUniform(character.id, index)} className={`min-w-0 rounded-2xl border p-2 ${index === selectedUniformIndex ? 'border-purple-400 bg-purple-50' : 'border-slate-200 bg-white'}`}>
+                          {uniform.imageUrl ? (
+                            <Image src={uniform.imageUrl} alt={uniform.name} width={112} height={112} unoptimized onError={(e) => imageFallback(e, uniform.name)} className="aspect-square w-full rounded-xl object-cover" />
+                          ) : (
+                            <div className="grid aspect-square w-full place-items-center rounded-xl border border-slate-200 bg-slate-100 text-sm font-black text-slate-400">UNI</div>
+                          )}
+                          <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}</p>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </article>
+            );
+          })}
+          {currentPageCharacters.length === 0 ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm font-black text-slate-400 shadow-sm">검색 결과 없음</div>
+          ) : null}
+        </div>
+
+        <div className="hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm xl:block">
           <table data-testid={isMyMode ? 'my-character-matrix' : 'character-db-matrix'} className="w-full table-fixed border-separate border-spacing-0 text-left">
             {isMyMode ? (
               <colgroup>
@@ -1936,6 +2010,7 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
             </tbody>
           </table>
         </div>
+        </>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {currentPageCharacters.map((character) => {

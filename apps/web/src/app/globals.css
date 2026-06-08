@@ -4,6 +4,59 @@
 
 :root {
   color-scheme: light;
+  --mff-content-gap: 1.25rem;
+  --mff-mobile-inline-pad: 1rem;
+}
+
+html[data-mff-text-scale='large'] {
+  font-size: 17px;
+}
+
+html[data-mff-accent='purple'] {
+  accent-color: #7c3aed;
+}
+
+html[data-mff-accent='blue'] {
+  accent-color: #2563eb;
+}
+
+html[data-mff-accent='emerald'] {
+  accent-color: #059669;
+}
+
+html[data-mff-accent='rose'] {
+  accent-color: #e11d48;
+}
+
+html[data-mff-density='compact'] {
+  --mff-content-gap: 0.875rem;
+  --mff-mobile-inline-pad: 0.75rem;
+}
+
+html[data-mff-density='spacious'] {
+  --mff-content-gap: 1.5rem;
+  --mff-mobile-inline-pad: 1.125rem;
+}
+
+html[data-mff-motion='reduce'] *,
+html[data-mff-motion='reduce'] *::before,
+html[data-mff-motion='reduce'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+html[data-mff-sticky-header='off'] .mff-app-shell header {
+  position: static;
+}
+
+html[data-mff-mobile-nav='off'] .mff-mobile-nav {
+  display: none;
+}
+
+html[data-mff-mobile-nav='off'] .mff-app-shell main {
+  padding-bottom: 1.5rem;
 }
 
 * {
@@ -25,6 +78,16 @@ img {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.mff-main-grid {
+  gap: var(--mff-content-gap);
+}
+
+@media (max-width: 1279px) {
+  .mff-main-grid {
+    padding-inline: var(--mff-mobile-inline-pad);
+  }
 }
 
 .tier-motion-card[data-dragging='true'] {

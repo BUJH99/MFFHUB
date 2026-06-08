@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import {
   BarChart3,
   CalendarDays,
@@ -434,19 +435,6 @@ function buildTierSummaryRows(matrix: ReturnType<typeof buildTypeTierMatrix>) {
   return [...matrix, total];
 }
 
-function rowMatchesRank(row: AnalysisRow, label: string) {
-  if (label === '미보유') {
-    return row.character.uniforms.some((uniform, index) => !row.build.ownedUniforms[uniformOwnershipKey(uniform, index)]);
-  }
-
-  const targetRankKey = (Object.keys(uniformRankLabels) as Array<keyof typeof uniformRankLabels>).find(
-    (key) => uniformRankLabels[key] === label,
-  );
-
-  if (!targetRankKey) return false;
-  return getOwnedUniformEntries(row).some((entry) => entry.rank === targetRankKey);
-}
-
 function sortRows(rows: AnalysisRow[], sortKey: SortKey) {
   return [...rows].sort((left, right) => {
     if (sortKey === 'tier') return (tierScore[right.build.tier] ?? 0) - (tierScore[left.build.tier] ?? 0) || right.build.level - left.build.level;
@@ -665,10 +653,14 @@ function PanelShell({ title, children, className = '' }: { title: string; childr
 
 function CharacterAvatar({ row }: { row: AnalysisRow }) {
   return (
-    <img
+    <Image
       src={row.character.imageUrl}
       alt={row.character.name}
-      className="h-8 w-8 rounded-md border border-slate-200 bg-slate-100 object-cover"
+      width={32}
+      height={32}
+      unoptimized
+      className="rounded-md border border-slate-200 bg-slate-100 object-cover"
+      style={{ width: 32, height: 32 }}
       onError={(event) => {
         event.currentTarget.src = `https://thanosvibs.money/static/assets/portraits/${row.character.id}.png`;
       }}

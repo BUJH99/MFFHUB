@@ -352,6 +352,8 @@ npm run ios:note
 ```txt
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_AUTH_EMAIL_DOMAIN=mffdatahub.com
+NEXT_PUBLIC_SIGNUP_CODE=3013
 DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres
 THANOSVIBS_BASE_URL=https://thanosvibs.money
 ```
@@ -359,6 +361,10 @@ THANOSVIBS_BASE_URL=https://thanosvibs.money
 메모:
 
 - 🟢 웹 UI는 로컬 샘플/생성 데이터 중심이라 Supabase 키가 없어도 대부분 열립니다.
+- 🟣 로그인/회원가입은 Supabase Auth를 사용하며, 화면의 아이디는 내부적으로 `아이디@NEXT_PUBLIC_AUTH_EMAIL_DOMAIN` 형태로 변환됩니다.
+- 🔐 회원가입은 `NEXT_PUBLIC_SIGNUP_CODE` 값과 일치하는 초대코드를 입력해야 진행됩니다.
+- 🛡️ 관리자 계정은 `app_profiles.role = 'admin'`으로 승격하고, 일반 가입자는 기본 `user` 권한으로 생성됩니다.
+- 🧰 첫 관리자 승격은 앱에서 회원가입을 먼저 한 뒤 `supabase/admin-access.sql`의 `YOUR_LOGIN_ID`를 내 아이디로 바꿔 Supabase SQL Editor에서 실행합니다.
 - 🟡 `db push`, `db studio`는 `DATABASE_URL`이 필요합니다.
 - 🟠 `sync thanosvibs`는 새 이미지/에셋 처리에서 `ffmpeg`가 필요할 수 있습니다.
 - 🔵 `.env.local` 누락 warning은 DB/Supabase 작업이 아닐 때는 보통 막힘이 아닙니다.
@@ -545,7 +551,8 @@ apps/web/out
 2. 📝 SQL Editor에서 `supabase/schema.sql` 실행
 3. 📥 `supabase/imports/*.csv`를 Table Editor로 import
 4. 🔐 `.env.example`을 `.env.local`로 복사하고 값 입력
-5. 🩺 연결 확인
+5. 👤 Auth 설정에서 아이디 전용 가입을 쓸 경우 이메일 확인을 끄거나, 확인 메일 플로우를 운영 환경에 맞게 설정
+6. 🩺 연결 확인
 
 ```powershell
 .\mff.bat db check

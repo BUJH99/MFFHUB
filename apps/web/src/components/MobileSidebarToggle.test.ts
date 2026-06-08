@@ -26,8 +26,8 @@ describe('mobile sidebar toggle', () => {
   it('renders a mobile drawer and closes it after navigation', () => {
     expect(sidebarSource).toContain('mobileOpen?: boolean');
     expect(sidebarSource).toContain('onMobileClose?: () => void');
-    expect(sidebarSource).toContain('fixed inset-0 z-50 xl:hidden');
-    expect(sidebarSource).toContain('aria-label="좌측 메뉴 닫기"');
+    expect(sidebarSource).toContain('fixed inset-0 z-[90] xl:hidden');
+    expect(sidebarSource).toContain('aria-label="배경을 눌러 좌측 메뉴 닫기"');
     expect(sidebarSource).toContain('selectSection');
     expect(sidebarSource).toContain('onMobileClose?.()');
   });

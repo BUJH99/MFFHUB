@@ -17,4 +17,6 @@ export type Section =
   | 'calculator'
   | 'analysis'
   | 'record'
+  | 'userScores'
+  | 'board'
   | 'guide';

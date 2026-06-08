@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  devIndicators: false,
   transpilePackages: ['@mff-data-hub/types', '@mff-data-hub/core', '@mff-data-hub/account', '@mff-data-hub/db', '@mff-data-hub/data'],
   images: {
     unoptimized: true,

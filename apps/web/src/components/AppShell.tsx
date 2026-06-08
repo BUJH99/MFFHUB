@@ -33,6 +33,12 @@ const SeasonUniformSection = dynamic(() => import('@/components/sections/SeasonU
 const TierListSection = dynamic(() => import('@/components/sections/TierListSection').then((mod) => mod.TierListSection), {
   loading: () => <PanelSkeleton title="티어리스트" />,
 });
+const UserScoreSection = dynamic(() => import('@/components/sections/UserScoreSection').then((mod) => mod.UserScoreSection), {
+  loading: () => <PanelSkeleton title="점수 입력" />,
+});
+const BoardSection = dynamic(() => import('@/components/sections/BoardSection').then((mod) => mod.BoardSection), {
+  loading: () => <PanelSkeleton title="게시판" />,
+});
 
 export function AppShell() {
   const [section, setSection] = useState<Section>('accountCards');
@@ -45,12 +51,12 @@ export function AppShell() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-950">
+    <div className="mff-app-shell min-h-screen bg-slate-50 text-slate-950">
       <div className="flex">
         <Sidebar section={section} setSection={setSection} mobileOpen={mobileSidebarOpen} onMobileClose={() => setMobileSidebarOpen(false)} />
-        <main className="min-w-0 flex-1 pb-24 xl:p-6 xl:pb-6">
+        <main className="min-w-0 flex-1 pb-[calc(7rem+env(safe-area-inset-bottom))] xl:p-6 xl:pb-6">
           <Header section={section} today={today} onOpenMobileMenu={() => setMobileSidebarOpen(true)} />
-          <div className="mx-auto mt-4 grid max-w-[1780px] gap-5 px-4 xl:px-0">
+          <div className="mff-main-grid mx-auto mt-4 grid max-w-[1780px] gap-5 px-4 xl:px-0">
             <div className="min-w-0 space-y-5">
               {section === 'accountCards' ? <DashboardSection page="cards" /> : null}
               {section === 'accountXSwords' ? <DashboardSection page="xSwords" /> : null}
@@ -70,6 +76,8 @@ export function AppShell() {
               {section === 'calculator' ? <DamageCalculator /> : null}
               {section === 'analysis' ? <AnalysisSection /> : null}
               {section === 'record' ? <RecordSection /> : null}
+              {section === 'userScores' ? <UserScoreSection /> : null}
+              {section === 'board' ? <BoardSection /> : null}
               {section === 'guide' ? <PlaceholderSection title="캐릭터 가이드" text="캐릭터별 회전, 추천 C.T.P, 아티팩트 우선도, 유니폼 변화, 보스별 코멘트를 관리하는 화면." /> : null}
             </div>
           </div>
