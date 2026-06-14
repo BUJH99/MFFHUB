@@ -332,6 +332,7 @@ apps/web/public/mff-assets/*
 npm run dev
 npm run dev:web
 npm run build
+npm run deploy:cloudflare
 npm run start
 npm run lint
 npm test
@@ -368,6 +369,18 @@ THANOSVIBS_BASE_URL=https://thanosvibs.money
 - 🟡 `db push`, `db studio`는 `DATABASE_URL`이 필요합니다.
 - 🟠 `sync thanosvibs`는 새 이미지/에셋 처리에서 `ffmpeg`가 필요할 수 있습니다.
 - 🔵 `.env.local` 누락 warning은 DB/Supabase 작업이 아닐 때는 보통 막힘이 아닙니다.
+
+---
+
+## ☁️ Cloudflare Pages 배포
+
+Cloudflare Pages 프로젝트 `mff-data-hub`에 정적 빌드 결과를 Direct Upload로 배포합니다.
+
+```powershell
+npm run deploy:cloudflare
+```
+
+배포 출력 폴더는 `apps/web/out`이고, Pages 프로젝트명은 `wrangler.jsonc`와 `deploy:cloudflare` 스크립트에 고정되어 있습니다.
 
 ---
 

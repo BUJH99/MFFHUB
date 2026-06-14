@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { characters, userRoster } from '@/lib/data';
 import {
   ALLIANCE_BATTLE_ROTATION_START_DATE,
@@ -43,9 +44,21 @@ type UsageCountRow = {
   tagPlay: number;
   soloDeal: number;
   total: number;
+  ctpMembers: Record<string, CtpUsageMember>;
 };
 type UsageRoleGroup = 'buffer' | 'dealer';
 type UsageCombatType = CombatType | 'Unknown';
+type TrackedCtpKey = 'competition' | 'rage' | 'insight' | 'liberation';
+type CtpUsageMember = {
+  member: SheetMember;
+  count: number;
+};
+type CtpNeedRow = {
+  key: TrackedCtpKey;
+  label: string;
+  ctp: string;
+  members: CtpUsageMember[];
+};
 type UsageTypeGroup = {
   type: UsageCombatType;
   rows: UsageCountRow[];
@@ -69,6 +82,10 @@ type SheetCustomizations = {
   memberOverrides: Record<string, SheetMember>;
   ctpOverrides: Record<string, string>;
   roleOverrides: RoleOverrides;
+};
+type TeamReadiness = {
+  ready: boolean;
+  reasons: string[];
 };
 
 const contentMeta: Record<ScheduleContent, { title: string; tone: SheetTone; modeLabel: string }> = {
@@ -143,6 +160,7 @@ const defaultCtpByCharacterId: Record<string, string> = {
   'invisible-woman': 'Insight',
   'jean-grey': 'Judgement',
   kidomega: 'Judgement',
+  kingpin: 'Rage',
   loki: 'Rage',
   'luna-snow': 'Judgement',
   'madelyne-pryor': 'Judgement',
@@ -171,6 +189,7 @@ const defaultCtpByCharacterId: Record<string, string> = {
   storm: 'Judgement',
   sylvie: 'Rage',
   taskmaster: 'Insight',
+  thor: 'Rage',
   valeria: 'Insight',
   valkyrie: 'Insight',
   venom: 'Rage',
@@ -218,6 +237,7 @@ const abxCharacterCatalog = {
   loki: { id: 'loki', name: '로키', portraitUrl: portrait('loki8') },
   odin: { id: 'odin', name: '오딘', portraitUrl: portrait('odin2') },
   ronan: { id: 'ronan', name: '로난', portraitUrl: portrait('ronan3') },
+  thor: { id: 'thor', name: '토르', portraitUrl: portrait('thor10') },
   zeus: { id: 'zeus', name: '제우스', portraitUrl: portrait('zeus') },
   madelynePryor: { id: 'madelyne-pryor', name: '매들린 프라이어', portraitUrl: portrait('madelynepryor1') },
   polaris: { id: 'polaris', name: '폴라리스', portraitUrl: portrait('polaris1') },
@@ -243,6 +263,7 @@ const abxCharacterCatalog = {
   yondu: { id: 'yondu', name: '욘두', portraitUrl: portrait('yondu3') },
   hulk: { id: 'hulk', name: '헐크', portraitUrl: portrait('hulk8') },
   ares: { id: 'ares', name: '아레스', portraitUrl: portrait('ares1') },
+  kingpin: { id: 'kingpin', name: '킹핀', portraitUrl: portrait('kingpin3') },
   winterSoldier: { id: 'winter-soldier', name: '윈터 솔져', portraitUrl: portrait('wintersoldier6') },
   taskmaster: { id: 'taskmaster', name: '태스크마스터', portraitUrl: portrait('taskmaster2') },
   kidOmega: { id: 'kidomega', name: '키드 오메가', portraitUrl: portrait('kidomega1') },
@@ -256,66 +277,74 @@ type AbxBestCombo = {
   tagPlay: AbxCharacterKey[];
   soloDeal: AbxCharacterKey[];
 };
+type ComboSlotCtpSet = Partial<Record<TeamKind, readonly [string, string, string]>>;
+type ComboSlotCtpDefaults = Partial<Record<ScheduleContent, Partial<Record<number, ComboSlotCtpSet>>>>;
 
 const combo = (tagPlay: AbxCharacterKey[], soloDeal: AbxCharacterKey[]): AbxBestCombo => ({ tagPlay, soloDeal });
-const abxFreeCombo = combo(['valkyrie', 'doctorStrange', 'philCoulson'], ['dazzler', 'cyclops', 'storm']);
+const abxFreeCombo = combo(['valkyrie', 'doctorStrange', 'philCoulson'], ['yondu', 'odin', 'athena']);
 const infinityChallengeCombo = combo(['dazzler', 'cyclops', 'storm'], ['ghostPanther', 'satana', 'mephisto']);
 const universalVillainCombo = combo(['dormammu', 'hades', 'mephisto'], ['morganLeFay', 'hades', 'mephisto']);
+const thunderGodCombo = combo(['thor', 'zeus', 'odin'], ['novaRichardRider', 'odin', 'doctorVoodoo']);
 
 const abxBestCombos: Partial<Record<number, AbxBestCombo>> = {
   1: combo(['whiteFox', 'mistyKnight', 'lunaSnow'], ['whiteFox', 'mistyKnight', 'lunaSnow']),
   2: abxFreeCombo,
+  3: infinityChallengeCombo,
   4: combo(['valkyrie', 'crescent', 'athena'], ['valkyrie', 'crescent', 'athena']),
   5: combo(['sin', 'bullseye', 'blackCat'], ['sin', 'blackCat', 'bullseye']),
   6: universalVillainCombo,
   7: combo(['wolverine', 'gambit', 'cyclops'], ['silverSamurai', 'cyclops', 'gambit']),
-  8: combo(['valkyrie', 'gladiator', 'athena'], ['valkyrie', 'sleeper', 'venom']),
+  8: combo(['valkyrie', 'gladiator', 'athena'], ['valkyrie', 'agentVenom', 'venom']),
   9: abxFreeCombo,
+  10: infinityChallengeCombo,
   11: combo(['mbaku', 'crescent', 'venom'], ['agentVenom', 'mbaku', 'venom']),
-  12: combo(['novaRichardRider', 'loki', 'odin'], ['novaRichardRider', 'ronan', 'loki']),
+  12: thunderGodCombo,
   13: combo(['cyclops', 'doctorStrange', 'philCoulson'], ['philCoulson', 'cyclops', 'gambit']),
-  14: combo(['madelynePryor', 'polaris', 'jeanGrey'], ['mystique', 'polaris', 'jeanGrey']),
+  14: combo(['cyclops', 'polaris', 'jeanGrey'], ['mystique', 'polaris', 'jeanGrey']),
   15: universalVillainCombo,
   16: abxFreeCombo,
+  17: infinityChallengeCombo,
   18: combo(['mysterio', 'doctorStrange', 'ironMan'], ['mysterio', 'doctorStrange', 'enchantress']),
-  19: combo(['novaRichardRider', 'loki', 'sylvie'], ['novaRichardRider', 'ronan', 'loki']),
+  19: thunderGodCombo,
   20: combo(['valkyrie', 'gamora', 'athena'], ['valkyrie', 'gamora', 'athena']),
   21: combo(['ironheart', 'invisibleWoman', 'valeriaRichards'], ['ironheart', 'invisibleWoman', 'valeriaRichards']),
   22: combo(['scarletSpider', 'bullseye', 'moonKnight'], ['scarletSpider', 'greenGoblin', 'bullseye']),
   23: abxFreeCombo,
-  25: combo(['yondu', 'loki', 'odin'], ['yondu', 'ronan', 'loki']),
+  24: infinityChallengeCombo,
+  25: combo(['thor', 'zeus', 'odin'], ['yondu', 'odin', 'ronan']),
   26: combo(['hulk', 'ares', 'winterSoldier'], ['taskmaster', 'ares', 'redHulk']),
   27: combo(['satana', 'scarletWitch', 'doctorVoodoo'], ['satana', 'scarletWitch', 'doctorVoodoo']),
   28: combo(['sin', 'scarletWitch', 'enchantress'], ['sin', 'scarletWitch', 'enchantress']),
 };
 
-const ablFireCombo = combo(['ghostPanther', 'satana', 'mephisto'], ['ghostPanther', 'satana', 'mephisto']);
+const ablFreeCombo = combo(['yondu', 'odin', 'athena'], ['ghostPanther', 'satana', 'mephisto']);
 const ablMindFemaleCombo = combo(['sin', 'scarletWitch', 'morganLeFay'], ['sin', 'scarletWitch', 'morganLeFay']);
 const ablLunaCombo = combo(['whiteFox', 'mistyKnight', 'lunaSnow'], ['whiteFox', 'mistyKnight', 'lunaSnow']);
+const richardRiderCombo = combo(['novaRichardRider', 'zeus', 'odin'], ['novaRichardRider', 'odin', 'doctorVoodoo']);
 
 const ablBestCombos: Partial<Record<number, AbxBestCombo>> = {
-  1: combo(['doctorVoodoo', 'mephisto', 'ghostPanther'], ['doctorVoodoo', 'mephisto', 'ghostPanther']),
-  2: ablFireCombo,
+  1: richardRiderCombo,
+  2: ablFreeCombo,
   4: ablMindFemaleCombo,
   5: combo(['dazzler', 'cyclops', 'storm'], ['dazzler', 'cyclops', 'storm']),
-  6: combo(['taskmaster', 'winterSoldier', 'ares'], ['taskmaster', 'ares', 'redHulk']),
+  6: combo(['hulk', 'ares', 'kingpin'], ['taskmaster', 'ares', 'redHulk']),
   7: combo(['enchantress', 'hades', 'ares'], ['proximaMidnight', 'hades', 'enchantress']),
-  8: ablMindFemaleCombo,
-  9: ablFireCombo,
+  8: combo(['satana', 'scarletWitch', 'morganLeFay'], ['satana', 'scarletWitch', 'morganLeFay']),
+  9: ablFreeCombo,
   11: combo(['mysterio', 'redHulk', 'mephisto'], ['mysterio', 'redHulk', 'mephisto']),
   12: ablLunaCombo,
   13: combo(['x23', 'storm', 'dazzler'], ['dazzler', 'polaris', 'storm']),
   14: combo(['scarletSpider', 'nickFury', 'moonKnight'], ['scarletSpider', 'nickFury', 'moonKnight']),
   15: combo(['sin', 'milesMorales', 'bullseye'], ['sin', 'milesMorales', 'blackCat']),
-  16: ablFireCombo,
+  16: ablFreeCombo,
   18: ablLunaCombo,
   19: combo(['athena', 'gladiator', 'ares'], ['valkyrie', 'ares', 'athena']),
   20: combo(['cyclops', 'doctorStrange', 'philCoulson'], ['philCoulson', 'cyclops', 'gambit']),
   21: combo(['medusa', 'crystal', 'msMarvel'], ['medusa', 'blackBolt', 'crystal']),
-  22: combo(['novaRichardRider', 'zeus', 'odin'], ['novaRichardRider', 'ronan', 'loki']),
-  23: ablFireCombo,
+  22: richardRiderCombo,
+  23: ablFreeCombo,
   25: combo(['satana', 'scarletWitch', 'phylaVell'], ['satana', 'scarletWitch', 'phylaVell']),
-  26: combo(['yondu', 'loki', 'sylvie'], ['yondu', 'ronan', 'loki']),
+  26: combo(['yondu', 'odin', 'athena'], ['yondu', 'odin', 'athena']),
   27: combo(['kidOmega', 'cyclops', 'gambit'], ['silverSamurai', 'cyclops', 'gambit']),
   28: combo(['agentVenom', 'mbaku', 'venom'], ['agentVenom', 'mbaku', 'venom']),
 };
@@ -337,6 +366,87 @@ const ctpOptions = [
   'Veteran',
   'Competition',
 ] as const;
+
+const comboSlotCtpDefaults: ComboSlotCtpDefaults = {
+  ABX: {
+    1: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Competition'] },
+    2: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    3: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    4: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    5: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
+    6: { tagPlay: ['Insight', 'Competition', 'Competition'], soloDeal: ['Insight', 'Competition', 'Competition'] },
+    7: { tagPlay: ['Energy', 'Rage', 'Liberation'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
+    8: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Liberation', 'Rage'] },
+    9: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    10: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    11: { tagPlay: ['Insight', 'Rage', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
+    12: { tagPlay: ['Rage', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    13: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
+    14: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    15: { tagPlay: ['Insight', 'Competition', 'Competition'], soloDeal: ['Insight', 'Competition', 'Competition'] },
+    16: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    17: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    18: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    19: { tagPlay: ['Rage', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    20: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    21: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    22: { tagPlay: ['Liberation', 'Rage', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
+    23: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    24: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    25: { tagPlay: ['Rage', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    26: { tagPlay: ['Insight', 'Rage', 'Rage'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    27: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    28: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+  },
+  ABL: {
+    1: { tagPlay: ['Liberation', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    2: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    4: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    5: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
+    6: { tagPlay: ['Insight', 'Rage', 'Rage'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    7: { tagPlay: ['Insight', 'Competition', 'Rage'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    8: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    9: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    11: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Competition'] },
+    12: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Competition'] },
+    13: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
+    14: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
+    15: { tagPlay: ['Liberation', 'Competition', 'Rage'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    16: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    18: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Competition'] },
+    19: { tagPlay: ['Insight', 'Rage', 'Rage'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    20: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
+    21: { tagPlay: ['Liberation', 'Competition', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Competition'] },
+    22: { tagPlay: ['Liberation', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    23: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
+    25: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
+    26: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    27: { tagPlay: ['Competition', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
+    28: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
+  },
+};
+
+function buildDefaultCtpByComboSlot(defaults: ComboSlotCtpDefaults) {
+  const result: Record<string, string> = {};
+
+  for (const [content, rounds] of Object.entries(defaults) as Array<[ScheduleContent, NonNullable<ComboSlotCtpDefaults[ScheduleContent]>]>) {
+    for (const [roundKey, teams] of Object.entries(rounds)) {
+      if (!teams) continue;
+
+      const round = Number(roundKey);
+
+      for (const [teamKind, ctps] of Object.entries(teams) as Array<[TeamKind, readonly [string, string, string]]>) {
+        ctps.forEach((ctp, index) => {
+          result[makeSlotKey(content, round, teamKind, index)] = ctp;
+        });
+      }
+    }
+  }
+
+  return result;
+}
+
+const defaultCtpByComboSlot = buildDefaultCtpByComboSlot(comboSlotCtpDefaults);
 
 function getEquippedCtp(characterId: string, fallback?: string) {
   return rosterByCharacterId.get(characterId)?.ctp ?? defaultCtpByCharacterId[characterId] ?? fallback ?? 'Rage';
@@ -505,6 +615,38 @@ function ctpIconSrc(ctp: string) {
   return `https://thanosvibs.money/static/assets/items/ctp_${normalizeCtpSlug(ctp)}.png`;
 }
 
+function normalizeCtpKeyForReadiness(ctp: string) {
+  const value = ctp
+    .replace(/^Mighty\s+/i, '')
+    .replace(/^Brilliant\s+/i, '')
+    .trim()
+    .toLowerCase();
+  const compact = value.replace(/[^a-z0-9가-힣]+/g, '');
+
+  if (compact.includes('분노') || compact.includes('rage')) return 'rage';
+  if (compact.includes('경쟁') || compact.includes('competition')) return 'competition';
+  if (compact.includes('통찰') || compact.includes('insight')) return 'insight';
+  if (compact.includes('해방') || compact.includes('liberation')) return 'liberation';
+  return compact;
+}
+
+function isDealerReadyCtp(ctp: string) {
+  return ['rage', 'competition'].includes(normalizeCtpKeyForReadiness(ctp));
+}
+
+function isBufferReadyCtp(ctp: string) {
+  return ['insight', 'liberation'].includes(normalizeCtpKeyForReadiness(ctp));
+}
+
+function isSoloDealBufferSetReady(bufferCtps: string[]) {
+  const normalized = bufferCtps.map(normalizeCtpKeyForReadiness);
+  const unique = new Set(normalized);
+  return normalized.length === 2
+    && unique.size === 2
+    && unique.has('insight')
+    && unique.has('liberation');
+}
+
 function emptySheetCustomizations(): SheetCustomizations {
   return { memberOverrides: {}, ctpOverrides: {}, roleOverrides: {} };
 }
@@ -594,7 +736,7 @@ function PlayerCell({
   }
 
   return (
-    <div className="flex min-h-[64px] flex-col items-center justify-center text-center" title={`${roleLabel} · ${member.name}${member.uniformName ? ` · ${member.uniformName}` : ''} · ${member.ctp}`}>
+    <div className="flex min-h-[72px] flex-col items-center justify-center text-center" title={`${roleLabel} · ${member.name}${member.uniformName ? ` · ${member.uniformName}` : ''} · ${member.ctp}`}>
       <div className="grid grid-cols-[18px_40px_22px] items-center gap-1">
         <button
           type="button"
@@ -615,7 +757,7 @@ function PlayerCell({
           <Image src={ctpIconSrc(member.ctp)} alt={`${member.name} ${member.ctp}`} width={20} height={20} unoptimized className="h-5 w-5 object-contain drop-shadow-sm" />
         </button>
       </div>
-      <p className="mt-0.5 max-w-[64px] truncate text-[10px] font-black leading-tight text-slate-950">{member.name}</p>
+      <p className="mt-0.5 max-w-[88px] whitespace-normal break-words text-[10px] font-black leading-[1.05] text-slate-950">{member.name}</p>
       {member.uniformName ? <p className="max-w-[112px] whitespace-normal break-words text-[9px] font-bold leading-[1.05] text-purple-600">{member.uniformName}</p> : null}
     </div>
   );
@@ -642,24 +784,60 @@ function TeamBlock({
   onToggleRole: (slotKey: string) => void;
   onOpenPicker: (picker: PickerState) => void;
 }) {
+  const readiness = evaluateTeamReadiness(content, round, teamKind, members, roleOverrides);
+
   return (
-    <div className="grid min-w-[276px] grid-cols-3 items-center gap-1 px-0.5 py-0">
-      {members.map((member, index) => {
-        const key = makeSlotKey(content, round, teamKind, index);
-        const slotLabel = `${index + 1}번`;
-        return (
-          <PlayerCell
-            key={key}
-            member={member}
-            label={slotLabel}
-            slotKey={key}
-            role={getSlotRole(content, round, teamKind, index, roleOverrides)}
-            onToggleRole={member ? () => onToggleRole(key) : undefined}
-            onCharacterClick={member ? () => onOpenPicker({ kind: 'character', slotKey: key, member, label: `${round}회차 ${label} ${slotLabel}`, condition, conditionLabel: formatRestrictionLabel(condition) }) : undefined}
-            onCtpClick={member ? () => onOpenPicker({ kind: 'ctp', slotKey: key, member, label: `${round}회차 ${label} ${slotLabel}` }) : undefined}
-          />
-        );
-      })}
+    <div className="grid min-w-[332px] grid-cols-[50px_minmax(276px,1fr)] items-center gap-1 px-0.5 py-0">
+      <TeamStatusRail teamKind={teamKind} readiness={readiness} />
+      <div className="grid grid-cols-3 items-center gap-1">
+        {members.map((member, index) => {
+          const key = makeSlotKey(content, round, teamKind, index);
+          const slotLabel = `${index + 1}번`;
+          return (
+            <PlayerCell
+              key={key}
+              member={member}
+              label={slotLabel}
+              slotKey={key}
+              role={getSlotRole(content, round, teamKind, index, roleOverrides, member)}
+              onToggleRole={member ? () => onToggleRole(key) : undefined}
+              onCharacterClick={member ? () => onOpenPicker({ kind: 'character', slotKey: key, member, label: `${round}회차 ${label} ${slotLabel}`, condition, conditionLabel: formatRestrictionLabel(condition) }) : undefined}
+              onCtpClick={member ? () => onOpenPicker({ kind: 'ctp', slotKey: key, member, label: `${round}회차 ${label} ${slotLabel}` }) : undefined}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function TeamStatusRail({ teamKind, readiness }: { teamKind: TeamKind; readiness: TeamReadiness }) {
+  const title = readiness.ready ? '완료: CTP 조건 충족' : readiness.reasons.join(' / ');
+
+  return (
+    <div className="flex min-h-[64px] flex-col items-center justify-center gap-1 border-r border-slate-200 pr-1 text-center" title={title}>
+      <span className={`w-full rounded px-1 py-0.5 text-[9px] font-black leading-none ${teamKind === 'tagPlay' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700'}`}>
+        {usageTeamLabels[teamKind]}
+      </span>
+      <div className="flex items-center justify-center gap-1">
+        <span
+          data-testid="alliance-battle-team-ready-check"
+          className={`grid h-5 w-5 place-items-center rounded-full border ${readiness.ready ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-slate-200 bg-slate-50 text-slate-300'}`}
+          aria-label={readiness.ready ? '조합 조건 완료' : '조합 조건 미완료'}
+        >
+          <CheckCircle2 size={13} strokeWidth={3} />
+        </span>
+        <span
+          data-testid="alliance-battle-team-ready-warning"
+          className={`grid h-5 w-5 place-items-center rounded-full border ${readiness.ready ? 'border-slate-200 bg-slate-50 text-slate-300' : 'border-amber-400 bg-amber-300 text-slate-950'}`}
+          aria-label={readiness.ready ? '보완 없음' : '조합 조건 보완'}
+        >
+          <AlertTriangle size={12} strokeWidth={3} />
+        </span>
+      </div>
+      <span className={`text-[9px] font-black leading-none ${readiness.ready ? 'text-emerald-600' : 'text-amber-700'}`}>
+        {readiness.ready ? '완료' : '보완'}
+      </span>
     </div>
   );
 }
@@ -672,17 +850,61 @@ function makeSlotKey(content: ScheduleContent, round: number, teamKind: TeamKind
   return `${content}:${round}:${teamKind}:${index}`;
 }
 
-function getDefaultSlotRole(index: number): UsageRoleGroup {
+function getDefaultSlotRole(index: number, member?: SheetMember | null): UsageRoleGroup {
+  if (member) {
+    if (isBufferReadyCtp(member.ctp)) return 'buffer';
+    if (isDealerReadyCtp(member.ctp)) return 'dealer';
+  }
+
   return index === 1 ? 'dealer' : 'buffer';
 }
 
-function getSlotRole(content: ScheduleContent, round: number, teamKind: TeamKind, index: number, roleOverrides: RoleOverrides) {
-  return roleOverrides[makeSlotKey(content, round, teamKind, index)] ?? getDefaultSlotRole(index);
+function getSlotRole(content: ScheduleContent, round: number, teamKind: TeamKind, index: number, roleOverrides: RoleOverrides, member?: SheetMember | null) {
+  return roleOverrides[makeSlotKey(content, round, teamKind, index)] ?? getDefaultSlotRole(index, member);
+}
+
+function evaluateTeamReadiness(
+  content: ScheduleContent,
+  round: number,
+  teamKind: TeamKind,
+  members: Array<SheetMember | null>,
+  roleOverrides: RoleOverrides,
+): TeamReadiness {
+  const occupiedSlots = members
+    .map((member, index) => ({
+      member,
+      role: getSlotRole(content, round, teamKind, index, roleOverrides, member),
+    }))
+    .filter((slot): slot is { member: SheetMember; role: UsageRoleGroup } => Boolean(slot.member));
+  const dealers = occupiedSlots.filter((slot) => slot.role === 'dealer');
+  const buffers = occupiedSlots.filter((slot) => slot.role === 'buffer');
+  const reasons: string[] = [];
+
+  if (dealers.length !== 1) {
+    reasons.push('딜러 1명 지정 필요');
+  } else if (!isDealerReadyCtp(dealers[0].member.ctp)) {
+    reasons.push('딜러 CTP 분노/경쟁 필요');
+  }
+
+  if (teamKind === 'soloDeal') {
+    if (!isSoloDealBufferSetReady(buffers.map((slot) => slot.member.ctp))) {
+      reasons.push('솔딜 버퍼 CTP 통찰+해방 중복 없이 필요');
+    }
+  } else if (buffers.length === 0 || !buffers.every((slot) => isBufferReadyCtp(slot.member.ctp))) {
+    reasons.push('태그플 버퍼 CTP 통찰 또는 해방 필요');
+  }
+
+  return {
+    ready: reasons.length === 0,
+    reasons,
+  };
 }
 
 function resolveMember(baseMember: SheetMember, slotKey: string, memberOverrides: Record<string, SheetMember>, ctpOverrides: Record<string, string>) {
-  const member = memberOverrides[slotKey] ?? baseMember;
-  return { ...member, ctp: ctpOverrides[slotKey] ?? member.ctp };
+  const memberOverride = memberOverrides[slotKey];
+  const member = memberOverride ?? baseMember;
+  const slotDefaultCtp = memberOverride ? undefined : defaultCtpByComboSlot[slotKey];
+  return { ...member, ctp: ctpOverrides[slotKey] ?? slotDefaultCtp ?? member.ctp };
 }
 
 function resolveTeamMembers(
@@ -702,9 +924,6 @@ function resolveTeamMembers(
 }
 
 function getBestComboForDay(day: AllianceBattleCalendarDay, content: ScheduleContent) {
-  const condition = content === 'ABX' ? day.abx : day.abl;
-  if (content === 'ABL' && !condition && day.infinite) return infinityChallengeCombo;
-
   return content === 'ABX' ? abxBestCombos[day.round] : ablBestCombos[day.round];
 }
 
@@ -712,12 +931,20 @@ const usageCombatTypes: UsageCombatType[] = ['Combat', 'Blast', 'Speed', 'Univer
 const usageContents: ScheduleContent[] = ['ABX', 'ABL'];
 const usageTeamKinds: TeamKind[] = ['tagPlay', 'soloDeal'];
 const usageTeamLabels: Record<TeamKind, string> = {
-  tagPlay: '굇수',
-  soloDeal: '일반',
+  tagPlay: '태그플',
+  soloDeal: '솔딜',
 };
 const usageRoleLabels: Record<UsageRoleGroup, string> = {
   buffer: '버퍼',
   dealer: '딜러',
+};
+const dealerNeedCtpKeys = ['competition', 'rage'] as const;
+const bufferNeedCtpKeys = ['insight', 'liberation'] as const;
+const ctpNeedDefinitions: Record<TrackedCtpKey, { label: string; ctp: string }> = {
+  competition: { label: '경쟁', ctp: 'Competition' },
+  rage: { label: '분노', ctp: 'Rage' },
+  insight: { label: '통찰', ctp: 'Insight' },
+  liberation: { label: '해방', ctp: 'Liberation' },
 };
 
 function getMemberCombatType(member: SheetMember): UsageCombatType {
@@ -739,6 +966,28 @@ function buildUsageRows(counts: Map<string, UsageCountRow>) {
   });
 }
 
+function getTrackedCtpKey(ctp: string): TrackedCtpKey | null {
+  const key = normalizeCtpKeyForReadiness(ctp);
+  return key === 'competition' || key === 'rage' || key === 'insight' || key === 'liberation' ? key : null;
+}
+
+function getUsageCtpMemberKey(member: SheetMember) {
+  return normalizeCtpKeyForReadiness(member.ctp);
+}
+
+function addUsageCtpMember(row: UsageCountRow, member: SheetMember) {
+  const key = getUsageCtpMemberKey(member);
+  const current = row.ctpMembers[key];
+
+  if (current) {
+    current.count += 1;
+    current.member = member;
+    return;
+  }
+
+  row.ctpMembers[key] = { member, count: 1 };
+}
+
 function addUsageCount(counts: Map<string, UsageCountRow>, member: SheetMember, teamKind: TeamKind) {
   const key = normalizeCharacterKey(member.id || member.name);
   const current = counts.get(key);
@@ -746,6 +995,7 @@ function addUsageCount(counts: Map<string, UsageCountRow>, member: SheetMember, 
   if (current) {
     current[teamKind] += 1;
     current.total += 1;
+    addUsageCtpMember(current, member);
     return;
   }
 
@@ -754,6 +1004,7 @@ function addUsageCount(counts: Map<string, UsageCountRow>, member: SheetMember, 
     tagPlay: teamKind === 'tagPlay' ? 1 : 0,
     soloDeal: teamKind === 'soloDeal' ? 1 : 0,
     total: 1,
+    ctpMembers: { [getUsageCtpMemberKey(member)]: { member, count: 1 } },
   });
 }
 
@@ -778,6 +1029,43 @@ function groupUsageRowsByType(rows: UsageCountRow[]) {
     .filter((group) => group.rows.length > 0 || group.type !== 'Unknown');
 }
 
+function getUsageRowCtpMembers(row: UsageCountRow) {
+  const members = Object.values(row.ctpMembers);
+  return members.length ? members : [{ member: row.member, count: row.total }];
+}
+
+function buildCtpNeedRows(groups: UsageTypeGroup[], keys: readonly TrackedCtpKey[]): CtpNeedRow[] {
+  const buckets = new Map<TrackedCtpKey, Map<string, CtpUsageMember>>(
+    keys.map((key) => [key, new Map<string, CtpUsageMember>()]),
+  );
+
+  groups.flatMap((group) => group.rows).forEach((row) => {
+    getUsageRowCtpMembers(row).forEach((usage) => {
+      const { member } = usage;
+      const key = getTrackedCtpKey(member.ctp);
+      if (!key || !buckets.has(key)) return;
+      const bucket = buckets.get(key);
+      const memberKey = normalizeCharacterKey(member.id || member.name);
+      const current = bucket?.get(memberKey);
+      if (current) {
+        current.count += usage.count;
+        current.member = member;
+      } else {
+        bucket?.set(memberKey, { member, count: usage.count });
+      }
+    });
+  });
+
+  return keys.map((key) => ({
+    key,
+    ...ctpNeedDefinitions[key],
+    members: Array.from(buckets.get(key)?.values() ?? []).sort((left, right) => {
+      if (right.count !== left.count) return right.count - left.count;
+      return left.member.name.localeCompare(right.member.name, 'ko');
+    }),
+  }));
+}
+
 function buildUsageLookup(
   calendar: AllianceBattleCalendarDay[],
   memberOverrides: Record<string, SheetMember>,
@@ -797,7 +1085,7 @@ function buildUsageLookup(
         abxComboMembers(comboForDay?.[teamKind]).slice(0, 3).forEach((baseMember, index) => {
           const slotKey = makeSlotKey(content, day.round, teamKind, index);
           const member = resolveMember(baseMember, slotKey, memberOverrides, ctpOverrides);
-          const role = getSlotRole(content, day.round, teamKind, index, roleOverrides);
+          const role = getSlotRole(content, day.round, teamKind, index, roleOverrides, member);
           addUsageCount(buckets[role], member, teamKind);
         });
       }
@@ -1125,7 +1413,7 @@ function UsageRankingList({ title, rows, teamKind }: { title: string; rows: Usag
         {rows.map((row, index) => {
           const count = getUsageCount(row, teamKind);
           return (
-            <div key={`${title}-${row.member.id}`} className="grid grid-cols-[24px_minmax(0,1fr)_36px] items-center gap-1.5 px-1.5 py-1">
+            <div key={`${title}-${row.member.id}`} className="grid grid-cols-[24px_minmax(0,1fr)_64px] items-center gap-1.5 px-1.5 py-1">
               <span className="text-center text-[11px] font-black text-slate-500">{index + 1}</span>
               <div className="flex min-w-0 items-center gap-1.5">
                 <Image src={row.member.portraitUrl} alt={row.member.name} width={30} height={30} unoptimized className="h-[30px] w-[30px] shrink-0 object-cover ring-1 ring-slate-200" />
@@ -1134,7 +1422,10 @@ function UsageRankingList({ title, rows, teamKind }: { title: string; rows: Usag
                   {row.member.uniformName ? <p className="truncate text-[9px] font-bold text-purple-600">{row.member.uniformName}</p> : null}
                 </div>
               </div>
-              <span className="text-right text-xs font-black text-purple-700">{count}회</span>
+              <span className="flex items-center justify-end gap-1 text-right text-xs font-black text-purple-700">
+                <Image src={ctpIconSrc(row.member.ctp)} alt={`${row.member.name} ${row.member.ctp}`} width={18} height={18} unoptimized className="h-[18px] w-[18px] shrink-0 object-contain drop-shadow-sm" />
+                {count}회
+              </span>
             </div>
           );
         })}
@@ -1174,7 +1465,7 @@ function UsageTypeHeader({ type }: { type: UsageCombatType }) {
         ) : null}
         <p className="truncate text-sm font-black">{usageTypeLabels[type]}</p>
       </div>
-      <span className="w-[64px] text-center text-[11px] font-black">횟수</span>
+      <span className="w-[72px] text-center text-[11px] font-black">횟수</span>
     </div>
   );
 }
@@ -1183,7 +1474,7 @@ function UsageMemberRow({ row, teamKind }: { row: UsageCountRow; teamKind: TeamK
   const count = getUsageCount(row, teamKind);
 
   return (
-    <div className="grid min-h-[48px] grid-cols-[minmax(0,1fr)_48px] items-center border-b border-slate-200 bg-white last:border-b-0">
+    <div className="grid min-h-[48px] grid-cols-[minmax(0,1fr)_72px] items-center border-b border-slate-200 bg-white last:border-b-0">
       <div className="flex min-w-0 items-center gap-1.5 px-2 py-1">
         <Image src={row.member.portraitUrl} alt={row.member.name} width={34} height={34} unoptimized className="h-[34px] w-[34px] shrink-0 object-cover ring-1 ring-slate-200" />
         <div className="min-w-0">
@@ -1191,7 +1482,10 @@ function UsageMemberRow({ row, teamKind }: { row: UsageCountRow; teamKind: TeamK
           {row.member.uniformName ? <p className="truncate text-[9px] font-bold text-purple-600">{row.member.uniformName}</p> : null}
         </div>
       </div>
-      <span className="grid h-full place-items-center border-l border-slate-200 bg-yellow-50 text-sm font-black text-slate-950">{count}</span>
+      <span className="flex h-full items-center justify-center gap-1 border-l border-slate-200 bg-yellow-50 text-sm font-black text-slate-950">
+        <Image src={ctpIconSrc(row.member.ctp)} alt={`${row.member.name} ${row.member.ctp}`} width={20} height={20} unoptimized className="h-5 w-5 shrink-0 object-contain drop-shadow-sm" />
+        {count}
+      </span>
     </div>
   );
 }
@@ -1211,6 +1505,46 @@ function UsageTypeGroupPanel({ group, teamKind }: { group: UsageTypeGroup; teamK
   );
 }
 
+function CtpNeedSummaryTable({ role, groups }: { role: UsageRoleGroup; groups: UsageTypeGroup[] }) {
+  const keys = role === 'dealer' ? dealerNeedCtpKeys : bufferNeedCtpKeys;
+  const rows = buildCtpNeedRows(groups, keys);
+
+  return (
+    <div className="border-t-2 border-black bg-white" data-testid={`alliance-battle-${role}-ctp-need-summary`}>
+      <div className="grid grid-cols-[96px_64px_minmax(0,1fr)] border-b border-slate-300 bg-slate-950 px-2 py-1.5 text-[11px] font-black text-white">
+        <span>CTP</span>
+        <span className="text-center">필요</span>
+        <span className="text-right">사용 영웅</span>
+      </div>
+      {rows.map((row) => (
+        <div key={`${role}-${row.key}`} className="grid min-h-[42px] grid-cols-[96px_64px_minmax(0,1fr)] items-center border-b border-slate-200 px-2 py-1 last:border-b-0">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <Image src={ctpIconSrc(row.ctp)} alt={row.label} width={22} height={22} unoptimized className="h-[22px] w-[22px] shrink-0 object-contain drop-shadow-sm" />
+            <span className="truncate text-xs font-black text-slate-950">{row.label}</span>
+          </div>
+          <span className="text-center text-sm font-black text-purple-700">{row.members.length}개</span>
+          <div className="flex min-w-0 flex-wrap justify-end gap-1">
+            {row.members.length ? row.members.map(({ member, count }) => (
+              <Image
+                key={`${row.key}-${member.id}`}
+                src={member.portraitUrl}
+                alt={member.name}
+                width={28}
+                height={28}
+                unoptimized
+                title={`${member.name} · ${row.label} · ${count}회`}
+                className="h-7 w-7 shrink-0 object-cover ring-1 ring-slate-200"
+              />
+            )) : (
+              <span className="text-[11px] font-black text-slate-400">없음</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function UsageRoleSection({ role, groups, teamKind }: { role: UsageRoleGroup; groups: UsageTypeGroup[]; teamKind: TeamKind }) {
   return (
     <section className="overflow-hidden border-2 border-black bg-slate-50">
@@ -1220,6 +1554,7 @@ function UsageRoleSection({ role, groups, teamKind }: { role: UsageRoleGroup; gr
       <div className="grid gap-2 p-2 md:grid-cols-2">
         {groups.map((group) => <UsageTypeGroupPanel key={`${role}-${group.type}`} group={group} teamKind={teamKind} />)}
       </div>
+      <CtpNeedSummaryTable role={role} groups={groups} />
     </section>
   );
 }
@@ -1277,7 +1612,7 @@ function AllianceBattleTableChunk({
 }) {
   return (
     <div data-testid={`alliance-battle-round-chunk-${chunk.label}`} className="min-w-0 overflow-x-auto">
-      <table className="w-full min-w-[680px] border-collapse text-sm">
+      <table className="w-full min-w-[760px] border-collapse text-sm">
         <thead>
           <tr>
             <th className="border border-black bg-slate-950 px-2 py-1 text-center text-xs font-black text-yellow-300" colSpan={3}>
@@ -1321,7 +1656,7 @@ function AllianceBattleTableChunk({
 function AllianceBattleSheet({ calendar, content, today }: { calendar: AllianceBattleCalendarDay[]; content: ScheduleContent; today: string }) {
   const meta = contentMeta[content];
   const toneClass = meta.tone === 'abx' ? 'text-blue-700' : 'text-purple-700';
-  const conditionDays = calendar.filter((day) => (content === 'ABX' ? day.abx : day.abl || day.infinite)).length;
+  const conditionDays = calendar.filter((day) => (content === 'ABX' ? day.abx || day.infinite : day.abl)).length;
   const [memberOverrides, setMemberOverrides] = useState<Record<string, SheetMember>>({});
   const [ctpOverrides, setCtpOverrides] = useState<Record<string, string>>({});
   const [roleOverrides, setRoleOverrides] = useState<RoleOverrides>({});

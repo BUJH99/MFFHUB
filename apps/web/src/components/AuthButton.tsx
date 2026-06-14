@@ -7,6 +7,7 @@ import { AlertTriangle, BadgeCheck, Fingerprint, KeyRound, Loader2, LockKeyhole,
 import {
   createProfileFallback,
   ensureAppProfile,
+  formatAuthError,
   loginIdToAuthEmail,
   normalizeLoginId,
   updateAppProfile,
@@ -33,14 +34,6 @@ const emptyDraft: AuthDraft = {
   newPassword: '',
   signupCode: '',
 };
-
-function formatAuthError(error: unknown) {
-  const message = error instanceof Error ? error.message : String(error);
-  if (message.includes('Invalid login credentials')) return '아이디 또는 비밀번호를 확인해주세요.';
-  if (message.includes('User already registered')) return '이미 사용 중인 아이디입니다.';
-  if (message.includes('Password should be at least')) return '비밀번호는 6자 이상이어야 합니다.';
-  return message;
-}
 
 function ModalShell({ title, subtitle, onClose, children }: { title: string; subtitle: string; onClose: () => void; children: ReactNode }) {
   return (

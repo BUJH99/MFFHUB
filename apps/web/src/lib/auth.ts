@@ -56,6 +56,14 @@ export function validateSignupCode(code: string) {
   return null;
 }
 
+export function formatAuthError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes('Invalid login credentials')) return '아이디 또는 비밀번호를 확인해주세요.';
+  if (message.includes('User already registered')) return '이미 사용 중인 아이디입니다.';
+  if (message.includes('Password should be at least')) return '비밀번호는 6자 이상이어야 합니다.';
+  return message;
+}
+
 export function loginIdToAuthEmail(loginId: string) {
   return `${normalizeLoginId(loginId)}@${authEmailDomain}`;
 }
@@ -87,6 +95,10 @@ function normalizeProfileRow(row: ProfileRow): AppProfile {
   };
 }
 
+export function normalizeAccountRole(role: unknown): AccountRole {
+  return normalizeRole(role);
+}
+
 export async function readAppProfile(userId: string) {
   if (!supabase) return null;
 
@@ -114,6 +126,32 @@ export async function ensureAppProfile(user: User) {
       nickname: fallback.nickname,
       role: 'user',
     })
+    .select(profileColumns)
+    .single();
+
+  if (error) throw error;
+  return normalizeProfileRow(data as ProfileRow);
+}
+
+export async function listAppProfiles() {
+  if (!supabase) throw new Error('Supabase is not configured.');
+
+  const { data, error } = await supabase
+    .from('app_profiles')
+    .select(profileColumns)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return (data ?? []).map((row) => normalizeProfileRow(row as ProfileRow));
+}
+
+export async function updateAppProfileRole(userId: string, role: AccountRole) {
+  if (!supabase) throw new Error('Supabase is not configured.');
+
+  const { data, error } = await supabase
+    .from('app_profiles')
+    .update({ role, updated_at: new Date().toISOString() })
+    .eq('user_id', userId)
     .select(profileColumns)
     .single();
 

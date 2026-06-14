@@ -50,6 +50,7 @@ const titles: Record<Section, string> = {
   record: 'MY LOG',
   userScores: 'SCORE ENTRY',
   board: 'BOARD',
+  admin: 'ADMIN CONSOLE',
   guide: 'GUIDE',
 };
 

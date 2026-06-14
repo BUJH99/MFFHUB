@@ -4,7 +4,7 @@ import {
   ctpDefinitions,
   ctpGradeLabels,
   createDefaultCtpInventory,
-  equippedCtpCounts,
+  createEmptyCtpInventory,
   normalizeCtpInventory,
   summarizeCtpInventory,
   updateCtpInventoryCount,
@@ -12,7 +12,6 @@ import {
   type CtpInventoryEntry,
   type CtpRole,
 } from '@/lib/ctpInventory';
-import { userRoster } from '@/lib/data';
 import { Archive, PackageCheck, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -29,16 +28,16 @@ function readCtpInventoryCookie() {
 }
 
 function parseStoredCtpInventory(stored?: string | null) {
-  if (!stored) return createDefaultCtpInventory(userRoster);
+  if (!stored) return createDefaultCtpInventory();
   try {
     return normalizeCtpInventory(JSON.parse(stored));
   } catch {
-    return createDefaultCtpInventory(userRoster);
+    return createDefaultCtpInventory();
   }
 }
 
 function readStoredCtpInventory() {
-  if (typeof window === 'undefined') return createDefaultCtpInventory(userRoster);
+  if (typeof window === 'undefined') return createDefaultCtpInventory();
   try {
     return parseStoredCtpInventory(window.localStorage?.getItem(ctpInventoryStorageKey) ?? readCtpInventoryCookie());
   } catch {
@@ -60,7 +59,7 @@ function writeStoredCtpInventory(inventory: CtpInventoryEntry[]) {
 }
 
 function useCtpInventory() {
-  const [inventory, setInventory] = useState(() => createDefaultCtpInventory(userRoster));
+  const [inventory, setInventory] = useState(() => createDefaultCtpInventory());
 
   useEffect(() => {
     setInventory(readStoredCtpInventory());
@@ -75,7 +74,7 @@ function useCtpInventory() {
   }, []);
 
   const resetInventory = useCallback(() => {
-    const next = createDefaultCtpInventory(userRoster);
+    const next = createDefaultCtpInventory();
     writeStoredCtpInventory(next);
     setInventory(next);
   }, []);
@@ -203,7 +202,7 @@ function SummaryTile({ label, value, tone }: { label: string; value: number; ton
 
 export function CtpInventoryPanel() {
   const { inventory, updateCount, resetInventory } = useCtpInventory();
-  const equippedInventory = useMemo(() => equippedCtpCounts(userRoster), []);
+  const equippedInventory = useMemo(() => createEmptyCtpInventory(), []);
   const equippedById = useMemo(() => new Map(equippedInventory.map((entry) => [entry.ctpId, entry])), [equippedInventory]);
   const summary = useMemo(() => summarizeCtpInventory(inventory, equippedInventory), [equippedInventory, inventory]);
   const rows = useMemo(() => ctpDefinitions.map((definition) => {
@@ -231,7 +230,7 @@ export function CtpInventoryPanel() {
           className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-black text-slate-600 hover:border-purple-200 hover:text-purple-700"
         >
           <RotateCcw size={14} />
-          장착값 기준
+          기본값 초기화
         </button>
       </div>
 
@@ -276,7 +275,7 @@ export function CtpInventoryPanel() {
 
           <div className="mt-4 grid gap-2 rounded-2xl border border-slate-200 bg-white p-3 text-xs font-bold text-slate-600">
             <p className="flex items-center gap-2"><ShieldCheck size={14} className="text-purple-600" />강력/찬란은 합산 {summary.reforged}개</p>
-            <p className="flex items-center gap-2"><Sparkles size={14} className="text-amber-500" />입력값이 장착 수량보다 적으면 여유 수량은 0으로 표시됩니다.</p>
+            <p className="flex items-center gap-2"><Sparkles size={14} className="text-amber-500" />기본 장착 수량은 0으로 시작합니다.</p>
           </div>
         </aside>
 

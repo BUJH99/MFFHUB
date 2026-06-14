@@ -2,7 +2,9 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import { account } from '@/lib/data';
+import { ensureAppProfile } from '@/lib/auth';
 import type { Section } from '@/lib/navigation';
+import { supabase } from '@/lib/supabase';
 
 const pveItems = ['World Boss', 'ABL', 'ABX', '티어리스트'];
 const pvpItems = ['Team Battle Arena', '아더월드', '타임라인', '티어리스트'];
@@ -107,9 +109,46 @@ function SidebarPanel({ section, selectSection, showCloseButton, onMobileClose }
   const [charInfoExpanded, setCharInfoExpanded] = useState(true);
   const [pveExpanded, setPveExpanded] = useState(true);
   const [pvpExpanded, setPvpExpanded] = useState(true);
+  const [adminNavVisible, setAdminNavVisible] = useState(false);
 
   useEffect(() => {
     setProfile(readStoredAccountProfile());
+  }, []);
+
+  useEffect(() => {
+    if (!supabase) {
+      setAdminNavVisible(false);
+      return undefined;
+    }
+
+    const authClient = supabase;
+    let active = true;
+
+    const refreshAdminAccess = async () => {
+      const { data } = await authClient.auth.getSession();
+      if (!active) return;
+      if (!data.session?.user) {
+        setAdminNavVisible(false);
+        return;
+      }
+
+      try {
+        const appProfile = await ensureAppProfile(data.session.user);
+        if (active) setAdminNavVisible(appProfile.role === 'admin');
+      } catch {
+        if (active) setAdminNavVisible(false);
+      }
+    };
+
+    void refreshAdminAccess();
+    const { data: listener } = authClient.auth.onAuthStateChange(() => {
+      void refreshAdminAccess();
+    });
+
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const saveProfile = (event: FormEvent<HTMLFormElement>) => {
@@ -303,6 +342,7 @@ function SidebarPanel({ section, selectSection, showCloseButton, onMobileClose }
         <NavItem icon="📋" label="내 기록" active={section === 'record'} onClick={() => selectSection('record')} />
         <NavItem icon="▦" label="점수 입력" sub="ABX, ABL, 인피니티 챌린지" active={section === 'userScores'} onClick={() => selectSection('userScores')} />
         <NavItem icon="▧" label="게시판" sub="공지, 공략, 질문, 자유" active={section === 'board'} onClick={() => selectSection('board')} />
+        {adminNavVisible ? <NavItem icon="♛" label="관리자 콘솔" sub="사용자 권한 관리" active={section === 'admin'} onClick={() => selectSection('admin')} badge="ADMIN" /> : null}
         <NavItem icon="📖" label="캐릭터 가이드" active={section === 'guide'} onClick={() => selectSection('guide')} />
         <NavItem icon="▣" label="캐릭터 DB" sub="캐릭터명, 유니폼, 아티팩트, 버프" active={section === 'db'} onClick={() => selectSection('db')} />
         <NavItem icon="▤" label="나의 캐릭터" sub="티어, 레벨, CTP, 유니폼 보유" active={section === 'myCharacters'} onClick={() => selectSection('myCharacters')} />

@@ -19,6 +19,8 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
   it('uses a team-kind toggle instead of rendering monster and normal combos together', () => {
     expect(source).toContain('data-testid={`alliance-battle-team-toggle-${kind}`}');
     expect(source).toContain('activeTeamKind');
+    expect(source).toContain("tagPlay: '태그플'");
+    expect(source).toContain("soloDeal: '솔딜'");
     expect(source).toContain('UsageRankingPanel');
     expect(source).toContain('딜러 순위');
     expect(source).toContain('버퍼 순위');
@@ -35,7 +37,11 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).toContain('getSlotRole');
     expect(source).toContain('toggleSlotRole');
     expect(source).toContain('data-testid={`alliance-battle-toggle-role-${slotKey}`}');
-    expect(source).toContain('role={getSlotRole(content, round, teamKind, index, roleOverrides)}');
+    expect(source).toContain('role={getSlotRole(content, round, teamKind, index, roleOverrides, member)}');
+    expect(source).toContain('function getDefaultSlotRole(index: number, member?: SheetMember | null): UsageRoleGroup');
+    expect(source).toContain("if (isBufferReadyCtp(member.ctp)) return 'buffer';");
+    expect(source).toContain("if (isDealerReadyCtp(member.ctp)) return 'dealer';");
+    expect(source).toContain('getSlotRole(content, day.round, teamKind, index, roleOverrides, member)');
     expect(source).toContain("previous[slotKey] === 'dealer' ? 'buffer' : 'dealer'");
     expect(source).not.toContain("index === 0 ? '리더' : index === 1 ? '딜러' : '지원'");
     expect(source).not.toContain("const role: UsageRoleGroup = index === 1 ? 'dealer' : 'buffer';");
@@ -45,8 +51,10 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
 
   it('keeps the ABX/ABL sheet compact and renders dealer and buffer rankings without inner scrollbars', () => {
     expect(source).toContain('data-testid="alliance-battle-compact-table-layout"');
-    expect(source).toContain('grid min-w-[276px] grid-cols-3 items-center gap-1');
+    expect(source).toContain('grid min-w-[332px] grid-cols-[50px_minmax(276px,1fr)] items-center gap-1');
     expect(source).toContain('grid-cols-[18px_40px_22px]');
+    expect(source).toContain('max-w-[88px] whitespace-normal break-words text-[10px] font-black leading-[1.05] text-slate-950');
+    expect(source).not.toContain('max-w-[64px] truncate text-[10px] font-black leading-tight text-slate-950');
     expect(source).toContain('flex flex-nowrap items-center justify-center gap-1 leading-none');
     expect(source).toContain('min-h-[64px]');
     expect(source).toContain('max-w-[112px] whitespace-normal break-words text-[9px] font-bold leading-[1.05] text-purple-600');
@@ -56,9 +64,28 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).toContain('max-w-[76px] grid-cols-2 border-t border-black text-center text-[10px] font-black leading-none');
     expect(source).toContain('data-testid="alliance-battle-usage-ranking-lists"');
     expect(source).toContain('lg:grid-cols-2');
-    expect(source).toContain('table className="w-full min-w-[680px]');
+    expect(source).toContain('grid-cols-[24px_minmax(0,1fr)_64px]');
+    expect(source).toContain('grid-cols-[minmax(0,1fr)_72px]');
+    expect(source).toContain('src={ctpIconSrc(row.member.ctp)}');
+    expect(source).toContain('alt={`${row.member.name} ${row.member.ctp}`}');
+    expect(source).toContain('table className="w-full min-w-[760px]');
     expect(source).not.toContain('max-h-[420px] overflow-y-auto');
     expect(source).not.toContain('max-h-[390px] overflow-y-auto');
+  });
+
+  it('adds tag-play and solo-deal readiness indicators based on dealer and buffer CTPs', () => {
+    expect(source).toContain('function evaluateTeamReadiness');
+    expect(source).toContain('function isDealerReadyCtp');
+    expect(source).toContain('function isBufferReadyCtp');
+    expect(source).toContain('function isSoloDealBufferSetReady');
+    expect(source).toContain("['rage', 'competition'].includes");
+    expect(source).toContain("['insight', 'liberation'].includes");
+    expect(source).toContain('unique.has(\'insight\')');
+    expect(source).toContain('unique.has(\'liberation\')');
+    expect(source).toContain('data-testid="alliance-battle-team-ready-check"');
+    expect(source).toContain('data-testid="alliance-battle-team-ready-warning"');
+    expect(source).toContain('솔딜 버퍼 CTP 통찰+해방 중복 없이 필요');
+    expect(source).toContain('태그플 버퍼 CTP 통찰 또는 해방 필요');
   });
 
   it('splits the ABX/ABL rotation into two 14-round table chunks and places rankings below the tables', () => {
@@ -88,6 +115,24 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).toContain('<UsageAnalysisPanel summary={usageSummary} teamKind={activeTeamKind} />');
     expect(source).not.toContain('<UsageRankingPanel summary={usageSummary} content={content} teamKind={activeTeamKind} />');
     expect(source).not.toContain('<UsageCountSummaryPanel summary={usageSummary} content={content} teamKind={activeTeamKind} />');
+  });
+
+  it('adds CTP need summaries below detailed dealer and buffer rankings', () => {
+    expect(source).toContain("const dealerNeedCtpKeys = ['competition', 'rage'] as const;");
+    expect(source).toContain("const bufferNeedCtpKeys = ['insight', 'liberation'] as const;");
+    expect(source).toContain("competition: { label: '경쟁', ctp: 'Competition' }");
+    expect(source).toContain("rage: { label: '분노', ctp: 'Rage' }");
+    expect(source).toContain("insight: { label: '통찰', ctp: 'Insight' }");
+    expect(source).toContain("liberation: { label: '해방', ctp: 'Liberation' }");
+    expect(source).toContain('function CtpNeedSummaryTable');
+    expect(source).toContain('data-testid={`alliance-battle-${role}-ctp-need-summary`}');
+    expect(source).toContain('grid-cols-[96px_64px_minmax(0,1fr)]');
+    expect(source).toContain('{row.members.length}개');
+    expect(source).toContain('type CtpUsageMember');
+    expect(source).toContain('current.count += usage.count;');
+    expect(source).toContain('if (right.count !== left.count) return right.count - left.count;');
+    expect(source).toContain('title={`${member.name} · ${row.label} · ${count}회`}');
+    expect(source).toContain('<CtpNeedSummaryTable role={role} groups={groups} />');
   });
 
   it('summarizes ABX and ABL usage together while following the selected team-kind toggle', () => {
@@ -139,35 +184,44 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).not.toContain('grid-cols-[repeat(auto-fill,minmax(96px,1fr))]');
   });
 
-  it('uses the requested ABX/ABL combo schedule and places Infinity Challenge on ABL', () => {
+  it('uses the requested ABX/ABL combo schedule and keeps Infinity Challenge combos in the ABX sheet', () => {
     const expectedAbxCombos = [
       "1: combo(['whiteFox', 'mistyKnight', 'lunaSnow'], ['whiteFox', 'mistyKnight', 'lunaSnow']),",
       '2: abxFreeCombo,',
+      '3: infinityChallengeCombo,',
       "5: combo(['sin', 'bullseye', 'blackCat'], ['sin', 'blackCat', 'bullseye']),",
+      "8: combo(['valkyrie', 'gladiator', 'athena'], ['valkyrie', 'agentVenom', 'venom']),",
+      '12: thunderGodCombo,',
+      "14: combo(['cyclops', 'polaris', 'jeanGrey'], ['mystique', 'polaris', 'jeanGrey']),",
       "7: combo(['wolverine', 'gambit', 'cyclops'], ['silverSamurai', 'cyclops', 'gambit']),",
       "18: combo(['mysterio', 'doctorStrange', 'ironMan'], ['mysterio', 'doctorStrange', 'enchantress']),",
+      "25: combo(['thor', 'zeus', 'odin'], ['yondu', 'odin', 'ronan']),",
       "26: combo(['hulk', 'ares', 'winterSoldier'], ['taskmaster', 'ares', 'redHulk']),",
       "28: combo(['sin', 'scarletWitch', 'enchantress'], ['sin', 'scarletWitch', 'enchantress']),",
     ];
     const expectedAblCombos = [
-      "1: combo(['doctorVoodoo', 'mephisto', 'ghostPanther'], ['doctorVoodoo', 'mephisto', 'ghostPanther']),",
-      '2: ablFireCombo,',
-      "6: combo(['taskmaster', 'winterSoldier', 'ares'], ['taskmaster', 'ares', 'redHulk']),",
+      '1: richardRiderCombo,',
+      '2: ablFreeCombo,',
+      "6: combo(['hulk', 'ares', 'kingpin'], ['taskmaster', 'ares', 'redHulk']),",
       "7: combo(['enchantress', 'hades', 'ares'], ['proximaMidnight', 'hades', 'enchantress']),",
+      "8: combo(['satana', 'scarletWitch', 'morganLeFay'], ['satana', 'scarletWitch', 'morganLeFay']),",
       "13: combo(['x23', 'storm', 'dazzler'], ['dazzler', 'polaris', 'storm']),",
-      "22: combo(['novaRichardRider', 'zeus', 'odin'], ['novaRichardRider', 'ronan', 'loki']),",
+      '22: richardRiderCombo,',
+      "25: combo(['satana', 'scarletWitch', 'phylaVell'], ['satana', 'scarletWitch', 'phylaVell']),",
+      "26: combo(['yondu', 'odin', 'athena'], ['yondu', 'odin', 'athena']),",
       "27: combo(['kidOmega', 'cyclops', 'gambit'], ['silverSamurai', 'cyclops', 'gambit']),",
       "28: combo(['agentVenom', 'mbaku', 'venom'], ['agentVenom', 'mbaku', 'venom']),",
     ];
 
     expectedAbxCombos.forEach((comboLine) => expect(source).toContain(comboLine));
     expectedAblCombos.forEach((comboLine) => expect(source).toContain(comboLine));
-    expect(source).toContain("if (content === 'ABL' && !condition && day.infinite) return infinityChallengeCombo;");
-    expect(source).toContain("content === 'ABX' ? day.abx : day.abl || day.infinite");
+    expect(source).toContain("thor: { id: 'thor', name: '토르', portraitUrl: portrait('thor10') },");
+    expect(source).toContain("kingpin: { id: 'kingpin', name: '킹핀', portraitUrl: portrait('kingpin3') },");
+    expect(source).toContain("content === 'ABX' ? day.abx || day.infinite : day.abl");
     expect(source).toContain('data-testid="alliance-battle-empty-combo"');
     expect(source).toContain('없음');
-    expect(source).not.toContain('3: infinityChallengeCombo,');
-    expect(source).not.toContain("if (content === 'ABX' && !condition && day.infinite) return infinityChallengeCombo;");
-    expect(source).not.toContain('if (!condition && day.infinite) return infinityChallengeCombo;');
+    expect(source).not.toContain("if (content === 'ABL' && !condition && day.infinite) return infinityChallengeCombo;");
+    expect(source).not.toContain("content === 'ABX' ? day.abx : day.abl || day.infinite");
+    expect(source).not.toContain('ablFireCombo');
   });
 });

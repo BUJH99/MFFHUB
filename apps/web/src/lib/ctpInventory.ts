@@ -104,8 +104,8 @@ export function equippedCtpCounts(roster: UserCharacter[] = []) {
   return equipped;
 }
 
-export function createDefaultCtpInventory(roster: UserCharacter[] = []) {
-  return equippedCtpCounts(roster);
+export function createDefaultCtpInventory() {
+  return createEmptyCtpInventory();
 }
 
 export function normalizeCtpInventory(value: unknown): CtpInventoryEntry[] {

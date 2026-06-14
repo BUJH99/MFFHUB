@@ -19,4 +19,5 @@ export type Section =
   | 'record'
   | 'userScores'
   | 'board'
+  | 'admin'
   | 'guide';

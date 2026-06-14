@@ -39,6 +39,9 @@ const UserScoreSection = dynamic(() => import('@/components/sections/UserScoreSe
 const BoardSection = dynamic(() => import('@/components/sections/BoardSection').then((mod) => mod.BoardSection), {
   loading: () => <PanelSkeleton title="게시판" />,
 });
+const AdminSection = dynamic(() => import('@/components/sections/AdminSection').then((mod) => mod.AdminSection), {
+  loading: () => <PanelSkeleton title="관리자 콘솔" />,
+});
 
 export function AppShell() {
   const [section, setSection] = useState<Section>('accountCards');
@@ -78,6 +81,7 @@ export function AppShell() {
               {section === 'record' ? <RecordSection /> : null}
               {section === 'userScores' ? <UserScoreSection /> : null}
               {section === 'board' ? <BoardSection /> : null}
+              {section === 'admin' ? <AdminSection /> : null}
               {section === 'guide' ? <PlaceholderSection title="캐릭터 가이드" text="캐릭터별 회전, 추천 C.T.P, 아티팩트 우선도, 유니폼 변화, 보스별 코멘트를 관리하는 화면." /> : null}
             </div>
           </div>

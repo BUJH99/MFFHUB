@@ -3,6 +3,7 @@ import {
   createDefaultCtpInventory,
   ctpDefinitions,
   ctpRoleOrder,
+  equippedCtpCounts,
   parseCtpName,
   summarizeCtpInventory,
   updateCtpInventoryCount,
@@ -48,17 +49,26 @@ describe('ctp inventory', () => {
     expect(parseCtpName('Judgment')).toEqual({ ctpId: 'judgement', grade: 'normal' });
   });
 
-  it('seeds inventory from equipped roster CTPs', () => {
-    const inventory = createDefaultCtpInventory(sampleRoster);
+  it('starts the default inventory with zero equipped and owned CTP counts', () => {
+    const inventory = createDefaultCtpInventory();
     const summary = summarizeCtpInventory(inventory, inventory);
 
-    expect(summary.total).toBeGreaterThan(0);
-    expect(summary.equipped).toBe(summary.total);
+    expect(summary.total).toBe(0);
+    expect(summary.equipped).toBe(0);
+    expect(summary.spare).toBe(0);
     expect(summary.byRole.some((row) => row.role === 'PVE')).toBe(true);
   });
 
+  it('can still derive equipped counts from roster CTPs when requested', () => {
+    const equipped = equippedCtpCounts(sampleRoster);
+    const summary = summarizeCtpInventory(equipped, equipped);
+
+    expect(summary.total).toBeGreaterThan(0);
+    expect(summary.equipped).toBe(summary.total);
+  });
+
   it('updates counts by grade without touching other CTPs', () => {
-    const inventory = createDefaultCtpInventory(sampleRoster);
+    const inventory = createDefaultCtpInventory();
     const updated = updateCtpInventoryCount(inventory, 'rage', 'brilliant', 2);
     const rage = updated.find((entry) => entry.ctpId === 'rage');
 
@@ -74,7 +84,7 @@ describe('ctp inventory', () => {
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'SEMI PVP').map((ctp) => ctp.koreanName)).toEqual(['재생', '제련', '권능']);
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'WASTE').map((ctp) => ctp.koreanName)).toEqual(['초월', '인내']);
 
-    const summary = summarizeCtpInventory(createDefaultCtpInventory(sampleRoster));
+    const summary = summarizeCtpInventory(createDefaultCtpInventory());
     expect(summary.byRole.map((row) => row.role)).toEqual(ctpRoleOrder);
   });
 });
