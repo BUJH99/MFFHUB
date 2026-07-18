@@ -14,11 +14,19 @@ import {
 } from '@/lib/ctpInventory';
 import { Archive, PackageCheck, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 const ctpInventoryStorageKey = 'mff-data-hub:ctp-inventory:v1';
 const ctpInventoryCookieKey = 'mff_ctp_inventory_v1';
 const grades: CtpGrade[] = ['normal', 'mighty', 'brilliant'];
+const ctpRoleDisplayLabels: Record<CtpRole, string> = {
+  PVE: 'PVE',
+  'SEMI PVE': "S'PVE",
+  Support: 'Support',
+  PVP: 'PVP',
+  'SEMI PVP': "S'PVP",
+  WASTE: 'WASTE',
+};
 
 function readCtpInventoryCookie() {
   if (typeof document === 'undefined') return undefined;
@@ -157,14 +165,14 @@ function CountStepper({
   const applyValue = (nextValue: number) => onChange(Math.max(0, Math.round(Number.isFinite(nextValue) ? nextValue : value)));
 
   return (
-    <label className={`grid gap-1.5 rounded-2xl border border-slate-200 bg-white p-2.5 ${gradeInputClass(grade)}`}>
-      <span className="text-[10px] font-black text-slate-400">{ctpGradeLabels[grade]}</span>
-      <span className="grid grid-cols-[28px_minmax(0,1fr)_28px] overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+    <label className={`grid place-items-center gap-2 rounded-none border border-slate-200 bg-white p-3 text-center [font-family:Pretendard,system-ui,sans-serif] ${gradeInputClass(grade)}`}>
+      <span className="w-full text-center text-sm font-black text-slate-500">{ctpGradeLabels[grade]}</span>
+      <span className="grid min-h-[40px] w-full grid-cols-[minmax(20px,0.75fr)_minmax(24px,1fr)_minmax(20px,0.75fr)] place-items-center overflow-hidden rounded-none border border-slate-200 bg-slate-50">
         <button
           type="button"
           aria-label={`${label} 감소`}
           onClick={() => applyValue(value - 1)}
-          className="bg-white text-sm font-black text-slate-500 hover:bg-slate-100"
+          className="grid h-full w-full place-items-center bg-white text-center text-lg font-black leading-none text-slate-600 hover:bg-slate-100"
         >
           -
         </button>
@@ -176,13 +184,13 @@ function CountStepper({
           step={1}
           value={value}
           onChange={(event) => applyValue(Number(event.target.value))}
-          className="min-w-0 bg-transparent px-1 py-2 text-center text-sm font-black text-slate-950 outline-none"
+          className="h-full w-full min-w-0 bg-transparent px-1 py-2 text-center text-lg font-black leading-none text-slate-950 outline-none"
         />
         <button
           type="button"
           aria-label={`${label} 증가`}
           onClick={() => applyValue(value + 1)}
-          className="bg-white text-sm font-black text-slate-500 hover:bg-slate-100"
+          className="grid h-full w-full place-items-center bg-white text-center text-lg font-black leading-none text-slate-600 hover:bg-slate-100"
         >
           +
         </button>
@@ -196,6 +204,16 @@ function SummaryTile({ label, value, tone }: { label: string; value: number; ton
     <div className="rounded-2xl border border-slate-200 bg-white p-3">
       <p className="text-[11px] font-black uppercase text-slate-400">{label}</p>
       <p className={`mt-1 text-2xl font-black ${tone ?? 'text-slate-950'}`}>{formatCount(value)}</p>
+    </div>
+  );
+}
+
+function CompactCtpStat({ label, value, icon, tone }: { label: string; value: number; icon: ReactNode; tone?: string }) {
+  return (
+    <div className="inline-flex min-w-[92px] items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+      <span className={tone ?? 'text-slate-500'}>{icon}</span>
+      <span className={`text-sm font-black ${tone ?? 'text-slate-600'}`}>{label}</span>
+      <span className={`text-lg font-black ${tone ?? 'text-slate-950'}`}>{formatCount(value)}</span>
     </div>
   );
 }
@@ -215,7 +233,7 @@ export function CtpInventoryPanel() {
   const maxRoleTotal = Math.max(1, ...summary.byRole.map((row) => row.total));
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm [font-family:Pretendard,system-ui,sans-serif]">
       <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="rounded-2xl bg-slate-950 p-3 text-white"><PackageCheck size={20} /></span>
@@ -254,7 +272,7 @@ export function CtpInventoryPanel() {
               {summary.byRole.map((row) => (
                 <div key={row.role}>
                   <div className="flex items-center justify-between text-[11px] font-black text-slate-500">
-                    <span>{row.role}</span>
+                    <span>{ctpRoleDisplayLabels[row.role]}</span>
                     <span>{row.total}</span>
                   </div>
                   <div className="mt-1 flex flex-wrap gap-1">
@@ -279,29 +297,31 @@ export function CtpInventoryPanel() {
           </div>
         </aside>
 
-        <div className="grid gap-3 md:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid gap-3 xl:grid-cols-2">
           {rows.map(({ definition, entry, total, equippedTotal, spare }) => (
-            <article key={definition.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-3">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex min-w-0 items-start gap-3">
-                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white shadow-sm">
-                    <Image src={ctpIconSrc(definition.id)} alt={`${definition.koreanName} CTP`} width={42} height={42} unoptimized className="h-11 w-11 object-contain" />
-                  </span>
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="truncate text-sm font-black text-slate-950">{definition.name}</h3>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${roleBadgeClass(definition.role)}`}>{definition.role}</span>
-                    </div>
-                    <p className="mt-1 text-xs font-bold text-slate-500">{definition.koreanName}</p>
+            <article key={definition.id} className="rounded-[28px] border border-slate-200 bg-slate-50/80 p-4 shadow-sm">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="grid h-20 w-20 shrink-0 place-items-center rounded-[24px] border border-slate-200 bg-white shadow-sm">
+                  <Image src={ctpIconSrc(definition.id)} alt={`${definition.koreanName} CTP`} width={64} height={64} unoptimized className="h-16 w-16 object-contain" />
+                </span>
+                <div className="min-w-0 flex-[1_1_220px]">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <h3 className="min-w-0 truncate text-3xl font-black text-slate-950">{definition.name}</h3>
+                    <span className={`shrink-0 rounded-2xl px-3 py-1 text-base font-black ${roleBadgeClass(definition.role)}`}>{ctpRoleDisplayLabels[definition.role]}</span>
                   </div>
+                  <p className="mt-2 text-2xl font-black text-slate-500">{definition.koreanName}</p>
                 </div>
-                <div className="shrink-0 text-right">
-                  <p className="text-2xl font-black text-slate-950">{total}</p>
-                  <p className="text-[10px] font-black text-slate-400">보유</p>
+                <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+                  <CompactCtpStat label="장착" value={equippedTotal} icon={<ShieldCheck size={22} strokeWidth={2.4} />} />
+                  <CompactCtpStat label="여유" value={spare} icon={<RotateCcw size={22} strokeWidth={2.4} />} tone="text-emerald-700" />
+                </div>
+                <div className="w-[72px] shrink-0 text-right">
+                  <p className="text-5xl font-black leading-none text-slate-950">{total}</p>
+                  <p className="mt-2 text-base font-black text-slate-500">보유</p>
                 </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-3 gap-2">
+              <div className="mt-4 grid grid-cols-3 gap-3">
                 {grades.map((grade) => (
                   <CountStepper
                     key={`${definition.id}-${grade}`}
@@ -311,17 +331,6 @@ export function CtpInventoryPanel() {
                     onChange={(value) => updateCount(definition.id, grade, value)}
                   />
                 ))}
-              </div>
-
-              <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px] font-black">
-                <div className="rounded-2xl bg-white p-2 text-slate-500">
-                  <span className="block text-slate-400">장착</span>
-                  {equippedTotal}
-                </div>
-                <div className="rounded-2xl bg-white p-2 text-emerald-700">
-                  <span className="block text-slate-400">여유</span>
-                  {spare}
-                </div>
               </div>
             </article>
           ))}

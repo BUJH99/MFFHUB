@@ -156,10 +156,32 @@ function numericProgressValue(value: string) {
 
 function stageRangeIncludes(range: string, stage?: number) {
   if (typeof stage !== 'number' || !Number.isFinite(stage)) return false;
-  const [start, end] = range.split('-').map((part) => Number(part));
-  if (!Number.isFinite(start)) return false;
-  const normalizedEnd = Number.isFinite(end) ? end : start;
+  const parsedRange = parseStageRange(range);
+  if (!parsedRange) return false;
+  const { start, end: normalizedEnd } = parsedRange;
   return stage >= start && stage <= normalizedEnd;
+}
+
+function parseStageRange(range: string) {
+  const [start, end] = range.split('-').map((part) => Number(part));
+  if (!Number.isFinite(start)) return undefined;
+  return { start, end: Number.isFinite(end) ? end : start };
+}
+
+function unlockBelongsToStageRange(range: string, unlockStage: number) {
+  const unlockBucketStart = unlockBucketStartForStageRange(range);
+  return typeof unlockBucketStart === 'number' && unlockStage === unlockBucketStart;
+}
+
+function unlockBucketStartForStageRange(range: string) {
+  const parsedRange = parseStageRange(range);
+  if (!parsedRange || parsedRange.start < 10) return undefined;
+  return Math.floor(parsedRange.start / 10) * 10;
+}
+
+function unlockBucketLabel(range: string) {
+  const unlockBucketStart = unlockBucketStartForStageRange(range);
+  return typeof unlockBucketStart === 'number' ? `${unlockBucketStart}-${unlockBucketStart + 9}층` : undefined;
 }
 
 function createEmptyBossProgress(): BossProgress {
@@ -253,23 +275,9 @@ function BossButton({
   );
 }
 
-function UnlockStrip({ boss }: { boss: WorldBoss }) {
-  return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="text-lg font-black text-slate-950">층 해금</h2>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">10-90</span>
-      </div>
-      <div className="grid grid-cols-3 gap-3 md:grid-cols-5 xl:grid-cols-9">
-        {boss.unlocks.map((unlock) => (
-          <div key={`${boss.id}-${unlock.stage}`} className="grid place-items-center rounded-2xl border border-slate-200 bg-slate-50 p-3">
-            <span className="mb-2 rounded-full bg-slate-950 px-2.5 py-1 text-xs font-black text-white">{unlock.stage}</span>
-            <Image src={unlock.portraitUrl} alt={unlock.character} title={unlock.character} width={58} height={58} unoptimized className="h-14 w-14 rounded-2xl object-cover ring-2 ring-white" />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
+function adjustProgressValue(value: string, delta: number) {
+  const current = numericProgressValue(value) ?? 0;
+  return sanitizeNumericInput(current + delta);
 }
 
 function RestrictionIcons({ stage }: { stage: WorldBossStageRule }) {
@@ -278,11 +286,34 @@ function RestrictionIcons({ stage }: { stage: WorldBossStageRule }) {
     : [{ label: 'No Restrictions', iconUrl: noRestrictionIcon }];
 
   return (
-    <div className="flex flex-nowrap justify-center gap-1 overflow-hidden">
+    <div className="flex flex-nowrap justify-start gap-1 overflow-hidden">
       {restrictions.map((restriction) => (
         <span key={`${stage.range}-${restriction.label}`} className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-slate-100 p-1 ring-1 ring-slate-200" title={displayRestrictionLabel(restriction.label)}>
           <Image src={restriction.iconUrl} alt={displayRestrictionLabel(restriction.label)} width={32} height={32} unoptimized className="h-full w-full object-contain" />
         </span>
+      ))}
+    </div>
+  );
+}
+
+function StageUnlockIcons({ boss, stage, active }: { boss: WorldBoss; stage: WorldBossStageRule; active: boolean }) {
+  const unlocks = boss.unlocks.filter((unlock) => unlockBelongsToStageRange(stage.range, unlock.stage));
+  const unlockBucket = unlockBucketLabel(stage.range);
+
+  return (
+    <div className="flex min-h-9 items-center gap-1.5 overflow-hidden">
+      <span className={`grid min-h-9 min-w-[58px] place-items-center rounded-xl px-2 py-2 text-xs font-black text-white ${active ? 'bg-purple-600' : 'bg-slate-950'}`}>{stage.range}</span>
+      {unlocks.map((unlock) => (
+        <Image
+          key={`${boss.id}-${stage.range}-${unlock.stage}`}
+          src={unlock.portraitUrl}
+          alt={unlock.character}
+          title={`${unlockBucket ?? `${unlock.stage}층`} · ${unlock.character}`}
+          width={36}
+          height={36}
+          unoptimized
+          className="h-9 w-9 shrink-0 rounded-lg object-cover ring-2 ring-white"
+        />
       ))}
     </div>
   );
@@ -474,15 +505,13 @@ function StageRuleGrid({
           return (
             <article
               key={`${boss.id}-${stage.range}`}
-              className={`grid gap-2 rounded-xl border p-2 transition md:grid-cols-[58px_148px_176px] md:items-center ${
+              className={`grid gap-2 rounded-xl border p-2 transition md:grid-cols-[max-content_max-content_minmax(0,1fr)] md:items-center ${
                 stageActive
                   ? 'border-purple-300 bg-purple-50/80 shadow-[0_0_0_3px_rgba(168,85,247,0.12),0_12px_26px_rgba(88,28,135,0.08)]'
                   : 'border-slate-200 bg-slate-50'
               }`}
             >
-              <div className={`grid min-h-9 place-items-center rounded-xl px-2 py-2 text-xs font-black ${
-                stageActive ? 'bg-purple-600 text-white' : 'bg-slate-950 text-white'
-              }`}>{stage.range}</div>
+              <StageUnlockIcons boss={boss} stage={stage} active={stageActive} />
               <RestrictionIcons stage={stage} />
               <div className="min-w-0">
                 <div className="flex min-h-9 w-full flex-wrap gap-1 rounded-lg border border-dashed border-slate-200 bg-white/70 p-1">
@@ -517,11 +546,13 @@ function BossHero({
   progress: BossProgress;
   onProgressChange: (bossId: string, field: BossProgressField, value: string) => void;
 }) {
+  const updateProgress = (field: BossProgressField, value: string) => onProgressChange(boss.id, field, value);
+
   return (
-    <section className="relative min-h-[280px] overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 shadow-sm">
-      <Image src={boss.bannerUrl} alt="" fill priority unoptimized className="object-cover opacity-75" />
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/35 to-transparent" />
-      <div className="relative grid min-h-[280px] gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
+    <section className="relative min-h-[388px] overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 shadow-sm">
+      <Image src={boss.bannerUrl} alt="" fill priority unoptimized className="object-cover opacity-80" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/40 to-slate-950/20" />
+      <div className="relative grid min-h-[388px] gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
         <div className="flex items-end gap-5 self-end">
           <Image src={boss.portraitUrl} alt={boss.name} width={108} height={108} unoptimized className="h-24 w-24 rounded-3xl object-cover ring-4 ring-white/20" />
           <div className="pb-2">
@@ -529,38 +560,83 @@ function BossHero({
             <h1 className="text-3xl font-black leading-tight text-white sm:text-4xl">{boss.name}</h1>
           </div>
         </div>
-        <div className="grid self-end rounded-2xl border border-white/20 bg-white/12 p-3 shadow-2xl backdrop-blur-md sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-          <label className="min-w-0 rounded-xl bg-white/90 px-3 py-2 shadow-sm ring-1 ring-white/70">
-            <span className="block text-[10px] font-black text-slate-500">도전 층</span>
-            <input
-              type="number"
-              min={0}
-              max={999}
-              inputMode="numeric"
+        <div className="self-end rounded-[28px] border border-white/20 bg-slate-950/35 p-3 shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
+          <div className="mb-3 flex items-center justify-between gap-3 px-1">
+            <span className="text-[11px] font-black uppercase tracking-wide text-white/60">Progress</span>
+            <span className="rounded-full border border-white/15 bg-white/10 px-2 py-1 text-[10px] font-black text-white/75">LOCAL</span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2">
+            <BossProgressControl
+              label="도전 층"
+              helper="현재 클리어 목표"
               value={progress.currentStage}
-              onChange={(event) => onProgressChange(boss.id, 'currentStage', event.target.value)}
-              aria-label={`${boss.name} 도전중인 층`}
-              placeholder="-"
-              className="mt-1 w-full bg-transparent text-2xl font-black leading-none text-slate-950 outline-none placeholder:text-slate-400"
+              ariaLabel={`${boss.name} 도전중인 층`}
+              onChange={(value) => updateProgress('currentStage', value)}
             />
-          </label>
-          <label className="mt-2 min-w-0 rounded-xl bg-white/90 px-3 py-2 shadow-sm ring-1 ring-white/70 sm:ml-2 sm:mt-0 lg:ml-0 lg:mt-2 xl:ml-2 xl:mt-0">
-            <span className="block text-[10px] font-black text-slate-500">정복 Lv</span>
-            <input
-              type="number"
-              min={0}
-              max={999}
-              inputMode="numeric"
+            <BossProgressControl
+              label="정복 Lv"
+              helper="보스 정복 레벨"
               value={progress.conquestLevel}
-              onChange={(event) => onProgressChange(boss.id, 'conquestLevel', event.target.value)}
-              aria-label={`${boss.name} 현재 정복 레벨`}
-              placeholder="-"
-              className="mt-1 w-full bg-transparent text-2xl font-black leading-none text-slate-950 outline-none placeholder:text-slate-400"
+              ariaLabel={`${boss.name} 현재 정복 레벨`}
+              onChange={(value) => updateProgress('conquestLevel', value)}
             />
-          </label>
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function BossProgressControl({
+  label,
+  helper,
+  value,
+  ariaLabel,
+  onChange,
+}: {
+  label: string;
+  helper: string;
+  value: string;
+  ariaLabel: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="group grid min-h-[136px] min-w-0 rounded-2xl border border-white/70 bg-white/[0.92] p-3 shadow-[0_16px_40px_rgba(15,23,42,0.18)] ring-1 ring-white/80">
+      <span className="flex items-center justify-between gap-2">
+        <span className="text-xs font-black text-slate-600">{label}</span>
+        <span className="h-1.5 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-80" />
+      </span>
+      <span className="mt-1 text-[10px] font-bold text-slate-400">{helper}</span>
+      <span className="mt-3 grid min-h-[54px] grid-cols-[38px_minmax(0,1fr)_38px] overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+        <button
+          type="button"
+          aria-label={`${label} 감소`}
+          onClick={() => onChange(adjustProgressValue(value, -1))}
+          className="grid h-full w-full place-items-center border-r border-slate-200 bg-white text-xl font-black text-slate-500 transition hover:bg-slate-100"
+        >
+          -
+        </button>
+        <input
+          type="number"
+          min={0}
+          max={999}
+          inputMode="numeric"
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          aria-label={ariaLabel}
+          placeholder="-"
+          className="h-full min-w-0 bg-transparent px-1 text-center text-3xl font-black leading-none text-slate-950 outline-none placeholder:text-slate-400"
+        />
+        <button
+          type="button"
+          aria-label={`${label} 증가`}
+          onClick={() => onChange(adjustProgressValue(value, 1))}
+          className="grid h-full w-full place-items-center border-l border-slate-200 bg-white text-xl font-black text-slate-500 transition hover:bg-slate-100"
+        >
+          +
+        </button>
+      </span>
+    </div>
   );
 }
 
@@ -653,20 +729,21 @@ export function WorldBossSection() {
 
   return (
     <section className="space-y-5">
-      <section className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
-        {worldBosses.map((boss) => (
-          <BossButton
-            key={boss.id}
-            boss={boss}
-            active={boss.id === selectedBoss.id}
-            progress={bossProgress[boss.id] ?? createEmptyBossProgress()}
-            onClick={() => setSelectedId(boss.id)}
-          />
-        ))}
+      <section className="grid items-start gap-5 xl:grid-cols-[minmax(360px,520px)_minmax(0,1fr)]">
+        <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-2">
+          {worldBosses.map((boss) => (
+            <BossButton
+              key={boss.id}
+              boss={boss}
+              active={boss.id === selectedBoss.id}
+              progress={bossProgress[boss.id] ?? createEmptyBossProgress()}
+              onClick={() => setSelectedId(boss.id)}
+            />
+          ))}
+        </div>
+        <BossHero boss={selectedBoss} progress={selectedBossProgress} onProgressChange={updateBossProgress} />
       </section>
 
-      <BossHero boss={selectedBoss} progress={selectedBossProgress} onProgressChange={updateBossProgress} />
-      <UnlockStrip boss={selectedBoss} />
       <StageRuleGrid boss={selectedBoss} currentStage={selectedCurrentStage} picks={stagePicks} onOpenPicker={setPicker} onRemovePick={removePick} />
       <StagePickerPanel picker={picker} onClose={() => setPicker(null)} onSelect={addPick} />
     </section>

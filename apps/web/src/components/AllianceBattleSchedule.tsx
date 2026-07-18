@@ -235,13 +235,13 @@ const abxCharacterCatalog = {
   agentVenom: { id: 'agent-venom', name: '에이전트 베놈', portraitUrl: portrait('agentvenom3') },
   novaRichardRider: { id: 'nova-richard-rider', name: '리처드 라이더', portraitUrl: portrait('nova1') },
   loki: { id: 'loki', name: '로키', portraitUrl: portrait('loki8') },
-  odin: { id: 'odin', name: '오딘', portraitUrl: portrait('odin2') },
+  odin: { id: 'odin', name: '오딘', portraitUrl: portrait('odin3') },
   ronan: { id: 'ronan', name: '로난', portraitUrl: portrait('ronan3') },
   thor: { id: 'thor', name: '토르', portraitUrl: portrait('thor10') },
   zeus: { id: 'zeus', name: '제우스', portraitUrl: portrait('zeus') },
   madelynePryor: { id: 'madelyne-pryor', name: '매들린 프라이어', portraitUrl: portrait('madelynepryor1') },
   polaris: { id: 'polaris', name: '폴라리스', portraitUrl: portrait('polaris1') },
-  jeanGrey: { id: 'jean-grey', name: '진 그레이', portraitUrl: portrait('jeangrey3') },
+  jeanGrey: { id: 'jean-grey', name: '진 그레이', portraitUrl: portrait('jeangrey4') },
   mystique: { id: 'mystique', name: '미스틱', portraitUrl: portrait('mystique1') },
   mysterio: { id: 'mysterio', name: '미스테리오', portraitUrl: portrait('mysterio2') },
   ironMan: { id: 'iron-man', name: '아이언맨', portraitUrl: portrait('ironman10') },
@@ -351,20 +351,19 @@ const ablBestCombos: Partial<Record<number, AbxBestCombo>> = {
 
 const ctpOptions = [
   'Rage',
+  'Competition',
+  'Insight',
+  'Liberation',
+  'Conquest',
+  'Greed',
   'Judgement',
   'Energy',
-  'Insight',
-  'Authority',
-  'Greed',
   'Destruction',
-  'Refinement',
+  'Authority',
   'Regeneration',
+  'Refinement',
   'Transcendence',
   'Patience',
-  'Conquest',
-  'Liberation',
-  'Veteran',
-  'Competition',
 ] as const;
 
 const comboSlotCtpDefaults: ComboSlotCtpDefaults = {
@@ -380,26 +379,26 @@ const comboSlotCtpDefaults: ComboSlotCtpDefaults = {
     9: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     10: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
     11: { tagPlay: ['Insight', 'Rage', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
-    12: { tagPlay: ['Rage', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    12: { tagPlay: ['Rage', 'Judgement', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     13: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
     14: { tagPlay: ['Liberation', 'Insight', 'Competition'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
     15: { tagPlay: ['Insight', 'Competition', 'Competition'], soloDeal: ['Insight', 'Competition', 'Competition'] },
     16: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     17: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
     18: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
-    19: { tagPlay: ['Rage', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    19: { tagPlay: ['Rage', 'Judgement', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     20: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     21: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     22: { tagPlay: ['Liberation', 'Rage', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Rage'] },
     23: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     24: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
-    25: { tagPlay: ['Rage', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    25: { tagPlay: ['Rage', 'Judgement', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     26: { tagPlay: ['Insight', 'Rage', 'Rage'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     27: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     28: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
   },
   ABL: {
-    1: { tagPlay: ['Liberation', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    1: { tagPlay: ['Liberation', 'Judgement', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     2: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
     4: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     5: { tagPlay: ['Insight', 'Liberation', 'Rage'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
@@ -417,7 +416,7 @@ const comboSlotCtpDefaults: ComboSlotCtpDefaults = {
     19: { tagPlay: ['Insight', 'Rage', 'Rage'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     20: { tagPlay: ['Liberation', 'Rage', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Rage'] },
     21: { tagPlay: ['Liberation', 'Competition', 'Competition'], soloDeal: ['Liberation', 'Insight', 'Competition'] },
-    22: { tagPlay: ['Liberation', 'Liberation', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
+    22: { tagPlay: ['Liberation', 'Judgement', 'Competition'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
     23: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Insight', 'Liberation', 'Competition'] },
     25: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Rage', 'Insight'] },
     26: { tagPlay: ['Liberation', 'Competition', 'Insight'], soloDeal: ['Liberation', 'Competition', 'Insight'] },
@@ -632,6 +631,14 @@ function normalizeCtpKeyForReadiness(ctp: string) {
 
 function isDealerReadyCtp(ctp: string) {
   return ['rage', 'competition'].includes(normalizeCtpKeyForReadiness(ctp));
+}
+
+function isZeusJudgementDealer(member?: SheetMember | null) {
+  return Boolean(member && normalizeCharacterKey(member.id) === 'zeus' && normalizeCtpKeyForReadiness(member.ctp) === 'judgement');
+}
+
+function isDealerReadyMember(member: SheetMember) {
+  return isDealerReadyCtp(member.ctp) || isZeusJudgementDealer(member);
 }
 
 function isBufferReadyCtp(ctp: string) {
@@ -853,7 +860,7 @@ function makeSlotKey(content: ScheduleContent, round: number, teamKind: TeamKind
 function getDefaultSlotRole(index: number, member?: SheetMember | null): UsageRoleGroup {
   if (member) {
     if (isBufferReadyCtp(member.ctp)) return 'buffer';
-    if (isDealerReadyCtp(member.ctp)) return 'dealer';
+    if (isDealerReadyMember(member)) return 'dealer';
   }
 
   return index === 1 ? 'dealer' : 'buffer';
@@ -882,7 +889,7 @@ function evaluateTeamReadiness(
 
   if (dealers.length !== 1) {
     reasons.push('딜러 1명 지정 필요');
-  } else if (!isDealerReadyCtp(dealers[0].member.ctp)) {
+  } else if (!isDealerReadyMember(dealers[0].member)) {
     reasons.push('딜러 CTP 분노/경쟁 필요');
   }
 
@@ -1357,7 +1364,7 @@ function PickerPanel({
           </div>
         </>
       ) : (
-        <div data-testid="alliance-battle-ctp-grid" className="grid min-h-0 grid-cols-5 grid-rows-3 gap-2 overflow-y-auto overscroll-contain p-3">
+        <div data-testid="alliance-battle-ctp-grid" className="grid min-h-0 grid-cols-2 gap-2 overflow-y-auto overscroll-contain p-3">
           {ctpOptions.map((ctp) => (
             <button
               key={ctp}

@@ -31,6 +31,20 @@ describe('TierListSection reorder engine', () => {
     expect(source).not.toContain('{typeLabels[entry.type]}</span>');
   });
 
+  it('places CTP beside the hero icon and keeps tier card names below the icon', () => {
+    expect(source).toContain('relative flex min-h-[96px] w-full flex-col items-center');
+    expect(source).toContain('rounded-none border border-slate-100 bg-white');
+    expect(source).toContain('flex w-full items-start justify-center gap-1.5');
+    expect(source).toContain('relative h-[52px] w-[52px] shrink-0 overflow-hidden rounded-none');
+    expect(source).toContain('className="grid h-8 w-8 shrink-0 place-items-center rounded-none');
+    expect(source).toContain('<p className="w-full truncate text-center text-[11px] font-black leading-tight text-slate-950" title={entry.displayName}>{entry.displayName}</p>');
+    expect(source).not.toContain('{entry.sourceLabel}</p>');
+    expect(source).not.toContain('THANO$VIB$ {thanosVibsTierListMeta.version}');
+    expect(source).not.toContain('thanosVibsTierListMeta');
+    expect(source).not.toContain('grid-cols-[42px_minmax(0,1fr)]');
+    expect(source).not.toContain('line-clamp-2 min-h-8');
+  });
+
   it('uses dnd-kit sortable grid primitives for 2d tier card movement', () => {
     expect(source).toContain("from '@dnd-kit/core'");
     expect(source).toContain("from '@dnd-kit/sortable'");
@@ -80,8 +94,9 @@ describe('TierListSection reorder engine', () => {
     expect(globals).toContain(".tier-motion-card[data-dragging='true']");
     expect(globals).toContain('will-change: transform');
     expect(globals).toContain('.tier-type-grid');
-    expect(globals).toContain('repeat(auto-fit, minmax(min(100%, 112px), 1fr))');
-    expect(globals).toContain('width: min(100%, calc(112px * 3 + 0.5rem * 2))');
+    expect(globals).toContain('repeat(auto-fit, minmax(min(100%, 104px), 1fr))');
+    expect(globals).toContain('width: min(100%, calc(104px * 3 + 0.5rem * 2))');
+    expect(globals).not.toContain('repeat(auto-fit, minmax(min(100%, 124px), 1fr))');
   });
 
   it('throttles drag-over work and narrows collision checks without changing the sortable animation engine', () => {

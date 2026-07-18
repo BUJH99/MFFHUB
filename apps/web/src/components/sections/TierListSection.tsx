@@ -37,7 +37,6 @@ import {
   type SyntheticEvent,
 } from 'react';
 import {
-  thanosVibsTierListMeta,
   tierListRowsByMode,
   type TierListCombatType,
   type TierListMode,
@@ -120,16 +119,16 @@ const lowValueTiers = new Set(['B-Tier', 'C-Tier', 'Poop Tier']);
 const elementalKeywords = ['elemental', 'fire', 'cold', 'lightning', 'mind', 'storm', 'scarlet', 'thor', 'luna', 'psylocke', 'mephisto'];
 const procKeywords = ['proc', 'ironman', 'sharon', 'cable', 'knull', 'hawkeye'];
 const typeTone: Record<TierListCombatType, string> = {
-  Combat: 'border-red-100 bg-red-50 text-red-700',
-  Blast: 'border-blue-100 bg-blue-50 text-blue-700',
-  Speed: 'border-emerald-100 bg-emerald-50 text-emerald-700',
-  Universal: 'border-violet-100 bg-violet-50 text-violet-700',
+  Combat: 'border-red-200 bg-red-100 text-red-800',
+  Blast: 'border-blue-200 bg-blue-100 text-blue-800',
+  Speed: 'border-emerald-200 bg-emerald-100 text-emerald-800',
+  Universal: 'border-violet-200 bg-violet-100 text-violet-800',
 };
 const typeSurfaceTone: Record<TierListCombatType, string> = {
-  Combat: 'border-red-100/80 bg-red-50/55',
-  Blast: 'border-sky-100/90 bg-sky-50/65',
-  Speed: 'border-emerald-100/90 bg-emerald-50/60',
-  Universal: 'border-violet-100/90 bg-violet-50/60',
+  Combat: 'border-red-200/80 bg-red-100/70',
+  Blast: 'border-sky-200/90 bg-sky-100/70',
+  Speed: 'border-emerald-200/90 bg-emerald-100/70',
+  Universal: 'border-violet-200/90 bg-violet-100/70',
 };
 const tierTone: Record<string, string> = {
   Meta: 'bg-fuchsia-600 text-white',
@@ -528,27 +527,23 @@ function TierCharacterCardBody({
 }) {
   const gearOption = getGearOption(gearId);
   return (
-      <article className={`relative grid min-h-[76px] w-full grid-cols-[42px_minmax(0,1fr)] gap-2 rounded-xl border border-slate-100 bg-white p-2 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-colors hover:border-[#3182f6]/40 ${
+      <article className={`relative flex min-h-[96px] w-full flex-col items-center justify-start gap-1.5 rounded-none border border-slate-100 bg-white p-2 text-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-colors hover:border-[#3182f6]/40 ${
         overlay ? 'scale-[1.04] border-blue-200 shadow-2xl ring-2 ring-blue-100' : ''
       }`}>
-        <div className="relative h-[42px] w-[42px] overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200">
-          <Image
-            src={entry.imageUrl}
-            alt={entry.displayName}
-            fill
-            sizes="42px"
-            unoptimized
-            draggable={false}
-            className="object-cover"
-            onError={(event) => imageFallback(event, entry.displayName)}
-          />
-        </div>
-        <div className="min-w-0">
-          <div className="flex items-start gap-1">
-            <p className="line-clamp-2 min-h-8 text-[11px] font-black leading-tight text-slate-950">{entry.displayName}</p>
+        <div className="flex w-full items-start justify-center gap-1.5">
+          <div className="relative h-[52px] w-[52px] shrink-0 overflow-hidden rounded-none bg-slate-100 ring-1 ring-slate-200">
+            <Image
+              src={entry.imageUrl}
+              alt={entry.displayName}
+              fill
+              sizes="52px"
+              unoptimized
+              draggable={false}
+              className="object-cover"
+              onError={(event) => imageFallback(event, entry.displayName)}
+            />
           </div>
-          <p className="mt-1 line-clamp-1 text-[10px] font-bold leading-tight text-slate-500">{entry.sourceLabel}</p>
-          <div className="relative mt-1 flex items-center gap-1">
+          <div className="relative shrink-0">
             <button
               type="button"
               data-testid={`tier-ctp-button-${mode}-${entry.key}`}
@@ -556,16 +551,16 @@ function TierCharacterCardBody({
               onMouseDown={(event) => event.stopPropagation()}
               onPointerDown={(event) => event.stopPropagation()}
               onTouchStart={(event) => event.stopPropagation()}
-              className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-slate-100 bg-slate-50 shadow-sm transition hover:border-purple-200 hover:bg-white"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-none border border-slate-100 bg-slate-50 shadow-sm transition hover:border-purple-200 hover:bg-white"
               aria-label={`${entry.displayName} CTP 편집`}
               title={gearOption.label}
               disabled={!onToggleGearMenu}
             >
-              <Image src={gearOption.iconSrc} alt={gearOption.label} width={22} height={22} unoptimized className="h-[22px] w-[22px] object-contain" />
+              <Image src={gearOption.iconSrc} alt={gearOption.label} width={24} height={24} unoptimized className="h-6 w-6 object-contain" />
             </button>
             <span className="sr-only">{gearOption.label}</span>
             {gearMenuOpen ? (
-              <div className="absolute bottom-8 left-0 z-30 grid w-48 grid-cols-5 gap-1 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+              <div className="absolute left-1/2 top-9 z-30 grid w-48 -translate-x-1/2 grid-cols-5 gap-1 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
                 {ctpOptions.map((option) => (
                   <button
                     key={option.id}
@@ -574,7 +569,7 @@ function TierCharacterCardBody({
                     onMouseDown={(event) => event.stopPropagation()}
                     onPointerDown={(event) => event.stopPropagation()}
                     onTouchStart={(event) => event.stopPropagation()}
-                    className={`grid h-8 w-8 place-items-center rounded-lg border transition ${
+                    className={`grid h-8 w-8 place-items-center rounded-none border transition ${
                       option.id === gearOption.id
                         ? 'border-purple-300 bg-purple-50 ring-2 ring-purple-100'
                         : 'border-slate-100 bg-slate-50 hover:border-purple-200 hover:bg-white'
@@ -589,7 +584,8 @@ function TierCharacterCardBody({
             ) : null}
           </div>
         </div>
-        <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-tr from-white/0 via-white/20 to-white/50 opacity-0 transition-opacity group-hover:opacity-100" />
+        <p className="w-full truncate text-center text-[11px] font-black leading-tight text-slate-950" title={entry.displayName}>{entry.displayName}</p>
+        <div className="pointer-events-none absolute inset-0 rounded-none bg-gradient-to-tr from-white/0 via-white/20 to-white/50 opacity-0 transition-opacity group-hover:opacity-100" />
       </article>
   );
 }
@@ -645,7 +641,7 @@ function TierSortableGrid({
         data-testid={`tier-drop-zone-${mode}-${tier}-${type}`}
         data-tier-drop-zone={tier}
         data-tier-type={type}
-        className={`grid min-h-[76px] gap-2 overflow-visible tier-type-grid transition-[background-color,box-shadow] duration-150 ${
+        className={`grid min-h-[96px] gap-2 overflow-visible tier-type-grid transition-[background-color,box-shadow] duration-150 ${
           isOver ? 'rounded-xl bg-white/60 shadow-[inset_0_0_0_2px_rgba(49,130,246,0.18)]' : ''
         }`}
       >
@@ -906,9 +902,6 @@ export function TierListSection({ mode }: { mode: TierListMode }) {
           <div>
             <p className={`text-sm font-black ${copy.accent}`}>{copy.eyebrow}</p>
             <h2 className="mt-1 text-2xl font-black text-slate-950">{copy.title}</h2>
-            <p className="mt-2 max-w-3xl text-sm font-bold leading-relaxed text-slate-500">
-              THANO$VIB$ {thanosVibsTierListMeta.version} · {thanosVibsTierListMeta.updateName} · {thanosVibsTierListMeta.updatedAt}
-            </p>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center text-xs font-black">
             <span className={`rounded-2xl px-4 py-3 ring-1 ${copy.soft}`}><b className="block text-xl">{allResolvedEntries.length}</b>{copy.countLabel}</span>
@@ -991,7 +984,7 @@ export function TierListSection({ mode }: { mode: TierListMode }) {
                           />
                         ))}
                         {entries.length === 0 ? (
-                          <div className="grid min-h-[76px] place-items-center rounded-xl border border-dashed border-white/80 bg-white/60 text-xs font-black text-slate-300">DROP</div>
+                          <div className="grid min-h-[96px] place-items-center rounded-xl border border-dashed border-white/80 bg-white/60 text-xs font-black text-slate-300">DROP</div>
                         ) : null}
                       </TierSortableGrid>
                     </div>

@@ -36,6 +36,25 @@ describe('dashboard text cleanup', () => {
     expect(dashboardSectionSource).toContain('<AccountSpecPanel page={page} />');
   });
 
+  it('keeps CTP equipped and spare counts compact in each inventory card header', () => {
+    expect(ctpInventorySource).toContain('function CompactCtpStat');
+    expect(ctpInventorySource).toContain("'SEMI PVE': \"S'PVE\"");
+    expect(ctpInventorySource).toContain("'SEMI PVP': \"S'PVP\"");
+    expect(ctpInventorySource).toContain('xl:grid-cols-2');
+    expect(ctpInventorySource).toContain('rounded-[28px] border border-slate-200 bg-slate-50/80 p-4 shadow-sm');
+    expect(ctpInventorySource).toContain('h-20 w-20');
+    expect(ctpInventorySource).toContain('min-w-0 flex-[1_1_220px]');
+    expect(ctpInventorySource).toContain('min-w-0 truncate text-3xl font-black text-slate-950');
+    expect(ctpInventorySource).toContain('{ctpRoleDisplayLabels[definition.role]}</span>');
+    expect(ctpInventorySource).toContain('<CompactCtpStat label="장착" value={equippedTotal} icon={<ShieldCheck size={22} strokeWidth={2.4} />} />');
+    expect(ctpInventorySource).toContain('<CompactCtpStat label="여유" value={spare} icon={<RotateCcw size={22} strokeWidth={2.4} />} tone="text-emerald-700" />');
+    expect(ctpInventorySource).toContain('text-5xl font-black leading-none text-slate-950');
+    expect(ctpInventorySource).toContain('grid place-items-center gap-2 rounded-none');
+    expect(ctpInventorySource).toContain('[font-family:Pretendard,system-ui,sans-serif]');
+    expect(ctpInventorySource).toContain('grid h-full w-full place-items-center');
+    expect(ctpInventorySource).not.toContain('mt-3 grid grid-cols-2 gap-2 text-center text-[11px] font-black');
+  });
+
   it('shows card attack as physical and energy totals with Korean pierce wording', () => {
     expect(accountInsightsSource).toContain('물리공격력 +{formatNumber(cardPhysicalAttack)}%');
     expect(accountInsightsSource).toContain('에너지공격력 +{formatNumber(cardEnergyAttack)}%');

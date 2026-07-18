@@ -101,7 +101,7 @@ img {
 }
 
 .tier-type-grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 112px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 104px), 1fr));
   justify-content: start;
-  width: min(100%, calc(112px * 3 + 0.5rem * 2));
+  width: min(100%, calc(104px * 3 + 0.5rem * 2));
 }

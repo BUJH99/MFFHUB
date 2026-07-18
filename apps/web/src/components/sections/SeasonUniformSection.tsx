@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-const years = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027] as const;
+const years = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030] as const;
 
 type Year = (typeof years)[number];
 type Gender = '여성' | '남성';
@@ -81,6 +81,7 @@ const seasonUniforms: SeasonBlock[] = [
           2023: hero('루나 스노우', 'lunasnow5'),
           2024: hero('사일록', 'psylocke4'),
           2025: hero('엠마 프로스트', 'emmafrost4'),
+          2026: hero('진 그레이', 'jeangrey4'),
         },
       },
       {
@@ -92,6 +93,7 @@ const seasonUniforms: SeasonBlock[] = [
           2023: hero('미스테리오', 'mysterio2'),
           2024: hero('온두', 'yondu3'),
           2025: hero('그루트', 'groot6'),
+          2026: hero('샌드맨', 'sandman1'),
         },
       },
     ],
@@ -228,11 +230,11 @@ function HeroTile({
     ) : null;
 
   return (
-    <div className={`mx-auto flex h-full flex-col items-center justify-start ${dense ? 'min-h-[78px] w-[66px]' : 'min-h-[112px] w-[82px]'}`}>
-      <div className={`relative shrink-0 overflow-hidden border border-slate-950 bg-slate-100 ${dense ? 'h-[54px] w-[54px]' : 'h-[60px] w-[60px]'}`}>
-        <Image src={character.imageUrl} alt={character.name} fill sizes={dense ? '54px' : '60px'} unoptimized className="object-cover" />
+    <div className={`mx-auto flex h-full flex-col items-center justify-start ${dense ? 'min-h-[74px] w-[76px]' : 'min-h-[112px] w-[82px]'}`}>
+      <div className={`relative shrink-0 overflow-hidden border border-slate-950 bg-slate-100 ${dense ? 'h-[50px] w-[50px]' : 'h-[60px] w-[60px]'}`}>
+        <Image src={character.imageUrl} alt={character.name} fill sizes={dense ? '50px' : '60px'} unoptimized className="object-cover" />
       </div>
-      <p className={`mt-1 w-full break-keep text-center font-semibold leading-tight text-slate-950 ${dense ? 'text-[11px]' : 'text-[12px]'}`}>{character.name}</p>
+      <p className={`mt-1 w-full break-keep text-center font-semibold leading-tight text-slate-950 ${dense ? 'truncate whitespace-nowrap text-[10px]' : 'text-[12px]'}`}>{character.name}</p>
       {ownedControl}
     </div>
   );
@@ -241,10 +243,10 @@ function HeroTile({
 function SeasonMatrix({ ownedUniformKeys, onToggleOwned }: { ownedUniformKeys: ReadonlySet<string>; onToggleOwned: (key: string) => void }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-900 bg-white shadow-sm" data-testid="season-uniform-matrix">
-      <table className="min-w-[1030px] table-fixed border-collapse text-center">
+      <table className="min-w-[1320px] table-fixed border-collapse text-center">
         <thead>
           <tr className="bg-[#c9c9c9] text-[12px] font-black text-slate-950">
-            <th className="h-[66px] w-[120px] border-2 border-slate-950">시즌</th>
+            <th className="h-[66px] w-[150px] border-2 border-slate-950">시즌</th>
             <th className="h-[66px] w-[64px] border-2 border-slate-950">성별</th>
             {years.map((year) => (
               <th key={year} className="h-[66px] w-[92px] border-2 border-slate-950">
@@ -258,7 +260,7 @@ function SeasonMatrix({ ownedUniformKeys, onToggleOwned }: { ownedUniformKeys: R
             season.rows.map((row, rowIndex) => (
               <tr key={`${season.name}-${row.gender}`} className="align-middle">
                 {rowIndex === 0 ? (
-                  <th rowSpan={season.rows.length} className={`w-[120px] border-2 border-slate-950 text-3xl font-black ${season.className}`}>
+                  <th rowSpan={season.rows.length} className={`w-[150px] whitespace-nowrap border-2 border-slate-950 text-3xl font-black ${season.className}`}>
                     {season.name}
                   </th>
                 ) : null}
@@ -284,8 +286,13 @@ function SeasonMatrix({ ownedUniformKeys, onToggleOwned }: { ownedUniformKeys: R
 
 function RecommendationTable({ title, titleClassName, rows }: { title: string; titleClassName: string; rows: RecommendationRow[] }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-slate-900 bg-white shadow-sm">
-      <table className="min-w-[380px] table-fixed border-collapse text-center">
+    <div className="overflow-hidden rounded-lg border border-slate-900 bg-white shadow-sm">
+      <table className="w-full table-fixed border-collapse text-center">
+        <colgroup>
+          <col className="w-[84px]" />
+          <col className="w-[36px]" />
+          <col />
+        </colgroup>
         <thead>
           <tr>
             <th colSpan={3} className={`h-[58px] border-2 border-slate-950 bg-[#fff600] text-xl font-black ${titleClassName}`}>
@@ -293,18 +300,18 @@ function RecommendationTable({ title, titleClassName, rows }: { title: string; t
             </th>
           </tr>
           <tr className="bg-[#c9c9c9] text-[12px] font-black text-slate-950">
-            <th className="w-[88px] border-2 border-slate-950 py-2">시즌</th>
-            <th className="w-[64px] border-2 border-slate-950 py-2">성별</th>
+            <th className="w-[84px] border-2 border-slate-950 py-2">시즌</th>
+            <th className="w-[36px] border-2 border-slate-950 px-0 py-2">성별</th>
             <th className="border-2 border-slate-950 py-2">캐릭터</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={`${title}-${row.season}-${row.gender}`} className="align-middle">
-              <th className={`border-2 border-slate-950 px-2 py-2 text-lg font-black ${seasonStyles[row.season]}`}>{row.season}</th>
-              <td className="border-2 border-slate-950 bg-[#c9c9c9] px-2 py-2 text-[13px] font-semibold text-slate-950">{row.gender}</td>
-              <td className="border border-slate-950 px-2 py-2">
-                <div className="flex min-h-[78px] flex-wrap items-start justify-center gap-2">
+              <th className={`whitespace-nowrap border-2 border-slate-950 px-1.5 py-2 text-base font-black ${seasonStyles[row.season]}`}>{row.season}</th>
+              <td className="whitespace-nowrap border-2 border-slate-950 bg-[#c9c9c9] px-0 py-2 text-[13px] font-semibold text-slate-950">{row.gender}</td>
+              <td className="overflow-hidden border border-slate-950 px-1 py-2">
+                <div className="flex min-h-[74px] max-w-full flex-nowrap items-start justify-center gap-1.5 overflow-hidden">
                   {row.heroes.map((character) => (
                     <HeroTile key={`${row.season}-${row.gender}-${character.name}`} hero={character} dense />
                   ))}
@@ -370,7 +377,7 @@ export function SeasonUniformSection() {
             <h3 className="mt-1 text-2xl font-black text-slate-950">시즌 유니폼</h3>
           </div>
           <div className="flex flex-wrap gap-2 text-sm font-black">
-            <span className="rounded-md bg-slate-950 px-3 py-2 text-white">2019-2027</span>
+            <span className="rounded-md bg-slate-950 px-3 py-2 text-white">2019-2030</span>
             <span className="rounded-md bg-blue-50 px-3 py-2 text-blue-700">총 {totalUniforms}종</span>
             <span className="rounded-md bg-red-50 px-3 py-2 text-red-600">PVP 추천 {pvpRecommendations.reduce((sum, row) => sum + row.heroes.length, 0)}명</span>
             <span className="rounded-md bg-blue-50 px-3 py-2 text-blue-700">PVE 추천 {pveRecommendations.reduce((sum, row) => sum + row.heroes.length, 0)}명</span>
@@ -380,7 +387,7 @@ export function SeasonUniformSection() {
         </div>
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(380px,480px)]">
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
         <SeasonMatrix ownedUniformKeys={ownedUniformKeys} onToggleOwned={toggleOwnedUniform} />
         <div className="grid content-start gap-5" data-testid="season-recommendations">
           <RecommendationTable title="PVP 추천" titleClassName="text-red-600" rows={pvpRecommendations} />

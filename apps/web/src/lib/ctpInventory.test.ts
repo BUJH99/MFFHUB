@@ -77,11 +77,27 @@ describe('ctp inventory', () => {
   });
 
   it('groups CTPs by the requested inventory roles', () => {
+    expect(ctpDefinitions.map((ctp) => ctp.koreanName)).toEqual([
+      '분노',
+      '경쟁',
+      '통찰',
+      '해방',
+      '극복',
+      '탐욕',
+      '심판',
+      '격동[에너지]',
+      '파괴',
+      '권능',
+      '재생',
+      '제련',
+      '초월',
+      '인내',
+    ]);
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'PVE').map((ctp) => ctp.koreanName)).toEqual(['분노', '경쟁']);
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'SEMI PVE').map((ctp) => ctp.koreanName)).toEqual(['심판', '격동[에너지]', '파괴']);
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'Support').map((ctp) => ctp.koreanName)).toEqual(['통찰', '해방']);
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'PVP').map((ctp) => ctp.koreanName)).toEqual(['극복', '탐욕']);
-    expect(ctpDefinitions.filter((ctp) => ctp.role === 'SEMI PVP').map((ctp) => ctp.koreanName)).toEqual(['재생', '제련', '권능']);
+    expect(ctpDefinitions.filter((ctp) => ctp.role === 'SEMI PVP').map((ctp) => ctp.koreanName)).toEqual(['권능', '재생', '제련']);
     expect(ctpDefinitions.filter((ctp) => ctp.role === 'WASTE').map((ctp) => ctp.koreanName)).toEqual(['초월', '인내']);
 
     const summary = summarizeCtpInventory(createDefaultCtpInventory());

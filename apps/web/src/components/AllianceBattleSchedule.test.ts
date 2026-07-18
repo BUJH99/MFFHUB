@@ -40,7 +40,7 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).toContain('role={getSlotRole(content, round, teamKind, index, roleOverrides, member)}');
     expect(source).toContain('function getDefaultSlotRole(index: number, member?: SheetMember | null): UsageRoleGroup');
     expect(source).toContain("if (isBufferReadyCtp(member.ctp)) return 'buffer';");
-    expect(source).toContain("if (isDealerReadyCtp(member.ctp)) return 'dealer';");
+    expect(source).toContain("if (isDealerReadyMember(member)) return 'dealer';");
     expect(source).toContain('getSlotRole(content, day.round, teamKind, index, roleOverrides, member)');
     expect(source).toContain("previous[slotKey] === 'dealer' ? 'buffer' : 'dealer'");
     expect(source).not.toContain("index === 0 ? '리더' : index === 1 ? '딜러' : '지원'");
@@ -76,6 +76,7 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
   it('adds tag-play and solo-deal readiness indicators based on dealer and buffer CTPs', () => {
     expect(source).toContain('function evaluateTeamReadiness');
     expect(source).toContain('function isDealerReadyCtp');
+    expect(source).toContain('function isDealerReadyMember');
     expect(source).toContain('function isBufferReadyCtp');
     expect(source).toContain('function isSoloDealBufferSetReady');
     expect(source).toContain("['rage', 'competition'].includes");
@@ -86,6 +87,20 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).toContain('data-testid="alliance-battle-team-ready-warning"');
     expect(source).toContain('솔딜 버퍼 CTP 통찰+해방 중복 없이 필요');
     expect(source).toContain('태그플 버퍼 CTP 통찰 또는 해방 필요');
+  });
+
+  it('defaults Zeus tag-play slots to Judgement and keeps Zeus treated as a dealer', () => {
+    expect(source).toContain("zeus: 'Judgement',");
+    expect(source).toContain("12: { tagPlay: ['Rage', 'Judgement', 'Competition']");
+    expect(source).toContain("19: { tagPlay: ['Rage', 'Judgement', 'Competition']");
+    expect(source).toContain("25: { tagPlay: ['Rage', 'Judgement', 'Competition']");
+    expect(source).toContain("1: { tagPlay: ['Liberation', 'Judgement', 'Competition']");
+    expect(source).toContain("22: { tagPlay: ['Liberation', 'Judgement', 'Competition']");
+    expect(source).toContain('function isZeusJudgementDealer');
+    expect(source).toContain("normalizeCharacterKey(member.id) === 'zeus'");
+    expect(source).toContain("normalizeCtpKeyForReadiness(member.ctp) === 'judgement'");
+    expect(source).toContain('isDealerReadyCtp(member.ctp) || isZeusJudgementDealer(member)');
+    expect(source).toContain('!isDealerReadyMember(dealers[0].member)');
   });
 
   it('splits the ABX/ABL rotation into two 14-round table chunks and places rankings below the tables', () => {
@@ -177,11 +192,13 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expect(source).not.toContain('if (!query) return characterPickerMembers;');
   });
 
-  it('renders the ABX/ABL CTP picker as a fixed 5 by 3 grid', () => {
+  it('renders the ABX/ABL CTP picker as the requested two-column pair grid', () => {
     expect(source).toContain('data-testid="alliance-battle-ctp-grid"');
-    expect(source).toContain('grid-cols-5 grid-rows-3');
+    expect(source).toContain('grid-cols-2 gap-2');
+    expect(source).toContain("'Rage',\n  'Competition',\n  'Insight',\n  'Liberation',\n  'Conquest',\n  'Greed',");
+    expect(source).not.toContain("'Veteran'");
     expect(source).toContain('flex min-h-[64px] flex-col items-center justify-center gap-1.5');
-    expect(source).not.toContain('grid-cols-[repeat(auto-fill,minmax(96px,1fr))]');
+    expect(source).not.toContain('grid-cols-5 grid-rows-3');
   });
 
   it('uses the requested ABX/ABL combo schedule and keeps Infinity Challenge combos in the ABX sheet', () => {
@@ -216,6 +233,10 @@ describe('AllianceBattleSchedule picker scroll behavior', () => {
     expectedAbxCombos.forEach((comboLine) => expect(source).toContain(comboLine));
     expectedAblCombos.forEach((comboLine) => expect(source).toContain(comboLine));
     expect(source).toContain("thor: { id: 'thor', name: '토르', portraitUrl: portrait('thor10') },");
+    expect(source).toContain("odin: { id: 'odin', name: '오딘', portraitUrl: portrait('odin3') },");
+    expect(source).not.toContain("odin: { id: 'odin', name: '오딘', portraitUrl: portrait('odin2') },");
+    expect(source).toContain("jeanGrey: { id: 'jean-grey', name: '진 그레이', portraitUrl: portrait('jeangrey4') },");
+    expect(source).not.toContain("jeanGrey: { id: 'jean-grey', name: '진 그레이', portraitUrl: portrait('jeangrey3') },");
     expect(source).toContain("kingpin: { id: 'kingpin', name: '킹핀', portraitUrl: portrait('kingpin3') },");
     expect(source).toContain("content === 'ABX' ? day.abx || day.infinite : day.abl");
     expect(source).toContain('data-testid="alliance-battle-empty-combo"');

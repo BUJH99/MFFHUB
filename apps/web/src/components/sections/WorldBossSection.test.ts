@@ -36,10 +36,23 @@ describe('WorldBossSection picker scroll behavior', () => {
   });
 
   it('keeps stage rows thin while fitting up to four condition icons in one line', () => {
-    expect(source).toContain('flex flex-nowrap justify-center gap-1 overflow-hidden');
+    expect(source).toContain('flex flex-nowrap justify-start gap-1 overflow-hidden');
     expect(source).toContain('grid h-8 w-8 shrink-0 place-items-center');
-    expect(source).toContain('md:grid-cols-[58px_148px_176px]');
+    expect(source).toContain('md:grid-cols-[max-content_max-content_minmax(0,1fr)]');
     expect(source).toContain('flex min-h-9 w-full flex-wrap gap-1 rounded-lg');
+    expect(source).toContain('<StageUnlockIcons boss={boss} stage={stage} active={stageActive} />');
+    expect(source).toContain('function StageUnlockIcons');
+    expect(source).toContain('unlockBelongsToStageRange(stage.range, unlock.stage)');
+    expect(source).toContain('function unlockBucketStartForStageRange');
+    expect(source).toContain('if (!parsedRange || parsedRange.start < 10) return undefined;');
+    expect(source).toContain('Math.floor(parsedRange.start / 10) * 10');
+    expect(source).toContain('unlockStage === unlockBucketStart');
+    expect(source).toContain('function unlockBucketLabel');
+    expect(source).toContain('`${unlockBucketStart}-${unlockBucketStart + 9}층`');
+    expect(source).not.toContain('function UnlockStrip');
+    expect(source).not.toContain('<UnlockStrip boss={selectedBoss} />');
+    expect(source).not.toContain('층 해금');
+    expect(source).not.toContain('md:grid-cols-[minmax(104px,auto)_148px_176px]');
     expect(source).not.toContain('md:grid-cols-[72px_150px_minmax(0,1fr)]');
     expect(source).not.toContain('flex min-h-12 flex-wrap gap-2');
   });
@@ -54,18 +67,24 @@ describe('WorldBossSection picker scroll behavior', () => {
 
   it('renders editable current stage and conquest level fields on the selected boss hero image', () => {
     expect(source).toContain('function BossHero');
+    expect(source).toContain('function BossProgressControl');
+    expect(source).toContain('adjustProgressValue');
     expect(source).toContain('도전 층');
     expect(source).toContain('정복 Lv');
+    expect(source).toContain('aria-label={`${label} 감소`}');
+    expect(source).toContain('aria-label={`${label} 증가`}');
+    expect(source).toContain('bg-white/[0.92]');
     expect(source).toContain('<BossHero boss={selectedBoss} progress={selectedBossProgress} onProgressChange={updateBossProgress} />');
     expect(source).not.toContain('function BossProgressPanel');
   });
 
-  it('keeps top boss cards as compact result summaries without input controls', () => {
+  it('places compact boss cards as a left two-column list beside the selected boss image', () => {
     expect(source).toContain('min-h-[72px]');
-    expect(source).toContain('lg:grid-cols-5');
+    expect(source).toContain('xl:grid-cols-[minmax(360px,520px)_minmax(0,1fr)]');
+    expect(source).toContain('grid gap-2 sm:grid-cols-2 xl:grid-cols-2');
     expect(source).toContain('{currentStageLabel}');
     expect(source).toContain('{conquestLevelLabel}');
-    expect(source).not.toContain('min-h-[96px]');
+    expect(source).not.toContain('grid gap-2 sm:grid-cols-2 lg:grid-cols-5');
     expect(source).not.toContain('min-h-[148px]');
     expect(source).not.toContain('pb-[70px]');
   });

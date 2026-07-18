@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-05-20T13:09:06.019Z",
+  "syncedAt": "2026-07-17T17:47:29.929Z",
   "source": "https://thanosvibs.money",
   "pages": {
     "uniforms": "https://thanosvibs.money/uniforms",
@@ -337,7 +337,7 @@
     {
       "id": "apocalypse",
       "name": "Apocalypse",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/apocalypse2.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/apocalypse.png",
       "combatType": "Combat",
       "side": "Villain",
       "gender": "Male",
@@ -347,21 +347,21 @@
         "Pureevil",
         "Durability",
         "Energy",
+        "Physical",
+        "Fire",
         "Mind",
         "Instinct:Destruction",
         "Source:Comic",
         "Tier-4",
         "Tier-3",
-        "Physical",
-        "Fire",
         "lead-support-data",
         "artifact-data",
         "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/apocalypse2.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\apocalypse2.webp"
+      "localPortraitUrl": "/mff-assets/characters/apocalypse.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\apocalypse.webp"
     },
     {
       "id": "arachknight",
@@ -623,26 +623,27 @@
     {
       "id": "blackcat",
       "name": "Black Cat",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/blackcat3.png",
-      "combatType": "Speed",
-      "side": "Villain",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/blackcat4.png",
+      "combatType": "Universal",
+      "side": "Hero",
       "gender": "Female",
       "species": "Human",
       "tags": [
         "Agility",
         "Physical",
         "Instinct:Cruelty",
-        "Source:Original",
-        "Transcended",
         "Source:Comic",
+        "Tier-4",
+        "Transcended",
+        "Source:Original",
         "lead-support-data",
         "artifact-data",
         "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/blackcat3.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\blackcat3.webp"
+      "localPortraitUrl": "/mff-assets/characters/blackcat4.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\blackcat4.webp"
     },
     {
       "id": "blackdwarf",
@@ -2401,7 +2402,7 @@
     {
       "id": "gorr",
       "name": "Gorr",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/gorr1.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/gorr2.png",
       "combatType": "Universal",
       "side": "Villain",
       "gender": "Male",
@@ -2409,18 +2410,22 @@
       "tags": [
         "Healing",
         "Pureevil",
-        "Fastmovement",
+        "Symbiote",
         "Physical",
         "Instinct:Destruction",
-        "Source:Mcu",
+        "Source:Comic",
+        "Tier-4",
         "Tier-3",
+        "Fastmovement",
+        "Source:Mcu",
         "lead-support-data",
-        "artifact-data"
+        "artifact-data",
+        "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/gorr1.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\gorr1.webp"
+      "localPortraitUrl": "/mff-assets/characters/gorr2.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\gorr2.webp"
     },
     {
       "id": "greengoblin",
@@ -3281,9 +3286,9 @@
     {
       "id": "jeangrey",
       "name": "Jean Grey",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jeangrey3.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jeangrey4.png",
       "combatType": "Universal",
-      "side": "Villain",
+      "side": "Hero",
       "gender": "Female",
       "species": "Mutant",
       "tags": [
@@ -3293,17 +3298,18 @@
         "Energy",
         "Fire",
         "Instinct:Order",
-        "Source:Comic",
+        "Source:Original",
         "Tier-4",
         "Tier-3",
+        "Source:Comic",
         "lead-support-data",
         "artifact-data",
         "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/jeangrey3.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\jeangrey3.webp"
+      "localPortraitUrl": "/mff-assets/characters/jeangrey4.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\jeangrey4.webp"
     },
     {
       "id": "jeffthelandshark",
@@ -3357,7 +3363,7 @@
     {
       "id": "jubilee",
       "name": "Jubilee",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jubilee.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jubilee1.png",
       "combatType": "Blast",
       "side": "Hero",
       "gender": "Female",
@@ -3366,14 +3372,18 @@
         "Energyprojection",
         "Energy",
         "Instinct:Order",
-        "Source:Comic",
+        "Source:Animation",
+        "Tier-4",
         "Transcended",
-        "artifact-data"
+        "Source:Comic",
+        "lead-support-data",
+        "artifact-data",
+        "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/jubilee.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\jubilee.webp"
+      "localPortraitUrl": "/mff-assets/characters/jubilee1.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\jubilee1.webp"
     },
     {
       "id": "juggernaut",
@@ -4052,9 +4062,9 @@
     {
       "id": "magneto",
       "name": "Magneto",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/magneto3.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/magneto4.png",
       "combatType": "Blast",
-      "side": "Villain",
+      "side": "Hero",
       "gender": "Male",
       "species": "Mutant",
       "tags": [
@@ -4062,20 +4072,21 @@
         "Mindresist",
         "Energy",
         "Instinct:Destruction",
-        "Source:Original",
+        "Source:Animation",
         "Tier-4",
         "Tier-3",
         "Lightning",
         "Source:Comic",
         "Physical",
+        "Source:Original",
         "lead-support-data",
         "artifact-data",
         "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/magneto3.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\magneto3.webp"
+      "localPortraitUrl": "/mff-assets/characters/magneto4.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\magneto4.webp"
     },
     {
       "id": "makkari",
@@ -4619,6 +4630,29 @@
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\morganlefay1.webp"
     },
     {
+      "id": "morph",
+      "name": "Morph",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/morph.png",
+      "combatType": "Combat",
+      "side": "Hero",
+      "gender": "Neutral",
+      "species": "Mutant",
+      "tags": [
+        "Weaponsmaster",
+        "Agility",
+        "Physical",
+        "Instinct:Order",
+        "Source:Animation",
+        "Tier-3",
+        "lead-support-data",
+        "artifact-data"
+      ],
+      "source": "thanosvibs",
+      "sourceUrl": "https://thanosvibs.money",
+      "localPortraitUrl": "/mff-assets/characters/morph.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\morph.webp"
+    },
+    {
       "id": "msmarvelkamalakhan",
       "name": "Ms. Marvel (Kamala Khan)",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/kamalakhan5.png",
@@ -4900,7 +4934,7 @@
     {
       "id": "odin",
       "name": "Odin",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/odin2.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/odin3.png",
       "combatType": "Universal",
       "side": "Hero",
       "gender": "Male",
@@ -4922,8 +4956,8 @@
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/odin2.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\odin2.webp"
+      "localPortraitUrl": "/mff-assets/characters/odin3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\odin3.webp"
     },
     {
       "id": "okoye",
@@ -5588,7 +5622,7 @@
     {
       "id": "sandman",
       "name": "Sandman",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/sandman.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/sandman1.png",
       "combatType": "Combat",
       "side": "Villain",
       "gender": "Male",
@@ -5597,18 +5631,22 @@
         "Durability",
         "Sinistersix",
         "Physical",
-        "Energy",
         "Lightning",
         "Mind",
         "Instinct:Cruelty",
-        "Source:Comic",
+        "Source:Original",
+        "Tier-4",
         "Transcended",
-        "artifact-data"
+        "Energy",
+        "Source:Comic",
+        "lead-support-data",
+        "artifact-data",
+        "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/sandman.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\sandman.webp"
+      "localPortraitUrl": "/mff-assets/characters/sandman1.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\sandman1.webp"
     },
     {
       "id": "satana",
@@ -7087,7 +7125,7 @@
     {
       "id": "valkyrie",
       "name": "Valkyrie",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/valkyrie2.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/valkyrie3.png",
       "combatType": "Combat",
       "side": "Hero",
       "gender": "Female",
@@ -7096,17 +7134,18 @@
         "Strong",
         "Physical",
         "Instinct:Order",
-        "Source:Mcu",
-        "Transcended",
         "Source:Comic",
+        "Tier-4",
+        "Transcended",
+        "Source:Mcu",
         "lead-support-data",
         "artifact-data",
         "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/valkyrie2.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\valkyrie2.webp"
+      "localPortraitUrl": "/mff-assets/characters/valkyrie3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\valkyrie3.webp"
     },
     {
       "id": "venom",
@@ -7510,7 +7549,7 @@
     {
       "id": "whitefox",
       "name": "White Fox",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/whitefox2.png",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/whitefox3.png",
       "combatType": "Speed",
       "side": "Hero",
       "gender": "Female",
@@ -7520,19 +7559,20 @@
         "Agent",
         "Leadership",
         "Physical",
-        "Cold",
         "Instinct:Justice",
-        "Source:Original",
-        "Tier-3",
         "Source:Comic",
+        "Tier-4",
+        "Tier-3",
+        "Source:Original",
+        "Cold",
         "lead-support-data",
         "artifact-data",
         "uniform-data"
       ],
       "source": "thanosvibs",
       "sourceUrl": "https://thanosvibs.money",
-      "localPortraitUrl": "/mff-assets/characters/whitefox2.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\whitefox2.webp"
+      "localPortraitUrl": "/mff-assets/characters/whitefox3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\whitefox3.webp"
     },
     {
       "id": "whitetiger",
@@ -7766,6 +7806,32 @@
       "sourceUrl": "https://thanosvibs.money",
       "localPortraitUrl": "/mff-assets/characters/yondu3.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\yondu3.webp"
+    },
+    {
+      "id": "youngapocalypse",
+      "name": "Young Apocalypse",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/apocalypse3.png",
+      "combatType": "Combat",
+      "side": "Villain",
+      "gender": "Male",
+      "species": "Mutant",
+      "tags": [
+        "Fastmovement",
+        "Pureevil",
+        "Durability",
+        "Energy",
+        "Mind",
+        "Instinct:Destruction",
+        "Source:Animation",
+        "Tier-4",
+        "Tier-3",
+        "lead-support-data",
+        "uniform-data"
+      ],
+      "source": "thanosvibs",
+      "sourceUrl": "https://thanosvibs.money",
+      "localPortraitUrl": "/mff-assets/characters/apocalypse3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\characters\\apocalypse3.webp"
     },
     {
       "id": "zeus",
@@ -8488,6 +8554,21 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/blackcat1.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\blackcat1.webp"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "name": "Queen in Black",
+      "acquisition": "1750 Crystals",
+      "cost": "1750 Crystals",
+      "releaseUpdate": "Update 11.9.5",
+      "releaseDate": "June 10, 2026",
+      "portraitId": "blackcat4",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/blackcat4.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/blackcat4.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/blackcat4.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\blackcat4.webp"
     },
     {
       "character": "Black Cat",
@@ -10912,6 +10993,21 @@
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\giantman1.webp"
     },
     {
+      "character": "Gorr",
+      "characterId": "gorr",
+      "name": "The God Butcher",
+      "acquisition": "3250 Crystals",
+      "cost": "3250 Crystals",
+      "releaseUpdate": "Update 11.9",
+      "releaseDate": "May 20, 2026",
+      "portraitId": "gorr2",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/gorr2.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/gorr2.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/gorr2.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\gorr2.webp"
+    },
+    {
       "character": "Green Goblin",
       "characterId": "greengoblin",
       "name": "Dark Avengers",
@@ -11983,6 +12079,22 @@
     {
       "character": "Jean Grey",
       "characterId": "jeangrey",
+      "name": "Summer Flare Phoenix",
+      "acquisition": "Summer Exclusive (Paywall)",
+      "season": "Summer",
+      "cost": "Paywall",
+      "releaseUpdate": "Update 12.0.5",
+      "releaseDate": "July 8, 2026",
+      "portraitId": "jeangrey4",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jeangrey4.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/jeangrey4.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/jeangrey4.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\jeangrey4.webp"
+    },
+    {
+      "character": "Jean Grey",
+      "characterId": "jeangrey",
       "name": "X-Men Red",
       "acquisition": "2500 Crystals",
       "cost": "2500 Crystals",
@@ -12009,6 +12121,21 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/jessicajones1.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\jessicajones1.webp"
+    },
+    {
+      "character": "Jubilee",
+      "characterId": "jubilee",
+      "name": "Marvel Animation's X-Men '97",
+      "acquisition": "1750 Crystals",
+      "cost": "1750 Crystals",
+      "releaseUpdate": "Update 12.0",
+      "releaseDate": "June 24, 2026",
+      "portraitId": "jubilee1",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jubilee1.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/jubilee1.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/jubilee1.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\jubilee1.webp"
     },
     {
       "character": "Juggernaut",
@@ -12438,7 +12565,7 @@
       "acquisition": "1750 Crystals",
       "cost": "1750 Crystals",
       "releaseUpdate": "Update 11.8.5",
-      "releaseDate": "April 22, 2026",
+      "releaseDate": "April 29, 2026",
       "portraitId": "lunasnow5",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/lunasnow5.png",
       "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/lunasnow5.png",
@@ -12614,6 +12741,21 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/magneto3.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\magneto3.webp"
+    },
+    {
+      "character": "Magneto",
+      "characterId": "magneto",
+      "name": "Marvel Animation's X-Men '97",
+      "acquisition": "1750 Crystals",
+      "cost": "1750 Crystals",
+      "releaseUpdate": "Update 12.0",
+      "releaseDate": "June 24, 2026",
+      "portraitId": "magneto4",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/magneto4.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/magneto4.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/magneto4.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\magneto4.webp"
     },
     {
       "character": "Magneto",
@@ -12923,7 +13065,7 @@
       "acquisition": "1750 Crystals",
       "cost": "1750 Crystals",
       "releaseUpdate": "Update 11.8.5",
-      "releaseDate": "April 22, 2026",
+      "releaseDate": "April 29, 2026",
       "portraitId": "moonknight4",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/moonknight4.png",
       "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/moonknight4.png",
@@ -13337,6 +13479,21 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/odin2.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\odin2.webp"
+    },
+    {
+      "character": "Odin",
+      "characterId": "odin",
+      "name": "Lord of Asgard",
+      "acquisition": "2500 Crystals",
+      "cost": "2500 Crystals",
+      "releaseUpdate": "Update 11.9",
+      "releaseDate": "May 20, 2026",
+      "portraitId": "odin3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/odin3.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/odin3.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/odin3.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\odin3.webp"
     },
     {
       "character": "Phil Coulson",
@@ -14091,6 +14248,22 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/sabretooth1.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\sabretooth1.webp"
+    },
+    {
+      "character": "Sandman",
+      "characterId": "sandman",
+      "name": "Beach Fortress",
+      "acquisition": "Summer Exclusive (1750 Crystals)",
+      "season": "Summer",
+      "cost": "1750 Crystals",
+      "releaseUpdate": "Update 12.0.5",
+      "releaseDate": "July 8, 2026",
+      "portraitId": "sandman1",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/sandman1.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/sandman1.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/sandman1.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\sandman1.webp"
     },
     {
       "character": "Satana",
@@ -15649,6 +15822,21 @@
     {
       "character": "Valkyrie",
       "characterId": "valkyrie",
+      "name": "Asgardians of the Galaxy",
+      "acquisition": "1750 Crystals",
+      "cost": "1750 Crystals",
+      "releaseUpdate": "Update 11.9",
+      "releaseDate": "May 20, 2026",
+      "portraitId": "valkyrie3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/valkyrie3.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/valkyrie3.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/valkyrie3.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\valkyrie3.webp"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
       "name": "Fearless Defenders",
       "acquisition": "1750 Crystals",
       "cost": "1750 Crystals",
@@ -16081,6 +16269,21 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/wenwu1.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\wenwu1.webp"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "name": "Agent F-One",
+      "acquisition": "1750 Crystals",
+      "cost": "1750 Crystals",
+      "releaseUpdate": "Update 11.9.5",
+      "releaseDate": "June 10, 2026",
+      "portraitId": "whitefox3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/whitefox3.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/whitefox3.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/whitefox3.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\whitefox3.webp"
     },
     {
       "character": "White Fox",
@@ -16518,6 +16721,21 @@
       "sourceUrl": "https://thanosvibs.money/uniforms",
       "localImageUrl": "/mff-assets/uniforms/yondu3.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\yondu3.webp"
+    },
+    {
+      "character": "Young Apocalypse",
+      "characterId": "youngapocalypse",
+      "name": "Marvel Animation's X-Men '97",
+      "acquisition": "2500 Crystals",
+      "cost": "2500 Crystals",
+      "releaseUpdate": "Update 12.0",
+      "releaseDate": "June 24, 2026",
+      "portraitId": "apocalypse3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/apocalypse3.png",
+      "imageUrl": "https://thanosvibs.money/static/assets/portraits_128/apocalypse3.png",
+      "sourceUrl": "https://thanosvibs.money/uniforms",
+      "localImageUrl": "/mff-assets/uniforms/apocalypse3.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\apocalypse3.webp"
     }
   ],
   "artifacts": [
@@ -20885,6 +21103,33 @@
       "sourceUrl": "https://thanosvibs.money/artifacts",
       "localImageUrl": "/mff-assets/artifacts/artifactmorganlefay.webp",
       "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\artifacts\\artifactmorganlefay.webp"
+    },
+    {
+      "character": "Morph",
+      "characterId": "morph",
+      "name": "Master of Shapeshifting",
+      "exclusiveSkill": "Various Transformations",
+      "pveScore": "High",
+      "pvpScore": "Low",
+      "effects": [
+        "3★: Applies to: Self",
+        "3★: • Ignores target's Dodge Rate by 8%, and an additional 0.2% of total Instinct. (Up to 200%)",
+        "3★: • Increases All Basic Attacks by 5%, and an additional 0.2% of total Instinct. (Up to 200%)",
+        "4★: Applies to: Self",
+        "4★: • Ignores target's Dodge Rate by 12%, and an additional 0.3% of total Instinct. (Up to 200%)",
+        "4★: • Increases All Basic Attacks by 10%, and an additional 0.3% of total Instinct. (Up to 200%)",
+        "5★: Applies to: Self",
+        "5★: • Ignores target's Dodge Rate by 16%, and an additional 0.4% of total Instinct. (Up to 200%)",
+        "5★: • Increases All Basic Attacks by 15%, and an additional 0.4% of total Instinct. (Up to 200%)",
+        "6★: Applies to: Self",
+        "6★: • Ignores target's Dodge Rate by 20%, and an additional 0.5% of total Instinct. (Up to 200%)",
+        "6★: • Increases All Basic Attacks by 20%, and an additional 0.5% of total Instinct. (Up to 200%)"
+      ],
+      "releaseUpdate": "Update 12.0",
+      "imageUrl": "https://thanosvibs.money/static/assets/items/artifact_morph.png",
+      "sourceUrl": "https://thanosvibs.money/artifacts",
+      "localImageUrl": "/mff-assets/artifacts/artifactmorph.webp",
+      "localImagePath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\artifacts\\artifactmorph.webp"
     },
     {
       "character": "Ms. Marvel (Kamala Khan)",
@@ -30371,6 +30616,34 @@
     {
       "character": "Black Cat",
       "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "leadership": [
+        "All Basic Attacks 65%",
+        "Ignore Dodge 35%"
+      ],
+      "passive": [
+        "All Debuffs Effect 40%"
+      ],
+      "uniformEffect": [],
+      "artifactExclusiveSkill": [
+        "Basic Damage Dealt to Villains 4% 0.2%",
+        "Basic Damage Dealt to Heroes 4% 0.2%",
+        "Basic Damage Dealt to Boss Types 8% 0.1%",
+        "Basic Damage Dealt to Villains 6% 0.2%",
+        "Basic Damage Dealt to Heroes 6% 0.2%",
+        "Basic Damage Dealt to Boss Types 12% 0.1%",
+        "Basic Damage Dealt to Villains 8% 0.2%",
+        "Basic Damage Dealt to Heroes 8% 0.2%",
+        "Basic Damage Dealt to Boss Types 16% 0.1%",
+        "Basic Damage Dealt to Villains 10% 0.2%",
+        "Basic Damage Dealt to Heroes 10% 0.2%",
+        "Basic Damage Dealt to Boss Types 20% 0.1%"
+      ],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
       "uniform": "Winter Criminal",
       "leadership": [
         "All Basic Attacks 65%",
@@ -31961,6 +32234,22 @@
       "sourceUrl": "https://thanosvibs.money/supports"
     },
     {
+      "character": "Jubilee",
+      "characterId": "jubilee",
+      "uniform": "Marvel Animation's X-Men '97",
+      "leadership": [],
+      "passive": [
+        "Basic Damage Dealt to Villains 35%",
+        "Basic Damage Received from Villains -45%",
+        "Basic Damage Received from Heroes -45%"
+      ],
+      "uniformEffect": [
+        "Ignore Non-Boss Damage Decrease 15%"
+      ],
+      "artifactExclusiveSkill": [],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
       "character": "Kahhori",
       "characterId": "kahhori",
       "uniform": "Marvel Studios' What If...?",
@@ -32575,6 +32864,19 @@
         "Basic Damage Dealt to Boss Types 35%",
         "Remove All Debuffs N/A 10"
       ],
+      "artifactExclusiveSkill": [],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Morph",
+      "characterId": "morph",
+      "uniform": "Marvel Animation's X-Men '97",
+      "leadership": [],
+      "passive": [
+        "Basic Damage Dealt to Males 40%",
+        "Basic Damage Dealt to Females 40%"
+      ],
+      "uniformEffect": [],
       "artifactExclusiveSkill": [],
       "sourceUrl": "https://thanosvibs.money/supports"
     },
@@ -33255,6 +33557,19 @@
         "All Basic Attacks 18% 0.4%",
         "All Basic Attacks 20% 0.5%"
       ],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Sandman",
+      "characterId": "sandman",
+      "uniform": "Beach Fortress",
+      "leadership": [],
+      "passive": [],
+      "uniformEffect": [
+        "Ignore Dodge 20%",
+        "Basic Damage Dealt to Boss Types 40%"
+      ],
+      "artifactExclusiveSkill": [],
       "sourceUrl": "https://thanosvibs.money/supports"
     },
     {
@@ -34366,6 +34681,25 @@
     {
       "character": "Valkyrie",
       "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "leadership": [],
+      "passive": [
+        "Ignore Dodge 40%",
+        "Basic Damage Dealt to Villains 60%",
+        "Basic Damage Received from Villains -25%"
+      ],
+      "uniformEffect": [],
+      "artifactExclusiveSkill": [
+        "Basic Damage Dealt to Boss Types 5% 0.1%",
+        "Basic Damage Dealt to Boss Types 8% 0.1%",
+        "Basic Damage Dealt to Boss Types 11% 0.1%",
+        "Basic Damage Dealt to Boss Types 15% 0.1%"
+      ],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
       "uniform": "Fearless Defenders",
       "leadership": [],
       "passive": [
@@ -34784,6 +35118,27 @@
     {
       "character": "White Fox",
       "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "leadership": [
+        "All Debuffs Effect 40%",
+        "Debuff Duration -24%"
+      ],
+      "passive": [
+        "All Resistances 20%",
+        "Basic Damage Dealt to Villains 65%",
+        "Basic Damage Received from Villains 30%"
+      ],
+      "uniformEffect": [
+        "All Basic Attacks 25%",
+        "Chain Hit Damage 10%",
+        "Ignore Dodge 30%"
+      ],
+      "artifactExclusiveSkill": [],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
       "uniform": "Lifestyle Series 1",
       "leadership": [
         "All Debuffs Effect 40%",
@@ -34899,6 +35254,20 @@
         "All Basic Attacks 35%",
         "Basic Damage Dealt to Boss Types 40%"
       ],
+      "artifactExclusiveSkill": [],
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Young Apocalypse",
+      "characterId": "youngapocalypse",
+      "uniform": "Marvel Animation's X-Men '97",
+      "leadership": [
+        "All Basic Attacks 60%"
+      ],
+      "passive": [
+        "Remove All Debuffs N/A 12"
+      ],
+      "uniformEffect": [],
       "artifactExclusiveSkill": [],
       "sourceUrl": "https://thanosvibs.money/supports"
     },
@@ -36584,6 +36953,171 @@
       "character": "Black Cat",
       "characterId": "blackcat",
       "uniform": "Modern",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 20,
+      "magnitudeText": "20%",
+      "rawText": "Basic Damage Dealt to Boss Types | 20% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Leadership",
+      "effectName": "All Basic Attacks",
+      "magnitude": 65,
+      "magnitudeText": "65%",
+      "rawText": "All Basic Attacks | 65%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Leadership",
+      "effectName": "Ignore Dodge",
+      "magnitude": 35,
+      "magnitudeText": "35%",
+      "rawText": "Ignore Dodge | 35%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "All Debuffs Effect",
+      "magnitude": 40,
+      "magnitudeText": "40%",
+      "rawText": "All Debuffs Effect | 40%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 4,
+      "magnitudeText": "4%",
+      "rawText": "Basic Damage Dealt to Villains | 4% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Heroes",
+      "magnitude": 4,
+      "magnitudeText": "4%",
+      "rawText": "Basic Damage Dealt to Heroes | 4% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 8,
+      "magnitudeText": "8%",
+      "rawText": "Basic Damage Dealt to Boss Types | 8% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 6,
+      "magnitudeText": "6%",
+      "rawText": "Basic Damage Dealt to Villains | 6% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Heroes",
+      "magnitude": 6,
+      "magnitudeText": "6%",
+      "rawText": "Basic Damage Dealt to Heroes | 6% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 12,
+      "magnitudeText": "12%",
+      "rawText": "Basic Damage Dealt to Boss Types | 12% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 8,
+      "magnitudeText": "8%",
+      "rawText": "Basic Damage Dealt to Villains | 8% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Heroes",
+      "magnitude": 8,
+      "magnitudeText": "8%",
+      "rawText": "Basic Damage Dealt to Heroes | 8% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 16,
+      "magnitudeText": "16%",
+      "rawText": "Basic Damage Dealt to Boss Types | 16% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 10,
+      "magnitudeText": "10%",
+      "rawText": "Basic Damage Dealt to Villains | 10% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Heroes",
+      "magnitude": 10,
+      "magnitudeText": "10%",
+      "rawText": "Basic Damage Dealt to Heroes | 10% | 0.2%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "Queen in Black",
       "sourceKind": "Artifact Exclusive Skill",
       "effectName": "Basic Damage Dealt to Boss Types",
       "magnitude": 20,
@@ -40415,6 +40949,54 @@
       "sourceUrl": "https://thanosvibs.money/supports"
     },
     {
+      "character": "Jubilee",
+      "characterId": "jubilee",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "4★ Passive",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 35,
+      "magnitudeText": "35%",
+      "restrictionText": "This skill only applies to a specific allies: Mutant",
+      "rawText": "Basic Damage Dealt to Villains | 35%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Jubilee",
+      "characterId": "jubilee",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "4★ Passive",
+      "effectName": "Basic Damage Received from Villains",
+      "magnitude": -45,
+      "magnitudeText": "-45%",
+      "restrictionText": "This skill only applies to a specific allies: Mutant",
+      "rawText": "Basic Damage Received from Villains | -45%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Jubilee",
+      "characterId": "jubilee",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "4★ Passive",
+      "effectName": "Basic Damage Received from Heroes",
+      "magnitude": -45,
+      "magnitudeText": "-45%",
+      "restrictionText": "This skill only applies to a specific allies: Mutant",
+      "rawText": "Basic Damage Received from Heroes | -45%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Jubilee",
+      "characterId": "jubilee",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "Uniform Effect",
+      "effectName": "Ignore Non-Boss Damage Decrease",
+      "magnitude": 15,
+      "magnitudeText": "15%",
+      "restrictionText": "This skill only applies to a specific allies: Mutant",
+      "rawText": "Ignore Non-Boss Damage Decrease | 15%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
       "character": "Kahhori",
       "characterId": "kahhori",
       "uniform": "Marvel Studios' What If...?",
@@ -41895,6 +42477,28 @@
       "magnitudeText": "N/A",
       "restrictionText": "This skill only applies to a specific type: Universal",
       "rawText": "Remove All Debuffs | N/A | 10",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Morph",
+      "characterId": "morph",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Basic Damage Dealt to Males",
+      "magnitude": 40,
+      "magnitudeText": "40%",
+      "rawText": "Basic Damage Dealt to Males | 40%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Morph",
+      "characterId": "morph",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Basic Damage Dealt to Females",
+      "magnitude": 40,
+      "magnitudeText": "40%",
+      "rawText": "Basic Damage Dealt to Females | 40%",
       "sourceUrl": "https://thanosvibs.money/supports"
     },
     {
@@ -44165,6 +44769,30 @@
       "magnitude": 20,
       "magnitudeText": "20%",
       "rawText": "All Basic Attacks | 20% | 0.5%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Sandman",
+      "characterId": "sandman",
+      "uniform": "Beach Fortress",
+      "sourceKind": "Uniform Effect",
+      "effectName": "Ignore Dodge",
+      "magnitude": 20,
+      "magnitudeText": "20%",
+      "restrictionText": "This skill only applies to a specific side: Villain",
+      "rawText": "Ignore Dodge | 20%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Sandman",
+      "characterId": "sandman",
+      "uniform": "Beach Fortress",
+      "sourceKind": "Uniform Effect",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 40,
+      "magnitudeText": "40%",
+      "restrictionText": "This skill only applies to a specific side: Villain",
+      "rawText": "Basic Damage Dealt to Boss Types | 40%",
       "sourceUrl": "https://thanosvibs.money/supports"
     },
     {
@@ -46916,6 +47544,83 @@
     {
       "character": "Valkyrie",
       "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Ignore Dodge",
+      "magnitude": 40,
+      "magnitudeText": "40%",
+      "rawText": "Ignore Dodge | 40%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 60,
+      "magnitudeText": "60%",
+      "rawText": "Basic Damage Dealt to Villains | 60%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Basic Damage Received from Villains",
+      "magnitude": -25,
+      "magnitudeText": "-25%",
+      "rawText": "Basic Damage Received from Villains | -25%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 5,
+      "magnitudeText": "5%",
+      "rawText": "Basic Damage Dealt to Boss Types | 5% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 8,
+      "magnitudeText": "8%",
+      "rawText": "Basic Damage Dealt to Boss Types | 8% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 11,
+      "magnitudeText": "11%",
+      "rawText": "Basic Damage Dealt to Boss Types | 11% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "Asgardians of the Galaxy",
+      "sourceKind": "Artifact Exclusive Skill",
+      "effectName": "Basic Damage Dealt to Boss Types",
+      "magnitude": 15,
+      "magnitudeText": "15%",
+      "rawText": "Basic Damage Dealt to Boss Types | 15% | 0.1%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
       "uniform": "Fearless Defenders",
       "sourceKind": "Tier-2 Passive",
       "effectName": "Ignore Dodge",
@@ -48293,6 +48998,100 @@
     {
       "character": "White Fox",
       "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Leadership",
+      "effectName": "All Debuffs Effect",
+      "magnitude": 40,
+      "magnitudeText": "40%",
+      "rawText": "All Debuffs Effect | 40%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Leadership",
+      "effectName": "Debuff Duration",
+      "magnitude": -24,
+      "magnitudeText": "-24%",
+      "rawText": "Debuff Duration | -24%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "All Resistances",
+      "magnitude": 20,
+      "magnitudeText": "20%",
+      "restrictionText": "This skill only applies to a specific ability: Leadership",
+      "rawText": "All Resistances | 20%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Basic Damage Dealt to Villains",
+      "magnitude": 65,
+      "magnitudeText": "65%",
+      "restrictionText": "This skill only applies to a specific ability: Leadership",
+      "rawText": "Basic Damage Dealt to Villains | 65%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Tier-2 Passive",
+      "effectName": "Basic Damage Received from Villains",
+      "magnitude": 30,
+      "magnitudeText": "30%",
+      "restrictionText": "This skill only applies to a specific ability: Leadership",
+      "rawText": "Basic Damage Received from Villains | 30%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Uniform Effect",
+      "effectName": "All Basic Attacks",
+      "magnitude": 25,
+      "magnitudeText": "25%",
+      "restrictionText": "This skill only applies to a specific side: Hero",
+      "rawText": "All Basic Attacks | 25%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Uniform Effect",
+      "effectName": "Chain Hit Damage",
+      "magnitude": 10,
+      "magnitudeText": "10%",
+      "restrictionText": "This skill only applies to a specific side: Hero",
+      "rawText": "Chain Hit Damage | 10%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "Agent F-One",
+      "sourceKind": "Uniform Effect",
+      "effectName": "Ignore Dodge",
+      "magnitude": 30,
+      "magnitudeText": "30%",
+      "restrictionText": "This skill only applies to a specific side: Hero",
+      "rawText": "Ignore Dodge | 30%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
       "uniform": "Lifestyle Series 1",
       "sourceKind": "Leadership",
       "effectName": "All Debuffs Effect",
@@ -48585,6 +49384,29 @@
       "magnitudeText": "40%",
       "restrictionText": "This skill only applies to a specific allies: Alien",
       "rawText": "Basic Damage Dealt to Boss Types | 40%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Young Apocalypse",
+      "characterId": "youngapocalypse",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "Leadership",
+      "effectName": "All Basic Attacks",
+      "magnitude": 60,
+      "magnitudeText": "60%",
+      "restrictionText": "This skill only applies to a specific allies: Mutant",
+      "rawText": "All Basic Attacks | 60%",
+      "sourceUrl": "https://thanosvibs.money/supports"
+    },
+    {
+      "character": "Young Apocalypse",
+      "characterId": "youngapocalypse",
+      "uniform": "Marvel Animation's X-Men '97",
+      "sourceKind": "4★ Passive",
+      "effectName": "Remove All Debuffs",
+      "magnitudeText": "N/A",
+      "restrictionText": "This skill only applies to a specific allies: Mutant",
+      "rawText": "Remove All Debuffs | N/A | 12",
       "sourceUrl": "https://thanosvibs.money/supports"
     },
     {
@@ -49617,7 +50439,7 @@
         "Tier-4",
         "Tier-3"
       ],
-      "latestUniform": true,
+      "latestUniform": false,
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/apocalypse2.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\apocalypse2.webp"
@@ -50201,6 +51023,7 @@
         "Physical",
         "Instinct:Cruelty",
         "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -50223,6 +51046,7 @@
         "Physical",
         "Instinct:Cruelty",
         "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -50245,6 +51069,7 @@
         "Physical",
         "Instinct:Cruelty",
         "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -50267,12 +51092,36 @@
         "Physical",
         "Instinct:Cruelty",
         "Source:Original",
+        "Tier-4",
+        "Transcended"
+      ],
+      "latestUniform": false,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/blackcat3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\blackcat3.webp"
+    },
+    {
+      "character": "Black Cat",
+      "characterId": "blackcat",
+      "uniform": "queen in black",
+      "portraitId": "blackcat4",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/blackcat4.png",
+      "combatType": "Universal",
+      "side": "Hero",
+      "gender": "Female",
+      "species": "Human",
+      "tags": [
+        "Agility",
+        "Physical",
+        "Instinct:Cruelty",
+        "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": true,
       "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/blackcat3.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\blackcat3.webp"
+      "localPortraitUrl": "/mff-assets/uniforms/blackcat4.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\blackcat4.webp"
     },
     {
       "character": "Black Dwarf",
@@ -51282,30 +52131,6 @@
     {
       "character": "Captain America",
       "characterId": "captainamerica",
-      "uniform": "galactic talon",
-      "portraitId": "captainamerica15",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/captainamerica15.png",
-      "combatType": "Combat",
-      "side": "Hero",
-      "gender": "Male",
-      "species": "Human",
-      "tags": [
-        "Leadership",
-        "Command",
-        "Physical",
-        "Instinct:Justice",
-        "Source:Collab",
-        "Tier-4",
-        "Tier-3"
-      ],
-      "latestUniform": true,
-      "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/captainamerica15.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\captainamerica15.webp"
-    },
-    {
-      "character": "Captain America",
-      "characterId": "captainamerica",
       "uniform": "the avengers",
       "portraitId": "captainamerica",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/captainamerica.png",
@@ -51646,6 +52471,30 @@
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/captainamerica14.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\captainamerica14.webp"
+    },
+    {
+      "character": "Captain America",
+      "characterId": "captainamerica",
+      "uniform": "galactic talon",
+      "portraitId": "captainamerica15",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/captainamerica15.png",
+      "combatType": "Combat",
+      "side": "Hero",
+      "gender": "Male",
+      "species": "Human",
+      "tags": [
+        "Leadership",
+        "Command",
+        "Physical",
+        "Instinct:Justice",
+        "Source:Collab",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/captainamerica15.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\captainamerica15.webp"
     },
     {
       "character": "Captain America (Sam Wilson)",
@@ -55708,12 +56557,38 @@
         "Physical",
         "Instinct:Destruction",
         "Source:Mcu",
+        "Tier-4",
         "Tier-3"
       ],
       "latestUniform": false,
       "baseCharacter": true,
       "localPortraitUrl": "/mff-assets/uniforms/gorr1.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\gorr1.webp"
+    },
+    {
+      "character": "Gorr",
+      "characterId": "gorr",
+      "uniform": "the god butcher",
+      "portraitId": "gorr2",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/gorr2.png",
+      "combatType": "Universal",
+      "side": "Villain",
+      "gender": "Male",
+      "species": "Alien",
+      "tags": [
+        "Healing",
+        "Pureevil",
+        "Symbiote",
+        "Physical",
+        "Instinct:Destruction",
+        "Source:Comic",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/gorr2.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\gorr2.webp"
     },
     {
       "character": "Green Goblin",
@@ -57451,29 +58326,6 @@
     {
       "character": "Inferno",
       "characterId": "inferno",
-      "uniform": "modern",
-      "portraitId": "inferno1",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/inferno1.png",
-      "combatType": "Blast",
-      "side": "Hero",
-      "gender": "Male",
-      "species": "Inhuman",
-      "tags": [
-        "Flame",
-        "Energy",
-        "Fire",
-        "Instinct:Order",
-        "Source:Comic",
-        "Transcended"
-      ],
-      "latestUniform": true,
-      "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/inferno1.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\inferno1.webp"
-    },
-    {
-      "character": "Inferno",
-      "characterId": "inferno",
       "uniform": "all new all different",
       "portraitId": "inferno",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/inferno.png",
@@ -57493,6 +58345,29 @@
       "baseCharacter": true,
       "localPortraitUrl": "/mff-assets/uniforms/inferno.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\inferno.webp"
+    },
+    {
+      "character": "Inferno",
+      "characterId": "inferno",
+      "uniform": "modern",
+      "portraitId": "inferno1",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/inferno1.png",
+      "combatType": "Blast",
+      "side": "Hero",
+      "gender": "Male",
+      "species": "Inhuman",
+      "tags": [
+        "Flame",
+        "Energy",
+        "Fire",
+        "Instinct:Order",
+        "Source:Comic",
+        "Transcended"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/inferno1.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\inferno1.webp"
     },
     {
       "character": "Infinity Ultron",
@@ -58114,6 +58989,32 @@
     {
       "character": "Jean Grey",
       "characterId": "jeangrey",
+      "uniform": "summer flare phoenix",
+      "portraitId": "jeangrey4",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jeangrey4.png",
+      "combatType": "Universal",
+      "side": "Hero",
+      "gender": "Female",
+      "species": "Mutant",
+      "tags": [
+        "Mind",
+        "Mindresist",
+        "Phoenixforce",
+        "Energy",
+        "Fire",
+        "Instinct:Order",
+        "Source:Original",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/jeangrey4.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\jeangrey4.webp"
+    },
+    {
+      "character": "Jean Grey",
+      "characterId": "jeangrey",
       "uniform": "phoenix",
       "portraitId": "jeangrey",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jeangrey.png",
@@ -58210,7 +59111,7 @@
         "Tier-4",
         "Tier-3"
       ],
-      "latestUniform": true,
+      "latestUniform": false,
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/jeangrey3.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\jeangrey3.webp"
@@ -58290,6 +59191,29 @@
     {
       "character": "Jubilee",
       "characterId": "jubilee",
+      "uniform": "marvel animations x men 97",
+      "portraitId": "jubilee1",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jubilee1.png",
+      "combatType": "Blast",
+      "side": "Hero",
+      "gender": "Female",
+      "species": "Mutant",
+      "tags": [
+        "Energyprojection",
+        "Energy",
+        "Instinct:Order",
+        "Source:Animation",
+        "Tier-4",
+        "Transcended"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/jubilee1.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\jubilee1.webp"
+    },
+    {
+      "character": "Jubilee",
+      "characterId": "jubilee",
       "uniform": "classic",
       "portraitId": "jubilee",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/jubilee.png",
@@ -58302,6 +59226,7 @@
         "Energy",
         "Instinct:Order",
         "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -58551,29 +59476,6 @@
     {
       "character": "Kid Kaiju",
       "characterId": "kidkaiju",
-      "uniform": "monsters unleashed mff variant",
-      "portraitId": "kidkaiju1",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/kidkaiju1.png",
-      "combatType": "Speed",
-      "side": "Hero",
-      "gender": "Male",
-      "species": "Inhuman",
-      "tags": [
-        "Command",
-        "Physical",
-        "Fire",
-        "Instinct:Order",
-        "Source:Original",
-        "Transcended"
-      ],
-      "latestUniform": true,
-      "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/kidkaiju1.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\kidkaiju1.webp"
-    },
-    {
-      "character": "Kid Kaiju",
-      "characterId": "kidkaiju",
       "uniform": "monsters unleashed",
       "portraitId": "kidkaiju",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/kidkaiju.png",
@@ -58593,6 +59495,29 @@
       "baseCharacter": true,
       "localPortraitUrl": "/mff-assets/uniforms/kidkaiju.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\kidkaiju.webp"
+    },
+    {
+      "character": "Kid Kaiju",
+      "characterId": "kidkaiju",
+      "uniform": "monsters unleashed mff variant",
+      "portraitId": "kidkaiju1",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/kidkaiju1.png",
+      "combatType": "Speed",
+      "side": "Hero",
+      "gender": "Male",
+      "species": "Inhuman",
+      "tags": [
+        "Command",
+        "Physical",
+        "Fire",
+        "Instinct:Order",
+        "Source:Original",
+        "Transcended"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/kidkaiju1.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\kidkaiju1.webp"
     },
     {
       "character": "Kid Omega",
@@ -59416,31 +60341,6 @@
     {
       "character": "Luna Snow",
       "characterId": "lunasnow",
-      "uniform": "mirae 2099",
-      "portraitId": "lunasnow5",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/lunasnow5.png",
-      "combatType": "Speed",
-      "side": "Hero",
-      "gender": "Female",
-      "species": "Human",
-      "tags": [
-        "Leadership",
-        "Coldblooded",
-        "Energy",
-        "Cold",
-        "Instinct:Justice",
-        "Source:Collab",
-        "Tier-4",
-        "Tier-3"
-      ],
-      "latestUniform": true,
-      "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/lunasnow5.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\lunasnow5.webp"
-    },
-    {
-      "character": "Luna Snow",
-      "characterId": "lunasnow",
       "uniform": "modern",
       "portraitId": "lunasnow",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/lunasnow.png",
@@ -59562,6 +60462,31 @@
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/lunasnow4.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\lunasnow4.webp"
+    },
+    {
+      "character": "Luna Snow",
+      "characterId": "lunasnow",
+      "uniform": "mirae 2099",
+      "portraitId": "lunasnow5",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/lunasnow5.png",
+      "combatType": "Speed",
+      "side": "Hero",
+      "gender": "Female",
+      "species": "Human",
+      "tags": [
+        "Leadership",
+        "Coldblooded",
+        "Energy",
+        "Cold",
+        "Instinct:Justice",
+        "Source:Collab",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/lunasnow5.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\lunasnow5.webp"
     },
     {
       "character": "M.O.D.O.K.",
@@ -59862,6 +60787,30 @@
     {
       "character": "Magneto",
       "characterId": "magneto",
+      "uniform": "marvel animations x men 97",
+      "portraitId": "magneto4",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/magneto4.png",
+      "combatType": "Blast",
+      "side": "Hero",
+      "gender": "Male",
+      "species": "Mutant",
+      "tags": [
+        "Energyprojection",
+        "Mindresist",
+        "Energy",
+        "Instinct:Destruction",
+        "Source:Animation",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/magneto4.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\magneto4.webp"
+    },
+    {
+      "character": "Magneto",
+      "characterId": "magneto",
       "uniform": "classic",
       "portraitId": "magneto",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/magneto.png",
@@ -59954,7 +60903,7 @@
         "Tier-4",
         "Tier-3"
       ],
-      "latestUniform": true,
+      "latestUniform": false,
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/magneto3.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\magneto3.webp"
@@ -61021,6 +61970,29 @@
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\morganlefay1.webp"
     },
     {
+      "character": "Morph",
+      "characterId": "morph",
+      "uniform": "marvel animations x men 97",
+      "portraitId": "morph",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/morph.png",
+      "combatType": "Combat",
+      "side": "Hero",
+      "gender": "Neutral",
+      "species": "Mutant",
+      "tags": [
+        "Weaponsmaster",
+        "Agility",
+        "Physical",
+        "Instinct:Order",
+        "Source:Animation",
+        "Tier-3"
+      ],
+      "latestUniform": false,
+      "baseCharacter": true,
+      "localPortraitUrl": "/mff-assets/uniforms/morph.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\morph.webp"
+    },
+    {
       "character": "Ms. Marvel (Kamala Khan)",
       "characterId": "msmarvelkamalakhan",
       "uniform": "all new all different",
@@ -61824,10 +62796,35 @@
         "Tier-4",
         "Tier-3"
       ],
-      "latestUniform": true,
+      "latestUniform": false,
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/odin2.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\odin2.webp"
+    },
+    {
+      "character": "Odin",
+      "characterId": "odin",
+      "uniform": "lord of asgard",
+      "portraitId": "odin3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/odin3.png",
+      "combatType": "Universal",
+      "side": "Hero",
+      "gender": "Male",
+      "species": "Alien",
+      "tags": [
+        "Command",
+        "Energyprojection",
+        "Energy",
+        "Lightning",
+        "Instinct:Order",
+        "Source:Comic",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/odin3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\odin3.webp"
     },
     {
       "character": "Okoye",
@@ -63602,6 +64599,32 @@
     {
       "character": "Sandman",
       "characterId": "sandman",
+      "uniform": "beach fortress",
+      "portraitId": "sandman1",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/sandman1.png",
+      "combatType": "Combat",
+      "side": "Villain",
+      "gender": "Male",
+      "species": "Human",
+      "tags": [
+        "Durability",
+        "Sinistersix",
+        "Physical",
+        "Lightning",
+        "Mind",
+        "Instinct:Cruelty",
+        "Source:Original",
+        "Tier-4",
+        "Transcended"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/sandman1.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\sandman1.webp"
+    },
+    {
+      "character": "Sandman",
+      "characterId": "sandman",
       "uniform": "classic",
       "portraitId": "sandman",
       "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/sandman.png",
@@ -63618,6 +64641,7 @@
         "Mind",
         "Instinct:Cruelty",
         "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -67495,6 +68519,7 @@
         "Physical",
         "Instinct:Order",
         "Source:Mcu",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -67517,6 +68542,7 @@
         "Physical",
         "Instinct:Order",
         "Source:Comic",
+        "Tier-4",
         "Transcended"
       ],
       "latestUniform": false,
@@ -67539,36 +68565,36 @@
         "Physical",
         "Instinct:Order",
         "Source:Mcu",
+        "Tier-4",
         "Transcended"
       ],
-      "latestUniform": true,
+      "latestUniform": false,
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/valkyrie2.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\valkyrie2.webp"
     },
     {
-      "character": "Venom",
-      "characterId": "venom",
-      "uniform": "snow symbiote",
-      "portraitId": "venom6",
-      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/venom6.png",
+      "character": "Valkyrie",
+      "characterId": "valkyrie",
+      "uniform": "asgardians of the galaxy",
+      "portraitId": "valkyrie3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/valkyrie3.png",
       "combatType": "Combat",
       "side": "Hero",
-      "gender": "Male",
-      "species": "Human",
+      "gender": "Female",
+      "species": "Alien",
       "tags": [
-        "Healing",
-        "Symbiote",
+        "Strong",
         "Physical",
-        "Instinct:Cruelty",
-        "Source:Collab",
+        "Instinct:Order",
+        "Source:Comic",
         "Tier-4",
-        "Tier-3"
+        "Transcended"
       ],
       "latestUniform": true,
       "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/venom6.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\venom6.webp"
+      "localPortraitUrl": "/mff-assets/uniforms/valkyrie3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\valkyrie3.webp"
     },
     {
       "character": "Venom",
@@ -67716,6 +68742,30 @@
       "baseCharacter": false,
       "localPortraitUrl": "/mff-assets/uniforms/venom5.webp",
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\venom5.webp"
+    },
+    {
+      "character": "Venom",
+      "characterId": "venom",
+      "uniform": "snow symbiote",
+      "portraitId": "venom6",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/venom6.png",
+      "combatType": "Combat",
+      "side": "Hero",
+      "gender": "Male",
+      "species": "Human",
+      "tags": [
+        "Healing",
+        "Symbiote",
+        "Physical",
+        "Instinct:Cruelty",
+        "Source:Collab",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/venom6.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\venom6.webp"
     },
     {
       "character": "Venus (Aphrodite)",
@@ -68600,6 +69650,7 @@
         "Physical",
         "Instinct:Justice",
         "Source:Comic",
+        "Tier-4",
         "Tier-3"
       ],
       "latestUniform": false,
@@ -68624,6 +69675,7 @@
         "Physical",
         "Instinct:Justice",
         "Source:Original",
+        "Tier-4",
         "Tier-3"
       ],
       "latestUniform": false,
@@ -68649,12 +69701,38 @@
         "Cold",
         "Instinct:Justice",
         "Source:Original",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": false,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/whitefox2.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\whitefox2.webp"
+    },
+    {
+      "character": "White Fox",
+      "characterId": "whitefox",
+      "uniform": "agent f one",
+      "portraitId": "whitefox3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/whitefox3.png",
+      "combatType": "Speed",
+      "side": "Hero",
+      "gender": "Female",
+      "species": "Human",
+      "tags": [
+        "Agility",
+        "Agent",
+        "Leadership",
+        "Physical",
+        "Instinct:Justice",
+        "Source:Comic",
+        "Tier-4",
         "Tier-3"
       ],
       "latestUniform": true,
       "baseCharacter": false,
-      "localPortraitUrl": "/mff-assets/uniforms/whitefox2.webp",
-      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\whitefox2.webp"
+      "localPortraitUrl": "/mff-assets/uniforms/whitefox3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\whitefox3.webp"
     },
     {
       "character": "White Tiger",
@@ -69520,6 +70598,32 @@
       "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\yondu3.webp"
     },
     {
+      "character": "Young Apocalypse",
+      "characterId": "youngapocalypse",
+      "uniform": "marvel animations x men 97",
+      "portraitId": "apocalypse3",
+      "portraitUrl": "https://thanosvibs.money/static/assets/portraits_128/apocalypse3.png",
+      "combatType": "Combat",
+      "side": "Villain",
+      "gender": "Male",
+      "species": "Mutant",
+      "tags": [
+        "Fastmovement",
+        "Pureevil",
+        "Durability",
+        "Energy",
+        "Mind",
+        "Instinct:Destruction",
+        "Source:Animation",
+        "Tier-4",
+        "Tier-3"
+      ],
+      "latestUniform": true,
+      "baseCharacter": false,
+      "localPortraitUrl": "/mff-assets/uniforms/apocalypse3.webp",
+      "localPortraitPath": "C:\\Users\\tbdk5\\Desktop\\MAIN\\0_Working\\MFF_DATA_HUB\\apps\\web\\public\\mff-assets\\uniforms\\apocalypse3.webp"
+    },
+    {
       "character": "Zeus",
       "characterId": "zeus",
       "uniform": "modern",
@@ -69548,9 +70652,9 @@
   ],
   "warnings": [],
   "assetStats": {
-    "requested": 1545,
-    "downloaded": 283,
-    "skipped": 1262,
+    "requested": 1559,
+    "downloaded": 24,
+    "skipped": 1535,
     "failed": 0
   }
 }
