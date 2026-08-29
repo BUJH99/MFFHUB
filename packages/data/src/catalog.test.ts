@@ -71,4 +71,9 @@ describe('catalog source layering', () => {
       side: 'Villain',
     });
   });
+
+  it('uses the synced local portrait for the manual Coulson seed', () => {
+    expect(catalogCharacters.find((character) => character.id === 'coulson')?.imageUrl)
+      .toBe('/mff-assets/characters/philcoulson2.webp');
+  });
 });

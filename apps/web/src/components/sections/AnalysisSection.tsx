@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { userRoster } from '@/lib/data';
 import { ctpDefinitions, parseCtpName } from '@/lib/ctpInventory';
-import { catalogCharacters, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
+import { catalogCharacters, thanosvibsPortraitUrl, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
 import type { UserCharacter } from '@mff-data-hub/types';
 import {
   ResponsiveContainer,
@@ -662,7 +662,7 @@ function CharacterAvatar({ row }: { row: AnalysisRow }) {
       className="rounded-md border border-slate-200 bg-slate-100 object-cover"
       style={{ width: 32, height: 32 }}
       onError={(event) => {
-        event.currentTarget.src = `https://thanosvibs.money/static/assets/portraits/${row.character.id}.png`;
+        event.currentTarget.src = thanosvibsPortraitUrl(row.character.id);
       }}
     />
   );

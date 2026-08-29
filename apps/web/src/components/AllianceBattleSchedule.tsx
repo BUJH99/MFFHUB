@@ -18,7 +18,7 @@ import {
   type AllianceBattleCondition,
   type AllianceBattleIcon,
 } from '@/lib/allianceBattle';
-import { catalogCharacters, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
+import { catalogCharacters, thanosvibsItemIconUrl, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
 import type { Character, CombatType } from '@mff-data-hub/types';
 
 type ScheduleContent = 'ABX' | 'ABL';
@@ -611,7 +611,7 @@ function normalizeCtpSlug(ctp: string) {
 }
 
 function ctpIconSrc(ctp: string) {
-  return `https://thanosvibs.money/static/assets/items/ctp_${normalizeCtpSlug(ctp)}.png`;
+  return thanosvibsItemIconUrl(`ctp_${normalizeCtpSlug(ctp)}`);
 }
 
 function normalizeCtpKeyForReadiness(ctp: string) {

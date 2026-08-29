@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 const sourcePath = fileURLToPath(new URL('./AllianceBattleSchedule.tsx', import.meta.url));
-const source = readFileSync(sourcePath, 'utf8');
+const source = readFileSync(sourcePath, 'utf8').replace(/\r\n/g, '\n');
 
 describe('AllianceBattleSchedule picker scroll behavior', () => {
   it('locks page scrolling and keeps ABX/ABL character picking inside the modal panes', () => {

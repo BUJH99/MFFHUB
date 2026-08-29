@@ -121,7 +121,10 @@ const statLabels: Record<AccountStatKey, string> = {
   pierceDamageTakenDecrease: 'Pierce Damage Taken -',
 };
 
-export const comicCardDatabase: ComicCardDefinition[] = generatedComicCards;
+export const comicCardDatabase: ComicCardDefinition[] = generatedComicCards.map((card) => ({
+  ...card,
+  sourceImageUrl: card.sourceImageUrl.replace(`${THANOSVIBS}/static/cards/`, `${THANOSVIBS}/images/cards/`),
+}));
 
 export const equippedComicCards: EquippedComicCard[] = [
   {
@@ -191,7 +194,7 @@ export const xSwordElements: XSwordElement[] = [
     statKey: 'physicalAttack',
     statLabel: 'Physical Attack',
     levelValues: [3, 5, 6, 9, 12, 15],
-    sourceImageUrl: `${THANOSVIBS}/static/assets/items/sword_strength.png`,
+    sourceImageUrl: `${THANOSVIBS}/images/items/sword_strength.png`,
   },
   {
     id: 'intelligence',
@@ -202,7 +205,7 @@ export const xSwordElements: XSwordElement[] = [
     statKey: 'energyDamageTakenDecrease',
     statLabel: 'Energy Damage Taken -',
     levelValues: [2, 3, 4, 5, 7, 9],
-    sourceImageUrl: `${THANOSVIBS}/static/assets/items/sword_intelligence.png`,
+    sourceImageUrl: `${THANOSVIBS}/images/items/sword_intelligence.png`,
   },
   {
     id: 'judgement',
@@ -213,7 +216,7 @@ export const xSwordElements: XSwordElement[] = [
     statKey: 'pierceDamageTakenDecrease',
     statLabel: 'Pierce Damage Taken -',
     levelValues: [3, 4, 5, 7, 9, 12],
-    sourceImageUrl: `${THANOSVIBS}/static/assets/items/sword_judgement.png`,
+    sourceImageUrl: `${THANOSVIBS}/images/items/sword_judgement.png`,
   },
   {
     id: 'psionic',
@@ -224,7 +227,7 @@ export const xSwordElements: XSwordElement[] = [
     statKey: 'energyAttack',
     statLabel: 'Energy Attack',
     levelValues: [3, 5, 6, 9, 12, 15],
-    sourceImageUrl: `${THANOSVIBS}/static/assets/items/sword_psionic.png`,
+    sourceImageUrl: `${THANOSVIBS}/images/items/sword_psionic.png`,
   },
   {
     id: 'stamina',
@@ -235,7 +238,7 @@ export const xSwordElements: XSwordElement[] = [
     statKey: 'physicalDamageTakenDecrease',
     statLabel: 'Physical Damage Taken -',
     levelValues: [2, 3, 4, 5, 7, 9],
-    sourceImageUrl: `${THANOSVIBS}/static/assets/items/sword_stamina.png`,
+    sourceImageUrl: `${THANOSVIBS}/images/items/sword_stamina.png`,
   },
   {
     id: 'dexterity',
@@ -246,7 +249,7 @@ export const xSwordElements: XSwordElement[] = [
     statKey: 'instinctAttack',
     statLabel: 'Instinct Attack',
     levelValues: [300, 500, 1000, 1600, 2000, 2400],
-    sourceImageUrl: `${THANOSVIBS}/static/assets/items/sword_dexterity.png`,
+    sourceImageUrl: `${THANOSVIBS}/images/items/sword_dexterity.png`,
   },
 ];
 

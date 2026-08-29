@@ -37,6 +37,7 @@ import {
   type SyntheticEvent,
 } from 'react';
 import {
+  thanosvibsItemIconUrl,
   tierListRowsByMode,
   type TierListCombatType,
   type TierListMode,
@@ -106,7 +107,7 @@ const ctpOptions: TierGearOption[] = [
   ...ctpDefinitions.map((definition) => ({
     id: definition.id,
     label: definition.koreanName,
-    iconSrc: `https://thanosvibs.money/static/assets/items/ctp_${definition.id}.png`,
+    iconSrc: thanosvibsItemIconUrl(`ctp_${definition.id}`),
   })),
   {
     id: 'ultimate-obelisk',

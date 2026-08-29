@@ -1,5 +1,6 @@
 import {
   catalogCharacters,
+  normalizeMffImageUrl,
   type CatalogCharacter,
   type CatalogUniform,
   type TierListEntry,
@@ -140,7 +141,7 @@ export function resolveTierListEntry(entry: TierListEntry): ResolvedTierEntry {
   const latestUniform = character ? getLatestUniform(character) : undefined;
   const displayName = character?.name ?? titleCaseSource(entry.sourceName);
   const sourceLabel = latestUniform?.name ?? titleCaseSource(entry.sourceName);
-  const imageUrl = latestUniform?.imageUrl ?? character?.imageUrl ?? entry.sourceImageUrl;
+  const imageUrl = normalizeMffImageUrl(latestUniform?.imageUrl ?? character?.imageUrl ?? entry.sourceImageUrl);
   const searchText = normalizeTierSearch([
     entry.sourceName,
     entry.type,

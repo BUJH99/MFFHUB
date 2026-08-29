@@ -7,7 +7,7 @@ import { userRoster } from '@/lib/data';
 import { ctpDefinitions, parseCtpName } from '@/lib/ctpInventory';
 import { filterIconGroups, getMffAbilityIcons, getMffAttributeIcon, normalizeAttributeKey, type AttributeFilterKey, type FilterIconGroup as AttributeIconGroup, type MffAttributeIcon } from '@/lib/mffAttributeIcons';
 import { getCharacterInstinctLabel, translateMffEffectText } from '@/lib/mffTextKorean';
-import { catalogCharacters, catalogStats, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
+import { catalogCharacters, catalogStats, thanosvibsItemIconUrl, type CatalogCharacter, type CatalogUniform } from '@mff-data-hub/data';
 import type { UserCharacter } from '@mff-data-hub/types';
 
 type Props = {
@@ -110,15 +110,15 @@ const equippedCtpOptions = [
   { value: '미장착', label: '미장착', iconSrc: '/mff-assets/items/ultimate-obelisk.svg' },
   ultimateObeliskOption,
   ...ctpDefinitions.flatMap((definition) => [
-    { value: definition.name, label: definition.koreanName, iconSrc: `https://thanosvibs.money/static/assets/items/ctp_${definition.id}.png` },
-    { value: `Mighty ${definition.name}`, label: `강력 ${definition.koreanName}`, iconSrc: `https://thanosvibs.money/static/assets/items/ctp_${definition.id}.png` },
-    { value: `Brilliant ${definition.name}`, label: `찬란 ${definition.koreanName}`, iconSrc: `https://thanosvibs.money/static/assets/items/ctp_${definition.id}.png` },
+    { value: definition.name, label: definition.koreanName, iconSrc: thanosvibsItemIconUrl(`ctp_${definition.id}`) },
+    { value: `Mighty ${definition.name}`, label: `강력 ${definition.koreanName}`, iconSrc: thanosvibsItemIconUrl(`ctp_${definition.id}`) },
+    { value: `Brilliant ${definition.name}`, label: `찬란 ${definition.koreanName}`, iconSrc: thanosvibsItemIconUrl(`ctp_${definition.id}`) },
   ]),
 ];
 const ctpBaseOptions = [
   equippedCtpOptions[0],
   ultimateObeliskOption,
-  ...ctpDefinitions.map((definition) => ({ value: definition.name, label: definition.koreanName, iconSrc: `https://thanosvibs.money/static/assets/items/ctp_${definition.id}.png` })),
+  ...ctpDefinitions.map((definition) => ({ value: definition.name, label: definition.koreanName, iconSrc: thanosvibsItemIconUrl(`ctp_${definition.id}`) })),
 ];
 const ctpGradeOptions = [
   { value: 'normal', label: '일반' },
@@ -376,7 +376,7 @@ function ctpOptionForValue(value: string) {
   return {
     value,
     label: `${parsed.grade === 'brilliant' ? '찬란 ' : parsed.grade === 'mighty' ? '강력 ' : ''}${definition.koreanName}`,
-    iconSrc: `https://thanosvibs.money/static/assets/items/ctp_${definition.id}.png`,
+    iconSrc: thanosvibsItemIconUrl(`ctp_${definition.id}`),
   };
 }
 

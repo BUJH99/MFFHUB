@@ -1,4 +1,5 @@
 import type { Alignment, ChallengeRule, CombatType, Gender } from '@mff-data-hub/types';
+import { thanosvibsAttributeIconUrl } from '@mff-data-hub/data';
 
 export type AllianceBattleMode = 'Normal' | 'Extreme' | 'Legend' | 'Infinite Challenge';
 export type AllianceBattleContent = 'AB' | 'ABX' | 'ABL' | 'Infinity Challenge';
@@ -83,8 +84,6 @@ export const cancelEffectLabels: Record<string, string> = {
   fracture: '파열',
 };
 
-const ATTRIBUTE_ICON_BASE = 'https://thanosvibs.money/static/attributes';
-
 export type AllianceBattleIconKind = 'restriction' | 'cancel';
 
 export interface AllianceBattleIcon {
@@ -95,30 +94,30 @@ export interface AllianceBattleIcon {
 }
 
 export const restrictionIconSrc: Record<string, string> = {
-  'No Restrictions': `${ATTRIBUTE_ICON_BASE}/nores.png`,
-  Combat: `${ATTRIBUTE_ICON_BASE}/combat.png`,
-  Blast: `${ATTRIBUTE_ICON_BASE}/blast.png`,
-  Speed: `${ATTRIBUTE_ICON_BASE}/speed.png`,
-  Universal: `${ATTRIBUTE_ICON_BASE}/universal.png`,
-  Hero: `${ATTRIBUTE_ICON_BASE}/hero.png`,
-  Villain: `${ATTRIBUTE_ICON_BASE}/villain.png`,
-  Neutral: `${ATTRIBUTE_ICON_BASE}/nores.png`,
-  Male: `${ATTRIBUTE_ICON_BASE}/male.png`,
-  Female: `${ATTRIBUTE_ICON_BASE}/female.png`,
-  Other: `${ATTRIBUTE_ICON_BASE}/nores.png`,
-  Human: `${ATTRIBUTE_ICON_BASE}/human.png`,
-  Alien: `${ATTRIBUTE_ICON_BASE}/alien.png`,
-  Mutant: `${ATTRIBUTE_ICON_BASE}/mutant.png`,
-  Inhuman: `${ATTRIBUTE_ICON_BASE}/inhuman.png`,
+  'No Restrictions': thanosvibsAttributeIconUrl('nores'),
+  Combat: thanosvibsAttributeIconUrl('combat'),
+  Blast: thanosvibsAttributeIconUrl('blast'),
+  Speed: thanosvibsAttributeIconUrl('speed'),
+  Universal: thanosvibsAttributeIconUrl('universal'),
+  Hero: thanosvibsAttributeIconUrl('hero'),
+  Villain: thanosvibsAttributeIconUrl('villain'),
+  Neutral: thanosvibsAttributeIconUrl('nores'),
+  Male: thanosvibsAttributeIconUrl('male'),
+  Female: thanosvibsAttributeIconUrl('female'),
+  Other: thanosvibsAttributeIconUrl('nores'),
+  Human: thanosvibsAttributeIconUrl('human'),
+  Alien: thanosvibsAttributeIconUrl('alien'),
+  Mutant: thanosvibsAttributeIconUrl('mutant'),
+  Inhuman: thanosvibsAttributeIconUrl('inhuman'),
 };
 
 export const cancelEffectIconSrc: Record<string, string> = {
-  silence: `${ATTRIBUTE_ICON_BASE}/buff_silence.png`,
-  paralyze: `${ATTRIBUTE_ICON_BASE}/buff_paralyze.png`,
-  burn: `${ATTRIBUTE_ICON_BASE}/buff_burn.png`,
-  snare: `${ATTRIBUTE_ICON_BASE}/buff_snare.png`,
-  shock: `${ATTRIBUTE_ICON_BASE}/buff_shock.png`,
-  fracture: `${ATTRIBUTE_ICON_BASE}/buff_fracture.png`,
+  silence: thanosvibsAttributeIconUrl('buff_silence'),
+  paralyze: thanosvibsAttributeIconUrl('buff_paralyze'),
+  burn: thanosvibsAttributeIconUrl('buff_burn'),
+  snare: thanosvibsAttributeIconUrl('buff_snare'),
+  shock: thanosvibsAttributeIconUrl('buff_shock'),
+  fracture: thanosvibsAttributeIconUrl('buff_fracture'),
 };
 
 const tagToRestriction: Record<string, AllianceBattleRestriction> = {

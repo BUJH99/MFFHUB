@@ -1,5 +1,6 @@
 import syncedPayload from '../generated/thanosvibs.json';
 import { koreanCharacterNames } from './characterNames';
+import { thanosvibsPortraitUrl } from './imageUrls';
 
 export type CatalogCombatType = 'Combat' | 'Blast' | 'Speed' | 'Universal' | 'Unknown';
 export type CatalogSide = 'Hero' | 'Villain' | 'Neutral' | 'Unknown';
@@ -45,7 +46,12 @@ export type CatalogCharacter = {
 export const slugify = (name: string) =>
   name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '').trim();
 
-export const portraitUrl = (name: string) => `https://thanosvibs.money/static/assets/portraits/${slugify(name)}.png`;
+export const portraitUrl = (name: string) => {
+  const filename = slugify(name);
+  return filename === 'coulson'
+    ? '/mff-assets/characters/philcoulson2.webp'
+    : thanosvibsPortraitUrl(filename);
+};
 
 const commonLeader = (amount = 45) => [`All Basic Attacks +${amount}%`, '조건 일치 시 ABX/ABL 추천 점수 보너스'];
 const commonPassive = (damage = 35) => [`Basic Damage Dealt +${damage}%`, 'Ignore Dodge / Chain Hit 계열 버프 후보'];

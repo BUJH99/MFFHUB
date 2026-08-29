@@ -15,6 +15,7 @@ import {
 import { Archive, PackageCheck, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { thanosvibsItemIconUrl } from '@mff-data-hub/data';
 
 const ctpInventoryStorageKey = 'mff-data-hub:ctp-inventory:v1';
 const ctpInventoryCookieKey = 'mff_ctp_inventory_v1';
@@ -95,7 +96,7 @@ function formatCount(value: number) {
 }
 
 function ctpIconSrc(ctpId: string) {
-  return `https://thanosvibs.money/static/assets/items/ctp_${ctpId}.png`;
+  return thanosvibsItemIconUrl(`ctp_${ctpId}`);
 }
 
 function roleBadgeClass(role: CtpRole) {

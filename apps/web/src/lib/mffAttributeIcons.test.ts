@@ -3,7 +3,7 @@ import { filterIconGroups, getMffAttributeIcon } from './mffAttributeIcons';
 
 describe('MFF attribute icon registry', () => {
   it('maps core character filters to THANO$VIB$ icons with Korean labels', () => {
-    expect(getMffAttributeIcon('Combat')).toMatchObject({ label: '컴뱃', src: expect.stringContaining('/combat.png') });
+    expect(getMffAttributeIcon('Combat')).toMatchObject({ label: '컴뱃', src: 'https://thanosvibs.money/images/attributes/combat.png' });
     expect(getMffAttributeIcon('Alien')).toMatchObject({ label: '외계인', src: expect.stringContaining('/alien.png') });
     expect(getMffAttributeIcon('Female')).toMatchObject({ label: '여성', src: expect.stringContaining('/female.png') });
     expect(getMffAttributeIcon('Hero')).toMatchObject({ label: '영웅', src: expect.stringContaining('/hero.png') });
@@ -20,5 +20,11 @@ describe('MFF attribute icon registry', () => {
   it('exposes icon filter groups for all requested character dimensions', () => {
     expect(filterIconGroups.map((group) => group.key)).toEqual(['type', 'species', 'gender', 'side', 'instinct', 'ability']);
     expect(filterIconGroups.find((group) => group.key === 'ability')?.options.length).toBeGreaterThan(35);
+  });
+
+  it('never exposes the retired static asset route', () => {
+    const imageUrls = filterIconGroups.flatMap((group) => group.options.map((option) => option.src));
+    expect(imageUrls.every((url) => url.startsWith('https://thanosvibs.money/images/attributes/'))).toBe(true);
+    expect(imageUrls.every((url) => !url.includes('/static/'))).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-const ATTRIBUTE_ICON_BASE = 'https://thanosvibs.money/static/attributes';
+import { thanosvibsAttributeIconUrl } from '@mff-data-hub/data';
 
 export type AttributeFilterKey = 'type' | 'species' | 'gender' | 'side' | 'instinct' | 'ability';
 
@@ -19,7 +19,7 @@ const icon = (group: AttributeFilterKey, key: string, filename: string, label: s
   key,
   group,
   label,
-  src: `${ATTRIBUTE_ICON_BASE}/${filename}.png`,
+  src: thanosvibsAttributeIconUrl(filename),
 });
 
 const typeOptions = [

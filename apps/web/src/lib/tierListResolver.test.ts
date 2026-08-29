@@ -32,4 +32,12 @@ describe('tier list resolver', () => {
     expect(storm ? getLatestUniform(storm)?.name : undefined).toBe("Marvel Animation's X-Men '97");
     expect(venom ? getLatestUniform(venom)?.name : undefined).toBe('Snow Symbiote');
   });
+
+  it('migrates a legacy portrait fallback when no catalog character matches', () => {
+    const unmatched = entry('definitely unmatched character');
+    unmatched.sourceImageUrl = 'https://thanosvibs.money/static/assets/portraits_128/knull1.png';
+
+    expect(resolveTierListEntry(unmatched).imageUrl)
+      .toBe('https://thanosvibs.money/images-thumbnails/portraits/md/knull1.png');
+  });
 });

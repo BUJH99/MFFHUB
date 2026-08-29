@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
-import { catalogCharacters, type CatalogCharacter, type CatalogUniform, worldBosses, type WorldBoss, type WorldBossStageRule } from '@mff-data-hub/data';
+import { catalogCharacters, thanosvibsAttributeIconUrl, type CatalogCharacter, type CatalogUniform, worldBosses, type WorldBoss, type WorldBossStageRule } from '@mff-data-hub/data';
 
-const noRestrictionIcon = 'https://thanosvibs.money/static/attributes/nores.png';
+const noRestrictionIcon = thanosvibsAttributeIconUrl('nores');
 const customPicksStorageKey = 'mff-data-hub:world-boss-stage-picks:v2';
 const worldBossProgressStorageKey = 'mff-data-hub:world-boss-progress:v1';
 const knownRestrictionLabels = new Set([
