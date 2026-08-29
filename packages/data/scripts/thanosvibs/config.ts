@@ -9,10 +9,11 @@ export const PUBLIC_ASSET_ROOT = path.join(ROOT, 'apps/web/public/mff-assets');
 export const WEBP_QUALITY = Number(process.env.MFF_WEBP_QUALITY ?? 85);
 
 export const pages = {
-  uniforms: `${BASE_URL}/uniforms`,
-  artifacts: `${BASE_URL}/artifacts`,
-  cards: `${BASE_URL}/cards`,
+  characters: `${BASE_URL}/api/characters`,
+  uniforms: `${BASE_URL}/api/uniforms`,
+  artifacts: `${BASE_URL}/api/artifacts`,
+  cards: `${BASE_URL}/api/cards`,
   abxl: `${BASE_URL}/abxl`,
-  supports: `${BASE_URL}/supports`,
-  attributes: `${BASE_URL}/attributes`,
+  supports: `${BASE_URL}/api/supports`,
+  updates: `${BASE_URL}/api/updates`,
 };

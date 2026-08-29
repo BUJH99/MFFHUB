@@ -49,4 +49,26 @@ describe('catalog source layering', () => {
       species: 'Alien',
     });
   });
+
+  it('exposes the current THANO$VIB$ uniforms and base-only character forms', () => {
+    const expectedUniforms = [
+      ['spiderman', "Marvel Studios' Spider-Man: Brand New Day"],
+      ['hulk', "Marvel Studios' Spider-Man: Brand New Day"],
+      ['scorpion', "Marvel Studios' Spider-Man: Brand New Day"],
+      ['greengoblin', 'Gold Goblin'],
+      ['rhino', 'Uncanny Spider-Man'],
+    ] as const;
+
+    for (const [characterId, uniformName] of expectedUniforms) {
+      const character = catalogCharacters.find((row) => row.id === characterId);
+      expect(character?.uniforms.some((uniform) => uniform.name === uniformName)).toBe(true);
+    }
+
+    const whiplash = catalogCharacters.find((character) => character.id === 'whiplash');
+    expect(whiplash?.uniforms[0]).toMatchObject({
+      name: "Marvel Studios' Iron Man 2",
+      type: 'Blast',
+      side: 'Villain',
+    });
+  });
 });

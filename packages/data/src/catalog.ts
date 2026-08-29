@@ -229,6 +229,10 @@ function buildSyncedCatalogCharacters(): CatalogCharacter[] {
 
   return (synced.characters ?? []).map((character) => {
     const artifactRow = (synced.artifacts ?? []).find((row) => row.characterId === character.id);
+    const fallbackAttribute =
+      (synced.attributes ?? []).find((row) => row.characterId === character.id && row.baseCharacter) ??
+      (synced.attributes ?? []).find((row) => row.characterId === character.id && row.latestUniform);
+    const characterUniforms = uniformsByCharacter.get(character.id);
     return {
       id: character.id,
       name: koreanCharacterNames[character.name] ?? character.name,
@@ -247,7 +251,20 @@ function buildSyncedCatalogCharacters(): CatalogCharacter[] {
             effects: artifactRow.effects ?? [],
           }
         : undefined,
-      uniforms: uniformsByCharacter.get(character.id) ?? [uni('Modern')],
+      uniforms: characterUniforms?.length
+        ? characterUniforms
+        : [{
+            name: fallbackAttribute?.uniform ?? 'Modern',
+            imageUrl:
+              fallbackAttribute?.localPortraitUrl ??
+              fallbackAttribute?.portraitUrl ??
+              characterImageById.get(character.id),
+            sourceImageUrl: fallbackAttribute?.portraitUrl,
+            ...uniformCoreAttributes(fallbackAttribute),
+            leader: [],
+            passive: [],
+            uniformEffect: [],
+          }],
       sourceStatus: 'synced',
     };
   });

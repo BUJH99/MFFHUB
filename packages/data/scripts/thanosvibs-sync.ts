@@ -1,8 +1,21 @@
 import * as cheerio from 'cheerio';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { AnyNode } from 'domhandler';
-import { BASE_URL, OUT_DEBUG, pages } from './thanosvibs/config';
+import {
+  parseApiArtifacts,
+  parseApiAttributes,
+  parseApiComicCards,
+  parseApiSupports,
+  parseApiUniforms,
+  type ApiArtifact,
+  type ApiCharacter,
+  type ApiComicCard,
+  type ApiSupport,
+  type ApiUniform,
+  type ApiUpdate,
+} from './thanosvibs/api';
+import { BASE_URL, OUT_DEBUG, OUT_JSON_PACKAGE, pages } from './thanosvibs/config';
 import { cacheAssets, dedupeBy, fetchPage, writeOutputs } from './thanosvibs/output';
 import type {
   AttributeRow,
@@ -632,37 +645,78 @@ function buildCharacters(
   });
 }
 
+async function readPreviousPayload(): Promise<Partial<SyncPayload>> {
+  try {
+    return JSON.parse(await readFile(OUT_JSON_PACKAGE, 'utf8')) as SyncPayload;
+  } catch {
+    return {};
+  }
+}
+
+function parseArrayPayload<T>(raw: string, label: string, minimum: number): T[] {
+  const value = JSON.parse(raw) as unknown;
+  if (!Array.isArray(value) || value.length < minimum) {
+    throw new Error(`${label} API returned an unexpected row count`);
+  }
+  return value as T[];
+}
+
+function parseRecordPayload<T>(raw: string, label: string, minimum: number): Record<string, T> {
+  const value = JSON.parse(raw) as unknown;
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).length < minimum) {
+    throw new Error(`${label} API returned an unexpected row count`);
+  }
+  return value as Record<string, T>;
+}
+
 async function main() {
   console.log('Fetching THANO$VIB$ pages...');
   await mkdir(OUT_DEBUG, { recursive: true });
 
-  const [uniformPage, artifactPage, cardPage, abxlPage, supportPage, attributePage] = await Promise.all([
+  const previous = await readPreviousPayload();
+  const [characterPage, uniformPage, artifactPage, cardPage, supportPage, updatePage, abxlPage] = await Promise.all([
+    fetchPage(pages.characters),
     fetchPage(pages.uniforms),
     fetchPage(pages.artifacts),
     fetchPage(pages.cards),
-    fetchPage(pages.abxl),
     fetchPage(pages.supports),
-    fetchPage(pages.attributes),
+    fetchPage(pages.updates),
+    fetchPage(pages.abxl).catch((error: unknown) => {
+      if (error instanceof Error && error.message === `${pages.abxl} returned 404`) return undefined;
+      throw error;
+    }),
   ]);
 
-  await writeFile(path.join(OUT_DEBUG, 'uniforms.html'), uniformPage.html, 'utf8');
-  await writeFile(path.join(OUT_DEBUG, 'artifacts.html'), artifactPage.html, 'utf8');
-  await writeFile(path.join(OUT_DEBUG, 'cards.html'), cardPage.html, 'utf8');
-  await writeFile(path.join(OUT_DEBUG, 'abxl.html'), abxlPage.html, 'utf8');
-  await writeFile(path.join(OUT_DEBUG, 'supports.html'), supportPage.html, 'utf8');
-  await writeFile(path.join(OUT_DEBUG, 'attributes.html'), attributePage.html, 'utf8');
+  await Promise.all([
+    writeFile(path.join(OUT_DEBUG, 'characters.json'), characterPage.html, 'utf8'),
+    writeFile(path.join(OUT_DEBUG, 'uniforms.json'), uniformPage.html, 'utf8'),
+    writeFile(path.join(OUT_DEBUG, 'artifacts.json'), artifactPage.html, 'utf8'),
+    writeFile(path.join(OUT_DEBUG, 'cards.json'), cardPage.html, 'utf8'),
+    writeFile(path.join(OUT_DEBUG, 'supports.json'), supportPage.html, 'utf8'),
+    writeFile(path.join(OUT_DEBUG, 'updates.json'), updatePage.html, 'utf8'),
+    abxlPage ? writeFile(path.join(OUT_DEBUG, 'abxl.html'), abxlPage.html, 'utf8') : Promise.resolve(),
+  ]);
 
-  const uniforms = parseUniforms(uniformPage.html, uniformPage.url);
-  const artifacts = parseArtifacts(artifactPage.html, artifactPage.url);
-  const comicCards = parseComicCards(cardPage.html, cardPage.url);
-  const allianceBattleConditions = parseAllianceBattleConditions(abxlPage.html, abxlPage.url);
-  const { supports, effects } = parseSupportCards(supportPage.html, supportPage.url);
-  const knownNames = mergeStringList(
-    uniforms.map((row) => row.character),
-    artifacts.map((row) => row.character),
-    supports.map((row) => row.character),
-  );
-  const attributes = parseAttributes(attributePage.html, attributePage.url, knownNames);
+  const apiCharacters = parseArrayPayload<ApiCharacter>(characterPage.html, 'characters', 500);
+  const apiUniforms = parseRecordPayload<ApiUniform>(uniformPage.html, 'uniforms', 400);
+  const apiArtifacts = parseArrayPayload<ApiArtifact>(artifactPage.html, 'artifacts', 200);
+  const apiCards = parseArrayPayload<ApiComicCard>(cardPage.html, 'cards', 100);
+  const apiSupports = parseArrayPayload<ApiSupport>(supportPage.html, 'supports', 300);
+  const apiUpdates = parseArrayPayload<ApiUpdate>(updatePage.html, 'updates', 50);
+  const uniforms = parseApiUniforms(apiUniforms, apiCharacters, apiUpdates, previous.uniforms);
+  const artifacts = parseApiArtifacts(apiArtifacts);
+  const comicCards = parseApiComicCards(apiCards);
+  const allianceBattleConditions = abxlPage
+    ? parseAllianceBattleConditions(abxlPage.html, abxlPage.url)
+    : previous.allianceBattleConditions ?? [];
+  if (!abxlPage && allianceBattleConditions.length === 0) {
+    throw new Error('alliance battle source was removed and no previous rows are available to preserve');
+  }
+  const { supports, effects } = parseApiSupports(apiSupports, apiCharacters);
+  const attributes = parseApiAttributes(apiCharacters, apiUniforms, previous.attributes);
+  if (uniforms.length !== Object.keys(apiUniforms).length || attributes.length !== apiCharacters.length) {
+    throw new Error('THANO$VIB$ API join lost character or uniform rows');
+  }
   const characters = buildCharacters(uniforms, artifacts, supports, attributes);
 
   const warnings: string[] = [];
@@ -674,6 +728,7 @@ async function main() {
   if (supports.length === 0) warnings.push('supports parser returned 0 rows');
   if (effects.length === 0) warnings.push('character effects parser returned 0 rows');
   if (attributes.length === 0) warnings.push('attributes parser returned 0 rows');
+  if (!abxlPage) warnings.push(`alliance battle source is no longer published; preserved ${allianceBattleConditions.length} existing rows`);
 
   const payload: SyncPayload = {
     syncedAt: new Date().toISOString(),
