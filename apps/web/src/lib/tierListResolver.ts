@@ -59,8 +59,13 @@ function getAliasKeys(character: CatalogCharacter) {
     .split(/\s+/)
     .filter(Boolean);
   const firstWord = words[0]?.toLowerCase();
-  if (!firstWord || !leadingAliasWords.has(firstWord) || words.length < 2) return [];
-  return [normalizeTierSearch(words.slice(1).join(' '))];
+  const leadingAliases = firstWord && leadingAliasWords.has(firstWord) && words.length >= 2
+    ? [normalizeTierSearch(words.slice(1).join(' '))]
+    : [];
+  const sourceAliases = character.tags
+    .filter((tag) => tag.startsWith('Alias:'))
+    .map((tag) => normalizeTierSearch(tag.slice('Alias:'.length)));
+  return [...leadingAliases, ...sourceAliases];
 }
 
 function buildCharacterMatchers(characters: CatalogCharacter[]) {

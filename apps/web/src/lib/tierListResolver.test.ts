@@ -16,7 +16,7 @@ describe('tier list resolver', () => {
     expect(resolveTierListEntry(entry('ares punisher')).displayName).toBe('아레스');
     expect(resolveTierListEntry(entry("kingpin marvel televisions daredevil: born again")).displayName).toBe('킹핀');
     expect(resolveTierListEntry(entry('taskmaster marvel studios black widow')).displayName).toBe('태스크마스터');
-    expect(resolveTierListEntry(entry('mordo marvel studios doctor strange 2')).displayName).toBe('모르도');
+    expect(resolveTierListEntry(entry('mordo marvel studios doctor strange 2')).displayName).toBe('모르도 남작');
   });
 
   it('maps a resolved character to the latest catalog uniform automatically', () => {

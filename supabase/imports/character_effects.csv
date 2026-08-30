@@ -27,7 +27,6 @@ agentvenom,Artifact Exclusive Skill,Basic Damage Received,-30,-30%,Ability: Symb
 agentvenom,Uniform Effect,Chain Hit Damage Received,-35,-35%,Ability: Symbiote,Chain Hit Damage Received -35%,https://thanosvibs.money/api/supports
 agentvenom,Uniform Effect,Chain Hit Damage,20,20%,Ability: Symbiote,Chain Hit Damage 20%,https://thanosvibs.money/api/supports
 agentvenom,Uniform Effect,Chain Hit Damage Received,-40,-40%,Ability: Symbiote,Chain Hit Damage Received -40%,https://thanosvibs.money/api/supports
-amadeuscho,Uniform Effect,Basic Damage Dealt to Villains,40,40%,,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
 americachavez,Leadership,All Basic Attacks,30,30%,,All Basic Attacks 30%,https://thanosvibs.money/api/supports
 americachavez,Leadership,Dodge,6,6%,,Dodge 6%,https://thanosvibs.money/api/supports
 americachavez,Uniform Effect,HP,40,40%,,HP 40%,https://thanosvibs.money/api/supports
@@ -59,6 +58,7 @@ apocalypse,Leadership,All Basic Attacks,18,18%,,All Basic Attacks 18%,https://th
 apocalypse,Leadership,All Basic Defenses,18,18%,,All Basic Defenses 18%,https://thanosvibs.money/api/supports
 apocalypse,Leadership,All Speeds,6,6%,,All Speeds 6%,https://thanosvibs.money/api/supports
 apocalypse,4★ Passive,Remove All Debuffs,12,N/A,Allies: Mutant,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
+apocalypse,Leadership,All Basic Attacks,60,60%,Allies: Mutant,All Basic Attacks 60%,https://thanosvibs.money/api/supports
 arachknight,Leadership,All Basic Attacks,45,45%,,All Basic Attacks 45% when 1 Infinity Warp,https://thanosvibs.money/api/supports
 arachknight,Leadership,All Basic Attacks,55,55%,,All Basic Attacks 55% when 2 Infinity Warps,https://thanosvibs.money/api/supports
 arachknight,Leadership,All Basic Attacks,65,65%,,All Basic Attacks 65% when 3 Infinity Warps,https://thanosvibs.money/api/supports
@@ -106,9 +106,6 @@ blackdwarf,4★ Passive,Stun Immunity,,,Ability: Black Order,Stun Immunity N/A,h
 blackdwarf,4★ Passive,Guard Break Immunity,,,Ability: Black Order,Guard Break Immunity N/A,https://thanosvibs.money/api/supports
 blackknight,4★ Passive,HP,40,40%,,HP 40%,https://thanosvibs.money/api/supports
 blackknight,4★ Passive,All Reflect Damage Received,-50,-50%,,All Reflect Damage Received -50%,https://thanosvibs.money/api/supports
-blackpanther,Leadership,All Basic Attacks,35,35%,Type: Speed,All Basic Attacks 35%,https://thanosvibs.money/api/supports
-blackpanther,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,,Basic Damage Dealt to Villains 55%,https://thanosvibs.money/api/supports
-blackpanther,Tier-2 Passive,Basic Damage Received from Villains,40,40%,,Basic Damage Received from Villains 40%,https://thanosvibs.money/api/supports
 blackswan,Leadership,Remove All Debuffs,12,N/A,,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
 blade,Leadership,All Basic Attacks,60,60%,Ability: Weapons Master,All Basic Attacks 60%,https://thanosvibs.money/api/supports
 bluedragon,Leadership,All Basic Attacks,65,65%,Ability: Warriors of the Sky,All Basic Attacks 65%,https://thanosvibs.money/api/supports
@@ -123,10 +120,6 @@ cassandranova,Leadership,Remove All Debuffs,12,N/A,Allies: Mutant,When Debuffed 
 cassielang,4★ Passive,Ignore Dodge,25,25%,Type: Speed,Ignore Dodge 25%,https://thanosvibs.money/api/supports
 cassielang,4★ Passive,Basic Damage Dealt to Heroes,15,15%,Type: Speed,Basic Damage Dealt to Heroes 15%,https://thanosvibs.money/api/supports
 cassielang,4★ Passive,Basic Damage Dealt to Villains,15,15%,Type: Speed,Basic Damage Dealt to Villains 15%,https://thanosvibs.money/api/supports
-chasm,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,Ability: Spider-Sense,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
-chasm,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,Ability: Spider-Sense,Basic Damage Dealt to Heroes 35%,https://thanosvibs.money/api/supports
-chasm,Tier-2 Passive,Skill Damage,35,35%,Ability: Spider-Sense,Skill Damage 35%,https://thanosvibs.money/api/supports
-chasm,Tier-2 Passive,Bonus Damage,35,35%,Ability: Spider-Sense,Bonus Damage 35%,https://thanosvibs.money/api/supports
 colossus,4★ Passive,Physical Reflect Damage Received,-65,-65%,,Physical Reflect Damage Received -65%,https://thanosvibs.money/api/supports
 colossus,4★ Passive,Basic Damage Received from Villains,-50,-50%,,Basic Damage Received from Villains -50%,https://thanosvibs.money/api/supports
 colossus,4★ Passive,Basic Damage Received from Heroes,-50,-50%,,Basic Damage Received from Heroes -50%,https://thanosvibs.money/api/supports
@@ -162,6 +155,7 @@ deadpool,Leadership,All Basic Defenses,40,40%,,All Basic Defenses 40%,https://th
 deadpool,Leadership,All Speeds,15,15%,,All Speeds 15%,https://thanosvibs.money/api/supports
 deadpool,Leadership,Basic Damage Dealt to Boss Types,60,60%,Character: Gwenpool,Basic Damage Dealt to Boss Types 60%,https://thanosvibs.money/api/supports
 deadpool,Leadership,Remove All Debuffs,10,N/A,Character: Deadpool,When Debuffed | Cooldown 25s | Remove All Debuffs N/A 10,https://thanosvibs.money/api/supports
+deadpool,Leadership,Basic Damage Dealt to Boss Types,40,40%,Character: Deadpool,Basic Damage Dealt to Boss Types 40%,https://thanosvibs.money/api/supports
 deathlok,Leadership,Physical Attack,30,30%,,Physical Attack 30%,https://thanosvibs.money/api/supports
 destroyer,4★ Passive,HP,55,55%,Ability: Machine,HP 55%,https://thanosvibs.money/api/supports
 doctordoom,Leadership,Remove All Debuffs,12,N/A,,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
@@ -202,6 +196,11 @@ ebonymaw,Uniform Effect,Basic Damage Received from Universals,-25,-25%,,Basic Da
 echo,Leadership,Fire Damage,60,60%,,Fire Damage 60%,https://thanosvibs.money/api/supports
 echo,4★ Passive,Fire Resist,25,25%,,Fire Resist 25%,https://thanosvibs.money/api/supports
 echo,4★ Passive,All Element Damage,15,15%,,All Element Damage 15%,https://thanosvibs.money/api/supports
+echo,Leadership,All Basic Attacks,60,60%,Type: Speed,All Basic Attacks 60%,https://thanosvibs.money/api/supports
+echo,Leadership,All Basic Defenses,60,60%,Type: Speed,All Basic Defenses 60%,https://thanosvibs.money/api/supports
+echo,Leadership,Remove All Debuffs,12,N/A,Type: Speed,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
+echo,4★ Passive,Chain Hit Damage Received,-20,-20%,Type: Speed,Chain Hit Damage Received -20%,https://thanosvibs.money/api/supports
+echo,4★ Passive,Ignore Dodge,20,20%,Type: Speed,Ignore Dodge 20%,https://thanosvibs.money/api/supports
 electro,Leadership,All Basic Attacks,40,40%,Ability: Sinister Six,All Basic Attacks 40%,https://thanosvibs.money/api/supports
 electro,Leadership,All Basic Defenses,40,40%,Ability: Sinister Six,All Basic Defenses 40%,https://thanosvibs.money/api/supports
 electro,Leadership,All Speeds,10,10%,Ability: Sinister Six,All Speeds 10%,https://thanosvibs.money/api/supports
@@ -306,17 +305,15 @@ hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,12,12%,
 hopesummers,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,Allies: Mutant,6★ | Basic Damage Dealt to Villains 15% 0.5%,https://thanosvibs.money/api/supports
 hopesummers,Artifact Exclusive Skill,Basic Damage Received from Villains,15,15%,Allies: Mutant,6★ | Basic Damage Received from Villains 15% 0.5%,https://thanosvibs.money/api/supports
 hulk,Leadership,Physical Attack,30,30%,,Physical Attack 30%,https://thanosvibs.money/api/supports
-hulkbuster,Leadership,All Basic Attacks,35,35%,,All Basic Attacks 35%,https://thanosvibs.money/api/supports
-hulkbuster,Leadership,All Basic Attacks,70,70%,Character: Iron Man,All Basic Attacks 70%,https://thanosvibs.money/api/supports
-hulkbuster,4★ Passive,HP,35,35%,Ability: Machine,HP 35%,https://thanosvibs.money/api/supports
+hulkamadeuscho,Uniform Effect,Basic Damage Dealt to Villains,40,40%,,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
 hulkbusterironmanmark44,Leadership,All Basic Attacks,35,35%,,All Basic Attacks 35%,https://thanosvibs.money/api/supports
 hulkbusterironmanmark44,Leadership,All Basic Attacks,70,70%,Character: Iron Man,All Basic Attacks 70%,https://thanosvibs.money/api/supports
 hulkbusterironmanmark44,Leadership,All Basic Attacks,24,24%,,All Basic Attacks 24%,https://thanosvibs.money/api/supports
+hulkbusterironmanmark44,4★ Passive,HP,35,35%,Ability: Machine,HP 35%,https://thanosvibs.money/api/supports
 humantorch,Leadership,Fire Damage,25,25%,,Fire Damage 25%,https://thanosvibs.money/api/supports
 hyperion,Leadership,All Basic Attacks,45,45%,,All Basic Attacks 45%,https://thanosvibs.money/api/supports
 hyperion,Leadership,All Basic Attacks,55,55%,,All Basic Attacks 55%,https://thanosvibs.money/api/supports
 ikaris,Leadership,All Basic Attacks,60,60%,Ability: Eternals,All Basic Attacks 60%,https://thanosvibs.money/api/supports
-infinityultron,Leadership,All Basic Attacks,55,55%,Ability: Machine,All Basic Attacks 55%,https://thanosvibs.money/api/supports
 invisiblewoman,Leadership,Remove All Debuffs,6,N/A,,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 6,https://thanosvibs.money/api/supports
 invisiblewoman,Leadership,Debuff Immunity,12,12%,,When Debuffed | Cooldown 20s | Debuff Immunity N/A 12,https://thanosvibs.money/api/supports
 invisiblewoman,Leadership,Energy Attack,45,45%,,Energy Attack 45%,https://thanosvibs.money/api/supports
@@ -327,9 +324,10 @@ ironfist,Leadership,All Basic Attacks,60,60%,Ability: Defenders,All Basic Attack
 ironhammer,Leadership,Skill Cooldown,-24,-24%,,Skill Cooldown -24%,https://thanosvibs.money/api/supports
 ironhammer,Leadership,Energy Attack,15,15%,,Energy Attack 15%,https://thanosvibs.money/api/supports
 ironhammer,Leadership,Lightning Damage,15,15%,,Lightning Damage 15%,https://thanosvibs.money/api/supports
-ironheart,Leadership,Energy Attack,45,45%,,Energy Attack 45%,https://thanosvibs.money/api/supports
 ironheart,Leadership,Energy Attack,55,55%,Type: Blast,Energy Attack 55%,https://thanosvibs.money/api/supports
 ironheart,Uniform Effect,Ignore Dodge,25,25%,,Ignore Dodge 25%,https://thanosvibs.money/api/supports
+ironheart,Uniform Effect,Basic Damage Dealt to Boss Types,35,35%,,Basic Damage Dealt to Boss Types 35%,https://thanosvibs.money/api/supports
+ironheart,Leadership,Energy Attack,45,45%,,Energy Attack 45%,https://thanosvibs.money/api/supports
 ironheart,Uniform Effect,Basic Damage Dealt to Boss Types,45,45%,,Basic Damage Dealt to Boss Types 45%,https://thanosvibs.money/api/supports
 jeangrey,Leadership,Remove All Debuffs,12,N/A,,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
 jeffthelandshark,4★ Passive,Basic Damage Dealt to Villains,45,45%,Side: Hero,Basic Damage Dealt to Villains 45%,https://thanosvibs.money/api/supports
@@ -424,11 +422,6 @@ marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,16,16%,Ability
 marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,16,16%,Ability: Young Avengers,5★ | Basic Damage Received from Villains 16% 0.4%,https://thanosvibs.money/api/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Dealt to Villains,20,20%,Ability: Young Avengers,6★ | Basic Damage Dealt to Villains 20% 0.5%,https://thanosvibs.money/api/supports
 marvelboy,Artifact Exclusive Skill,Basic Damage Received from Villains,20,20%,Ability: Young Avengers,6★ | Basic Damage Received from Villains 20% 0.5%,https://thanosvibs.money/api/supports
-mayalopez,Leadership,All Basic Attacks,60,60%,Type: Speed,All Basic Attacks 60%,https://thanosvibs.money/api/supports
-mayalopez,Leadership,All Basic Defenses,60,60%,Type: Speed,All Basic Defenses 60%,https://thanosvibs.money/api/supports
-mayalopez,Leadership,Remove All Debuffs,12,N/A,Type: Speed,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
-mayalopez,4★ Passive,Chain Hit Damage Received,-20,-20%,Type: Speed,Chain Hit Damage Received -20%,https://thanosvibs.money/api/supports
-mayalopez,4★ Passive,Ignore Dodge,20,20%,Type: Speed,Ignore Dodge 20%,https://thanosvibs.money/api/supports
 medusa,Leadership,All Basic Attacks,36,36%,Type: Universal,All Basic Attacks 36%,https://thanosvibs.money/api/supports
 medusa,Artifact Exclusive Skill,Ignore Dodge,5,5%,,3★ | Ignore Dodge 5% 0.2%,https://thanosvibs.money/api/supports
 medusa,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,5,5%,,3★ | Basic Damage Dealt to Boss Types 5% 0.1%,https://thanosvibs.money/api/supports
@@ -463,10 +456,6 @@ mystique,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Deal
 mystique,Tier-2 Passive,Basic Damage Dealt to Heroes,50,50%,,Basic Damage Dealt to Heroes 50%,https://thanosvibs.money/api/supports
 mystique,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
 mystique,Tier-2 Passive,Basic Damage Dealt to Heroes,45,45%,,Basic Damage Dealt to Heroes 45%,https://thanosvibs.money/api/supports
-nicepool,Leadership,All Basic Attacks,40,40%,,All Basic Attacks 40%,https://thanosvibs.money/api/supports
-nicepool,Leadership,All Basic Defenses,40,40%,,All Basic Defenses 40%,https://thanosvibs.money/api/supports
-nicepool,Leadership,All Speeds,15,15%,,All Speeds 15%,https://thanosvibs.money/api/supports
-nicepool,Leadership,Basic Damage Dealt to Boss Types,40,40%,Character: Deadpool,Basic Damage Dealt to Boss Types 40%,https://thanosvibs.money/api/supports
 nickfury,Leadership,All Basic Attacks,50,50%,Side: Hero,All Basic Attacks 50%,https://thanosvibs.money/api/supports
 nickfury,Tier-2 Passive,"Super Armor, All Basic Defenses",30,30%,Side: Hero,"Super Armor, All Basic Defenses 30%",https://thanosvibs.money/api/supports
 nickfury,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,Side: Hero,Basic Damage Dealt to Villains 55%,https://thanosvibs.money/api/supports
@@ -559,9 +548,6 @@ redshehulk,4★ Passive,Basic Damage Received,-10,-10%,,Basic Damage Received -1
 rescue,Leadership,Max HP Shield,50,50%,,When HP is below 99% | Cooldown 10s | Max HP Shield 50% 5,https://thanosvibs.money/api/supports
 rescue,Uniform Effect,Recovery Rate,25,25%,,Recovery Rate 25%,https://thanosvibs.money/api/supports
 rescue,Uniform Effect,HP,25,25%,,HP 25%,https://thanosvibs.money/api/supports
-ririwilliams,Leadership,Energy Attack,55,55%,Type: Blast,Energy Attack 55%,https://thanosvibs.money/api/supports
-ririwilliams,Uniform Effect,Ignore Dodge,25,25%,,Ignore Dodge 25%,https://thanosvibs.money/api/supports
-ririwilliams,Uniform Effect,Basic Damage Dealt to Boss Types,35,35%,,Basic Damage Dealt to Boss Types 35%,https://thanosvibs.money/api/supports
 rocketraccoon,4★ Passive,Energy Attack,40,40%,Ability: Guardians of the Galaxy,Energy Attack 40%,https://thanosvibs.money/api/supports
 ronan,Leadership,All Basic Attacks,50,50%,Type: Universal,All Basic Attacks 50%,https://thanosvibs.money/api/supports
 ronan,Leadership,All Basic Defenses,36,36%,Type: Universal,All Basic Defenses 36%,https://thanosvibs.money/api/supports
@@ -587,11 +573,13 @@ satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,8,8%,Type: Univ
 satana,Artifact Exclusive Skill,All Basic Attacks,20,20%,Type: Universal,6★ | All Basic Attacks 20% 0.5%,https://thanosvibs.money/api/supports
 satana,Artifact Exclusive Skill,Basic Damage Dealt to Boss Types,10,10%,Type: Universal,6★ | Basic Damage Dealt to Boss Types 10% 0.25%,https://thanosvibs.money/api/supports
 satana,Leadership,Fire Damage,60,60%,,Fire Damage 60%,https://thanosvibs.money/api/supports
+scarletspider,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,Ability: Spider-Sense,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
+scarletspider,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,Ability: Spider-Sense,Basic Damage Dealt to Heroes 35%,https://thanosvibs.money/api/supports
+scarletspider,Tier-2 Passive,Skill Damage,35,35%,Ability: Spider-Sense,Skill Damage 35%,https://thanosvibs.money/api/supports
+scarletspider,Tier-2 Passive,Bonus Damage,35,35%,Ability: Spider-Sense,Bonus Damage 35%,https://thanosvibs.money/api/supports
 scarletspider,Tier-2 Passive,All Basic Attacks,30,30%,Type: Speed,All Basic Attacks 30%,https://thanosvibs.money/api/supports
 scarletspider,Tier-2 Passive,Basic Damage Dealt to Villains,50,50%,Type: Speed,Basic Damage Dealt to Villains 50%,https://thanosvibs.money/api/supports
 scarletspider,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,Type: Speed,Basic Damage Dealt to Heroes 35%,https://thanosvibs.money/api/supports
-scarletspider,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,Ability: Spider-Sense,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
-scarletspider,Tier-2 Passive,Basic Damage Dealt to Heroes,35,35%,Ability: Spider-Sense,Basic Damage Dealt to Heroes 35%,https://thanosvibs.money/api/supports
 scarletspider,Tier-2 Passive,Skill Damage,25,25%,Ability: Spider-Sense,Skill Damage 25%,https://thanosvibs.money/api/supports
 scarletspider,Tier-2 Passive,Bonus Damage,20,20%,Ability: Spider-Sense,Bonus Damage 20%,https://thanosvibs.money/api/supports
 scarletwitch,Leadership,Energy Attack,45,45%,,Energy Attack 45%,https://thanosvibs.money/api/supports
@@ -621,6 +609,7 @@ shuri,Tier-2 Passive,Basic Damage Dealt to Villains,35,35%,,Basic Damage Dealt t
 shuri,Tier-2 Passive,Basic Damage Received from Villains,25,25%,,Basic Damage Received from Villains 25%,https://thanosvibs.money/api/supports
 shuri,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,,Basic Damage Dealt to Villains 45%,https://thanosvibs.money/api/supports
 shuri,Tier-2 Passive,Basic Damage Received from Villains,35,35%,,Basic Damage Received from Villains 35%,https://thanosvibs.money/api/supports
+shuri,Leadership,All Basic Attacks,35,35%,Type: Speed,All Basic Attacks 35%,https://thanosvibs.money/api/supports
 sif,Leadership,HP,30,30%,Type: Combat,HP 30%,https://thanosvibs.money/api/supports
 sif,Leadership,Physical Attack,35,35%,Type: Combat,Physical Attack 35%,https://thanosvibs.money/api/supports
 sif,Uniform Effect,All Speeds,10,10%,,All Speeds 10%,https://thanosvibs.money/api/supports
@@ -743,6 +732,7 @@ usagent,Leadership,All Basic Attacks,30,30%,Ability: Thunderbolts,All Basic Atta
 usagent,Leadership,HP,40,40%,Ability: Thunderbolts,HP 40%,https://thanosvibs.money/api/supports
 ulik,Leadership,Physical Attack,30,30%,,Physical Attack 30%,https://thanosvibs.money/api/supports
 ultron,Leadership,All Basic Attacks,65,65%,Ability: Machine,All Basic Attacks 65%,https://thanosvibs.money/api/supports
+ultron,Leadership,All Basic Attacks,55,55%,Ability: Machine,All Basic Attacks 55%,https://thanosvibs.money/api/supports
 ultron,Leadership,All Basic Attacks,24,24%,,All Basic Attacks 24%,https://thanosvibs.money/api/supports
 ulyssesklaue,4★ Passive,Critical Damage,30,30%,,Critical Damage 30%,https://thanosvibs.money/api/supports
 valeriarichards,Leadership,HP,25,25%,Ability: Fantastic Four,HP 25%,https://thanosvibs.money/api/supports
@@ -868,6 +858,4 @@ wong,4★ Passive,Basic Damage Dealt to Villains,53,53%,Ability: Magic,Basic Dam
 yondu,4★ Passive,Basic Damage Dealt to Villains,50,50%,Allies: Alien,Basic Damage Dealt to Villains 50%,https://thanosvibs.money/api/supports
 yondu,Uniform Effect,All Basic Attacks,35,35%,Allies: Alien,All Basic Attacks 35%,https://thanosvibs.money/api/supports
 yondu,Uniform Effect,Basic Damage Dealt to Boss Types,40,40%,Allies: Alien,Basic Damage Dealt to Boss Types 40%,https://thanosvibs.money/api/supports
-youngapocalypse,Leadership,All Basic Attacks,60,60%,Allies: Mutant,All Basic Attacks 60%,https://thanosvibs.money/api/supports
-youngapocalypse,4★ Passive,Remove All Debuffs,12,N/A,Allies: Mutant,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
 zeus,Leadership,Lightning Damage,60,60%,,Lightning Damage 60%,https://thanosvibs.money/api/supports

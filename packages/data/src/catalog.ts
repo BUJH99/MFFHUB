@@ -192,9 +192,27 @@ function appendBaseCharacterForms(characters: CatalogCharacter[]) {
     const baseName = baseAttribute.uniform ?? 'Modern';
     const baseKey = slugify(baseName);
     const existingIndex = character.uniforms.findIndex((uniform) => slugify(uniform.name) === baseKey);
-    if (existingIndex >= 0) return character;
-
     const baseCoreAttributes = uniformCoreAttributes(baseAttribute);
+
+    if (existingIndex >= 0) {
+      const existing = character.uniforms[existingIndex];
+      const hydratedBase: CatalogUniform = {
+        ...existing,
+        baseCharacter: true,
+        imageUrl: baseAttribute.localPortraitUrl ?? existing.imageUrl ?? baseAttribute.portraitUrl ?? character.imageUrl,
+        sourceImageUrl: baseAttribute.portraitUrl ?? existing.sourceImageUrl,
+        acquisition: existing.acquisition ?? '기본 외형 · 유니폼 없음',
+        type: baseCoreAttributes.type ?? existing.type,
+        side: baseCoreAttributes.side ?? existing.side,
+        gender: baseCoreAttributes.gender ?? existing.gender,
+        species: baseCoreAttributes.species ?? existing.species,
+        tags: mergeStringList(existing.tags ?? [], baseCoreAttributes.tags ?? []),
+      };
+      return {
+        ...character,
+        uniforms: character.uniforms.map((uniform, index) => index === existingIndex ? hydratedBase : uniform),
+      };
+    }
 
     return {
       ...character,
@@ -362,7 +380,7 @@ export const manualCatalogCharacters: CatalogCharacter[] = [
   seed('White Fox','Speed','Hero',['Leadership','Support','Female'],[uni('Lifestyle Series 2',{leader:['Leadership allies attack'], passive:['Damage to Villains','Debuff utility']})], artifact('Fox Spirit','Leadership Charm',['Leadership allies damage','Ignore Dodge'])),
   seed('Ghost Panther','Universal','Hero',['Fire','Support','Hero'],[uni('Modern',{leader:['Fire Damage +'], passive:['Fire allies support','Damage to Villains']})], artifact('Spirit of Vengeance','Panther Flame',['Fire Damage','All Basic Attacks'])),
   seed('Nick Fury','Speed','Hero',['Leadership','Agent','Support'],[uni('Modern',{leader:['Hero allies attack'], passive:['Damage to Villains','Leadership support']})], artifact('S.H.I.E.L.D. File','Director Order',['Hero allies damage','Critical Rate'])),
-  seed('Coulson','Speed','Hero',['Agent','Support','Hero'],[uni('Modern',{passive:['Damage to Villains','Critical Rate support']})], artifact('Agent Watch','Veteran Support',['Damage to Villains','Critical Damage'])),
+  seed('Phil Coulson','Speed','Hero',['Agent','Support','Hero'],[uni('Modern',{passive:['Damage to Villains','Critical Rate support']})], artifact('Agent Watch','Veteran Support',['Damage to Villains','Critical Damage'])),
   seed('Valkyrie','Combat','Hero',['Asgardian','Support','Female'],[uni('Love and Thunder',{leader:['All Basic Attacks'], passive:['Damage to Boss','Ignore Dodge support']})], artifact('Dragonfang','Chooser of the Slain',['Boss Damage','Ignore Dodge'])),
   seed('Beta Ray Bill','Universal','Hero',['Lightning','Leadership','Hero'],[uni('Modern',{leader:['Lightning Damage +60%'], passive:['Lightning dealer','Universal PvE']})], artifact('Stormbreaker','Korbinite Thunder',['Lightning Damage','Skill Damage'])),
   seed('Thor','Universal','Hero',['Lightning','Asgardian','Hero'],[uni('Love and Thunder',{leader:['Lightning Damage +'], passive:['Lightning damage','ABL Universal 후보']})], artifact('Mjolnir','God of Thunder',['Lightning Damage','All Basic Attacks'])),
@@ -390,7 +408,7 @@ export const manualCatalogCharacters: CatalogCharacter[] = [
   seed('Corvus Glaive','Speed','Villain',['Black Order','Male','Villain'],[uni('Dark Obsidian Armor',{leader:['Speed allies attack'], passive:['PvP revive/utility','Villain dealer']})], artifact('Glaive','Shadow Strike',['Dodge','Damage to Heroes'])),
   seed('Supergiant','Universal','Villain',['Black Order','Female','Mind'],[uni('Dark Obsidian Armor',{leader:['Mind Damage +'], passive:['Mind dealer','ABL Universal Villain']})], artifact('Mind Stone Echo','Black Order Mind',['Mind Damage','Energy Attack'])),
   seed('Ebony Maw','Blast','Villain',['Black Order','Support','Villain'],[uni('Dark Obsidian Armor',{leader:['Energy Attack +'], passive:['Universal damage received down','Element support']})], artifact('Maw Grimoire','Whispering Maw',['Damage reduction','Element Damage'])),
-  seed('Cull Obsidian','Combat','Villain',['Black Order','Male','Villain'],[uni('Dark Obsidian Armor',{leader:['Combat attack'], passive:['Physical dealer','Tank']})], artifact('Obsidian Chain','Brutal Guard',['Physical Attack','Max HP'])),
+  seed('Black Dwarf','Combat','Villain',['Black Order','Male','Villain'],[uni('Dark Obsidian Armor',{leader:['Combat attack'], passive:['Physical dealer','Tank']})], artifact('Obsidian Chain','Brutal Guard',['Physical Attack','Max HP'])),
   seed('Silver Surfer','Universal','Hero',['Power Cosmic','Male','Hero'],[uni('Black',{leader:['Universal attack'], passive:['Reflect/PvP','Cosmic synergy']})], artifact('Surfboard','Herald Light',['Reflect','All Basic Attacks'])),
   seed('Blue Dragon','Blast','Hero',['Warriors of the Sky','Lightning','Female'],[uni('Sun Bird Temple',{leader:['Lightning Damage +'], passive:['Lightning dealer','ABL blast']})], artifact('Blue Dragon Relic','Storm Dance',['Lightning Damage','All Basic Attacks'])),
   seed('Shadow Shell','Speed','Hero',['Warriors of the Sky','Poison','Female'],[uni('Moon Temple Defenders',{leader:['Poison Damage +'], passive:['Poison dealer','Speed PvE']})], artifact('Shadow Shell Relic','Toxic Guard',['Poison Damage','Skill Damage'])),

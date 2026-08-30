@@ -718,6 +718,21 @@ async function main() {
     throw new Error('THANO$VIB$ API join lost character or uniform rows');
   }
   const characters = buildCharacters(uniforms, artifacts, supports, attributes);
+  const baseCharacterIds = new Set(
+    attributes.filter((row) => row.baseCharacter).map((row) => row.characterId),
+  );
+  const appearanceKeys = attributes.map(
+    (row) => `${row.characterId}|${slugify(row.uniform ?? 'Modern')}`,
+  );
+  if (
+    baseCharacterIds.size !== characters.length ||
+    characters.some((character) => !baseCharacterIds.has(character.id))
+  ) {
+    throw new Error('THANO$VIB$ canonical character join produced a character without exactly one base identity');
+  }
+  if (new Set(appearanceKeys).size !== appearanceKeys.length) {
+    throw new Error('THANO$VIB$ canonical character join collapsed duplicate appearance names');
+  }
 
   const warnings: string[] = [];
   if (characters.length === 0) warnings.push('characters parser returned 0 rows');

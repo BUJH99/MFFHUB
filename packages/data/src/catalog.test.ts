@@ -97,11 +97,55 @@ describe('catalog source layering', () => {
       ) ?? [];
 
       expect(matchingForms, `${attribute.character} ${attribute.uniform} base form`).toHaveLength(1);
+      expect(matchingForms[0], `${attribute.character} ${attribute.uniform} base metadata`).toMatchObject({
+        baseCharacter: true,
+        imageUrl: attribute.localPortraitUrl,
+      });
     }
   });
 
-  it('uses the synced local portrait for the manual Coulson seed', () => {
-    expect(catalogCharacters.find((character) => character.id === 'coulson')?.imageUrl)
+  it('keeps every synced appearance under its canonical base character', () => {
+    const baseCharacterIds = new Set(
+      syncedPayload.attributes
+        .filter((attribute) => attribute.baseCharacter)
+        .map((attribute) => attribute.characterId),
+    );
+    const syncedCharacterIds = new Set(syncedPayload.characters.map((character) => character.id));
+    const appearanceKeys = syncedPayload.attributes.map(
+      (attribute) => `${attribute.characterId}|${slugify(attribute.uniform ?? 'Modern')}`,
+    );
+
+    expect(syncedCharacterIds).toEqual(baseCharacterIds);
+    expect(new Set(appearanceKeys).size).toBe(appearanceKeys.length);
+
+    for (const attribute of syncedPayload.attributes) {
+      const character = catalogCharacters.find((row) => row.id === attribute.characterId);
+      const matchingForms = character?.uniforms.filter(
+        (uniform) => slugify(uniform.name) === slugify(attribute.uniform ?? 'Modern'),
+      ) ?? [];
+      expect(matchingForms, `${attribute.character} ${attribute.uniform} appearance`).toHaveLength(1);
+    }
+  });
+
+  it('keeps name-colliding transformed uniforms on the correct character', () => {
+    const shuri = catalogCharacters.find((character) => character.id === 'shuri');
+    const blackPanther = catalogCharacters.find((character) => character.id === 'blackpanther');
+    const giantMan = catalogCharacters.find((character) => character.id === 'giantman');
+    const goliath = catalogCharacters.find((character) => character.id === 'goliath');
+
+    expect(shuri?.uniforms.find((uniform) => uniform.name === "Marvel Studios' Black Panther: Wakanda Forever")?.imageUrl)
+      .toContain('shuri3');
+    expect(blackPanther?.uniforms.find((uniform) => uniform.name === "Marvel Studios' Black Panther")?.imageUrl)
+      .toContain('blackpanther2');
+    expect(giantMan?.uniforms.find((uniform) => uniform.name === 'Modern · Goliath')?.imageUrl)
+      .toContain('giantman1');
+    expect(goliath?.uniforms.some((uniform) => uniform.imageUrl?.includes('giantman1'))).toBe(false);
+  });
+
+  it('merges manual aliases into the synced canonical character', () => {
+    expect(catalogCharacters.find((character) => character.id === 'philcoulson')?.imageUrl)
       .toBe('/mff-assets/characters/philcoulson2.webp');
+    expect(catalogCharacters.some((character) => character.id === 'coulson')).toBe(false);
+    expect(catalogCharacters.some((character) => character.id === 'cullobsidian')).toBe(false);
   });
 });

@@ -59,6 +59,108 @@ describe('THANO$VIB$ JSON API adapter', () => {
     });
   });
 
+  it('joins alter-ego uniform names back to the base character identity', () => {
+    const transformed: ApiCharacter = {
+      ...baseCharacter,
+      character: 'Future Hero',
+      uniform: 'Future Suit',
+      uniformed: 'True',
+      portrait: 'testhero1',
+      base_portrait: 'testhero',
+    };
+    const existing: ApiCharacter = {
+      ...baseCharacter,
+      uniform: 'Existing Suit',
+      uniformed: 'True',
+      portrait: 'testhero2',
+      base_portrait: 'testhero',
+    };
+    const previousUniforms = [
+      {
+        character: 'Test Hero',
+        characterId: 'testhero',
+        name: 'Existing Suit',
+        portraitId: 'testhero2',
+        sourceUrl: 'https://thanosvibs.money/uniforms',
+      },
+      {
+        character: 'Future Hero',
+        characterId: 'futurehero',
+        name: 'Future Suit',
+        portraitId: 'testhero1',
+        sourceUrl: 'https://thanosvibs.money/uniforms',
+      },
+    ];
+
+    const attributes = parseApiAttributes(
+      [baseCharacter, transformed, existing],
+      { testhero1: { update: '12.1' }, testhero2: { update: '12.0' } },
+    );
+    const uniforms = parseApiUniforms(
+      { testhero1: { update: '12.1' }, testhero2: { update: '12.0' } },
+      [baseCharacter, transformed, existing],
+      [],
+      previousUniforms,
+    );
+    const supports = parseApiSupports([{
+      portrait: 'testhero1',
+      passive: { effect: [['All Basic Attacks', 25]] },
+    }], [baseCharacter, transformed, existing]);
+
+    expect(new Set(attributes.map((row) => row.characterId))).toEqual(new Set(['testhero']));
+    expect(attributes.find((row) => row.portraitId === 'testhero1')).toMatchObject({
+      character: 'Test Hero',
+      characterId: 'testhero',
+      uniform: 'Future Suit',
+    });
+    expect(attributes.find((row) => row.portraitId === 'testhero1')?.tags).toContain('Alias:Future Hero');
+    expect(uniforms.map((row) => [row.characterId, row.name])).toEqual([
+      ['testhero', 'Existing Suit'],
+      ['testhero', 'Future Suit'],
+    ]);
+    expect(supports.supports[0]).toMatchObject({
+      character: 'Test Hero',
+      characterId: 'testhero',
+      uniform: 'Future Suit',
+    });
+    expect(supports.effects[0]).toMatchObject({
+      character: 'Test Hero',
+      characterId: 'testhero',
+      uniform: 'Future Suit',
+    });
+  });
+
+  it('qualifies duplicate uniform names without dropping transformed appearances', () => {
+    const transformed: ApiCharacter = {
+      ...baseCharacter,
+      character: 'Future Hero',
+      uniformed: 'True',
+      portrait: 'testhero1',
+      base_portrait: 'testhero',
+    };
+    const rows = [baseCharacter, transformed];
+    const attributes = parseApiAttributes(rows, { testhero1: { update: '12.1' } });
+    const uniforms = parseApiUniforms(
+      { testhero1: { update: '12.1' } },
+      rows,
+      [],
+    );
+    const supports = parseApiSupports([{
+      portrait: 'testhero1',
+      uniform: { effect: [['All Basic Attacks', 15]] },
+    }], rows);
+
+    expect(attributes.map((row) => row.uniform)).toEqual(['Modern', 'Modern · Future Hero']);
+    expect(uniforms[0]).toMatchObject({
+      characterId: 'testhero',
+      name: 'Modern · Future Hero',
+    });
+    expect(supports.supports[0]).toMatchObject({
+      characterId: 'testhero',
+      uniform: 'Modern · Future Hero',
+    });
+  });
+
   it('expands artifact rank placeholders and accepts fixed card stat 3 strings', () => {
     const artifacts = parseApiArtifacts([{
       portrait: 'testhero',

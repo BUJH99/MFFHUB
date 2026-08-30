@@ -4,7 +4,6 @@ abomination,Abomination,Modern,All Basic Attacks 60%,Chain Hit Damage 20% | Basi
 agentvenom,Agent Venom,"All-New, All-Different",Physical Attack 30%,,,Basic Damage Dealt to Enemies with 25% HP or Higher 5% 0.1% | Basic Damage Received -15% 0.15% | Basic Damage Dealt to Enemies with 25% HP or Higher 10% 0.2% | Basic Damage Received -20% 0.2% | Basic Damage Dealt to Enemies with 25% HP or Higher 15% 0.3% | Basic Damage Received -25% 0.25% | Basic Damage Dealt to Enemies with 25% HP or Higher 20% 0.4% | Basic Damage Received -30% 0.3%,https://thanosvibs.money/api/supports
 agentvenom,Agent Venom,Classic,Physical Attack 30%,,Chain Hit Damage Received -35% | Chain Hit Damage 20%,Basic Damage Dealt to Enemies with 25% HP or Higher 5% 0.1% | Basic Damage Received -15% 0.15% | Basic Damage Dealt to Enemies with 25% HP or Higher 10% 0.2% | Basic Damage Received -20% 0.2% | Basic Damage Dealt to Enemies with 25% HP or Higher 15% 0.3% | Basic Damage Received -25% 0.25% | Basic Damage Dealt to Enemies with 25% HP or Higher 20% 0.4% | Basic Damage Received -30% 0.3%,https://thanosvibs.money/api/supports
 agentvenom,Agent Venom,Guardians of the Galaxy,Physical Attack 30%,,Chain Hit Damage Received -40% | Chain Hit Damage 20%,Basic Damage Dealt to Enemies with 25% HP or Higher 5% 0.1% | Basic Damage Received -15% 0.15% | Basic Damage Dealt to Enemies with 25% HP or Higher 10% 0.2% | Basic Damage Received -20% 0.2% | Basic Damage Dealt to Enemies with 25% HP or Higher 15% 0.3% | Basic Damage Received -25% 0.25% | Basic Damage Dealt to Enemies with 25% HP or Higher 20% 0.4% | Basic Damage Received -30% 0.3%,https://thanosvibs.money/api/supports
-amadeuscho,Amadeus Cho,Heroic Age,,,Basic Damage Dealt to Villains 40%,,https://thanosvibs.money/api/supports
 americachavez,America Chavez,Classic,All Basic Attacks 30% | Dodge 6%,,,,https://thanosvibs.money/api/supports
 americachavez,America Chavez,Marvel Studios' Doctor Strange 2,All Basic Attacks 30% | Dodge 6%,,HP 40% | All Reflect Damage Received -50%,,https://thanosvibs.money/api/supports
 americachavez,America Chavez,Ultimates,All Basic Attacks 24% | Dodge 6%,,,,https://thanosvibs.money/api/supports
@@ -20,6 +19,7 @@ antiman,Anti-Man,"All-New, All-Different",All Basic Attacks 45%,,,,https://thano
 antiman,Anti-Man,Ultimates,All Basic Attacks 60% | HP 30%,,,,https://thanosvibs.money/api/supports
 apocalypse,Apocalypse,Age of Apocalypse,All Basic Attacks 18% | All Basic Defenses 18% | All Speeds 6%,,,,https://thanosvibs.money/api/supports
 apocalypse,Apocalypse,Heralds of Apocalypse,All Basic Attacks 18% | All Basic Defenses 18% | All Speeds 6%,Remove All Debuffs N/A 12,,,https://thanosvibs.money/api/supports
+apocalypse,Apocalypse,Marvel Animation's X-Men '97,All Basic Attacks 60%,Remove All Debuffs N/A 12,,,https://thanosvibs.money/api/supports
 arachknight,Arachknight,Arachknight 2099,All Basic Attacks 45% when 1 Infinity Warp | All Basic Attacks 55% when 2 Infinity Warps | All Basic Attacks 65% when 3 Infinity Warps,,,,https://thanosvibs.money/api/supports
 ares,Ares,Modern,Physical Attack 30%,,,,https://thanosvibs.money/api/supports
 athena,Athena,Incredible Hercules,,All Basic Attacks 25% | Basic Damage Dealt to Villains 45%,,,https://thanosvibs.money/api/supports
@@ -40,7 +40,6 @@ blackcat,Black Cat,Queen in Black,All Basic Attacks 65% | Ignore Dodge 35%,All D
 blackcat,Black Cat,Winter Criminal,All Basic Attacks 65% | Ignore Dodge 35%,All Debuffs Effect 40%,,Basic Damage Dealt to Villains 4% 0.2% | Basic Damage Dealt to Heroes 4% 0.2% | Basic Damage Dealt to Boss Types 8% 0.1% | Basic Damage Dealt to Villains 6% 0.2% | Basic Damage Dealt to Heroes 6% 0.2% | Basic Damage Dealt to Boss Types 12% 0.1% | Basic Damage Dealt to Villains 8% 0.2% | Basic Damage Dealt to Heroes 8% 0.2% | Basic Damage Dealt to Boss Types 16% 0.1% | Basic Damage Dealt to Villains 10% 0.2% | Basic Damage Dealt to Heroes 10% 0.2% | Basic Damage Dealt to Boss Types 20% 0.1%,https://thanosvibs.money/api/supports
 blackdwarf,Black Dwarf,Dark Obsidian Armor,,Physical Reflect Damage Received 60% | Stun Immunity N/A | Guard Break Immunity N/A,,,https://thanosvibs.money/api/supports
 blackknight,Black Knight,Savage Avengers,,HP 40% | All Reflect Damage Received -50%,,,https://thanosvibs.money/api/supports
-blackpanther,Black Panther,Marvel Studios' Black Panther: Wakanda Forever,All Basic Attacks 35%,Basic Damage Dealt to Villains 55% | Basic Damage Received from Villains 40%,,,https://thanosvibs.money/api/supports
 blackswan,Black Swan,Modern,Remove All Debuffs N/A 12,,,,https://thanosvibs.money/api/supports
 blade,Blade,Vampire Slayer,All Basic Attacks 60%,,,,https://thanosvibs.money/api/supports
 bluedragon,Blue Dragon,Modern,All Basic Attacks 65% | Remove All Debuffs N/A 5,,,,https://thanosvibs.money/api/supports
@@ -52,7 +51,6 @@ captainmarvel,Captain Marvel,Marvel Studios' The Marvels,Energy Attack 35%,,,,ht
 captainmarvel,Captain Marvel,Modern,Energy Attack 30%,,,,https://thanosvibs.money/api/supports
 cassandranova,Cassandra Nova,Marvel Studios' Deadpool & Wolverine,Remove All Debuffs N/A 12,,,,https://thanosvibs.money/api/supports
 cassielang,Cassie Lang,Ant-Man and the Wasp: Quantumania,,Ignore Dodge 25% | Basic Damage Dealt to Heroes 15% | Basic Damage Dealt to Villains 15%,,,https://thanosvibs.money/api/supports
-chasm,Chasm,Dark Web,,Basic Damage Dealt to Villains 40% | Basic Damage Dealt to Heroes 35% | Skill Damage 35% | Bonus Damage 35%,,,https://thanosvibs.money/api/supports
 colossus,Colossus,Hellfire Gala,,Physical Reflect Damage Received -65% | Basic Damage Received from Villains -50% | Basic Damage Received from Heroes -50%,,,https://thanosvibs.money/api/supports
 colossus,Colossus,Modern,,Physical Reflect Damage Received -60% | Basic Damage Received from Villains -50%,,,https://thanosvibs.money/api/supports
 colossus,Colossus,Phoenix Five,,Physical Reflect Damage Received -60% | Basic Damage Received from Villains -50% | Basic Damage Received from Heroes -50%,,,https://thanosvibs.money/api/supports
@@ -70,6 +68,7 @@ dazzler,Dazzler,Modern,,Ignore Dodge 70% | Basic Damage Dealt to Boss Types 65%,
 dazzler,Dazzler,X-Song,,All Basic Attacks 25% | Ignore Dodge 70% | Basic Damage Dealt to Boss Types 65%,,Basic Damage Dealt to Villains 3% 0.2% | All Basic Attacks 13% 0.2% | Basic Damage Dealt to Villains 5% 0.3% | All Basic Attacks 15% 0.3% | Basic Damage Dealt to Villains 7% 0.4% | All Basic Attacks 17% 0.4% | Basic Damage Dealt to Villains 10% 0.5% | All Basic Attacks 20% 0.5%,https://thanosvibs.money/api/supports
 deadpool,Deadpool,April Pools,All Basic Attacks 40% | All Basic Defenses 40% | All Speeds 15% | Basic Damage Dealt to Boss Types 60%,,,,https://thanosvibs.money/api/supports
 deadpool,Deadpool,Marvel Studios' Deadpool & Wolverine,All Basic Attacks 40% | All Basic Defenses 40% | All Speeds 15% | Remove All Debuffs N/A 10,,,,https://thanosvibs.money/api/supports
+deadpool,Deadpool,Marvel Studios' Deadpool & Wolverine · Nicepool,All Basic Attacks 40% | All Basic Defenses 40% | All Speeds 15% | Basic Damage Dealt to Boss Types 40%,,,,https://thanosvibs.money/api/supports
 deathlok,Deathlok,Marvel Studios' Agents of S.H.I.E.L.D.,Physical Attack 30%,,,,https://thanosvibs.money/api/supports
 destroyer,Destroyer,The Mighty Thor,,HP 55%,,,https://thanosvibs.money/api/supports
 doctordoom,Doctor Doom,Modern,Remove All Debuffs N/A 12,,,,https://thanosvibs.money/api/supports
@@ -88,6 +87,7 @@ ebonymaw,Ebony Maw,General's Hand,Energy Attack 50%,,Basic Damage Dealt to Unive
 ebonymaw,Ebony Maw,Infinity,Energy Attack 40%,,,Basic Damage Dealt to Heroes 11% 0.2% | Basic Damage Dealt to Villains 11% 0.2% | Basic Damage Dealt to Heroes 14% 0.3% | Basic Damage Dealt to Villains 14% 0.3% | Basic Damage Dealt to Heroes 17% 0.4% | Basic Damage Dealt to Villains 17% 0.4% | Basic Damage Dealt to Heroes 20% 0.5% | Basic Damage Dealt to Villains 20% 0.5%,https://thanosvibs.money/api/supports
 ebonymaw,Ebony Maw,Marvel Studios' Avengers: Infinity War,Energy Attack 40%,,Basic Damage Dealt to Universals 25% | Basic Damage Received from Universals -25%,Basic Damage Dealt to Heroes 11% 0.2% | Basic Damage Dealt to Villains 11% 0.2% | Basic Damage Dealt to Heroes 14% 0.3% | Basic Damage Dealt to Villains 14% 0.3% | Basic Damage Dealt to Heroes 17% 0.4% | Basic Damage Dealt to Villains 17% 0.4% | Basic Damage Dealt to Heroes 20% 0.5% | Basic Damage Dealt to Villains 20% 0.5%,https://thanosvibs.money/api/supports
 echo,Echo,Enter the Phoenix,Fire Damage 60%,Fire Resist 25% | All Element Damage 15%,,,https://thanosvibs.money/api/supports
+echo,Echo,Marvel Studios' Hawkeye,All Basic Attacks 60% | All Basic Defenses 60% | Remove All Debuffs N/A 12,Chain Hit Damage Received -20% | Ignore Dodge 20%,,,https://thanosvibs.money/api/supports
 electro,Electro,Modern,All Basic Attacks 40% | All Basic Defenses 40% | All Speeds 10%,Lightning Damage 15%,,,https://thanosvibs.money/api/supports
 electro,Electro,Spider-Man: No Way Home,All Basic Attacks 60% | All Basic Defenses 60% | All Speeds 15%,Lightning Damage 30%,,,https://thanosvibs.money/api/supports
 elsabloodstone,Elsa Bloodstone,Modern,Physical Attack 30%,,,,https://thanosvibs.money/api/supports
@@ -130,18 +130,19 @@ hercules,Hercules,Modern,HP 40%,,,,https://thanosvibs.money/api/supports
 hogun,Hogun,Modern,All Basic Attacks 24%,,,,https://thanosvibs.money/api/supports
 hopesummers,Hope Summers,Modern,All Basic Attacks 30% | All Basic Attacks 70%,,,Basic Damage Dealt to Villains 6% 0.2% | Basic Damage Received from Villains 6% 0.2% | Basic Damage Dealt to Villains 9% 0.3% | Basic Damage Received from Villains 9% 0.3% | Basic Damage Dealt to Villains 12% 0.4% | Basic Damage Received from Villains 12% 0.4% | Basic Damage Dealt to Villains 15% 0.5% | Basic Damage Received from Villains 15% 0.5%,https://thanosvibs.money/api/supports
 hulk,Hulk,The Avengers,Physical Attack 30%,,,,https://thanosvibs.money/api/supports
-hulkbuster,Hulkbuster,Celestial Hulkbuster,All Basic Attacks 35% | All Basic Attacks 70%,HP 35%,,,https://thanosvibs.money/api/supports
+hulkamadeuscho,Hulk (Amadeus Cho),Heroic Age,,,Basic Damage Dealt to Villains 40%,,https://thanosvibs.money/api/supports
 hulkbusterironmanmark44,Hulkbuster (Iron Man Mark 44),3099,All Basic Attacks 35% | All Basic Attacks 70%,,,,https://thanosvibs.money/api/supports
 hulkbusterironmanmark44,Hulkbuster (Iron Man Mark 44),Avengers: Age of Ultron,All Basic Attacks 24%,,,,https://thanosvibs.money/api/supports
+hulkbusterironmanmark44,Hulkbuster (Iron Man Mark 44),Celestial Hulkbuster,All Basic Attacks 35% | All Basic Attacks 70%,HP 35%,,,https://thanosvibs.money/api/supports
 humantorch,Human Torch,Modern,Fire Damage 25%,,,,https://thanosvibs.money/api/supports
 hyperion,Hyperion,"All-New, All-Different",All Basic Attacks 45%,,,,https://thanosvibs.money/api/supports
 hyperion,Hyperion,Enter the Phoenix,All Basic Attacks 55%,,,,https://thanosvibs.money/api/supports
 ikaris,Ikaris,Modern,All Basic Attacks 60%,,,,https://thanosvibs.money/api/supports
-infinityultron,Infinity Ultron,Marvel Studios' What If...?,All Basic Attacks 55%,,,,https://thanosvibs.money/api/supports
 invisiblewoman,Invisible Woman,Classic,Remove All Debuffs N/A 6 | Debuff Immunity N/A 12,,,,https://thanosvibs.money/api/supports
 invisiblewoman,Invisible Woman,The Fall of the Fantastic Four,Energy Attack 45%,Barrier 1 hit 2,Remove All Debuffs N/A 12 | Debuff Immunity N/A 12,,https://thanosvibs.money/api/supports
 ironfist,Iron Fist,The Living Weapon,All Basic Attacks 60%,,,,https://thanosvibs.money/api/supports
 ironhammer,Iron Hammer,Infinity Warps,Skill Cooldown -24% | Energy Attack 15% | Lightning Damage 15%,,,,https://thanosvibs.money/api/supports
+ironheart,Ironheart,Black Panther: Wakanda Forever,Energy Attack 55%,,Ignore Dodge 25% | Basic Damage Dealt to Boss Types 35%,,https://thanosvibs.money/api/supports
 ironheart,Ironheart,Marvel NOW!,Energy Attack 45%,,,,https://thanosvibs.money/api/supports
 ironheart,Ironheart,Marvel Television's Ironheart,Energy Attack 55%,,Ignore Dodge 25% | Basic Damage Dealt to Boss Types 45%,,https://thanosvibs.money/api/supports
 jeangrey,Jean Grey,Phoenix,Remove All Debuffs N/A 12,,,,https://thanosvibs.money/api/supports
@@ -179,7 +180,6 @@ manthing,Man-Thing,Modern,Debuff Duration -30% | HP 30%,,,,https://thanosvibs.mo
 mantis,Mantis,Guardians of the Galaxy 2,,Critical Damage 20% | Ignore Defense 15%,,,https://thanosvibs.money/api/supports
 mantis,Mantis,Marvel Studios' Guardians of the Galaxy 3,,Basic Damage Received from Villains -30% | Basic Damage Received from Heroes -30%,,,https://thanosvibs.money/api/supports
 marvelboy,Marvel Boy,Young Avengers,All Basic Attacks 60%,Remove All Debuffs N/A 12,,Basic Damage Dealt to Villains 10% 0.2% | Basic Damage Received from Villains 10% 0.2% | Basic Damage Dealt to Villains 13% 0.3% | Basic Damage Received from Villains 13% 0.3% | Basic Damage Dealt to Villains 16% 0.4% | Basic Damage Received from Villains 16% 0.4% | Basic Damage Dealt to Villains 20% 0.5% | Basic Damage Received from Villains 20% 0.5%,https://thanosvibs.money/api/supports
-mayalopez,Maya Lopez,Marvel Studios' Hawkeye,All Basic Attacks 60% | All Basic Defenses 60% | Remove All Debuffs N/A 12,Chain Hit Damage Received -20% | Ignore Dodge 20%,,,https://thanosvibs.money/api/supports
 medusa,Medusa,"All-New, All-Different",All Basic Attacks 36%,,,Ignore Dodge 5% 0.2% | Basic Damage Dealt to Boss Types 5% 0.1% | Ignore Dodge 8% 0.3% | Basic Damage Dealt to Boss Types 8% 0.15% | Ignore Dodge 11% 0.4% | Basic Damage Dealt to Boss Types 11% 0.2% | Ignore Dodge 15% 0.5% | Basic Damage Dealt to Boss Types 15% 0.25%,https://thanosvibs.money/api/supports
 medusa,Medusa,Ancient Curse,All Basic Attacks 45%,All Basic Attacks 40%,Basic Damage Dealt to Villains 45%,Ignore Dodge 5% 0.2% | Basic Damage Dealt to Boss Types 5% 0.1% | Ignore Dodge 8% 0.3% | Basic Damage Dealt to Boss Types 8% 0.15% | Ignore Dodge 11% 0.4% | Basic Damage Dealt to Boss Types 11% 0.2% | Ignore Dodge 15% 0.5% | Basic Damage Dealt to Boss Types 15% 0.25%,https://thanosvibs.money/api/supports
 medusa,Medusa,Inhumans vs X-Men,All Basic Attacks 45%,Basic Damage Dealt to Villains 45%,,Ignore Dodge 5% 0.2% | Basic Damage Dealt to Boss Types 5% 0.1% | Ignore Dodge 8% 0.3% | Basic Damage Dealt to Boss Types 8% 0.15% | Ignore Dodge 11% 0.4% | Basic Damage Dealt to Boss Types 11% 0.2% | Ignore Dodge 15% 0.5% | Basic Damage Dealt to Boss Types 15% 0.25%,https://thanosvibs.money/api/supports
@@ -195,7 +195,6 @@ morph,Morph,Marvel Animation's X-Men '97,,Basic Damage Dealt to Males 40% | Basi
 mysterio,Mysterio,Summer Mystery,,,All Basic Attacks 30% | Basic Damage Dealt to Boss Types 40%,,https://thanosvibs.money/api/supports
 mystique,Mystique,Hellfire Gala,,Basic Damage Dealt to Villains 45% | Basic Damage Dealt to Heroes 50%,,,https://thanosvibs.money/api/supports
 mystique,Mystique,Modern,,Basic Damage Dealt to Villains 40% | Basic Damage Dealt to Heroes 45%,,,https://thanosvibs.money/api/supports
-nicepool,Nicepool,Marvel Studios' Deadpool & Wolverine,All Basic Attacks 40% | All Basic Defenses 40% | All Speeds 15% | Basic Damage Dealt to Boss Types 40%,,,,https://thanosvibs.money/api/supports
 nickfury,Nick Fury,Marvel Studios' Captain Marvel,All Basic Attacks 50%,"Super Armor, All Basic Defenses 30% | Basic Damage Dealt to Villains 55%",,Ignore Dodge 4% 0.2% | Basic Damage Dealt to Boss Types 5% 0.1% | Ignore Dodge 6% 0.3% | Basic Damage Dealt to Boss Types 8% 0.15% | Ignore Dodge 8% 0.4% | Basic Damage Dealt to Boss Types 11% 0.2% | Ignore Dodge 10% 0.5% | Basic Damage Dealt to Boss Types 15% 0.25%,https://thanosvibs.money/api/supports
 nickfury,Nick Fury,Marvel Studios' The Marvels,All Basic Attacks 60%,"Super Armor, All Basic Defenses 30% | Incapacitation Immunity N/A | Basic Damage Dealt to Villains 55%",,Ignore Dodge 4% 0.2% | Basic Damage Dealt to Boss Types 5% 0.1% | Ignore Dodge 6% 0.3% | Basic Damage Dealt to Boss Types 8% 0.15% | Ignore Dodge 8% 0.4% | Basic Damage Dealt to Boss Types 11% 0.2% | Ignore Dodge 10% 0.5% | Basic Damage Dealt to Boss Types 15% 0.25%,https://thanosvibs.money/api/supports
 nickfury,Nick Fury,Modern,All Basic Attacks 50%,"Super Armor, All Basic Defenses 30% | Basic Damage Dealt to Villains 50%",,Ignore Dodge 4% 0.2% | Basic Damage Dealt to Boss Types 5% 0.1% | Ignore Dodge 6% 0.3% | Basic Damage Dealt to Boss Types 8% 0.15% | Ignore Dodge 8% 0.4% | Basic Damage Dealt to Boss Types 11% 0.2% | Ignore Dodge 10% 0.5% | Basic Damage Dealt to Boss Types 15% 0.25%,https://thanosvibs.money/api/supports
@@ -228,7 +227,6 @@ redhulk,Red Hulk,Symbiote of Vengeance,Fire Damage 70% | Burn Immunity N/A,,,,ht
 redshehulk,Red She-Hulk,Modern,Fire Damage 65% | HP 25%,HP 30% | Basic Damage Received -10%,,,https://thanosvibs.money/api/supports
 rescue,Rescue,3099,Max HP Shield 50% 5,,Recovery Rate 25%,,https://thanosvibs.money/api/supports
 rescue,Rescue,Invincible Iron Man,Max HP Shield 50% 5,,HP 25% | Recovery Rate 25%,,https://thanosvibs.money/api/supports
-ririwilliams,Riri Williams,Black Panther: Wakanda Forever,Energy Attack 55%,,Ignore Dodge 25% | Basic Damage Dealt to Boss Types 35%,,https://thanosvibs.money/api/supports
 rocketraccoon,Rocket Raccoon,Marvel Studios' Guardians of the Galaxy 3,,Energy Attack 40%,,,https://thanosvibs.money/api/supports
 ronan,Ronan,Annihilators,All Basic Attacks 50% | All Basic Defenses 36%,,Ignore Dodge 25% | Basic Damage Dealt to Villains 40% | Basic Damage Dealt to Heroes 40%,All Basic Attacks 14% 0.2% | All Basic Attacks 16% 0.3% | All Basic Attacks 18% 0.4% | All Basic Attacks 20% 0.5%,https://thanosvibs.money/api/supports
 ronan,Ronan,Guardians of the Galaxy,All Basic Attacks 36% | All Basic Defenses 36%,Ignore Dodge 20%,,All Basic Attacks 14% 0.2% | All Basic Attacks 16% 0.3% | All Basic Attacks 18% 0.4% | All Basic Attacks 20% 0.5%,https://thanosvibs.money/api/supports
@@ -237,6 +235,7 @@ sandman,Sandman,Beach Fortress,,,Ignore Dodge 20% | Basic Damage Dealt to Boss T
 satana,Satana,Ascended One,Fire Damage 70%,,All Element Damage 35%,All Basic Attacks 14% 0.2% | Basic Damage Dealt to Boss Types 4% 0.1% | All Basic Attacks 16% 0.3% | Basic Damage Dealt to Boss Types 6% 0.15% | All Basic Attacks 18% 0.4% | Basic Damage Dealt to Boss Types 8% 0.2% | All Basic Attacks 20% 0.5% | Basic Damage Dealt to Boss Types 10% 0.25%,https://thanosvibs.money/api/supports
 satana,Satana,Marvel Legacy,Fire Damage 70%,,,All Basic Attacks 14% 0.2% | Basic Damage Dealt to Boss Types 4% 0.1% | All Basic Attacks 16% 0.3% | Basic Damage Dealt to Boss Types 6% 0.15% | All Basic Attacks 18% 0.4% | Basic Damage Dealt to Boss Types 8% 0.2% | All Basic Attacks 20% 0.5% | Basic Damage Dealt to Boss Types 10% 0.25%,https://thanosvibs.money/api/supports
 satana,Satana,Modern,Fire Damage 60%,,,All Basic Attacks 14% 0.2% | Basic Damage Dealt to Boss Types 4% 0.1% | All Basic Attacks 16% 0.3% | Basic Damage Dealt to Boss Types 6% 0.15% | All Basic Attacks 18% 0.4% | Basic Damage Dealt to Boss Types 8% 0.2% | All Basic Attacks 20% 0.5% | Basic Damage Dealt to Boss Types 10% 0.25%,https://thanosvibs.money/api/supports
+scarletspider,Scarlet Spider,Dark Web,,Basic Damage Dealt to Villains 40% | Basic Damage Dealt to Heroes 35% | Skill Damage 35% | Bonus Damage 35%,,,https://thanosvibs.money/api/supports
 scarletspider,Scarlet Spider,Gift Deliverer,,All Basic Attacks 30% | Basic Damage Dealt to Villains 50% | Basic Damage Dealt to Heroes 35%,,,https://thanosvibs.money/api/supports
 scarletspider,Scarlet Spider,Modern,,Basic Damage Dealt to Villains 40% | Basic Damage Dealt to Heroes 35% | Skill Damage 25% | Bonus Damage 20%,,,https://thanosvibs.money/api/supports
 scarletwitch,Scarlet Witch,Classic,Energy Attack 45%,,,,https://thanosvibs.money/api/supports
@@ -254,6 +253,7 @@ shehulk,She-Hulk,Secret Wars: A-Force,Basic Damage Dealt to Males 48%,,,All Basi
 shuri,Shuri,Black Panther: Wakanda Forever,,Basic Damage Dealt to Villains 55% | Basic Damage Received from Villains 40%,,,https://thanosvibs.money/api/supports
 shuri,Shuri,Marvel Legacy,,Basic Damage Dealt to Villains 35% | Basic Damage Received from Villains 25%,,,https://thanosvibs.money/api/supports
 shuri,Shuri,Marvel Studios' Black Panther,,Basic Damage Dealt to Villains 45% | Basic Damage Received from Villains 35%,,,https://thanosvibs.money/api/supports
+shuri,Shuri,Marvel Studios' Black Panther: Wakanda Forever,All Basic Attacks 35%,Basic Damage Dealt to Villains 55% | Basic Damage Received from Villains 40%,,,https://thanosvibs.money/api/supports
 sif,Sif,Asgard Invasion,HP 30% | Physical Attack 35%,,All Speeds 10% | Basic Damage Dealt to Boss Types 45%,,https://thanosvibs.money/api/supports
 sif,Sif,Marvel Studios' Agents of S.H.I.E.L.D.,HP 30%,,,,https://thanosvibs.money/api/supports
 silversamurai,Silver Samurai,Modern,HP 40%,Chain Hit Damage Received -35% | Basic Damage Dealt to Villains 30% | Basic Damage Dealt to Heroes 30%,,,https://thanosvibs.money/api/supports
@@ -308,6 +308,7 @@ toxin,Toxin,Modern,Physical Attack 30%,,,,https://thanosvibs.money/api/supports
 usagent,U.S. Agent,Marvel Studios' Thunderbolts*,All Basic Attacks 30% | HP 40%,,,,https://thanosvibs.money/api/supports
 ulik,Ulik,Modern,Physical Attack 30%,,,,https://thanosvibs.money/api/supports
 ultron,Ultron,All-Father Ultron,All Basic Attacks 65%,,,,https://thanosvibs.money/api/supports
+ultron,Ultron,Marvel Studios' What If...?,All Basic Attacks 55%,,,,https://thanosvibs.money/api/supports
 ultron,Ultron,Modern,All Basic Attacks 24%,,,,https://thanosvibs.money/api/supports
 ulyssesklaue,Ulysses Klaue,Marvel Studios' Black Panther,,Critical Damage 30%,,,https://thanosvibs.money/api/supports
 valeriarichards,Valeria Richards,Modern,HP 25% | All Basic Attacks 55%,,,Basic Damage Dealt to Villains 8% 0.2% | All Basic Attacks 5% 0.2% | Basic Damage Dealt to Boss Types 10% 0.1% | Basic Damage Dealt to Villains 12% 0.2% | All Basic Attacks 8% 0.3% | Basic Damage Dealt to Boss Types 13% 0.15% | Basic Damage Dealt to Villains 16% 0.2% | All Basic Attacks 11% 0.4% | Basic Damage Dealt to Boss Types 16% 0.2% | Basic Damage Dealt to Villains 20% 0.5% | All Basic Attacks 15% 0.5% | Basic Damage Dealt to Boss Types 20% 0.3%,https://thanosvibs.money/api/supports
@@ -346,5 +347,4 @@ wintersoldier,Winter Soldier,Marvel Studios' Captain America: The Winter Soldier
 wintersoldier,Winter Soldier,Revolution,Physical Attack 45%,,,,https://thanosvibs.money/api/supports
 wong,Wong,Marvel Studios' Doctor Strange 2,,Basic Damage Dealt to Heroes 53% | Basic Damage Dealt to Villains 53%,,,https://thanosvibs.money/api/supports
 yondu,Yondu,Summer Vacation,,Basic Damage Dealt to Villains 50%,All Basic Attacks 35% | Basic Damage Dealt to Boss Types 40%,,https://thanosvibs.money/api/supports
-youngapocalypse,Young Apocalypse,Marvel Animation's X-Men '97,All Basic Attacks 60%,Remove All Debuffs N/A 12,,,https://thanosvibs.money/api/supports
 zeus,Zeus,Modern,Lightning Damage 60%,,,,https://thanosvibs.money/api/supports

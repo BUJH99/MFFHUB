@@ -109,6 +109,57 @@ const titleCase = (value: string) =>
 const portraitUrl = (portrait: string) =>
   `${BASE_URL}/images-thumbnails/portraits/md/${portrait}.png`;
 
+const isBaseCharacterRow = (row: ApiCharacter) =>
+  row.uniformed === false || clean(row.uniformed).toLowerCase() === 'false';
+
+function baseCharacterRowsByPortrait(rows: ApiCharacter[]) {
+  return new Map(
+    rows
+      .filter(isBaseCharacterRow)
+      .map((row) => [row.portrait, row]),
+  );
+}
+
+function canonicalCharacterIdentity(
+  row: ApiCharacter,
+  baseRowsByPortrait: Map<string, ApiCharacter>,
+) {
+  const baseRow = baseRowsByPortrait.get(clean(row.base_portrait)) ?? row;
+  return {
+    character: baseRow.character,
+    characterId: slugify(baseRow.character),
+  };
+}
+
+function canonicalUniformNamesByPortrait(
+  rows: ApiCharacter[],
+  baseRowsByPortrait: Map<string, ApiCharacter>,
+) {
+  const groups = new Map<string, ApiCharacter[]>();
+  for (const row of rows) {
+    const identity = canonicalCharacterIdentity(row, baseRowsByPortrait);
+    const key = `${identity.characterId}|${slugify(row.uniform || 'Modern')}`;
+    groups.set(key, [...(groups.get(key) ?? []), row]);
+  }
+
+  const result = new Map<string, string>();
+  for (const group of groups.values()) {
+    for (const row of group) {
+      const identity = canonicalCharacterIdentity(row, baseRowsByPortrait);
+      const name = clean(row.uniform) || 'Modern';
+      // Some transformed uniforms reuse a base character's uniform name while exposing
+      // an alter-ego as `character`. Qualify only those collisions so no appearance is lost.
+      result.set(
+        row.portrait,
+        group.length > 1 && row.character !== identity.character
+          ? `${name} · ${row.character}`
+          : name,
+      );
+    }
+  }
+  return result;
+}
+
 const mapCombatType = (value?: string): CombatType => {
   if (value === 'Combat' || value === 'Blast' || value === 'Speed' || value === 'Universal') return value;
   return 'Unknown';
@@ -166,6 +217,9 @@ export function parseApiAttributes(
   uniformRows: Record<string, ApiUniform>,
   previous: AttributeRow[] = [],
 ): AttributeRow[] {
+  const characterByPortrait = new Map(rows.map((row) => [row.portrait, row]));
+  const baseRowsByPortrait = baseCharacterRowsByPortrait(rows);
+  const uniformNamesByPortrait = canonicalUniformNamesByPortrait(rows, baseRowsByPortrait);
   const previousByPortrait = new Map(previous.map((row) => [row.portraitId, row]));
   const previousInstinctByCharacter = new Map<string, string>();
   for (const row of previous) {
@@ -177,9 +231,9 @@ export function parseApiAttributes(
 
   const latestPortraitByCharacter = new Map<string, { portrait: string; update?: string }>();
   for (const [portrait, uniform] of Object.entries(uniformRows)) {
-    const character = rows.find((row) => row.portrait === portrait);
+    const character = characterByPortrait.get(portrait);
     if (!character) continue;
-    const characterId = slugify(character.character);
+    const { characterId } = canonicalCharacterIdentity(character, baseRowsByPortrait);
     const current = latestPortraitByCharacter.get(characterId);
     if (!current || compareVersions(uniform.update, current.update) > 0) {
       latestPortraitByCharacter.set(characterId, { portrait, update: uniform.update });
@@ -188,7 +242,8 @@ export function parseApiAttributes(
 
   return rows
     .map((row) => {
-      const characterId = slugify(row.character);
+      const identity = canonicalCharacterIdentity(row, baseRowsByPortrait);
+      const { characterId } = identity;
       const previousRow = previousByPortrait.get(row.portrait);
       const side = mapSide(row.side);
       const fallbackInstinct =
@@ -196,17 +251,18 @@ export function parseApiAttributes(
       const derivedTags = mergeStrings(
         row.ability ?? [],
         [fallbackInstinct],
+        row.character !== identity.character ? [`Alias:${row.character}`] : [],
         row.original ? [`Source:${titleCase(row.original)}`] : [],
         row['tier-4'] === 'True' ? ['Tier-4'] : [],
         row.skill6 && row.skill6 !== 'False' ? [row.skill6] : [],
       );
-      const isBase = row.uniformed === false || clean(row.uniformed).toLowerCase() === 'false';
+      const isBase = isBaseCharacterRow(row);
       const latest = latestPortraitByCharacter.get(characterId);
 
       return {
-        character: row.character,
+        character: identity.character,
         characterId,
-        uniform: row.uniform || previousRow?.uniform,
+        uniform: uniformNamesByPortrait.get(row.portrait) || previousRow?.uniform,
         portraitId: row.portrait,
         portraitUrl: portraitUrl(row.portrait),
         combatType: mapCombatType(row.type),
@@ -254,18 +310,22 @@ export function parseApiUniforms(
   previous: SyncedUniform[] = [],
 ): SyncedUniform[] {
   const characterByPortrait = new Map(characterRows.map((row) => [row.portrait, row]));
+  const baseRowsByPortrait = baseCharacterRowsByPortrait(characterRows);
+  const uniformNamesByPortrait = canonicalUniformNamesByPortrait(characterRows, baseRowsByPortrait);
   const previousByPortrait = new Map(previous.map((row) => [row.portraitId, row]));
+  const previousOrderByPortrait = new Map(previous.map((row, index) => [row.portraitId, index]));
   const dates = updateDates(updates);
 
   return Object.entries(uniformRows)
     .flatMap(([portrait, raw]) => {
       const character = characterByPortrait.get(portrait);
       if (!character) return [];
+      const identity = canonicalCharacterIdentity(character, baseRowsByPortrait);
       const old = previousByPortrait.get(portrait);
       return [{
-        character: character.character,
-        characterId: slugify(character.character),
-        name: character.uniform,
+        character: identity.character,
+        characterId: identity.characterId,
+        name: uniformNamesByPortrait.get(character.portrait) ?? character.uniform,
         acquisition: uniformAcquisition(raw.cost, raw.flags) ?? old?.acquisition,
         season: uniformSeason(raw.flags) ?? old?.season,
         cost: raw.cost ?? old?.cost,
@@ -277,7 +337,25 @@ export function parseApiUniforms(
         sourceUrl: `${BASE_URL}/uniforms`,
       } satisfies SyncedUniform];
     })
-    .sort((a, b) => a.character.localeCompare(b.character) || a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      const characterOrder = a.character.localeCompare(b.character);
+      if (characterOrder) return characterOrder;
+
+      const oldA = previousByPortrait.get(a.portraitId);
+      const oldB = previousByPortrait.get(b.portraitId);
+      // Keep existing canonical uniform indexes stable. Uniforms that previously lived
+      // under an alter-ego name, plus genuinely new uniforms, are appended afterwards.
+      const priorityA = oldA ? (oldA.characterId === a.characterId ? 0 : 1) : 2;
+      const priorityB = oldB ? (oldB.characterId === b.characterId ? 0 : 1) : 2;
+      if (priorityA !== priorityB) return priorityA - priorityB;
+
+      const previousOrderA = previousOrderByPortrait.get(a.portraitId);
+      const previousOrderB = previousOrderByPortrait.get(b.portraitId);
+      if (previousOrderA != null && previousOrderB != null && previousOrderA !== previousOrderB) {
+        return previousOrderA - previousOrderB;
+      }
+      return a.name.localeCompare(b.name) || clean(a.portraitId).localeCompare(clean(b.portraitId));
+    });
 }
 
 function replacePlaceholders(text: string, values: Array<string | number> = []) {
@@ -412,6 +490,8 @@ function effectRows(
 
 export function parseApiSupports(rows: ApiSupport[], characterRows: ApiCharacter[]) {
   const characterByPortrait = new Map(characterRows.map((row) => [row.portrait, row]));
+  const baseRowsByPortrait = baseCharacterRowsByPortrait(characterRows);
+  const uniformNamesByPortrait = canonicalUniformNamesByPortrait(characterRows, baseRowsByPortrait);
   const supports: SyncedSupport[] = [];
   const effects: SyncedEffect[] = [];
   const sections: Array<{
@@ -433,10 +513,17 @@ export function parseApiSupports(rows: ApiSupport[], characterRows: ApiCharacter
   for (const row of rows) {
     const character = characterByPortrait.get(row.portrait);
     if (!character) continue;
+    const identity = canonicalCharacterIdentity(character, baseRowsByPortrait);
+    const canonicalUniformName = uniformNamesByPortrait.get(character.portrait) ?? character.uniform;
+    const canonicalCharacter = {
+      ...character,
+      character: identity.character,
+      uniform: canonicalUniformName,
+    };
     const support: SyncedSupport = {
-      character: character.character,
-      characterId: slugify(character.character),
-      uniform: character.uniform,
+      character: identity.character,
+      characterId: identity.characterId,
+      uniform: canonicalUniformName,
       leadership: [],
       passive: [],
       uniformEffect: [],
@@ -448,7 +535,7 @@ export function parseApiSupports(rows: ApiSupport[], characterRows: ApiCharacter
       const ability = row[section.key] as ApiSupportAbility | null | undefined;
       if (!ability) continue;
       const ranks = section.key === 'artifact' ? ['3', '4', '5', '6'] : [undefined];
-      const parsed = ranks.flatMap((rank) => effectRows(character, ability, section.sourceKind, rank));
+      const parsed = ranks.flatMap((rank) => effectRows(canonicalCharacter, ability, section.sourceKind, rank));
       effects.push(...parsed);
       support[section.aggregate].push(...parsed.map((effect) => effectTextFromSynced(effect)));
     }
