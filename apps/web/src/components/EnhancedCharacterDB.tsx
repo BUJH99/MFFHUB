@@ -1820,11 +1820,11 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
           <div>
             <p className="text-xs font-black uppercase tracking-[0.3em] text-purple-600">{isMyMode ? 'My Character Roster' : 'Character DB Matrix'}</p>
             <h2 className="mt-2 text-3xl font-black text-slate-950">{isMyMode ? '나의 캐릭터' : '전체 캐릭터 DB'}</h2>
-            <p className="mt-2 max-w-3xl text-sm font-bold leading-relaxed text-slate-500">
-              {isMyMode
-                ? '전체 캐릭터 DB의 검색, 필터, 유니폼 이미지를 그대로 재사용하면서 내 티어, 레벨, 타입강화, 엘리트장비, 아티팩트, CTP, ISO-8, 우루, 유니폼 보유 상태를 관리합니다.'
-                : '로컬 PNG 캐시 기반으로 캐릭터, 아티팩트, 유니폼 이미지를 표시합니다. 유니폼 이미지를 누르면 3열의 리더/패시브/유니폼 효과가 해당 유니폼 기준으로 바뀝니다.'}
-            </p>
+            {isMyMode ? (
+              <p className="mt-2 max-w-3xl text-sm font-bold leading-relaxed text-slate-500">
+                전체 캐릭터 DB의 검색, 필터, 유니폼 이미지를 그대로 재사용하면서 내 티어, 레벨, 타입강화, 엘리트장비, 아티팩트, CTP, ISO-8, 우루, 유니폼 보유 상태를 관리합니다.
+              </p>
+            ) : null}
           </div>
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="rounded-2xl bg-purple-50 px-4 py-3"><p className="text-2xl font-black text-purple-700">{isMyMode ? ownedRosterCount : catalogStats.count}</p><p className="text-[11px] font-black text-purple-500">{isMyMode ? '보유 캐릭' : '표시 캐릭'}</p></div>
