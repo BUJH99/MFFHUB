@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState, type FormEvent } from 'react';
 import { account } from '@/lib/data';
 import { ensureAppProfile } from '@/lib/auth';
@@ -171,7 +172,14 @@ function SidebarPanel({ section, selectSection, showCloseButton, onMobileClose }
     <>
       <div className="mb-6 flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-lg">✦</div>
+          <Image
+            src="/brand/mff-command-center.webp"
+            alt=""
+            width={44}
+            height={44}
+            priority
+            className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-lg ring-1 ring-slate-200/70"
+          />
           <div className="min-w-0">
             <h1 className="text-xl font-black tracking-tight text-slate-950">MFF DATA HUB</h1>
             <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-slate-500">Marvel Future Fight</p>

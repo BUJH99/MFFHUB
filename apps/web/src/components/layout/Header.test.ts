@@ -6,6 +6,15 @@ const sourcePath = fileURLToPath(new URL('./Header.tsx', import.meta.url));
 const source = readFileSync(sourcePath, 'utf8');
 
 describe('Header action buttons', () => {
+  it('uses the generated command-center image in the mobile brand mark', () => {
+    expect(source).toContain("import Image from 'next/image'");
+    expect(source).toContain('src="/brand/mff-command-center.webp"');
+    expect(source).toContain('width={32}');
+    expect(source).toContain('height={32}');
+    expect(source).toContain('alt=""');
+    expect(source).not.toContain('bg-gradient-to-br from-blue-600 to-purple-600 text-white">✦</div>');
+  });
+
   it('removes the heart action and turns the gear into diagnostics', () => {
     expect(source).not.toContain('♡');
     expect(source).toContain('label="앱 진단"');

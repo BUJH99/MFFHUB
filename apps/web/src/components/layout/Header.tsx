@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   Bell,
@@ -859,7 +860,14 @@ export function Header({ section, today, onOpenMobileMenu }: { section: Section;
       <div className="flex min-w-0 items-center gap-2 xl:hidden">
         <button type="button" aria-label="좌측 메뉴 열기" onClick={onOpenMobileMenu} className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-slate-200">☰</button>
         <div className="flex min-w-0 items-center gap-2">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 text-white">✦</div>
+          <Image
+            src="/brand/mff-command-center.webp"
+            alt=""
+            width={32}
+            height={32}
+            priority
+            className="h-8 w-8 shrink-0 rounded-xl object-cover shadow-sm ring-1 ring-slate-200/70"
+          />
           <p className="min-w-0 truncate text-sm font-black leading-tight sm:text-base">MFF DATA HUB</p>
         </div>
       </div>

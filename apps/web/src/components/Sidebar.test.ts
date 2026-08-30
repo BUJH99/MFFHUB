@@ -4,8 +4,20 @@ import { describe, expect, it } from 'vitest';
 
 const sourcePath = fileURLToPath(new URL('./Sidebar.tsx', import.meta.url));
 const source = readFileSync(sourcePath, 'utf8');
+const brandAsset = readFileSync(fileURLToPath(new URL('../../public/brand/mff-command-center.webp', import.meta.url)));
 
 describe('Sidebar account profile editor', () => {
+  it('uses the generated command-center image for the desktop and drawer brand mark', () => {
+    expect(source).toContain("import Image from 'next/image'");
+    expect(source).toContain('src="/brand/mff-command-center.webp"');
+    expect(source).toContain('width={44}');
+    expect(source).toContain('height={44}');
+    expect(source).toContain('alt=""');
+    expect(source).not.toContain('bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-lg">✦</div>');
+    expect(brandAsset.subarray(0, 4).toString('ascii')).toBe('RIFF');
+    expect(brandAsset.subarray(8, 12).toString('ascii')).toBe('WEBP');
+  });
+
   it('lets account name, agent level, and VIP be edited and saved locally', () => {
     expect(source).toContain("'use client'");
     expect(source).toContain('sidebarAccountStorageKey');
