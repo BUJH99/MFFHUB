@@ -31,7 +31,7 @@ describe('WorldBossSection picker scroll behavior', () => {
   it('adds a complete three-character set instead of appending one hero immediately', () => {
     expect(source).toContain('aria-label={`${boss.name} ${stage.range}층 캐릭터 Team 추가`}');
     expect(source).toContain('title="Team 추가"');
-    expect(source).toContain('3인 세트 저장');
+    expect(source).toContain('Team 저장');
     expect(source).toContain('draftMembers.length !== WORLD_BOSS_TEAM_SIZE');
     expect(source).toContain('onSubmit(draftMembers)');
     expect(source).toContain('current.some((member) => member.characterId === option.character.id)');
@@ -89,6 +89,18 @@ describe('WorldBossSection picker scroll behavior', () => {
     expect(source).toContain('data-testid="world-boss-set-selection-count"');
     expect(source).toContain('role="status"');
     expect(source).toContain('data-testid="world-boss-set-confirm"');
+    expect(source).toContain('Team Choice');
+    expect(source).toContain('>Clear</button>');
+    expect(source).toContain('Team 저장');
+    expect(source).toContain('Slot. {index + 1}');
+    expect(source).not.toContain('선택한 캐릭터');
+    expect(source).not.toContain('선택 초기화');
+    expect(source).not.toContain('3인 세트 저장');
+    expect(source).not.toContain('{index + 1}번 슬롯');
+    expect(source).toContain('className="h-11 rounded-none border border-slate-200');
+    expect(source).toContain('className="h-11 rounded-none bg-purple-600');
+    expect(source).toContain('className="relative min-w-0 rounded-none border border-purple-100');
+    expect(source).toContain('className="grid h-11 place-items-center rounded-none border border-dashed');
     expect(source).toContain("event.key === 'Escape'");
   });
 

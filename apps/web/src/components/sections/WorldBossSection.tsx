@@ -481,19 +481,19 @@ function StagePickerPanel({
         <div className="border-b border-purple-100 bg-purple-50/70 p-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <p className="text-xs font-black text-slate-950">선택한 캐릭터</p>
+              <p className="text-xs font-black text-slate-950">Team Choice</p>
               <p data-testid="world-boss-set-selection-count" role="status" aria-live="polite" className="text-[11px] font-black text-purple-700">{draftMembers.length}/{WORLD_BOSS_TEAM_SIZE}</p>
             </div>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setDraftMembers([])} disabled={!draftMembers.length} className="h-11 rounded-xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 disabled:cursor-not-allowed disabled:opacity-40">선택 초기화</button>
+              <button type="button" onClick={() => setDraftMembers([])} disabled={!draftMembers.length} className="h-11 rounded-none border border-slate-200 bg-white px-3 text-xs font-black text-slate-600 disabled:cursor-not-allowed disabled:opacity-40">Clear</button>
               <button
                 type="button"
                 data-testid="world-boss-set-confirm"
                 onClick={submitDraft}
                 disabled={draftMembers.length !== WORLD_BOSS_TEAM_SIZE}
-                className="h-11 rounded-xl bg-purple-600 px-4 text-xs font-black text-white shadow-sm transition hover:bg-purple-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                className="h-11 rounded-none bg-purple-600 px-4 text-xs font-black text-white shadow-sm transition hover:bg-purple-700 disabled:cursor-not-allowed disabled:bg-slate-300"
               >
-                3인 세트 저장
+                Team 저장
               </button>
             </div>
           </div>
@@ -501,20 +501,20 @@ function StagePickerPanel({
             {Array.from({ length: WORLD_BOSS_TEAM_SIZE }, (_, index) => {
               const member = draftMembers[index];
               return (
-                <div key={`draft-slot:${index + 1}`} className="relative min-w-0 rounded-xl border border-purple-100 bg-white p-2">
+                <div key={`draft-slot:${index + 1}`} className="relative min-w-0 rounded-none border border-purple-100 bg-white p-2">
                   {member ? (
                     <>
                       <div className="flex min-w-0 items-center gap-2">
-                        <Image src={member.uniformImageUrl ?? member.characterImageUrl} alt={`${member.characterName} ${member.uniformName}`} width={44} height={44} unoptimized onError={(event) => imageFallback(event, member.characterName)} className="h-11 w-11 shrink-0 rounded-lg object-cover" />
+                        <Image src={member.uniformImageUrl ?? member.characterImageUrl} alt={`${member.characterName} ${member.uniformName}`} width={44} height={44} unoptimized onError={(event) => imageFallback(event, member.characterName)} className="h-11 w-11 shrink-0 rounded-none object-cover" />
                         <div className="hidden min-w-0 sm:block">
                           <p className="truncate text-[11px] font-black text-slate-950">{member.characterName}</p>
                           <p className="truncate text-[9px] font-bold text-slate-500">{member.uniformName}</p>
                         </div>
                       </div>
-                      <button type="button" onClick={() => removeDraftMember(member.id)} aria-label={`${index + 1}번 ${member.characterName} 선택 취소`} className="absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-full bg-slate-950 text-xs font-black text-white shadow hover:bg-rose-600">×</button>
+                      <button type="button" onClick={() => removeDraftMember(member.id)} aria-label={`${index + 1}번 ${member.characterName} 선택 취소`} className="absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-none bg-slate-950 text-xs font-black text-white shadow hover:bg-rose-600">×</button>
                     </>
                   ) : (
-                    <div className="grid h-11 place-items-center rounded-lg border border-dashed border-slate-200 text-[10px] font-black text-slate-400">{index + 1}번 슬롯</div>
+                    <div className="grid h-11 place-items-center rounded-none border border-dashed border-slate-200 text-[10px] font-black text-slate-400">Slot. {index + 1}</div>
                   )}
                 </div>
               );
