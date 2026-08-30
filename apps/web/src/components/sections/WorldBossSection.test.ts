@@ -29,8 +29,8 @@ describe('WorldBossSection picker scroll behavior', () => {
   });
 
   it('adds a complete three-character set instead of appending one hero immediately', () => {
-    expect(source).toContain('aria-label={`${boss.name} ${stage.range}층 캐릭터 세트 추가`}');
-    expect(source).toContain('title="3인 세트 추가"');
+    expect(source).toContain('aria-label={`${boss.name} ${stage.range}층 캐릭터 Team 추가`}');
+    expect(source).toContain('title="Team 추가"');
     expect(source).toContain('3인 세트 저장');
     expect(source).toContain('draftMembers.length !== WORLD_BOSS_TEAM_SIZE');
     expect(source).toContain('onSubmit(draftMembers)');
@@ -41,14 +41,21 @@ describe('WorldBossSection picker scroll behavior', () => {
     expect(source).not.toContain('추가된 월드보스 조건 영웅 없음');
   });
 
-  it('keeps restriction icons compact and renders saved teams in a separate full-width set list', () => {
+  it('keeps the original compact stage row while visually grouping each saved team', () => {
     expect(source).toContain('flex flex-nowrap justify-start gap-1 overflow-hidden');
     expect(source).toContain('grid h-8 w-8 shrink-0 place-items-center');
+    expect(source).toContain('md:grid-cols-[max-content_max-content_minmax(0,1fr)]');
     expect(source).toContain('data-testid="world-boss-set-list"');
-    expect(source).toContain('grid-cols-[repeat(auto-fit,minmax(156px,1fr))]');
+    expect(source).toContain('flex min-h-11 w-full flex-wrap gap-1');
     expect(source).toContain('data-testid="world-boss-character-set"');
     expect(source).toContain('role="group"');
-    expect(source).toContain('세트 {teamNumber}');
+    expect(source).toContain('Team{teamNumber}');
+    expect(source).not.toContain('세트 {teamNumber}');
+    expect(source).not.toContain('3인 완성');
+    expect(source).not.toContain('이전 데이터 ·');
+    expect(source).toContain('grid h-11 w-11 shrink-0 place-items-center');
+    expect(source).not.toContain('min-h-[92px]');
+    expect(source).not.toContain('min-h-[96px]');
     expect(source).toContain('<StageTeamCard');
     expect(source).toContain('<StageTeamMember');
     expect(source).toContain('<StageUnlockIcons boss={boss} stage={stage} active={stageActive} />');

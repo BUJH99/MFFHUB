@@ -338,7 +338,7 @@ function StageTeamMember({ pick, slot }: { pick?: WorldBossStagePick; slot: numb
     return (
       <span
         data-testid="world-boss-set-slot"
-        className="grid h-11 min-w-0 place-items-center rounded-lg border border-dashed border-slate-200 bg-white/70 text-[10px] font-black text-slate-300"
+        className="grid h-9 w-9 shrink-0 place-items-center rounded-md border border-dashed border-slate-200 bg-white/70 text-[9px] font-black text-slate-300"
         aria-label={`${slot}번 빈 슬롯`}
       >
         {slot}
@@ -349,7 +349,7 @@ function StageTeamMember({ pick, slot }: { pick?: WorldBossStagePick; slot: numb
   return (
     <span
       data-testid="world-boss-set-slot"
-      className="group relative grid h-11 min-w-0 place-items-center overflow-hidden rounded-lg border border-purple-100 bg-white p-0.5 shadow-sm"
+      className="group relative grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-md border border-purple-100 bg-white p-0.5 shadow-sm"
       title={`${slot}번 · ${pick.characterName} · ${pick.uniformName}`}
     >
       <Image
@@ -361,7 +361,7 @@ function StageTeamMember({ pick, slot }: { pick?: WorldBossStagePick; slot: numb
         onError={(event) => imageFallback(event, pick.characterName)}
         className="h-full w-full rounded-md object-cover"
       />
-      <span className="absolute bottom-0.5 left-0.5 grid h-4 min-w-4 place-items-center rounded bg-slate-950/85 px-1 text-[9px] font-black text-white">{slot}</span>
+      <span className="absolute bottom-0.5 left-0.5 grid h-3.5 min-w-3.5 place-items-center rounded bg-slate-950/85 px-0.5 text-[8px] font-black text-white">{slot}</span>
     </span>
   );
 }
@@ -385,31 +385,24 @@ function StageTeamCard({
     <div
       data-testid="world-boss-character-set"
       role="group"
-      aria-label={`${bossName} ${stageRange}층 세트 ${teamNumber}`}
-      className={`min-w-0 rounded-xl border p-2 shadow-sm ${complete ? 'border-purple-200 bg-purple-50/80' : 'border-amber-200 bg-amber-50/80'}`}
+      aria-label={`${bossName} ${stageRange}층 Team${teamNumber}`}
+      className={`flex h-11 shrink-0 items-center gap-1 rounded-lg border p-1 shadow-sm ${complete ? 'border-purple-200 bg-purple-50/80' : 'border-amber-200 bg-amber-50/80'}`}
     >
-      <div className="mb-1.5 flex items-center justify-between gap-2">
-        <div className="min-w-0">
-          <p className="truncate text-[11px] font-black text-slate-950">세트 {teamNumber}</p>
-          <p className={`text-[9px] font-black ${complete ? 'text-purple-600' : 'text-amber-700'}`}>
-            {complete ? '3인 완성' : `이전 데이터 · ${team.members.length}/3`}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onRemove}
-          aria-label={`${bossName} ${stageRange}층 세트 ${teamNumber} 삭제`}
-          title="세트 삭제"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-slate-200 bg-white text-sm font-black text-slate-500 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
-        >
-          ×
-        </button>
-      </div>
-      <div className="grid grid-cols-3 gap-1">
+      <span className={`shrink-0 whitespace-nowrap px-1 text-[10px] font-black ${complete ? 'text-purple-700' : 'text-amber-700'}`}>Team{teamNumber}</span>
+      <div className="flex gap-0.5">
         {Array.from({ length: WORLD_BOSS_TEAM_SIZE }, (_, index) => (
           <StageTeamMember key={`${team.id}:slot:${index + 1}`} pick={team.members[index]} slot={index + 1} />
         ))}
       </div>
+      <button
+        type="button"
+        onClick={onRemove}
+        aria-label={`${bossName} ${stageRange}층 Team${teamNumber} 삭제`}
+        title="Team 삭제"
+        className="grid h-7 w-7 shrink-0 place-items-center rounded-md border border-slate-200 bg-white text-xs font-black text-slate-500 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
+      >
+        ×
+      </button>
     </div>
   );
 }
@@ -657,41 +650,40 @@ function StageRuleGrid({
           return (
             <article
               key={`${boss.id}-${stage.range}`}
-              className={`rounded-xl border p-2 transition ${
+              className={`grid gap-2 rounded-xl border p-2 transition md:grid-cols-[max-content_max-content_minmax(0,1fr)] md:items-center ${
                 stageActive
                   ? 'border-purple-300 bg-purple-50/80 shadow-[0_0_0_3px_rgba(168,85,247,0.12),0_12px_26px_rgba(88,28,135,0.08)]'
                   : 'border-slate-200 bg-slate-50'
               }`}
             >
-              <div className="grid gap-2 md:grid-cols-[max-content_minmax(0,1fr)] md:items-center">
-                <StageUnlockIcons boss={boss} stage={stage} active={stageActive} />
-                <RestrictionIcons stage={stage} />
-              </div>
-              <div
-                data-testid="world-boss-set-list"
-                data-stage-key={stageKey}
-                className="mt-2 grid min-h-[96px] grid-cols-[repeat(auto-fit,minmax(156px,1fr))] gap-2 rounded-xl border border-dashed border-slate-200 bg-white/75 p-2"
-              >
-                {stageTeams.map((team, index) => (
-                  <StageTeamCard
-                    key={team.id}
-                    bossName={boss.name}
-                    stageRange={stage.range}
-                    team={team}
-                    teamNumber={index + 1}
-                    onRemove={() => onRemoveTeam(stageKey, team.id)}
-                  />
-                ))}
-                <button
-                  type="button"
-                  onClick={() => onOpenPicker({ stageKey, bossName: boss.name, stage })}
-                  aria-label={`${boss.name} ${stage.range}층 캐릭터 세트 추가`}
-                  title="3인 세트 추가"
-                  className="flex min-h-[92px] min-w-0 items-center justify-center gap-2 rounded-xl border border-dashed border-purple-300 bg-white px-3 text-purple-700 shadow-sm transition hover:border-purple-500 hover:bg-purple-50"
+              <StageUnlockIcons boss={boss} stage={stage} active={stageActive} />
+              <RestrictionIcons stage={stage} />
+              <div className="min-w-0">
+                <div
+                  data-testid="world-boss-set-list"
+                  data-stage-key={stageKey}
+                  className="flex min-h-11 w-full flex-wrap gap-1 rounded-lg border border-dashed border-slate-200 bg-white/70 p-1"
                 >
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-purple-100 text-xl font-black">+</span>
-                  <span className="text-left text-xs font-black leading-tight">3인 세트<br />추가</span>
-                </button>
+                  {stageTeams.map((team, index) => (
+                    <StageTeamCard
+                      key={team.id}
+                      bossName={boss.name}
+                      stageRange={stage.range}
+                      team={team}
+                      teamNumber={index + 1}
+                      onRemove={() => onRemoveTeam(stageKey, team.id)}
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => onOpenPicker({ stageKey, bossName: boss.name, stage })}
+                    aria-label={`${boss.name} ${stage.range}층 캐릭터 Team 추가`}
+                    title="Team 추가"
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-dashed border-purple-200 bg-white text-xl font-black leading-none text-purple-600 shadow-sm transition hover:border-purple-400 hover:bg-purple-50"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </article>
           );
