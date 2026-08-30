@@ -6,6 +6,11 @@ describe('personal data key map', () => {
     const contentKeys = personalDataKeys.map((entry) => entry.contentKey);
 
     expect(contentKeys).toContain('character_info.cards');
+    expect(personalDataKeys).toContainEqual({
+      storageKey: 'mff-data-hub:world-boss-stage-teams:v3',
+      contentKey: 'world_boss.stage_picks',
+      label: '월드보스 3인 세트',
+    });
     expect(contentKeys).toContain('world_boss.progress');
     expect(contentKeys).toContain('pvp.decks');
     expect(contentKeys).toContain('my_characters.builds');

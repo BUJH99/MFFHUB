@@ -55,6 +55,7 @@ const TEST_ALIASES: Record<string, string[]> = {
   web: ["apps/web/src"],
   worldboss: [
     "packages/data/src/worldBoss.test.ts",
+    "apps/web/src/lib/worldBossTeams.test.ts",
     "apps/web/src/components/sections/WorldBossSection.test.ts",
   ],
   xsword: ["apps/web/src/lib/xSwordEditor.test.ts"],

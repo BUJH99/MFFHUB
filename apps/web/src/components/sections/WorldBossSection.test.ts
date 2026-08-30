@@ -14,7 +14,9 @@ describe('WorldBossSection picker scroll behavior', () => {
 
   it('keeps wheel and touch scrolling inside the picker panes', () => {
     expect(source.match(/overscroll-contain/g)?.length ?? 0).toBeGreaterThanOrEqual(3);
-    expect(source).toContain('grid h-[58vh]');
+    expect(source).toContain('h-[min(820px,calc(100dvh-3rem))]');
+    expect(source).toContain('grid min-h-0 flex-1 grid-rows-2');
+    expect(source).toContain('md:grid-rows-1');
     expect(source).toContain('min-h-0');
     expect(source).toContain('data-testid="world-boss-picker"');
     expect(source).toContain('data-testid="world-boss-character-scroll"');
@@ -26,20 +28,29 @@ describe('WorldBossSection picker scroll behavior', () => {
     expect(source).toContain('characterName: option.character.name');
   });
 
-  it('keeps the add hero control inside the white pick bar without DB count text', () => {
-    expect(source).toContain('aria-label={`${boss.name} ${stage.range}층 조건 영웅 추가`}');
-    expect(source).toContain('title="영웅 추가"');
-    expect(source).toContain('grid h-9 w-9 shrink-0 place-items-center');
+  it('adds a complete three-character set instead of appending one hero immediately', () => {
+    expect(source).toContain('aria-label={`${boss.name} ${stage.range}층 캐릭터 세트 추가`}');
+    expect(source).toContain('title="3인 세트 추가"');
+    expect(source).toContain('3인 세트 저장');
+    expect(source).toContain('draftMembers.length !== WORLD_BOSS_TEAM_SIZE');
+    expect(source).toContain('onSubmit(draftMembers)');
+    expect(source).toContain('current.some((member) => member.characterId === option.character.id)');
+    expect(source).toContain('disabled={alreadySelected || draftMembers.length >= WORLD_BOSS_TEAM_SIZE}');
     expect(source).not.toContain('DB {stageOptionCounts.get(stageKey) ?? 0}명');
-    expect(source).not.toContain('+ 영웅');
+    expect(source).not.toContain('onSelect={addPick}');
     expect(source).not.toContain('추가된 월드보스 조건 영웅 없음');
   });
 
-  it('keeps stage rows thin while fitting up to four condition icons in one line', () => {
+  it('keeps restriction icons compact and renders saved teams in a separate full-width set list', () => {
     expect(source).toContain('flex flex-nowrap justify-start gap-1 overflow-hidden');
     expect(source).toContain('grid h-8 w-8 shrink-0 place-items-center');
-    expect(source).toContain('md:grid-cols-[max-content_max-content_minmax(0,1fr)]');
-    expect(source).toContain('flex min-h-9 w-full flex-wrap gap-1 rounded-lg');
+    expect(source).toContain('data-testid="world-boss-set-list"');
+    expect(source).toContain('grid-cols-[repeat(auto-fit,minmax(156px,1fr))]');
+    expect(source).toContain('data-testid="world-boss-character-set"');
+    expect(source).toContain('role="group"');
+    expect(source).toContain('세트 {teamNumber}');
+    expect(source).toContain('<StageTeamCard');
+    expect(source).toContain('<StageTeamMember');
     expect(source).toContain('<StageUnlockIcons boss={boss} stage={stage} active={stageActive} />');
     expect(source).toContain('function StageUnlockIcons');
     expect(source).toContain('unlockBelongsToStageRange(stage.range, unlock.stage)');
@@ -52,9 +63,26 @@ describe('WorldBossSection picker scroll behavior', () => {
     expect(source).not.toContain('function UnlockStrip');
     expect(source).not.toContain('<UnlockStrip boss={selectedBoss} />');
     expect(source).not.toContain('층 해금');
-    expect(source).not.toContain('md:grid-cols-[minmax(104px,auto)_148px_176px]');
-    expect(source).not.toContain('md:grid-cols-[72px_150px_minmax(0,1fr)]');
-    expect(source).not.toContain('flex min-h-12 flex-wrap gap-2');
+    expect(source).not.toContain('<StagePickCard');
+  });
+
+  it('uses a versioned team store and migrates legacy individual picks', () => {
+    expect(source).toContain("stageTeamsStorageKey = 'mff-data-hub:world-boss-stage-teams:v3'");
+    expect(source).toContain("legacyPicksStorageKey = 'mff-data-hub:world-boss-stage-picks:v2'");
+    expect(source).toContain('normalizeWorldBossStageTeamStore(parsed)');
+    expect(source).toContain('migrateLegacyWorldBossStagePicks(parsed)');
+    expect(source).toContain('setStageTeams(readStoredTeams())');
+    expect(source).toContain('window.localStorage.setItem(stageTeamsStorageKey, JSON.stringify(stageTeams))');
+  });
+
+  it('exposes the team picker as a modal dialog with clear selection status', () => {
+    expect(source).toContain('role="dialog"');
+    expect(source).toContain('aria-modal="true"');
+    expect(source).toContain('aria-labelledby="world-boss-set-picker-title"');
+    expect(source).toContain('data-testid="world-boss-set-selection-count"');
+    expect(source).toContain('role="status"');
+    expect(source).toContain('data-testid="world-boss-set-confirm"');
+    expect(source).toContain("event.key === 'Escape'");
   });
 
   it('stores current stage and conquest level separately for each world boss', () => {

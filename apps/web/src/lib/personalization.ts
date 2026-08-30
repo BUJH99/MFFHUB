@@ -23,7 +23,7 @@ export const personalDataKeys: PersonalDataKey[] = [
   { storageKey: 'mff-data-hub:x-sword-editor:v1', contentKey: 'character_info.x_swords', label: 'X-소드' },
   { storageKey: 'mff-data-hub:team-up-editor:v1', contentKey: 'character_info.team_ups', label: '팀업' },
   { storageKey: 'mff-data-hub:ctp-inventory:v1', contentKey: 'character_info.ctp', label: 'CTP 인벤토리' },
-  { storageKey: 'mff-data-hub:world-boss-stage-picks:v2', contentKey: 'world_boss.stage_picks', label: '월드보스 픽' },
+  { storageKey: 'mff-data-hub:world-boss-stage-teams:v3', contentKey: 'world_boss.stage_picks', label: '월드보스 3인 세트' },
   { storageKey: 'mff-data-hub:world-boss-progress:v1', contentKey: 'world_boss.progress', label: '월드보스 진행' },
   { storageKey: 'mff-data-hub:pvp-deck-customizations:v1', contentKey: 'pvp.decks', label: 'PVP 덱' },
   { storageKey: 'mff-data-hub:pvp-restrictions:v1', contentKey: 'pvp.restrictions', label: 'PVP 제한' },
