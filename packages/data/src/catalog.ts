@@ -7,6 +7,7 @@ export type CatalogSide = 'Hero' | 'Villain' | 'Neutral' | 'Unknown';
 
 export type CatalogUniform = {
   name: string;
+  baseCharacter?: boolean;
   imageUrl?: string;
   sourceImageUrl?: string;
   acquisition?: string;
@@ -148,6 +149,13 @@ type GeneratedSync = {
 
 const synced = syncedPayload as GeneratedSync;
 
+const baseAttributeByCharacter = new Map<string, GeneratedAttribute>();
+for (const attribute of synced.attributes ?? []) {
+  if (attribute.baseCharacter && !baseAttributeByCharacter.has(attribute.characterId)) {
+    baseAttributeByCharacter.set(attribute.characterId, attribute);
+  }
+}
+
 function scoreLevel(value?: string): CatalogArtifact['pve'] {
   return value === 'Low' || value === 'Medium' || value === 'High' ? value : undefined;
 }
@@ -174,6 +182,36 @@ function uniformCoreAttributes(attribute?: GeneratedAttribute): Pick<CatalogUnif
     species: attribute?.species,
     tags: coreTags(attribute?.gender, attribute?.species, attribute?.tags ?? []),
   };
+}
+
+function appendBaseCharacterForms(characters: CatalogCharacter[]) {
+  return characters.map((character) => {
+    const baseAttribute = baseAttributeByCharacter.get(character.id);
+    if (!baseAttribute) return character;
+
+    const baseName = baseAttribute.uniform ?? 'Modern';
+    const baseKey = slugify(baseName);
+    const existingIndex = character.uniforms.findIndex((uniform) => slugify(uniform.name) === baseKey);
+    if (existingIndex >= 0) return character;
+
+    const baseCoreAttributes = uniformCoreAttributes(baseAttribute);
+
+    return {
+      ...character,
+      // Existing uniform indexes are persisted in localStorage, so the base form must be appended.
+      uniforms: [...character.uniforms, {
+        name: baseName,
+        baseCharacter: true,
+        imageUrl: baseAttribute.localPortraitUrl ?? baseAttribute.portraitUrl ?? character.imageUrl,
+        sourceImageUrl: baseAttribute.portraitUrl,
+        acquisition: '기본 외형 · 유니폼 없음',
+        ...baseCoreAttributes,
+        leader: [],
+        passive: [],
+        uniformEffect: [],
+      }],
+    };
+  });
 }
 
 function buildSyncedCatalogCharacters(): CatalogCharacter[] {
@@ -398,6 +436,7 @@ function mergeUniforms(a: CatalogUniform[] = [], b: CatalogUniform[] = []) {
       gender: uniform.gender ?? prev.gender,
       species: uniform.species ?? prev.species,
       tags: mergeStringList(prev.tags ?? [], uniform.tags ?? []),
+      baseCharacter: uniform.baseCharacter ?? prev.baseCharacter,
       leader: mergeStringList(prev.leader ?? [], uniform.leader ?? []),
       passive: mergeStringList(prev.passive ?? [], uniform.passive ?? []),
       uniformEffect: mergeStringList(prev.uniformEffect ?? [], uniform.uniformEffect ?? []),
@@ -438,8 +477,8 @@ export const syncedCatalogCharacterCount = syncedCatalogCharacters.length;
 const combinedCatalogCharacters = [...syncedCatalogCharacters, ...manualCatalogCharacters];
 const combinedWithPlaceholders = [...combinedCatalogCharacters, ...placeholderCatalogCharacters];
 
-export const catalogCharacters: CatalogCharacter[] = mergeCharacters(combinedCatalogCharacters);
-export const catalogCharactersWithPlaceholders: CatalogCharacter[] = mergeCharacters(combinedWithPlaceholders);
+export const catalogCharacters: CatalogCharacter[] = appendBaseCharacterForms(mergeCharacters(combinedCatalogCharacters));
+export const catalogCharactersWithPlaceholders: CatalogCharacter[] = appendBaseCharacterForms(mergeCharacters(combinedWithPlaceholders));
 
 export const duplicateCharacterIds = combinedCatalogCharacters.reduce<Record<string, number>>((acc, character) => {
   acc[character.id] = (acc[character.id] ?? 0) + 1;

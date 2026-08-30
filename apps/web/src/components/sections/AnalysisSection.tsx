@@ -203,6 +203,7 @@ function uniformOwnershipKey(uniform: CatalogUniform, index: number) {
 }
 
 function isRosterUniformOwned(roster: UserCharacter | undefined, uniform: CatalogUniform, index: number) {
+  if (uniform.baseCharacter) return false;
   if (!roster?.uniformOwned) return false;
   if (!roster.uniformId) return index === 0;
   const rosterUniformKey = normalizeRosterKey(roster.uniformId);

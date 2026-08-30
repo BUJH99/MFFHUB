@@ -158,7 +158,10 @@ type StoredMyCharacterBuild = Partial<Omit<MyCharacterBuild, 'ownedUniforms' | '
   ownedUniforms?: Record<string, boolean>;
   uniformRanks?: Record<string, string[]>;
 };
-const totalUniforms = catalogCharacters.reduce((count, character) => count + character.uniforms.length, 0);
+const totalUniforms = catalogCharacters.reduce(
+  (count, character) => count + character.uniforms.filter((uniform) => !uniform.baseCharacter).length,
+  0,
+);
 const artifactCount = catalogCharacters.filter((character) => character.artifact).length;
 const ownedRosterCount = userRoster.filter((character) => character.owned).length;
 const rosterByCharacterKey = new Map(userRoster.map((character) => [normalizeRosterKey(character.characterId), character]));
@@ -208,6 +211,7 @@ function uniformOwnershipKey(uniform: CatalogUniform, index: number) {
 }
 
 function isRosterUniformOwned(roster: UserCharacter | undefined, uniform: CatalogUniform, index: number) {
+  if (uniform.baseCharacter) return false;
   if (!roster?.uniformOwned) return false;
   if (!roster.uniformId) return index === 0;
   const rosterUniformKey = normalizeRosterKey(roster.uniformId);
@@ -689,8 +693,12 @@ function SkillCell({ uniform }: { uniform?: CatalogUniform }) {
           <Image src={uniform.imageUrl} alt={uniform.name} width={42} height={42} unoptimized onError={(e) => imageFallback(e, uniform.name)} className="h-10 w-10 rounded-lg border border-slate-200 object-cover" />
         ) : null}
         <div className="min-w-0">
-          <p className="truncate text-xs font-black text-slate-950">{uniform?.name ?? '유니폼 선택 필요'}</p>
-          <p className="truncate text-[10px] font-bold text-slate-400">{uniform?.release ?? uniform?.acquisition ?? '선택한 유니폼 기준으로 효과 표시'}</p>
+          <p className="truncate text-xs font-black text-slate-950">
+            {uniform ? `${uniform.name}${uniform.baseCharacter ? ' · 기본 외형' : ''}` : '유니폼 선택 필요'}
+          </p>
+          <p className="truncate text-[10px] font-bold text-slate-400">
+            {uniform?.baseCharacter ? '유니폼 없음' : uniform?.release ?? uniform?.acquisition ?? '선택한 유니폼 기준으로 효과 표시'}
+          </p>
         </div>
       </div>
       <div data-testid="uniform-effect-columns" className="grid gap-2 xl:grid-cols-3">
@@ -735,7 +743,9 @@ function UniformButton({
       ) : (
         <div className="mx-auto grid h-12 w-12 place-items-center rounded-md border border-slate-200 bg-slate-100 text-[10px] font-black text-slate-400">UNI</div>
       )}
-      <p className="mt-1 line-clamp-2 min-h-7 break-keep text-[8px] font-black leading-tight text-slate-900">{uniform.name}</p>
+      <p className="mt-1 line-clamp-2 min-h-7 break-keep text-[8px] font-black leading-tight text-slate-900">
+        {uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}
+      </p>
     </button>
   );
 }
@@ -1524,46 +1534,59 @@ function UniformOwnershipPanel({
                 ) : (
                   <div className="grid h-11 w-11 place-items-center rounded-md border border-slate-200 bg-slate-100 text-[10px] font-black text-slate-400">UNI</div>
                 )}
-                <span className="mt-1 line-clamp-2 min-h-7 break-keep text-[8px] font-black leading-tight text-slate-900">{uniform.name}</span>
+                <span className="mt-1 line-clamp-2 min-h-7 break-keep text-[8px] font-black leading-tight text-slate-900">
+                  {uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}
+                </span>
               </button>
-              <label className="mt-1 flex items-center justify-center gap-1 rounded-md bg-slate-50 px-1 py-1 text-[10px] font-black text-slate-600">
-                <input
-                  type="checkbox"
-                  checked={owned}
-                  onChange={(event) => {
-                    const ownedNext = event.target.checked;
-                    onOwnedUniformsChange({ ...build.ownedUniforms, [ownedKey]: ownedNext });
-                    if (!ownedNext) onUniformRanksChange({ ...build.uniformRanks, [ownedKey]: [] });
-                  }}
-                  data-testid={`my-character-uniform-owned-${character.id}-${index}`}
-                  className="h-3 w-3 accent-purple-600"
-                />
-                {owned ? '보유' : '미보유'}
-              </label>
-              <div className="mt-1 grid grid-cols-3 gap-0.5">
-                {uniformRankOptions.map((rank) => {
-                  const checked = selectedRanks.includes(rank.value);
-                  return (
-                    <label key={`${character.id}-${ownedKey}-${rank.value}`} className={`flex min-w-0 items-center justify-center gap-0.5 rounded-md border px-1 py-0.5 text-[9px] font-black ${checked ? 'border-purple-300 bg-purple-100 text-purple-800' : 'border-slate-200 bg-slate-50 text-slate-500'}`}>
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        data-testid={`my-character-uniform-rank-${character.id}-${index}-${rank.value}`}
-                        aria-label={`${character.name} ${uniform.name} ${rank.label} 체크`}
-                        onChange={(event) => {
-                          const ranksNext = event.target.checked
-                            ? [...new Set([...selectedRanks, rank.value])]
-                            : selectedRanks.filter((value) => value !== rank.value);
-                          onUniformRanksChange({ ...build.uniformRanks, [ownedKey]: ranksNext });
-                          if (ranksNext.length > 0 && !owned) onOwnedUniformsChange({ ...build.ownedUniforms, [ownedKey]: true });
-                        }}
-                        className="h-2.5 w-2.5 accent-purple-600"
-                      />
-                      <span className="truncate">{rank.label}</span>
-                    </label>
-                  );
-                })}
-              </div>
+              {uniform.baseCharacter ? (
+                <p
+                  data-testid={`my-character-base-form-${character.id}-${index}`}
+                  className="mt-1 rounded-md bg-slate-100 px-1 py-1 text-center text-[9px] font-black text-slate-500"
+                >
+                  유니폼 없음 · 보유/등급 제외
+                </p>
+              ) : (
+                <>
+                  <label className="mt-1 flex items-center justify-center gap-1 rounded-md bg-slate-50 px-1 py-1 text-[10px] font-black text-slate-600">
+                    <input
+                      type="checkbox"
+                      checked={owned}
+                      onChange={(event) => {
+                        const ownedNext = event.target.checked;
+                        onOwnedUniformsChange({ ...build.ownedUniforms, [ownedKey]: ownedNext });
+                        if (!ownedNext) onUniformRanksChange({ ...build.uniformRanks, [ownedKey]: [] });
+                      }}
+                      data-testid={`my-character-uniform-owned-${character.id}-${index}`}
+                      className="h-3 w-3 accent-purple-600"
+                    />
+                    {owned ? '보유' : '미보유'}
+                  </label>
+                  <div className="mt-1 grid grid-cols-3 gap-0.5">
+                    {uniformRankOptions.map((rank) => {
+                      const checked = selectedRanks.includes(rank.value);
+                      return (
+                        <label key={`${character.id}-${ownedKey}-${rank.value}`} className={`flex min-w-0 items-center justify-center gap-0.5 rounded-md border px-1 py-0.5 text-[9px] font-black ${checked ? 'border-purple-300 bg-purple-100 text-purple-800' : 'border-slate-200 bg-slate-50 text-slate-500'}`}>
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            data-testid={`my-character-uniform-rank-${character.id}-${index}-${rank.value}`}
+                            aria-label={`${character.name} ${uniform.name} ${rank.label} 체크`}
+                            onChange={(event) => {
+                              const ranksNext = event.target.checked
+                                ? [...new Set([...selectedRanks, rank.value])]
+                                : selectedRanks.filter((value) => value !== rank.value);
+                              onUniformRanksChange({ ...build.uniformRanks, [ownedKey]: ranksNext });
+                              if (ranksNext.length > 0 && !owned) onOwnedUniformsChange({ ...build.ownedUniforms, [ownedKey]: true });
+                            }}
+                            className="h-2.5 w-2.5 accent-purple-600"
+                          />
+                          <span className="truncate">{rank.label}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </div>
           );
         }) : (
@@ -1905,7 +1928,7 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
                           ) : (
                             <div className="grid aspect-square w-full place-items-center rounded-xl border border-slate-200 bg-slate-100 text-sm font-black text-slate-400">UNI</div>
                           )}
-                          <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}</p>
+                          <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}</p>
                         </button>
                       ))}
                     </div>
@@ -2030,7 +2053,7 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
                       ) : (
                         <div className="grid aspect-square w-full place-items-center rounded-xl border border-slate-200 bg-slate-100 text-sm font-black text-slate-400">UNI</div>
                       )}
-                      <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}</p>
+                      <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}</p>
                     </button>
                   ))}
                 </div>

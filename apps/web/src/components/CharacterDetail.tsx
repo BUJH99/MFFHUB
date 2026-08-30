@@ -190,7 +190,7 @@ export function CharacterDetail({ character, catalogCharacter, rosterLookup }: {
       </section> : <section className="mt-5 rounded-3xl border border-slate-100 bg-slate-50 p-4">
         <h4 className="mb-3 font-black text-slate-950">DB 캐시 상태</h4>
         <div className="grid grid-cols-2 gap-2 text-sm">
-          <p className="rounded-2xl bg-white p-3"><span className="block text-xs font-black text-slate-400">유니폼</span><b>{catalogCharacter?.uniforms.length ?? 0}</b></p>
+          <p className="rounded-2xl bg-white p-3"><span className="block text-xs font-black text-slate-400">유니폼</span><b>{catalogCharacter?.uniforms.filter((uniform) => !uniform.baseCharacter).length ?? 0}</b></p>
           <div className="rounded-2xl bg-white p-3"><span className="block text-xs font-black text-slate-400">상태</span><div className="mt-2"><SourceStatusBadge status={catalogCharacter?.sourceStatus} /></div></div>
         </div>
       </section>}

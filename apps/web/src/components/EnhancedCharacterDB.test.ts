@@ -61,6 +61,14 @@ describe('EnhancedCharacterDB matrix layout', () => {
     expect(source).toContain('data-testid={`character-core-icons-${character.id}`}');
   });
 
+  it('shows base character forms without treating them as owned uniforms', () => {
+    expect(source).toContain("uniform.baseCharacter ? ' · 기본' : ''");
+    expect(source).toContain("uniform?.baseCharacter ? '유니폼 없음'");
+    expect(source).toContain('유니폼 없음 · 보유/등급 제외');
+    expect(source).toContain('if (uniform.baseCharacter) return false;');
+    expect(source).toContain('character.uniforms.filter((uniform) => !uniform.baseCharacter).length');
+  });
+
   it('shows ability icons above instinct and uses icon buttons for all filter groups', () => {
     expect(source).toContain('CharacterAbilityIcons');
     expect(source.indexOf('<CharacterAbilityIcons character={character} selectedUniform={selectedUniform} />')).toBeLessThan(source.indexOf('data-testid={`character-instinct-${character.id}`}'));

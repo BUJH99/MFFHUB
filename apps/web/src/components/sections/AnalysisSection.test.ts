@@ -40,5 +40,6 @@ describe('AnalysisSection owned roster charts', () => {
     expect(source).toContain('artifactStarData(rows)');
     expect(source).toContain('ctpKindData(rows)');
     expect(source).toContain('parseCtpName(ctp)');
+    expect(source).toContain('if (uniform.baseCharacter) return false;');
   });
 });

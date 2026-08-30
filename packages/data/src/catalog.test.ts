@@ -4,7 +4,9 @@ import {
   catalogCharactersWithPlaceholders,
   catalogStats,
   placeholderCatalogCharacters,
+  slugify,
 } from './catalog';
+import syncedPayload from '../generated/thanosvibs.json';
 
 describe('catalog source layering', () => {
   it('keeps placeholders out of the production catalog export', () => {
@@ -70,6 +72,32 @@ describe('catalog source layering', () => {
       type: 'Blast',
       side: 'Villain',
     });
+  });
+
+  it('keeps every synced base character form alongside its purchasable uniforms', () => {
+    const dormammu = catalogCharacters.find((character) => character.id === 'dormammu');
+    const classic = dormammu?.uniforms.find((uniform) => uniform.name === 'Classic');
+
+    expect(dormammu?.uniforms[0]?.name).toBe('Damnation');
+    expect(classic).toMatchObject({
+      baseCharacter: true,
+      imageUrl: '/mff-assets/uniforms/dormammu.webp',
+      type: 'Universal',
+      side: 'Villain',
+    });
+    expect(classic?.leader).toEqual([]);
+    expect(classic?.passive).toEqual([]);
+    expect(classic?.uniformEffect).toEqual([]);
+
+    const baseAttributes = syncedPayload.attributes.filter((attribute) => attribute.baseCharacter);
+    for (const attribute of baseAttributes) {
+      const character = catalogCharacters.find((row) => row.id === attribute.characterId);
+      const matchingForms = character?.uniforms.filter(
+        (uniform) => slugify(uniform.name) === slugify(attribute.uniform ?? 'Modern'),
+      ) ?? [];
+
+      expect(matchingForms, `${attribute.character} ${attribute.uniform} base form`).toHaveLength(1);
+    }
   });
 
   it('uses the synced local portrait for the manual Coulson seed', () => {
