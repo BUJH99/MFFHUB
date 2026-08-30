@@ -1,0 +1,324 @@
+\set ON_ERROR_STOP on
+
+\if :{?prune_stale}
+\else
+  \set prune_stale false
+\endif
+
+\echo '[mff] Loading normalized appearance catalog CSV files'
+begin;
+
+-- Serialize catalog replacement runs. This lock is released automatically at
+-- commit/rollback and does not block ordinary readers.
+select pg_advisory_xact_lock(hashtextextended('mff-data-hub:appearance-catalog-import', 0));
+
+create temp table import_character_appearances (
+  id text primary key,
+  character_id text not null,
+  name text not null,
+  is_default boolean not null,
+  sort_order int not null check (sort_order >= 0),
+  image_url text,
+  image_local_url text,
+  combat_type text,
+  side text,
+  gender text,
+  species text,
+  tags text[],
+  source_url text,
+  unique(character_id, name)
+) on commit drop;
+
+create unique index import_character_appearances_default_uniq
+  on import_character_appearances(character_id)
+  where is_default = true;
+
+create temp table import_appearance_abilities (
+  id text primary key,
+  appearance_id text not null,
+  kind text not null check (kind in ('leader','passive','uniform_effect')),
+  source_skill_type text not null,
+  source_skill_id bigint,
+  name text not null,
+  cooldown numeric check (cooldown is null or cooldown >= 0),
+  target text,
+  activation text,
+  icon text,
+  sort_order int not null check (sort_order >= 0),
+  source_url text,
+  raw_data jsonb,
+  unique(appearance_id, source_skill_type)
+) on commit drop;
+
+create temp table import_appearance_ability_effects (
+  id text primary key,
+  appearance_ability_id text not null,
+  stage_id bigint,
+  stage_order int not null check (stage_order > 0),
+  effect_order int not null check (effect_order > 0),
+  source_effect_id bigint,
+  ability_code int,
+  effect_name text,
+  description text not null,
+  duration numeric check (duration is null or duration >= 0),
+  tick numeric check (tick is null or tick >= 0),
+  persistent boolean,
+  metadata jsonb,
+  unique(appearance_ability_id, stage_order, effect_order)
+) on commit drop;
+
+create temp table import_appearance_ability_coverage (
+  appearance_id text not null,
+  kind text not null check (kind in ('leader','passive','uniform_effect')),
+  status text not null check (status in ('complete','not_applicable','missing','needs_review')),
+  source_url text,
+  note text,
+  reviewed_at timestamptz,
+  primary key(appearance_id, kind)
+) on commit drop;
+
+-- Run psql from the repository root so these client-side paths resolve.
+\copy pg_temp.import_character_appearances (id,character_id,name,is_default,sort_order,image_url,image_local_url,combat_type,side,gender,species,tags,source_url) from 'supabase/imports/character_appearances.csv' with (format csv, header true, null '', encoding 'UTF8')
+\copy pg_temp.import_appearance_abilities (id,appearance_id,kind,source_skill_type,source_skill_id,name,cooldown,target,activation,icon,sort_order,source_url,raw_data) from 'supabase/imports/appearance_abilities.csv' with (format csv, header true, null '', encoding 'UTF8')
+\copy pg_temp.import_appearance_ability_effects (id,appearance_ability_id,stage_id,stage_order,effect_order,source_effect_id,ability_code,effect_name,description,duration,tick,persistent,metadata) from 'supabase/imports/appearance_ability_effects.csv' with (format csv, header true, null '', encoding 'UTF8')
+\copy pg_temp.import_appearance_ability_coverage (appearance_id,kind,status,source_url,note,reviewed_at) from 'supabase/imports/appearance_ability_coverage.csv' with (format csv, header true, null '', encoding 'UTF8')
+
+-- Fail before mutating public tables if any input is partial or violates the
+-- full-snapshot relationship contract.
+do $$
+declare
+  appearance_count bigint;
+  ability_count bigint;
+  invalid_count bigint;
+begin
+  select count(*) into appearance_count from pg_temp.import_character_appearances;
+  select count(*) into ability_count from pg_temp.import_appearance_abilities;
+  if appearance_count < 882 then
+    raise exception 'character_appearances.csv is truncated: expected at least 882 rows, received %', appearance_count;
+  end if;
+  if ability_count = 0 then
+    raise exception 'appearance_abilities.csv is empty';
+  end if;
+
+  select count(*) into invalid_count
+  from pg_temp.import_character_appearances incoming
+  left join public.characters target on target.id = incoming.character_id
+  where target.id is null;
+  if invalid_count > 0 then
+    raise exception '% appearance rows reference a missing public.characters row', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from (
+    select incoming.character_id
+    from pg_temp.import_character_appearances incoming
+    group by incoming.character_id
+    having count(*) filter (where incoming.is_default) <> 1
+  ) invalid_defaults;
+  if invalid_count > 0 then
+    raise exception '% characters do not have exactly one default appearance', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from pg_temp.import_appearance_abilities child
+  left join pg_temp.import_character_appearances parent on parent.id = child.appearance_id
+  where parent.id is null;
+  if invalid_count > 0 then
+    raise exception '% ability rows reference an appearance outside this snapshot', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from pg_temp.import_appearance_ability_effects child
+  left join pg_temp.import_appearance_abilities parent on parent.id = child.appearance_ability_id
+  where parent.id is null;
+  if invalid_count > 0 then
+    raise exception '% effect rows reference an ability outside this snapshot', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from pg_temp.import_appearance_ability_coverage child
+  left join pg_temp.import_character_appearances parent on parent.id = child.appearance_id
+  where parent.id is null;
+  if invalid_count > 0 then
+    raise exception '% coverage rows reference an appearance outside this snapshot', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from (
+    select parent.id
+    from pg_temp.import_character_appearances parent
+    left join pg_temp.import_appearance_ability_coverage coverage
+      on coverage.appearance_id = parent.id
+    group by parent.id
+    having count(coverage.kind) <> 3
+  ) incomplete_coverage;
+  if invalid_count > 0 then
+    raise exception '% appearances do not have all three coverage states', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from pg_temp.import_appearance_ability_coverage coverage
+  where coverage.status in ('missing', 'needs_review');
+  if invalid_count > 0 then
+    raise exception '% coverage rows are unresolved (missing or needs_review)', invalid_count;
+  end if;
+
+  select count(*) into invalid_count
+  from pg_temp.import_appearance_ability_coverage coverage
+  join pg_temp.import_character_appearances appearance on appearance.id = coverage.appearance_id
+  where
+    (
+      appearance.is_default
+      and coverage.kind = 'uniform_effect'
+      and coverage.status <> 'not_applicable'
+    )
+    or (
+      not (appearance.is_default and coverage.kind = 'uniform_effect')
+      and coverage.status <> 'complete'
+    );
+  if invalid_count > 0 then
+    raise exception '% coverage rows violate the complete/not_applicable appearance invariant', invalid_count;
+  end if;
+end
+$$;
+
+insert into public.character_appearances (
+  id, character_id, name, is_default, sort_order, image_url, image_local_url,
+  combat_type, side, gender, species, tags, source_url, updated_at
+)
+select
+  id, character_id, name, is_default, sort_order, image_url, image_local_url,
+  combat_type, side, gender, species, coalesce(tags, '{}'::text[]), source_url, now()
+from pg_temp.import_character_appearances
+on conflict (id) do update set
+  character_id = excluded.character_id,
+  name = excluded.name,
+  is_default = excluded.is_default,
+  sort_order = excluded.sort_order,
+  image_url = excluded.image_url,
+  image_local_url = excluded.image_local_url,
+  combat_type = excluded.combat_type,
+  side = excluded.side,
+  gender = excluded.gender,
+  species = excluded.species,
+  tags = excluded.tags,
+  source_url = excluded.source_url,
+  updated_at = now();
+
+insert into public.appearance_abilities (
+  id, appearance_id, kind, source_skill_type, source_skill_id, name, cooldown,
+  target, activation, icon, sort_order, source_url, raw_data
+)
+select
+  id, appearance_id, kind, source_skill_type, source_skill_id, name, cooldown,
+  target, activation, icon, sort_order, source_url, coalesce(raw_data, '{}'::jsonb)
+from pg_temp.import_appearance_abilities
+on conflict (id) do update set
+  appearance_id = excluded.appearance_id,
+  kind = excluded.kind,
+  source_skill_type = excluded.source_skill_type,
+  source_skill_id = excluded.source_skill_id,
+  name = excluded.name,
+  cooldown = excluded.cooldown,
+  target = excluded.target,
+  activation = excluded.activation,
+  icon = excluded.icon,
+  sort_order = excluded.sort_order,
+  source_url = excluded.source_url,
+  raw_data = excluded.raw_data;
+
+insert into public.appearance_ability_effects (
+  id, appearance_ability_id, stage_id, stage_order, effect_order,
+  source_effect_id, ability_code, effect_name, description, duration, tick,
+  persistent, metadata
+)
+select
+  id, appearance_ability_id, stage_id, stage_order, effect_order,
+  source_effect_id, ability_code, effect_name, description, duration, tick,
+  coalesce(persistent, false), coalesce(metadata, '{}'::jsonb)
+from pg_temp.import_appearance_ability_effects
+on conflict (id) do update set
+  appearance_ability_id = excluded.appearance_ability_id,
+  stage_id = excluded.stage_id,
+  stage_order = excluded.stage_order,
+  effect_order = excluded.effect_order,
+  source_effect_id = excluded.source_effect_id,
+  ability_code = excluded.ability_code,
+  effect_name = excluded.effect_name,
+  description = excluded.description,
+  duration = excluded.duration,
+  tick = excluded.tick,
+  persistent = excluded.persistent,
+  metadata = excluded.metadata;
+
+insert into public.appearance_ability_coverage (
+  appearance_id, kind, status, source_url, note, reviewed_at
+)
+select appearance_id, kind, status, source_url, note, reviewed_at
+from pg_temp.import_appearance_ability_coverage
+on conflict (appearance_id, kind) do update set
+  status = excluded.status,
+  source_url = excluded.source_url,
+  note = excluded.note,
+  reviewed_at = excluded.reviewed_at;
+
+\if :prune_stale
+  \echo '[mff] Full-snapshot pruning enabled'
+
+  -- Refuse a suspiciously truncated snapshot even when pruning was requested.
+  do $$
+  declare
+    incoming_appearances bigint;
+    existing_appearances bigint;
+    incoming_abilities bigint;
+    existing_abilities bigint;
+  begin
+    select count(*) into incoming_appearances from pg_temp.import_character_appearances;
+    select count(*) into existing_appearances from public.character_appearances;
+    select count(*) into incoming_abilities from pg_temp.import_appearance_abilities;
+    select count(*) into existing_abilities from public.appearance_abilities;
+
+    if existing_appearances >= 20 and incoming_appearances * 100 < existing_appearances * 80 then
+      raise exception 'refusing stale prune: incoming appearances (%) are below 80%% of existing (%)',
+        incoming_appearances, existing_appearances;
+    end if;
+    if existing_abilities >= 20 and incoming_abilities * 100 < existing_abilities * 50 then
+      raise exception 'refusing stale prune: incoming abilities (%) are below 50%% of existing (%)',
+        incoming_abilities, existing_abilities;
+    end if;
+  end
+  $$;
+
+  -- Child-first deletion keeps the intent explicit even though FKs cascade.
+  delete from public.appearance_ability_effects target
+  where not exists (
+    select 1 from pg_temp.import_appearance_ability_effects incoming where incoming.id = target.id
+  );
+
+  delete from public.appearance_abilities target
+  where not exists (
+    select 1 from pg_temp.import_appearance_abilities incoming where incoming.id = target.id
+  );
+
+  delete from public.appearance_ability_coverage target
+  where not exists (
+    select 1
+    from pg_temp.import_appearance_ability_coverage incoming
+    where incoming.appearance_id = target.appearance_id and incoming.kind = target.kind
+  );
+
+  delete from public.character_appearances target
+  where not exists (
+    select 1 from pg_temp.import_character_appearances incoming where incoming.id = target.id
+  );
+\else
+  \echo '[mff] Stale rows preserved (pass -v prune_stale=true only for a verified full snapshot)'
+\endif
+
+commit;
+
+select
+  (select count(*) from public.character_appearances) as appearances,
+  (select count(*) from public.appearance_abilities) as abilities,
+  (select count(*) from public.appearance_ability_effects) as effects,
+  (select count(*) from public.appearance_ability_coverage) as coverage;

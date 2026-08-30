@@ -3,8 +3,19 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { promisify } from 'node:util';
+import {
+  parseApiCharacterSkills,
+  type ApiCharacter,
+  type ApiCharacterSkillPayload,
+} from './api';
 import { OUT_IMPORTS, OUT_JSON_PACKAGE, PUBLIC_ASSET_ROOT, WEBP_QUALITY } from './config';
-import type { SyncPayload } from './types';
+import type {
+  SyncedAppearanceAbility,
+  SyncedAppearanceAbilityCoverage,
+  SyncedAppearanceAbilityEffect,
+  SyncedSupport,
+  SyncPayload,
+} from './types';
 
 const execFileAsync = promisify(execFile);
 
@@ -34,6 +45,58 @@ export function dedupeBy<T extends object>(items: T[], keyFn: (item: T) => strin
   return Array.from(map.values());
 }
 
+export function mergeAppearanceSupports(
+  appearanceSupports: SyncedSupport[],
+  legacySupports: SyncedSupport[],
+) {
+  const legacySupportByPortrait = new Map<string, SyncedSupport>();
+  for (const row of legacySupports) {
+    if (row.portraitId) legacySupportByPortrait.set(row.portraitId, row);
+  }
+  return appearanceSupports.map((row) => ({
+    ...row,
+    artifactExclusiveSkill:
+      (row.portraitId ? legacySupportByPortrait.get(row.portraitId)?.artifactExclusiveSkill : undefined) ??
+      row.artifactExclusiveSkill,
+  }));
+}
+
+export function validateAppearanceSkillSync(input: {
+  fetchedPayloadCount: number;
+  appearanceCount: number;
+  supports: SyncedSupport[];
+  abilities: SyncedAppearanceAbility[];
+  effects: SyncedAppearanceAbilityEffect[];
+  coverage: SyncedAppearanceAbilityCoverage[];
+}) {
+  if (input.fetchedPayloadCount !== input.appearanceCount || input.supports.length !== input.appearanceCount) {
+    throw new Error('THANO$VIB$ character skill sync did not cover every appearance');
+  }
+  if (input.coverage.length !== input.appearanceCount * 3) {
+    throw new Error('THANO$VIB$ character skill coverage matrix is incomplete');
+  }
+  const unresolved = input.coverage.filter(
+    (row) => row.status === 'missing' || row.status === 'needs_review',
+  );
+  if (unresolved.length) {
+    const sample = unresolved
+      .slice(0, 10)
+      .map((row) => `${row.portraitId}:${row.kind}:${row.status}`)
+      .join(', ');
+    throw new Error(`THANO$VIB$ character skill coverage needs review (${sample})`);
+  }
+  if (new Set(input.abilities.map((row) => row.id)).size !== input.abilities.length) {
+    throw new Error('THANO$VIB$ character skill sync produced duplicate ability ids');
+  }
+  if (new Set(input.effects.map((row) => row.id)).size !== input.effects.length) {
+    throw new Error('THANO$VIB$ character skill sync produced duplicate effect ids');
+  }
+  const abilityIds = new Set(input.abilities.map((row) => row.id));
+  if (input.effects.some((row) => !abilityIds.has(row.appearanceAbilityId))) {
+    throw new Error('THANO$VIB$ character skill sync produced an orphan effect');
+  }
+}
+
 async function runLimited<T>(items: T[], limit: number, worker: (item: T) => Promise<void>) {
   let index = 0;
   const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
@@ -43,6 +106,65 @@ async function runLimited<T>(items: T[], limit: number, worker: (item: T) => Pro
     }
   });
   await Promise.all(runners);
+}
+
+async function fetchJsonWithRetry(url: string, attempts = 3) {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          'user-agent': 'MFF Data Hub catalog sync/0.4 (+https://openai.com/chatgpt)',
+        },
+      });
+      if (!res.ok) throw new Error(`${url} returned ${res.status}`);
+      return await res.json() as unknown;
+    } catch (error) {
+      lastError = error;
+      if (attempt < attempts) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 250));
+      }
+    }
+  }
+  throw lastError;
+}
+
+export async function fetchCharacterSkillPayloads<T extends { portrait?: string }>(
+  baseUrl: string,
+  portraits: string[],
+): Promise<T[]> {
+  const results = new Array<T>(portraits.length);
+  await runLimited(portraits.map((portrait, index) => ({ portrait, index })), 12, async ({ portrait, index }) => {
+    const url = `${baseUrl}/api/characters/${encodeURIComponent(portrait)}/skills`;
+    const payload = await fetchJsonWithRetry(url) as T;
+    if (payload.portrait !== portrait) {
+      throw new Error(`character skills response mismatch: expected ${portrait}, received ${payload.portrait ?? 'missing'}`);
+    }
+    results[index] = payload;
+  });
+  return results;
+}
+
+export async function fetchCompleteAppearanceSkillData(
+  baseUrl: string,
+  characterRows: ApiCharacter[],
+  legacySupports: SyncedSupport[],
+) {
+  const payloads = await fetchCharacterSkillPayloads<ApiCharacterSkillPayload>(
+    baseUrl,
+    characterRows.map((row) => row.portrait),
+  );
+  const parsed = parseApiCharacterSkills(payloads, characterRows);
+  const supports = mergeAppearanceSupports(parsed.supports, legacySupports);
+  validateAppearanceSkillSync({
+    fetchedPayloadCount: payloads.length,
+    appearanceCount: characterRows.length,
+    supports,
+    abilities: parsed.appearanceAbilities,
+    effects: parsed.appearanceAbilityEffects,
+    coverage: parsed.coverage,
+  });
+  return { ...parsed, supports };
 }
 
 async function isValidWebpFile(filePath: string) {
@@ -223,6 +345,37 @@ function toCsv<T extends object>(rows: T[], columns: (keyof T | string)[]) {
   })].join('\n') + '\n';
 }
 
+function numericValue(value: unknown) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : undefined;
+  const text = String(value ?? '').trim();
+  return text && /^-?\d+(?:\.\d+)?$/.test(text) ? text : undefined;
+}
+
+function integerValue(value: unknown) {
+  if (typeof value === 'number') return Number.isSafeInteger(value) ? value : undefined;
+  const text = String(value ?? '').trim();
+  return text && /^-?\d+$/.test(text) ? text : undefined;
+}
+
+function persistentValue(value: unknown) {
+  if (value === true || value === 1) return true;
+  if (typeof value === 'string' && ['true', '1'].includes(value.trim().toLowerCase())) return true;
+  return false;
+}
+
+function effectMetadata(
+  row: SyncPayload['appearanceAbilityEffects'][number],
+) {
+  return {
+    ...(row.valueMetadata ?? {}),
+    ...(row.duration != null && numericValue(row.duration) == null ? { rawDuration: row.duration } : {}),
+    ...(row.tick != null && numericValue(row.tick) == null ? { rawTick: row.tick } : {}),
+    ...(row.persistent != null && typeof row.persistent !== 'boolean'
+      ? { rawPersistent: row.persistent }
+      : {}),
+  };
+}
+
 export async function fetchPage(url: string) {
   const res = await fetch(url, {
     headers: {
@@ -358,6 +511,150 @@ export async function writeOutputs(payload: SyncPayload) {
     'utf8',
   );
 
+  const appearanceSourceByPortrait = new Map(
+    payload.appearanceAbilityCoverage.map((row) => [row.portraitId, row.sourceUrl]),
+  );
+  const appearancesByCharacter = new Map<string, typeof payload.attributes>();
+  for (const row of payload.attributes) {
+    if (!row.portraitId) continue;
+    appearancesByCharacter.set(row.characterId, [...(appearancesByCharacter.get(row.characterId) ?? []), row]);
+  }
+  const characterAppearances = Array.from(appearancesByCharacter.values()).flatMap((rows) =>
+    [...rows]
+      .sort((left, right) => Number(right.baseCharacter) - Number(left.baseCharacter))
+      .map((row, sortOrder) => ({
+        id: row.portraitId,
+        character_id: row.characterId,
+        name: row.baseCharacter ? 'Default' : row.uniform || 'Default',
+        is_default: row.baseCharacter,
+        sort_order: sortOrder,
+        image_url: row.portraitUrl,
+        image_local_url: row.localPortraitUrl,
+        combat_type: row.combatType,
+        side: row.side,
+        gender: row.gender,
+        species: row.species,
+        tags: row.tags,
+        source_url: appearanceSourceByPortrait.get(row.portraitId ?? ''),
+      })),
+  );
+
+  await writeFile(
+    path.join(OUT_IMPORTS, 'character_appearances.csv'),
+    toCsv(characterAppearances, [
+      'id',
+      'character_id',
+      'name',
+      'is_default',
+      'sort_order',
+      'image_url',
+      'image_local_url',
+      'combat_type',
+      'side',
+      'gender',
+      'species',
+      'tags',
+      'source_url',
+    ]),
+    'utf8',
+  );
+
+  await writeFile(
+    path.join(OUT_IMPORTS, 'appearance_abilities.csv'),
+    toCsv(
+      payload.appearanceAbilities.map((row) => ({
+        id: row.id,
+        appearance_id: row.portraitId,
+        kind: row.kind,
+        source_skill_type: row.sourceSkillType,
+        source_skill_id: integerValue(row.skillId),
+        name: row.skillName,
+        cooldown: numericValue(row.cooldown),
+        target: row.target,
+        activation: row.activation,
+        icon: row.icon,
+        sort_order: row.sortOrder,
+        source_url: row.sourceUrl,
+        raw_data: JSON.stringify({
+          character: row.character,
+          characterId: row.characterId,
+          uniform: row.uniform,
+          baseCharacter: row.baseCharacter,
+          sourceSkillId: row.skillId,
+        }),
+      })),
+      [
+        'id',
+        'appearance_id',
+        'kind',
+        'source_skill_type',
+        'source_skill_id',
+        'name',
+        'cooldown',
+        'target',
+        'activation',
+        'icon',
+        'sort_order',
+        'source_url',
+        'raw_data',
+      ],
+    ),
+    'utf8',
+  );
+
+  await writeFile(
+    path.join(OUT_IMPORTS, 'appearance_ability_effects.csv'),
+    toCsv(
+      payload.appearanceAbilityEffects.map((row) => ({
+        id: row.id,
+        appearance_ability_id: row.appearanceAbilityId,
+        stage_id: integerValue(row.stageId),
+        stage_order: row.stageOrder + 1,
+        effect_order: row.effectOrder + 1,
+        source_effect_id: integerValue(row.effectId),
+        ability_code: integerValue(row.abilityCode),
+        effect_name: row.effectName,
+        description: row.description,
+        duration: numericValue(row.duration),
+        tick: numericValue(row.tick),
+        persistent: persistentValue(row.persistent),
+        metadata: JSON.stringify(effectMetadata(row)),
+      })),
+      [
+        'id',
+        'appearance_ability_id',
+        'stage_id',
+        'stage_order',
+        'effect_order',
+        'source_effect_id',
+        'ability_code',
+        'effect_name',
+        'description',
+        'duration',
+        'tick',
+        'persistent',
+        'metadata',
+      ],
+    ),
+    'utf8',
+  );
+
+  await writeFile(
+    path.join(OUT_IMPORTS, 'appearance_ability_coverage.csv'),
+    toCsv(
+      payload.appearanceAbilityCoverage.map((row) => ({
+        appearance_id: row.portraitId,
+        kind: row.kind,
+        status: row.status,
+        source_url: row.sourceUrl,
+        note: row.reason,
+        reviewed_at: payload.syncedAt,
+      })),
+      ['appearance_id', 'kind', 'status', 'source_url', 'note', 'reviewed_at'],
+    ),
+    'utf8',
+  );
+
   await writeFile(
     path.join(OUT_IMPORTS, 'supports.csv'),
     toCsv(
@@ -381,9 +678,20 @@ export async function writeOutputs(payload: SyncPayload) {
     toCsv(
       dedupeBy(
         payload.characterEffects,
-        (row) => [row.characterId, row.sourceKind, row.effectName, row.magnitudeText, row.restrictionText, row.rawText].join('|'),
+        (row) => [
+          row.characterId,
+          row.portraitId,
+          row.uniform,
+          row.sourceKind,
+          row.effectName,
+          row.magnitudeText,
+          row.restrictionText,
+          row.rawText,
+        ].join('|'),
       ).map((row) => ({
         character_id: row.characterId,
+        portrait_id: row.portraitId,
+        uniform: row.uniform,
         source_kind: row.sourceKind,
         effect_name: row.effectName,
         magnitude: row.magnitude,
@@ -392,7 +700,18 @@ export async function writeOutputs(payload: SyncPayload) {
         raw_text: row.rawText,
         source_url: row.sourceUrl,
       })),
-      ['character_id', 'source_kind', 'effect_name', 'magnitude', 'magnitude_text', 'restriction_text', 'raw_text', 'source_url'],
+      [
+        'character_id',
+        'portrait_id',
+        'uniform',
+        'source_kind',
+        'effect_name',
+        'magnitude',
+        'magnitude_text',
+        'restriction_text',
+        'raw_text',
+        'source_url',
+      ],
     ),
     'utf8',
   );

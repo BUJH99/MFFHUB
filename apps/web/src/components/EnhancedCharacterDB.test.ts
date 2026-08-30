@@ -39,11 +39,24 @@ describe('EnhancedCharacterDB matrix layout', () => {
     expect(source).toContain('SkillGroup title="리더"');
     expect(source).toContain('SkillGroup title="패시브"');
     expect(source).toContain('SkillGroup title="유니폼 효과"');
+    expect(source).toContain('const selectedUniform = character.uniforms[selectedUniformIndex]');
+    expect(source).toContain('<SkillCell uniform={selectedUniform} />');
+  });
+
+  it('indexes all selected-appearance ability text for catalog search', () => {
+    expect(source).toContain("uniform.leader?.join(' ')");
+    expect(source).toContain("uniform.passive?.join(' ')");
+    expect(source).toContain("uniform.uniformEffect?.join(' ')");
   });
 
   it('uses catalog names directly because the data catalog stores Korean names', () => {
     expect(source).not.toContain('getKoreanCharacterName');
     expect(source).toContain('{character.name}');
+  });
+
+  it('only exposes the synchronized production source in the source filter', () => {
+    expect(source).toContain("const sourceOptions: Array<'ALL' | CatalogCharacter['sourceStatus']> = ['ALL', 'synced'];");
+    expect(source).not.toContain("['ALL', 'synced', 'manual']");
   });
 
   it('shows each character instinct label under the name without a redundant prefix', () => {

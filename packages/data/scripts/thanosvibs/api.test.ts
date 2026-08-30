@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   parseApiArtifacts,
   parseApiAttributes,
+  parseApiCharacterSkills,
   parseApiComicCards,
   parseApiSupports,
   parseApiUniforms,
   type ApiCharacter,
+  type ApiCharacterSkillPayload,
 } from './api';
 
 const baseCharacter: ApiCharacter = {
@@ -210,5 +212,258 @@ describe('THANO$VIB$ JSON API adapter', () => {
     ]);
     expect(result.effects).toHaveLength(5);
     expect(result.effects[0].restrictionText).toBe('Side: Hero');
+  });
+
+  it('keeps leader, passive, and uniform effects scoped to each appearance', () => {
+    const dormammu: ApiCharacter = {
+      ...baseCharacter,
+      character: 'Dormammu',
+      uniform: 'Default',
+      portrait: 'dormammu',
+      uniformed: 'False',
+    };
+    const dormammuUniform: ApiCharacter = {
+      ...dormammu,
+      uniform: 'Damnation',
+      portrait: 'dormammu1',
+      uniformed: 'True',
+      base_portrait: 'dormammu',
+    };
+    const sharedPassives = {
+      Passive: {
+        id: 101160401,
+        type: 'Passive',
+        name: 'Lingering Fear',
+        cooldown: 300,
+        stages: [{
+          id: 101160401,
+          activation: 'when dead',
+          abils: [{
+            id: 1011604011,
+            abilityId: 253,
+            ability: 'REVIVE',
+            description: 'Revive with <b>100%</b> of Max HP',
+          }],
+        }],
+      },
+      'Tier-2 Passive': {
+        id: 101167001,
+        type: 'Tier-2 Passive',
+        name: 'Impending Demise',
+        cooldown: 7,
+        stages: [{
+          id: 101167001,
+          activation: '<b>25</b>% chance when attacking',
+          abils: [{
+            id: 1011670011,
+            abilityId: 18,
+            ability: 'HP RECOVERY',
+            duration: 1,
+            tick: 1,
+            description: 'Recovers <b>20%</b> of HP.',
+          }],
+        }],
+      },
+    };
+    const basePayload: ApiCharacterSkillPayload = {
+      portrait: 'dormammu',
+      skills: {
+        ...sharedPassives,
+        'Leader Skill': {
+          id: 101162006,
+          type: 'Leader Skill',
+          name: 'Dread One',
+          cooldown: 0,
+          stages: [{
+            id: 101162006,
+            target: 'All Allies',
+            abils: [{
+              id: 1011620061,
+              abilityId: 10,
+              ability: 'ALL BASIC DEFENSES INCREASE',
+              description: 'Increases all Basic Defenses by <b>24%</b>.',
+            }],
+          }],
+        },
+      },
+    };
+    const repeatedUniformStage = {
+      id: 101165001,
+      activation: 'when attacked',
+      abils: [{
+        id: 1011650011,
+        abilityId: 258,
+        ability: 'ALL DAMAGE IMMUNE',
+        duration: 5,
+        description: '<b>100%</b> chance to grant All Damage Immunity',
+      }],
+    };
+    const uniformPayload: ApiCharacterSkillPayload = {
+      portrait: 'dormammu1',
+      skills: {
+        ...sharedPassives,
+        'Leader Skill': {
+          id: 101163006,
+          type: 'Leader Skill',
+          name: 'Lord of the Dark Dimension',
+          cooldown: 0,
+          stages: [{
+            id: 101163006,
+            target: 'All Allies',
+            abils: [{
+              id: 1011630061,
+              abilityId: 10,
+              ability: 'ALL BASIC DEFENSES INCREASE',
+              description: 'Increases all Basic Defenses by <b>45%</b>.',
+            }],
+          }],
+        },
+        'Uniform Passive': {
+          id: 101165001,
+          type: 'Uniform Passive',
+          name: 'Damnation',
+          cooldown: 10,
+          stages: [repeatedUniformStage, repeatedUniformStage],
+        },
+      },
+    };
+
+    const result = parseApiCharacterSkills(
+      [basePayload, uniformPayload],
+      [dormammu, dormammuUniform],
+    );
+    const baseSummary = result.supports.find((row) => row.portraitId === 'dormammu');
+    const uniformSummary = result.supports.find((row) => row.portraitId === 'dormammu1');
+
+    expect(baseSummary?.leadership[0]).toContain('Dread One');
+    expect(baseSummary?.leadership[0]).toContain('Increases all Basic Defenses by 24%.');
+    expect(uniformSummary?.leadership[0]).toContain('Lord of the Dark Dimension');
+    expect(uniformSummary?.leadership[0]).toContain('Increases all Basic Defenses by 45%.');
+    expect(baseSummary?.passive).toHaveLength(2);
+    expect(baseSummary?.passive.join(' ')).toContain('Lingering Fear');
+    expect(baseSummary?.passive.join(' ')).toContain('Impending Demise');
+    expect(baseSummary?.passive.join(' ')).not.toContain('<b>');
+
+    expect(result.coverage.find((row) => row.portraitId === 'dormammu' && row.kind === 'uniform_effect'))
+      .toMatchObject({ status: 'not_applicable', abilityCount: 0, effectCount: 0 });
+    expect(result.coverage.find((row) => row.portraitId === 'dormammu1' && row.kind === 'uniform_effect'))
+      .toMatchObject({ status: 'complete', abilityCount: 1, effectCount: 1 });
+
+    const passiveAbilityIds = result.appearanceAbilities
+      .filter((row) => row.kind === 'passive')
+      .map((row) => row.id);
+    expect(passiveAbilityIds).toHaveLength(4);
+    expect(new Set(passiveAbilityIds).size).toBe(4);
+    expect(result.appearanceAbilityEffects.filter((row) =>
+      row.appearanceAbilityId.includes('uniform-passive'))).toHaveLength(1);
+    expect(result.appearanceAbilityEffects.find((row) => row.effectId === '1011620061')?.valueMetadata)
+      .toMatchObject({ rawDescription: 'Increases all Basic Defenses by <b>24%</b>.' });
+  });
+
+  it('applies the published Black Swan Tier-2 passive type correction', () => {
+    const blackSwan: ApiCharacter = {
+      ...baseCharacter,
+      character: 'Black Swan',
+      uniform: 'Default',
+      portrait: 'blackswan',
+      uniformed: false,
+    };
+    const result = parseApiCharacterSkills([{
+      portrait: 'blackswan',
+      skills: {
+        'Active 3': {
+          id: 102707001,
+          type: 'Active 3',
+          name: 'Brutal Incursion',
+          icon: 'icon_blackswan_skill70',
+          stages: [{
+            id: 102707001,
+            abils: [{
+              id: 1027070011,
+              abilityId: 304,
+              ability: 'SKILL AND BONUS DAMAGE INCREASE',
+              description: 'Increases Skill damage by <b>35%</b>.',
+            }],
+          }],
+        },
+      },
+    }], [blackSwan]);
+
+    expect(result.appearanceAbilities).toContainEqual(expect.objectContaining({
+      portraitId: 'blackswan',
+      sourceSkillType: 'Tier-2 Passive',
+      kind: 'passive',
+      skillName: 'Brutal Incursion',
+    }));
+    expect(result.appearanceAbilities).toContainEqual(expect.objectContaining({
+      id: 'appearance-ability:blackswan:passive',
+      portraitId: 'blackswan',
+      sourceSkillType: 'Passive',
+      kind: 'passive',
+      skillName: 'Uncompromising Precision',
+      icon: 'icon_blackswan_skill30',
+      sourceUrl: 'https://forum.netmarble.com/futurefight_en/view/2196/1809909',
+    }));
+    const manualAbility = result.appearanceAbilities.find((row) => row.skillId === '102703001');
+    expect(result.appearanceAbilityEffects
+      .filter((row) => row.appearanceAbilityId === manualAbility?.id)
+      .map((row) => row.abilityCode)).toEqual([120, 208, 304]);
+    expect(result.coverage.find((row) => row.kind === 'passive')).toMatchObject({
+      status: 'complete',
+      abilityCount: 2,
+      effectCount: 4,
+    });
+  });
+
+  it('stops applying a manual supplement after the upstream publishes that skill type', () => {
+    const blackSwan: ApiCharacter = {
+      ...baseCharacter,
+      character: 'Black Swan',
+      uniform: 'Default',
+      portrait: 'blackswan',
+      uniformed: false,
+    };
+    const result = parseApiCharacterSkills([{
+      portrait: 'blackswan',
+      skills: {
+        Passive: {
+          id: 999703001,
+          type: 'Passive',
+          name: 'Published Precision',
+          stages: [{ id: 999703001, abils: [] }],
+        },
+      },
+    }], [blackSwan]);
+
+    expect(result.appearanceAbilities.filter((row) => row.sourceSkillType === 'Passive'))
+      .toHaveLength(1);
+    expect(result.appearanceAbilities.find((row) => row.sourceSkillType === 'Passive'))
+      .toMatchObject({ skillId: '999703001', skillName: 'Published Precision' });
+  });
+
+  it('records an explicit empty uniform passive as complete audited coverage', () => {
+    const uniform: ApiCharacter = {
+      ...baseCharacter,
+      uniform: 'Legacy Look',
+      portrait: 'testhero1',
+      uniformed: true,
+      base_portrait: 'testhero',
+    };
+    const result = parseApiCharacterSkills([{
+      portrait: 'testhero1',
+      skills: {
+        'Uniform Passive': {
+          id: 100345001,
+          type: 'Uniform Passive',
+          name: 'Legacy Look',
+          cooldown: 0,
+          stages: [{ id: 100345001, abils: [] }],
+        },
+      },
+    }], [baseCharacter, uniform]);
+
+    expect(result.supports.find((row) => row.portraitId === 'testhero1')?.uniformEffect).toEqual([]);
+    expect(result.coverage.find((row) => row.portraitId === 'testhero1' && row.kind === 'uniform_effect'))
+      .toMatchObject({ status: 'complete', abilityCount: 1, effectCount: 0 });
   });
 });

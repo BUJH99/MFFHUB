@@ -1,4 +1,22 @@
-import { pgSchema, pgTable, text, uuid, timestamp, boolean, integer, jsonb, numeric, primaryKey, unique, date, index } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
+import {
+  bigint,
+  boolean,
+  check,
+  date,
+  index,
+  integer,
+  jsonb,
+  numeric,
+  pgSchema,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  unique,
+  uniqueIndex,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 export const authSchema = pgSchema('auth');
 
@@ -33,6 +51,106 @@ export const characters = pgTable('characters', {
   sourceUrl: text('source_url'),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
+
+/**
+ * Stable, source-addressable character forms. The primary key is the upstream
+ * portrait id so a default appearance and every paid/free uniform can carry
+ * independent skills without relying on a display name or a generated UUID.
+ */
+export const characterAppearances = pgTable('character_appearances', {
+  id: text('id').primaryKey(),
+  characterId: text('character_id').notNull().references(() => characters.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  isDefault: boolean('is_default').notNull().default(false),
+  sortOrder: integer('sort_order').notNull().default(0),
+  imageUrl: text('image_url'),
+  imageLocalUrl: text('image_local_url'),
+  combatType: text('combat_type').default('Unknown'),
+  side: text('side').default('Unknown'),
+  gender: text('gender'),
+  species: text('species'),
+  tags: text('tags').array().notNull().default([]),
+  sourceUrl: text('source_url'),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  characterNameUniq: unique('character_appearances_character_name_uniq').on(t.characterId, t.name),
+  defaultUniq: uniqueIndex('character_appearances_default_uniq')
+    .on(t.characterId)
+    .where(sql`${t.isDefault} = true`),
+  characterIdx: index('character_appearances_character_idx').on(t.characterId),
+  sortOrderCheck: check('character_appearances_sort_order_check', sql`${t.sortOrder} >= 0`),
+}));
+
+export const appearanceAbilities = pgTable('appearance_abilities', {
+  id: text('id').primaryKey(),
+  appearanceId: text('appearance_id').notNull().references(() => characterAppearances.id, { onDelete: 'cascade' }),
+  kind: text('kind').notNull(),
+  sourceSkillType: text('source_skill_type').notNull(),
+  sourceSkillId: bigint('source_skill_id', { mode: 'number' }),
+  name: text('name').notNull(),
+  cooldown: numeric('cooldown'),
+  target: text('target'),
+  activation: text('activation'),
+  icon: text('icon'),
+  sortOrder: integer('sort_order').notNull().default(0),
+  sourceUrl: text('source_url'),
+  rawData: jsonb('raw_data').notNull().default({}),
+}, (t) => ({
+  kindCheck: check(
+    'appearance_abilities_kind_check',
+    sql`${t.kind} in ('leader', 'passive', 'uniform_effect')`,
+  ),
+  cooldownCheck: check('appearance_abilities_cooldown_check', sql`${t.cooldown} is null or ${t.cooldown} >= 0`),
+  sortOrderCheck: check('appearance_abilities_sort_order_check', sql`${t.sortOrder} >= 0`),
+  sourceTypeUniq: unique('appearance_abilities_appearance_source_type_uniq')
+    .on(t.appearanceId, t.sourceSkillType),
+  appearanceKindOrderIdx: index('appearance_abilities_appearance_kind_order_idx')
+    .on(t.appearanceId, t.kind, t.sortOrder),
+}));
+
+export const appearanceAbilityEffects = pgTable('appearance_ability_effects', {
+  id: text('id').primaryKey(),
+  appearanceAbilityId: text('appearance_ability_id').notNull().references(() => appearanceAbilities.id, { onDelete: 'cascade' }),
+  stageId: bigint('stage_id', { mode: 'number' }),
+  stageOrder: integer('stage_order').notNull(),
+  effectOrder: integer('effect_order').notNull(),
+  sourceEffectId: bigint('source_effect_id', { mode: 'number' }),
+  abilityCode: integer('ability_code'),
+  effectName: text('effect_name'),
+  description: text('description').notNull(),
+  duration: numeric('duration'),
+  tick: numeric('tick'),
+  persistent: boolean('persistent').notNull().default(false),
+  metadata: jsonb('metadata').notNull().default({}),
+}, (t) => ({
+  stageOrderCheck: check('appearance_ability_effects_stage_order_check', sql`${t.stageOrder} > 0`),
+  effectOrderCheck: check('appearance_ability_effects_effect_order_check', sql`${t.effectOrder} > 0`),
+  durationCheck: check('appearance_ability_effects_duration_check', sql`${t.duration} is null or ${t.duration} >= 0`),
+  tickCheck: check('appearance_ability_effects_tick_check', sql`${t.tick} is null or ${t.tick} >= 0`),
+  abilityOrderUniq: unique('appearance_ability_effects_ability_order_uniq')
+    .on(t.appearanceAbilityId, t.stageOrder, t.effectOrder),
+  abilityIdx: index('appearance_ability_effects_ability_idx').on(t.appearanceAbilityId),
+}));
+
+export const appearanceAbilityCoverage = pgTable('appearance_ability_coverage', {
+  appearanceId: text('appearance_id').notNull().references(() => characterAppearances.id, { onDelete: 'cascade' }),
+  kind: text('kind').notNull(),
+  status: text('status').notNull().default('missing'),
+  sourceUrl: text('source_url'),
+  note: text('note'),
+  reviewedAt: timestamp('reviewed_at', { withTimezone: true }),
+}, (t) => ({
+  pk: primaryKey({ columns: [t.appearanceId, t.kind] }),
+  kindCheck: check(
+    'appearance_ability_coverage_kind_check',
+    sql`${t.kind} in ('leader', 'passive', 'uniform_effect')`,
+  ),
+  statusCheck: check(
+    'appearance_ability_coverage_status_check',
+    sql`${t.status} in ('complete', 'not_applicable', 'missing', 'needs_review')`,
+  ),
+  statusIdx: index('appearance_ability_coverage_status_idx').on(t.status, t.kind),
+}));
 
 export const uniforms = pgTable('uniforms', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -175,7 +293,9 @@ export const allianceBattleConditions = pgTable('alliance_battle_conditions', {
 export const characterEffects = pgTable('character_effects', {
   id: uuid('id').defaultRandom().primaryKey(),
   characterId: text('character_id').references(() => characters.id, { onDelete: 'cascade' }),
+  portraitId: text('portrait_id').references(() => characterAppearances.id, { onDelete: 'cascade' }),
   uniformId: uuid('uniform_id').references(() => uniforms.id, { onDelete: 'cascade' }),
+  uniform: text('uniform'),
   sourceKind: text('source_kind').default('Other'),
   effectName: text('effect_name').notNull(),
   magnitude: numeric('magnitude'),
@@ -183,7 +303,9 @@ export const characterEffects = pgTable('character_effects', {
   restrictionText: text('restriction_text'),
   rawText: text('raw_text'),
   sourceUrl: text('source_url').default('https://thanosvibs.money/supports'),
-});
+}, (t) => ({
+  portraitIdx: index('character_effects_portrait_idx').on(t.portraitId),
+}));
 
 export const userCharacters = pgTable('user_characters', {
   userId: uuid('user_id').notNull().references(() => appProfiles.userId, { onDelete: 'cascade' }),

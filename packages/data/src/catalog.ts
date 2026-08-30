@@ -7,6 +7,7 @@ export type CatalogSide = 'Hero' | 'Villain' | 'Neutral' | 'Unknown';
 
 export type CatalogUniform = {
   name: string;
+  portraitId?: string;
   baseCharacter?: boolean;
   imageUrl?: string;
   sourceImageUrl?: string;
@@ -108,6 +109,7 @@ type GeneratedSync = {
   uniforms?: Array<{
     characterId: string;
     name: string;
+    portraitId?: string;
     imageUrl?: string;
     localImageUrl?: string;
     acquisition?: string;
@@ -126,6 +128,7 @@ type GeneratedSync = {
   }>;
   supports?: Array<{
     characterId: string;
+    portraitId?: string;
     uniform?: string;
     leadership?: string[];
     passive?: string[];
@@ -135,6 +138,7 @@ type GeneratedSync = {
   attributes?: Array<{
     characterId: string;
     uniform?: string;
+    portraitId?: string;
     portraitUrl?: string;
     localPortraitUrl?: string;
     combatType?: CatalogCombatType;
@@ -144,6 +148,31 @@ type GeneratedSync = {
     tags?: string[];
     latestUniform?: boolean;
     baseCharacter?: boolean;
+  }>;
+  appearanceAbilities?: Array<{
+    id: string;
+    portraitId: string;
+    characterId: string;
+    uniform?: string;
+    baseCharacter: boolean;
+    kind: 'leader' | 'passive' | 'uniform_effect';
+    sourceSkillType: string;
+    skillName: string;
+    cooldown?: number | string;
+    target?: string;
+    activation?: string;
+    sortOrder: number;
+  }>;
+  appearanceAbilityEffects?: Array<{
+    appearanceAbilityId: string;
+    stageOrder: number;
+    effectOrder: number;
+    description: string;
+  }>;
+  appearanceAbilityCoverage?: Array<{
+    portraitId: string;
+    kind: 'leader' | 'passive' | 'uniform_effect';
+    status: 'complete' | 'not_applicable' | 'missing' | 'needs_review';
   }>;
 };
 
@@ -165,9 +194,76 @@ function releaseLabel(update?: string, date?: string) {
 }
 
 type GeneratedAttribute = NonNullable<GeneratedSync['attributes']>[number];
+type GeneratedSupport = NonNullable<GeneratedSync['supports']>[number];
+type GeneratedAppearanceAbility = NonNullable<GeneratedSync['appearanceAbilities']>[number];
+type GeneratedAppearanceAbilityEffect = NonNullable<GeneratedSync['appearanceAbilityEffects']>[number];
 
 function uniformAttributeKey(characterId: string, uniform?: string) {
   return `${characterId}|${slugify(uniform ?? 'Modern')}`;
+}
+
+function appearanceKey(portraitId: string | undefined, characterId: string, uniform?: string) {
+  return portraitId ? `portrait:${portraitId}` : `name:${uniformAttributeKey(characterId, uniform)}`;
+}
+
+function abilitySummary(
+  ability: GeneratedAppearanceAbility,
+  effectsByAbility: Map<string, GeneratedAppearanceAbilityEffect[]>,
+) {
+  const effects = [...(effectsByAbility.get(ability.id) ?? [])]
+    .sort((left, right) => left.stageOrder - right.stageOrder || left.effectOrder - right.effectOrder)
+    .map((effect) => effect.description)
+    .filter(Boolean);
+  return [
+    ability.skillName,
+    ability.target ? `Target: ${ability.target}` : undefined,
+    ability.activation ? `Activation: ${ability.activation}` : undefined,
+    ability.cooldown != null && ability.cooldown !== '' ? `Cooldown ${ability.cooldown}s` : undefined,
+    ...effects,
+  ].filter(Boolean).join(' | ');
+}
+
+function appearanceAbilityRows(
+  portraitId: string | undefined,
+  kind: GeneratedAppearanceAbility['kind'],
+  abilitiesByPortrait: Map<string, GeneratedAppearanceAbility[]>,
+  effectsByAbility: Map<string, GeneratedAppearanceAbilityEffect[]>,
+) {
+  if (!portraitId || !abilitiesByPortrait.has(portraitId)) return undefined;
+  return mergeStringList(
+    ...(abilitiesByPortrait.get(portraitId) ?? [])
+      .filter((ability) => ability.kind === kind)
+      .sort((left, right) => left.sortOrder - right.sortOrder)
+      .map((ability) => [abilitySummary(ability, effectsByAbility)]),
+  );
+}
+
+function supportRowsForAppearance(
+  portraitId: string | undefined,
+  characterId: string,
+  uniform: string | undefined,
+  supportsByPortrait: Map<string, GeneratedSupport[]>,
+  supportsByUniform: Map<string, GeneratedSupport[]>,
+) {
+  return portraitId && supportsByPortrait.has(portraitId)
+    ? supportsByPortrait.get(portraitId) ?? []
+    : supportsByUniform.get(uniformAttributeKey(characterId, uniform)) ?? [];
+}
+
+function appearanceEffects(
+  portraitId: string | undefined,
+  supportRows: GeneratedSupport[],
+  abilitiesByPortrait: Map<string, GeneratedAppearanceAbility[]>,
+  effectsByAbility: Map<string, GeneratedAppearanceAbilityEffect[]>,
+): Pick<CatalogUniform, 'leader' | 'passive' | 'uniformEffect'> {
+  return {
+    leader: appearanceAbilityRows(portraitId, 'leader', abilitiesByPortrait, effectsByAbility)
+      ?? mergeStringList(...supportRows.map((row) => row.leadership ?? [])),
+    passive: appearanceAbilityRows(portraitId, 'passive', abilitiesByPortrait, effectsByAbility)
+      ?? mergeStringList(...supportRows.map((row) => row.passive ?? [])),
+    uniformEffect: appearanceAbilityRows(portraitId, 'uniform_effect', abilitiesByPortrait, effectsByAbility)
+      ?? mergeStringList(...supportRows.map((row) => row.uniformEffect ?? [])),
+  };
 }
 
 function coreTags(gender?: string, species?: string, tags: string[] = []) {
@@ -198,6 +294,7 @@ function appendBaseCharacterForms(characters: CatalogCharacter[]) {
       const existing = character.uniforms[existingIndex];
       const hydratedBase: CatalogUniform = {
         ...existing,
+        portraitId: baseAttribute.portraitId ?? existing.portraitId,
         baseCharacter: true,
         imageUrl: baseAttribute.localPortraitUrl ?? existing.imageUrl ?? baseAttribute.portraitUrl ?? character.imageUrl,
         sourceImageUrl: baseAttribute.portraitUrl ?? existing.sourceImageUrl,
@@ -219,6 +316,7 @@ function appendBaseCharacterForms(characters: CatalogCharacter[]) {
       // Existing uniform indexes are persisted in localStorage, so the base form must be appended.
       uniforms: [...character.uniforms, {
         name: baseName,
+        portraitId: baseAttribute.portraitId,
         baseCharacter: true,
         imageUrl: baseAttribute.localPortraitUrl ?? baseAttribute.portraitUrl ?? character.imageUrl,
         sourceImageUrl: baseAttribute.portraitUrl,
@@ -234,13 +332,19 @@ function appendBaseCharacterForms(characters: CatalogCharacter[]) {
 
 function buildSyncedCatalogCharacters(): CatalogCharacter[] {
   const uniformsByCharacter = new Map<string, CatalogUniform[]>();
-  const supportsByUniform = new Map<string, GeneratedSync['supports']>();
+  const supportsByPortrait = new Map<string, GeneratedSupport[]>();
+  const supportsByUniform = new Map<string, GeneratedSupport[]>();
+  const attributesByPortrait = new Map<string, GeneratedAttribute>();
   const attributesByUniform = new Map<string, GeneratedAttribute>();
+  const abilitiesByPortrait = new Map<string, GeneratedAppearanceAbility[]>();
+  const effectsByAbility = new Map<string, GeneratedAppearanceAbilityEffect[]>();
+  const seenAppearances = new Set<string>();
   const characterImageById = new Map(
     (synced.characters ?? []).map((character) => [character.id, character.localPortraitUrl ?? character.portraitUrl ?? portraitUrl(character.name)]),
   );
 
   for (const attribute of synced.attributes ?? []) {
+    if (attribute.portraitId) attributesByPortrait.set(attribute.portraitId, attribute);
     const key = uniformAttributeKey(attribute.characterId, attribute.uniform);
     const previous = attributesByUniform.get(key);
     if (!previous || attribute.latestUniform || (!previous.baseCharacter && attribute.baseCharacter)) {
@@ -251,42 +355,72 @@ function buildSyncedCatalogCharacters(): CatalogCharacter[] {
   for (const support of synced.supports ?? []) {
     const key = uniformAttributeKey(support.characterId, support.uniform);
     supportsByUniform.set(key, [...(supportsByUniform.get(key) ?? []), support]);
+    if (support.portraitId) {
+      supportsByPortrait.set(support.portraitId, [...(supportsByPortrait.get(support.portraitId) ?? []), support]);
+    }
+  }
+
+  for (const ability of synced.appearanceAbilities ?? []) {
+    abilitiesByPortrait.set(ability.portraitId, [...(abilitiesByPortrait.get(ability.portraitId) ?? []), ability]);
+  }
+
+  for (const effect of synced.appearanceAbilityEffects ?? []) {
+    effectsByAbility.set(effect.appearanceAbilityId, [...(effectsByAbility.get(effect.appearanceAbilityId) ?? []), effect]);
   }
 
   for (const uniform of synced.uniforms ?? []) {
     const key = uniformAttributeKey(uniform.characterId, uniform.name);
-    const supportRows = supportsByUniform.get(key) ?? [];
-    const attribute = attributesByUniform.get(key);
+    const attribute = uniform.portraitId
+      ? attributesByPortrait.get(uniform.portraitId) ?? attributesByUniform.get(key)
+      : attributesByUniform.get(key);
+    const portraitId = uniform.portraitId ?? attribute?.portraitId;
+    const supportRows = supportRowsForAppearance(
+      portraitId,
+      uniform.characterId,
+      uniform.name,
+      supportsByPortrait,
+      supportsByUniform,
+    );
     const catalogUniform: CatalogUniform = {
       name: uniform.name,
+      portraitId,
+      baseCharacter: attribute?.baseCharacter ?? false,
       imageUrl: uniform.localImageUrl ?? uniform.imageUrl ?? attribute?.localPortraitUrl ?? attribute?.portraitUrl,
       sourceImageUrl: uniform.imageUrl ?? attribute?.portraitUrl,
       acquisition: uniform.acquisition,
       release: releaseLabel(uniform.releaseUpdate, uniform.releaseDate),
       ...uniformCoreAttributes(attribute),
-      leader: mergeStringList(...supportRows.map((row) => row?.leadership ?? [])),
-      passive: mergeStringList(...supportRows.map((row) => row?.passive ?? [])),
-      uniformEffect: mergeStringList(...supportRows.map((row) => row?.uniformEffect ?? [])),
+      ...appearanceEffects(portraitId, supportRows, abilitiesByPortrait, effectsByAbility),
     };
     uniformsByCharacter.set(uniform.characterId, [...(uniformsByCharacter.get(uniform.characterId) ?? []), catalogUniform]);
+    seenAppearances.add(appearanceKey(portraitId, uniform.characterId, uniform.name));
   }
 
-  for (const support of synced.supports ?? []) {
-    const key = uniformAttributeKey(support.characterId, support.uniform);
-    const rows = uniformsByCharacter.get(support.characterId) ?? [];
-    if (rows.some((row) => slugify(row.name) === slugify(support.uniform ?? 'Modern'))) continue;
-    const attribute = attributesByUniform.get(key);
+  // Attributes are the canonical 1:1 appearance inventory. This appends base
+  // appearances and any source appearance that lacks a purchasable-uniform row.
+  for (const attribute of synced.attributes ?? []) {
+    const key = appearanceKey(attribute.portraitId, attribute.characterId, attribute.uniform);
+    if (seenAppearances.has(key)) continue;
+    const supportRows = supportRowsForAppearance(
+      attribute.portraitId,
+      attribute.characterId,
+      attribute.uniform,
+      supportsByPortrait,
+      supportsByUniform,
+    );
+    const rows = uniformsByCharacter.get(attribute.characterId) ?? [];
     rows.push({
-      name: support.uniform ?? 'Modern',
-      imageUrl: attribute?.localPortraitUrl ?? attribute?.portraitUrl ?? characterImageById.get(support.characterId),
-      sourceImageUrl: attribute?.portraitUrl,
+      name: attribute.uniform ?? 'Modern',
+      portraitId: attribute.portraitId,
+      baseCharacter: attribute.baseCharacter,
+      imageUrl: attribute.localPortraitUrl ?? attribute.portraitUrl ?? characterImageById.get(attribute.characterId),
+      sourceImageUrl: attribute.portraitUrl,
+      acquisition: attribute.baseCharacter ? '기본 외형 · 유니폼 없음' : undefined,
       ...uniformCoreAttributes(attribute),
-      leader: support.leadership ?? [],
-      passive: support.passive ?? [],
-      uniformEffect: support.uniformEffect ?? [],
+      ...appearanceEffects(attribute.portraitId, supportRows, abilitiesByPortrait, effectsByAbility),
     });
-    uniformsByCharacter.set(support.characterId, rows);
-    supportsByUniform.delete(key);
+    uniformsByCharacter.set(attribute.characterId, rows);
+    seenAppearances.add(key);
   }
 
   return (synced.characters ?? []).map((character) => {
@@ -317,15 +451,26 @@ function buildSyncedCatalogCharacters(): CatalogCharacter[] {
         ? characterUniforms
         : [{
             name: fallbackAttribute?.uniform ?? 'Modern',
+            portraitId: fallbackAttribute?.portraitId,
+            baseCharacter: fallbackAttribute?.baseCharacter,
             imageUrl:
               fallbackAttribute?.localPortraitUrl ??
               fallbackAttribute?.portraitUrl ??
               characterImageById.get(character.id),
             sourceImageUrl: fallbackAttribute?.portraitUrl,
             ...uniformCoreAttributes(fallbackAttribute),
-            leader: [],
-            passive: [],
-            uniformEffect: [],
+            ...appearanceEffects(
+              fallbackAttribute?.portraitId,
+              supportRowsForAppearance(
+                fallbackAttribute?.portraitId,
+                character.id,
+                fallbackAttribute?.uniform,
+                supportsByPortrait,
+                supportsByUniform,
+              ),
+              abilitiesByPortrait,
+              effectsByAbility,
+            ),
           }],
       sourceStatus: 'synced',
     };
@@ -436,7 +581,7 @@ function mergeStringList(...lists: string[][]) {
 function mergeUniforms(a: CatalogUniform[] = [], b: CatalogUniform[] = []) {
   const byName = new Map<string, CatalogUniform>();
   [...a, ...b].forEach((uniform) => {
-    const key = slugify(uniform.name || 'modern');
+    const key = uniform.portraitId ? `portrait:${uniform.portraitId}` : `name:${slugify(uniform.name || 'modern')}`;
     const prev = byName.get(key);
     if (!prev) {
       byName.set(key, { ...uniform });
@@ -445,6 +590,7 @@ function mergeUniforms(a: CatalogUniform[] = [], b: CatalogUniform[] = []) {
     byName.set(key, {
       ...prev,
       ...uniform,
+      portraitId: uniform.portraitId ?? prev.portraitId,
       imageUrl: uniform.imageUrl ?? prev.imageUrl,
       sourceImageUrl: uniform.sourceImageUrl ?? prev.sourceImageUrl,
       acquisition: uniform.acquisition ?? prev.acquisition,
@@ -492,8 +638,10 @@ function mergeCharacters(items: CatalogCharacter[]) {
 }
 
 export const syncedCatalogCharacterCount = syncedCatalogCharacters.length;
-const combinedCatalogCharacters = [...syncedCatalogCharacters, ...manualCatalogCharacters];
-const combinedWithPlaceholders = [...combinedCatalogCharacters, ...placeholderCatalogCharacters];
+const combinedCatalogCharacters = [...syncedCatalogCharacters];
+const syncedCharacterIds = new Set(syncedCatalogCharacters.map((character) => character.id));
+const developmentOnlyPlaceholders = placeholderCatalogCharacters.filter((character) => !syncedCharacterIds.has(character.id));
+const combinedWithPlaceholders = [...combinedCatalogCharacters, ...developmentOnlyPlaceholders];
 
 export const catalogCharacters: CatalogCharacter[] = appendBaseCharacterForms(mergeCharacters(combinedCatalogCharacters));
 export const catalogCharactersWithPlaceholders: CatalogCharacter[] = appendBaseCharacterForms(mergeCharacters(combinedWithPlaceholders));
@@ -507,9 +655,10 @@ export const catalogStats = {
   count: catalogCharacters.length,
   rawCount: combinedCatalogCharacters.length,
   syncedCount: syncedCatalogCharacters.length,
-  manualCount: manualCatalogCharacters.length,
+  manualCount: catalogCharacters.filter((character) => character.sourceStatus === 'manual').length,
+  manualSeedCount: manualCatalogCharacters.length,
   placeholderCount: placeholderCatalogCharacters.length,
   duplicateCount: Object.values(duplicateCharacterIds).filter((count) => count > 1).length,
-  source: 'synced + manual; placeholders are exported separately',
+  source: 'synced production catalog; manual seeds and placeholders are exported separately',
   columns: ['Character Image', 'Artifact', 'Leader/Passive Aggregate', 'Uniforms'],
 };

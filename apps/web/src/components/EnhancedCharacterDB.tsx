@@ -21,7 +21,7 @@ const PAGE_SIZE = 10;
 const artifactStarOptions = [3, 4, 5, 6] as const;
 type ArtifactStar = (typeof artifactStarOptions)[number];
 const myArtifactStarOptions = [0, 3, 4, 5, 6] as const;
-const sourceOptions: Array<'ALL' | CatalogCharacter['sourceStatus']> = ['ALL', 'synced', 'manual'];
+const sourceOptions: Array<'ALL' | CatalogCharacter['sourceStatus']> = ['ALL', 'synced'];
 const matrixColumnCount = 4;
 const myCharacterMatrixColumnCount = 4;
 const myCharacterStorageKey = 'mff-data-hub:my-character-builds:v1';
@@ -172,7 +172,20 @@ const catalogSearchIndex = catalogCharacters.map((character) => ({
     character.type,
     character.side,
     character.tags.join(' '),
-    character.uniforms.map((uniform) => [uniform.name, uniform.type, uniform.side, uniform.gender, uniform.species, uniform.tags?.join(' ')].filter(Boolean).join(' ')).join(' '),
+    character.uniforms.map((uniform) => [
+      uniform.name,
+      uniform.type,
+      uniform.side,
+      uniform.gender,
+      uniform.species,
+      uniform.tags?.join(' '),
+      uniform.leader?.join(' '),
+      uniform.leader?.map(translateMffEffectText).join(' '),
+      uniform.passive?.join(' '),
+      uniform.passive?.map(translateMffEffectText).join(' '),
+      uniform.uniformEffect?.join(' '),
+      uniform.uniformEffect?.map(translateMffEffectText).join(' '),
+    ].filter(Boolean).join(' ')).join(' '),
     character.artifact?.name,
     character.artifact?.skill,
     character.artifact?.effects.join(' '),

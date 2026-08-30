@@ -16,7 +16,7 @@ import {
   type ApiUpdate,
 } from './thanosvibs/api';
 import { BASE_URL, OUT_DEBUG, OUT_JSON_PACKAGE, pages } from './thanosvibs/config';
-import { cacheAssets, dedupeBy, fetchPage, writeOutputs } from './thanosvibs/output';
+import { cacheAssets, dedupeBy, fetchCompleteAppearanceSkillData, fetchPage, writeOutputs } from './thanosvibs/output';
 import type {
   AttributeRow,
   CombatType,
@@ -703,6 +703,7 @@ async function main() {
   const apiCards = parseArrayPayload<ApiComicCard>(cardPage.html, 'cards', 100);
   const apiSupports = parseArrayPayload<ApiSupport>(supportPage.html, 'supports', 300);
   const apiUpdates = parseArrayPayload<ApiUpdate>(updatePage.html, 'updates', 50);
+  console.log(`Fetching skills for ${apiCharacters.length} character appearances...`);
   const uniforms = parseApiUniforms(apiUniforms, apiCharacters, apiUpdates, previous.uniforms);
   const artifacts = parseApiArtifacts(apiArtifacts);
   const comicCards = parseApiComicCards(apiCards);
@@ -712,12 +713,19 @@ async function main() {
   if (!abxlPage && allianceBattleConditions.length === 0) {
     throw new Error('alliance battle source was removed and no previous rows are available to preserve');
   }
-  const { supports, effects } = parseApiSupports(apiSupports, apiCharacters);
+  const legacySupportData = parseApiSupports(apiSupports, apiCharacters);
+  const {
+    supports,
+    appearanceAbilities,
+    appearanceAbilityEffects,
+    coverage: appearanceAbilityCoverage,
+  } = await fetchCompleteAppearanceSkillData(BASE_URL, apiCharacters, legacySupportData.supports);
+  const effects = legacySupportData.effects;
   const attributes = parseApiAttributes(apiCharacters, apiUniforms, previous.attributes);
   if (uniforms.length !== Object.keys(apiUniforms).length || attributes.length !== apiCharacters.length) {
     throw new Error('THANO$VIB$ API join lost character or uniform rows');
   }
-  const characters = buildCharacters(uniforms, artifacts, supports, attributes);
+  const characters = buildCharacters(uniforms, artifacts, legacySupportData.supports, attributes);
   const baseCharacterIds = new Set(
     attributes.filter((row) => row.baseCharacter).map((row) => row.characterId),
   );
@@ -733,7 +741,6 @@ async function main() {
   if (new Set(appearanceKeys).size !== appearanceKeys.length) {
     throw new Error('THANO$VIB$ canonical character join collapsed duplicate appearance names');
   }
-
   const warnings: string[] = [];
   if (characters.length === 0) warnings.push('characters parser returned 0 rows');
   if (uniforms.length === 0) warnings.push('uniforms parser returned 0 rows');
@@ -756,6 +763,9 @@ async function main() {
     allianceBattleConditions,
     supports,
     characterEffects: effects,
+    appearanceAbilities,
+    appearanceAbilityEffects,
+    appearanceAbilityCoverage,
     attributes,
     warnings,
   };
@@ -771,6 +781,9 @@ async function main() {
     allianceBattleConditions: allianceBattleConditions.length,
     supports: supports.length,
     characterEffects: effects.length,
+    appearanceAbilities: appearanceAbilities.length,
+    appearanceAbilityEffects: appearanceAbilityEffects.length,
+    appearanceAbilityCoverage: appearanceAbilityCoverage.length,
     attributes: attributes.length,
     assets: payload.assetStats,
   });

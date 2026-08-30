@@ -65,6 +65,7 @@ export type SyncedAllianceBattleCondition = {
 export type SyncedSupport = {
   character: string;
   characterId: string;
+  portraitId?: string;
   uniform?: string;
   leadership: string[];
   passive: string[];
@@ -73,9 +74,68 @@ export type SyncedSupport = {
   sourceUrl: string;
 };
 
+export type AppearanceAbilityKind = 'leader' | 'passive' | 'uniform_effect';
+
+export type AppearanceAbilityCoverageStatus =
+  | 'complete'
+  | 'not_applicable'
+  | 'missing'
+  | 'needs_review';
+
+export type SyncedAppearanceAbility = {
+  id: string;
+  portraitId: string;
+  characterId: string;
+  character: string;
+  uniform?: string;
+  baseCharacter: boolean;
+  kind: AppearanceAbilityKind;
+  sourceSkillType: string;
+  skillId: string;
+  skillName: string;
+  cooldown?: number | string;
+  target?: string;
+  activation?: string;
+  icon?: string;
+  sortOrder: number;
+  sourceUrl: string;
+};
+
+export type SyncedAppearanceAbilityEffect = {
+  id: string;
+  appearanceAbilityId: string;
+  stageId: string;
+  stageOrder: number;
+  effectId: string;
+  effectOrder: number;
+  abilityCode?: string | number;
+  effectName: string;
+  description: string;
+  duration?: string | number | boolean | null;
+  tick?: string | number | boolean | null;
+  persistent?: string | number | boolean | null;
+  valueMetadata?: Record<string, unknown>;
+};
+
+export type SyncedAppearanceAbilityCoverage = {
+  id: string;
+  portraitId: string;
+  characterId: string;
+  character: string;
+  uniform?: string;
+  baseCharacter: boolean;
+  kind: AppearanceAbilityKind;
+  status: AppearanceAbilityCoverageStatus;
+  abilityCount: number;
+  effectCount: number;
+  reason?: string;
+  sourceUrl: string;
+};
+
 export type SyncedEffect = {
   character: string;
   characterId: string;
+  portraitId?: string;
   uniform?: string;
   sourceKind: string;
   effectName: string;
@@ -129,6 +189,9 @@ export type SyncPayload = {
   allianceBattleConditions: SyncedAllianceBattleCondition[];
   supports: SyncedSupport[];
   characterEffects: SyncedEffect[];
+  appearanceAbilities: SyncedAppearanceAbility[];
+  appearanceAbilityEffects: SyncedAppearanceAbilityEffect[];
+  appearanceAbilityCoverage: SyncedAppearanceAbilityCoverage[];
   attributes: AttributeRow[];
   assetStats?: {
     requested: number;
