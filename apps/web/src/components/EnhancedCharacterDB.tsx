@@ -694,7 +694,7 @@ function SkillCell({ uniform }: { uniform?: CatalogUniform }) {
         ) : null}
         <div className="min-w-0">
           <p className="truncate text-xs font-black text-slate-950">
-            {uniform ? `${uniform.name}${uniform.baseCharacter ? ' · 기본 외형' : ''}` : '유니폼 선택 필요'}
+            {uniform ? `${uniform.name}${uniform.baseCharacter ? ' · Default' : ''}` : '유니폼 선택 필요'}
           </p>
           <p className="truncate text-[10px] font-bold text-slate-400">
             {uniform?.baseCharacter ? '유니폼 없음' : uniform?.release ?? uniform?.acquisition ?? '선택한 유니폼 기준으로 효과 표시'}
@@ -744,7 +744,7 @@ function UniformButton({
         <div className="mx-auto grid h-12 w-12 place-items-center rounded-md border border-slate-200 bg-slate-100 text-[10px] font-black text-slate-400">UNI</div>
       )}
       <p className="mt-1 line-clamp-2 min-h-7 break-keep text-[8px] font-black leading-tight text-slate-900">
-        {uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}
+        {uniform.name}{uniform.baseCharacter ? ' · Default' : ''}
       </p>
     </button>
   );
@@ -1535,7 +1535,7 @@ function UniformOwnershipPanel({
                   <div className="grid h-11 w-11 place-items-center rounded-md border border-slate-200 bg-slate-100 text-[10px] font-black text-slate-400">UNI</div>
                 )}
                 <span className="mt-1 line-clamp-2 min-h-7 break-keep text-[8px] font-black leading-tight text-slate-900">
-                  {uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}
+                  {uniform.name}{uniform.baseCharacter ? ' · Default' : ''}
                 </span>
               </button>
               {uniform.baseCharacter ? (
@@ -1928,7 +1928,7 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
                           ) : (
                             <div className="grid aspect-square w-full place-items-center rounded-xl border border-slate-200 bg-slate-100 text-sm font-black text-slate-400">UNI</div>
                           )}
-                          <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}</p>
+                          <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}{uniform.baseCharacter ? ' · Default' : ''}</p>
                         </button>
                       ))}
                     </div>
@@ -2053,7 +2053,7 @@ export function EnhancedCharacterDB({ selectedId, onSelect, onSelectCatalog, mod
                       ) : (
                         <div className="grid aspect-square w-full place-items-center rounded-xl border border-slate-200 bg-slate-100 text-sm font-black text-slate-400">UNI</div>
                       )}
-                      <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}{uniform.baseCharacter ? ' · 기본' : ''}</p>
+                      <p className="mt-2 line-clamp-2 text-[11px] font-black">{uniform.name}{uniform.baseCharacter ? ' · Default' : ''}</p>
                     </button>
                   ))}
                 </div>

@@ -62,7 +62,8 @@ describe('EnhancedCharacterDB matrix layout', () => {
   });
 
   it('shows base character forms without treating them as owned uniforms', () => {
-    expect(source).toContain("uniform.baseCharacter ? ' · 기본' : ''");
+    expect(source).toContain("uniform.baseCharacter ? ' · Default' : ''");
+    expect(source).not.toContain("uniform.baseCharacter ? ' · 기본' : ''");
     expect(source).toContain("uniform?.baseCharacter ? '유니폼 없음'");
     expect(source).toContain('유니폼 없음 · 보유/등급 제외');
     expect(source).toContain('if (uniform.baseCharacter) return false;');
