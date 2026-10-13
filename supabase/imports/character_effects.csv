@@ -86,6 +86,8 @@ angel,angel3,Fallen One,Uniform Effect,Remove All Debuffs,12,N/A,,When Debuffed 
 angel,angel,Modern,Leadership,Remove All Debuffs,12,N/A,,When Debuffed | Cooldown 25s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
 angel,angel,Modern,4★ Passive,Recovery Rate,30,30%,,Recovery Rate 30%,https://thanosvibs.money/api/supports
 angela,angela3,Asgard's Assassin,Uniform Effect,Basic Damage Dealt to Villains,40,40%,Side: Hero,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
+annihilus,annihilus,Annihilation,Leadership,All Speeds,6,6%,N: o | n: e,All Speeds 6%,https://thanosvibs.money/api/supports
+annihilus,annihilus,Annihilation,Leadership,Poison Damage,60,60%,Character: annihilus,Poison Damage 60%,https://thanosvibs.money/api/supports
 antiman,antiman,"All-New, All-Different",Leadership,All Basic Attacks,45,45%,,All Basic Attacks 45%,https://thanosvibs.money/api/supports
 antiman,antiman1,Ultimates,Leadership,All Basic Attacks,60,60%,,All Basic Attacks 60%,https://thanosvibs.money/api/supports
 antiman,antiman1,Ultimates,Leadership,HP,30,30%,,HP 30%,https://thanosvibs.money/api/supports
@@ -281,9 +283,9 @@ doctorvoodoo,doctorvoodoo1,Strange Academy,Uniform Effect,Ignore Dodge,30,30%,,I
 domino,domino,X-Force,Leadership,Critical Rate,8,8%,,Critical Rate 8%,https://thanosvibs.money/api/supports
 domino,domino,X-Force,Leadership,Ignore Dodge,45,45%,,Ignore Dodge 45%,https://thanosvibs.money/api/supports
 dormammu,dormammu1,Damnation,Leadership,Basic Damage Dealt to Heroes,60,60%,Side: Villain,Basic Damage Dealt to Heroes 60%,https://thanosvibs.money/api/supports
-drax,drax2,Classic,Leadership,HP,45,45%,,HP 45% when 1 Combat,https://thanosvibs.money/api/supports
-drax,drax2,Classic,Leadership,HP,55,55%,,HP 55% when 2 Combats,https://thanosvibs.money/api/supports
-drax,drax2,Classic,Leadership,HP,65,65%,,HP 65% when 3 Combats,https://thanosvibs.money/api/supports
+drax,drax2,Classic,Leadership,HP,45,45%,,HP 45%,https://thanosvibs.money/api/supports
+drax,drax2,Classic,Leadership,HP,55,55%,,HP 55%,https://thanosvibs.money/api/supports
+drax,drax2,Classic,Leadership,HP,65,65%,,HP 65%,https://thanosvibs.money/api/supports
 drax,drax,Guardians of the Galaxy,Leadership,HP,21,21%,,HP 21% when 1 Combat,https://thanosvibs.money/api/supports
 drax,drax,Guardians of the Galaxy,Leadership,HP,30,30%,,HP 30% when 2 Combats,https://thanosvibs.money/api/supports
 drax,drax,Guardians of the Galaxy,Leadership,HP,45,45%,,HP 45% when 3 Combats,https://thanosvibs.money/api/supports
@@ -371,6 +373,7 @@ franklinrichards,franklinrichards,Modern,Artifact Exclusive Skill,Immortality + 
 franklinrichards,franklinrichards,Modern,Artifact Exclusive Skill,Immortality + Heal,10,10%,Ability: Fantastic Four,4★ | When HP is below 5% | Cooldown 180s | Immortality + Heal 10% 0.5% 2,https://thanosvibs.money/api/supports
 franklinrichards,franklinrichards,Modern,Artifact Exclusive Skill,Immortality + Heal,15,15%,Ability: Fantastic Four,5★ | When HP is below 5% | Cooldown 180s | Immortality + Heal 15% 0.5% 3,https://thanosvibs.money/api/supports
 franklinrichards,franklinrichards,Modern,Artifact Exclusive Skill,Immortality + Heal,20,20%,Ability: Fantastic Four,6★ | When HP is below 5% | Cooldown 180s | Immortality + Heal 20% 0.5% 4,https://thanosvibs.money/api/supports
+galactus,galactus,Modern,Leadership,Remove All Debuffs,12,N/A,N: o | n: e,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 12,https://thanosvibs.money/api/supports
 gambit,gambit,Modern,Leadership,Ignore Dodge,50,50%,,Ignore Dodge 50%,https://thanosvibs.money/api/supports
 gamora,gamora4,Marvel Studios' Guardians of the Galaxy 3,Leadership,Physical Attack,60,60%,Type: Speed,Physical Attack 60%,https://thanosvibs.money/api/supports
 gamora,gamora4,Marvel Studios' Guardians of the Galaxy 3,Leadership,All Speeds,6,6%,Type: Speed,All Speeds 6%,https://thanosvibs.money/api/supports
@@ -420,6 +423,10 @@ gorr,gorr1,Marvel Studios' Thor: Love and Thunder,Leadership,Remove All Debuffs,
 greengoblin,greengoblin2,Dark Avengers,Leadership,All Basic Attacks,60,60%,Ability: Dark Avengers,All Basic Attacks 60%,https://thanosvibs.money/api/supports
 greengoblin,greengoblin2,Dark Avengers,Tier-2 Passive,Basic Damage Dealt to Villains,40,40%,Ability: Dark Avengers,Basic Damage Dealt to Villains 40%,https://thanosvibs.money/api/supports
 greengoblin,greengoblin2,Dark Avengers,Tier-2 Passive,Basic Damage Dealt to Heroes,40,40%,Ability: Dark Avengers,Basic Damage Dealt to Heroes 40%,https://thanosvibs.money/api/supports
+greengoblin,greengoblin5,Gold Goblin,Leadership,All Basic Attacks,40,40%,N: o | n: e,All Basic Attacks 40%,https://thanosvibs.money/api/supports
+greengoblin,greengoblin5,Gold Goblin,Leadership,Ignore Dodge,40,40%,N: o | n: e,Ignore Dodge 40%,https://thanosvibs.money/api/supports
+greengoblin,greengoblin5,Gold Goblin,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,Side: Hero,Basic Damage Dealt to Villains 45%,https://thanosvibs.money/api/supports
+greengoblin,greengoblin5,Gold Goblin,Tier-2 Passive,Basic Damage Dealt to Heroes,45,45%,Side: Hero,Basic Damage Dealt to Heroes 45%,https://thanosvibs.money/api/supports
 greengoblin,greengoblin3,Spider-Man: No Way Home,Leadership,All Basic Attacks,40,40%,,All Basic Attacks 40%,https://thanosvibs.money/api/supports
 greengoblin,greengoblin3,Spider-Man: No Way Home,Leadership,Ignore Dodge,40,40%,,Ignore Dodge 40%,https://thanosvibs.money/api/supports
 greengoblin,greengoblin3,Spider-Man: No Way Home,Tier-2 Passive,Basic Damage Dealt to Villains,45,45%,Side: Villain,Basic Damage Dealt to Villains 45%,https://thanosvibs.money/api/supports
@@ -794,11 +801,18 @@ redshehulk,redshehulk,Modern,Leadership,Fire Damage,65,65%,,Fire Damage 65%,http
 redshehulk,redshehulk,Modern,Leadership,HP,25,25%,,HP 25%,https://thanosvibs.money/api/supports
 redshehulk,redshehulk,Modern,4★ Passive,HP,30,30%,,HP 30%,https://thanosvibs.money/api/supports
 redshehulk,redshehulk,Modern,4★ Passive,Basic Damage Received,-10,-10%,,Basic Damage Received -10%,https://thanosvibs.money/api/supports
+redskull,redskull3,The Crimson Fall,Tier-2 Passive,Basic Damage Dealt to Heroes,55,55%,Side: Villain,Basic Damage Dealt to Heroes 55%,https://thanosvibs.money/api/supports
+redskull,redskull3,The Crimson Fall,Tier-2 Passive,Basic Damage Dealt to Villains,55,55%,Side: Villain,Basic Damage Dealt to Villains 55%,https://thanosvibs.money/api/supports
+redskull,redskull3,The Crimson Fall,Tier-2 Passive,All Basic Attacks,15,15%,Side: Villain,All Basic Attacks 15%,https://thanosvibs.money/api/supports
 rescue,rescue1,3099,Leadership,Max HP Shield,50,50%,,When HP is below 99% | Cooldown 10s | Max HP Shield 50% 5,https://thanosvibs.money/api/supports
 rescue,rescue1,3099,Uniform Effect,Recovery Rate,25,25%,,Recovery Rate 25%,https://thanosvibs.money/api/supports
 rescue,rescue2,Invincible Iron Man,Leadership,Max HP Shield,50,50%,,When HP is below 99% | Cooldown 10s | Max HP Shield 50% 5,https://thanosvibs.money/api/supports
 rescue,rescue2,Invincible Iron Man,Uniform Effect,HP,25,25%,,HP 25%,https://thanosvibs.money/api/supports
 rescue,rescue2,Invincible Iron Man,Uniform Effect,Recovery Rate,25,25%,,Recovery Rate 25%,https://thanosvibs.money/api/supports
+rhino,rhino1,Uncanny Spider-Man,Leadership,Ignore Defense,20,20%,N: o | n: e,Ignore Defense 20%,https://thanosvibs.money/api/supports
+rhino,rhino1,Uncanny Spider-Man,Uniform Effect,Chain Hit Damage Received,20,20%,Side: Villain,Chain Hit Damage Received 20%,https://thanosvibs.money/api/supports
+rhino,rhino1,Uncanny Spider-Man,Uniform Effect,Ignore Non-Boss Damage Decrease,10,10%,Side: Villain,Ignore Non-Boss Damage Decrease 10%,https://thanosvibs.money/api/supports
+rhino,rhino1,Uncanny Spider-Man,Uniform Effect,HP,35,35%,Side: Villain,HP 35%,https://thanosvibs.money/api/supports
 rocketraccoon,rocketraccoon6,Marvel Studios' Guardians of the Galaxy 3,4★ Passive,Energy Attack,40,40%,Ability: Guardians of the Galaxy,Energy Attack 40%,https://thanosvibs.money/api/supports
 ronan,ronan3,Annihilators,Leadership,All Basic Attacks,50,50%,Type: Universal,All Basic Attacks 50%,https://thanosvibs.money/api/supports
 ronan,ronan3,Annihilators,Leadership,All Basic Defenses,36,36%,Type: Universal,All Basic Defenses 36%,https://thanosvibs.money/api/supports
@@ -939,6 +953,7 @@ sin,sin1,Rage Returned,Artifact Exclusive Skill,Basic Damage Dealt to Heroes,15,
 sin,sin1,Rage Returned,Artifact Exclusive Skill,Basic Damage Dealt to Villains,15,15%,Side: Villain,6★ | Basic Damage Dealt to Villains 15% 0.5%,https://thanosvibs.money/api/supports
 singularity,singularity,Secret Wars: A-Force,Leadership,Energy Attack,30,30%,,Energy Attack 30%,https://thanosvibs.money/api/supports
 sistergrimm,sistergrimm2,Runaways,4★ Passive,Remove All Debuffs,15,N/A,Ability: Magic,When Debuffed | Cooldown 20s | Remove All Debuffs N/A 15,https://thanosvibs.money/api/supports
+sistergrimm,sistergrimm2,Runaways,4★ Passive,Heal,10,10%,Ability: Magic,When Debuffed | Cooldown 20s | Heal 10% 1,https://thanosvibs.money/api/supports
 sleeper,sleeper,Modern,Leadership,All Basic Attacks,20,20%,,All Basic Attacks 20%,https://thanosvibs.money/api/supports
 sleeper,sleeper,Modern,Leadership,All Basic Attacks,60,60%,Character: Venom,All Basic Attacks 60%,https://thanosvibs.money/api/supports
 sleeper,sleeper,Modern,4★ Passive,Basic Damage Dealt to Villains,35,35%,Ability: Symbiote,Basic Damage Dealt to Villains 35%,https://thanosvibs.money/api/supports

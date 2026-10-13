@@ -127,6 +127,7 @@ export type ApiCharacterSkillPayload = {
 
 export type ApiUpdate = {
   potes?: Array<{ version?: string; date?: string }>;
+  uniforms?: Array<{ portrait?: string; added_in?: string }>;
 };
 
 const slugify = (name: string) =>
@@ -253,6 +254,24 @@ function inferredInstinct(side: Side, species?: string) {
   if (species === 'Human' && side === 'Villain') return 'Cruelty';
   if (side === 'Hero') return 'Order';
   return 'Destruction';
+}
+
+export function withUniformUpdateMetadata(
+  uniforms: Record<string, ApiUniform>,
+  updates: ApiUpdate[],
+): Record<string, ApiUniform> {
+  const versions = new Map<string, string>();
+  for (const update of updates) {
+    for (const uniform of update.uniforms ?? []) {
+      if (uniform.portrait && uniform.added_in) {
+        versions.set(uniform.portrait, uniform.added_in);
+      }
+    }
+  }
+  return Object.fromEntries(Object.entries(uniforms).map(([portrait, uniform]) => [
+    portrait,
+    { ...uniform, update: clean(uniform.update) || versions.get(portrait) },
+  ]));
 }
 
 export function parseApiAttributes(

@@ -8,6 +8,7 @@ import {
   parseApiComicCards,
   parseApiSupports,
   parseApiUniforms,
+  withUniformUpdateMetadata,
   type ApiArtifact,
   type ApiCharacter,
   type ApiComicCard,
@@ -15,13 +16,13 @@ import {
   type ApiUniform,
   type ApiUpdate,
 } from './thanosvibs/api';
+import { parseApiAllianceBattleConditions } from './thanosvibs/allianceBattle';
 import { BASE_URL, OUT_DEBUG, OUT_JSON_PACKAGE, pages } from './thanosvibs/config';
 import { cacheAssets, dedupeBy, fetchCompleteAppearanceSkillData, fetchPage, writeOutputs } from './thanosvibs/output';
 import type {
   AttributeRow,
   CombatType,
   Side,
-  SyncedAllianceBattleCondition,
   SyncedArtifact,
   SyncedCharacter,
   SyncedComicCard,
@@ -329,80 +330,6 @@ function parseComicCards(html: string, sourceUrl: string): SyncedComicCard[] {
   return dedupeBy(result, (row) => row.id).sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function contentForAllianceBattleMode(mode: SyncedAllianceBattleCondition['mode']): SyncedAllianceBattleCondition['content'] {
-  if (mode === 'Extreme') return 'ABX';
-  if (mode === 'Legend') return 'ABL';
-  if (mode === 'Infinite Challenge') return 'Infinity Challenge';
-  return 'AB';
-}
-
-function parseRequiredAllianceBattleFields(restrictions: string[]) {
-  const active = restrictions.includes('No Restrictions') ? [] : restrictions;
-  return {
-    requiredType: active.find((item) => ['Combat', 'Blast', 'Speed', 'Universal'].includes(item)),
-    requiredAlignment: active.find((item) => ['Hero', 'Villain', 'Neutral'].includes(item)),
-    requiredGender: active.find((item) => ['Male', 'Female', 'Other'].includes(item)),
-    requiredTags: active
-      .filter((item) => !['Combat', 'Blast', 'Speed', 'Universal', 'Hero', 'Villain', 'Neutral', 'Male', 'Female', 'Other'].includes(item))
-      .map((item) => item.toLowerCase().replace(/\s+/g, '-')),
-  };
-}
-
-function parseAllianceBattleConditions(html: string, sourceUrl: string): SyncedAllianceBattleCondition[] {
-  const $ = cheerio.load(html);
-  const result: SyncedAllianceBattleCondition[] = [];
-
-  $('.abxl-round-card').each((index, element) => {
-    const card = $(element);
-    const roundNo = Number(clean(card.children('h6.center-align').first().text()).match(/\d+/)?.[0] ?? index + 1);
-    const isResetDay = card
-      .children('h6.center-align')
-      .map((_, heading) => clean($(heading).text()))
-      .get()
-      .some((text) => /reset day/i.test(text));
-
-    card.find('div.abxl-mode-div').each((_, modeElement) => {
-      const mode = clean($(modeElement).children('h6').first().text()) as SyncedAllianceBattleCondition['mode'];
-      if (!['Normal', 'Extreme', 'Legend', 'Infinite Challenge'].includes(mode)) return;
-      const restrictions =
-        $(modeElement)
-          .children('p.abxl-restrictions-parent')
-          .first()
-          .find('img.restriction')
-          .map((__, img) => clean($(img).attr('data-tooltip')))
-          .get()
-          .filter(Boolean) || [];
-      const cancelEffects = Array.from(
-        new Set(
-          $(modeElement)
-            .children('div.abxl-team')
-            .first()
-            .find('img.abxl-cancel')
-            .map((__, img) => clean($(img).attr('src')).match(/buff_([a-z]+)/)?.[1])
-            .get()
-            .filter(Boolean),
-        ),
-      );
-      const content = contentForAllianceBattleMode(mode);
-      const required = parseRequiredAllianceBattleFields(restrictions);
-      result.push({
-        id: `mff-abxl-r${String(roundNo).padStart(2, '0')}-${slugify(content)}`,
-        roundNo,
-        mode,
-        content,
-        isResetDay,
-        restrictions: restrictions.length ? restrictions : ['No Restrictions'],
-        ...required,
-        cancelEffects,
-        sourceUrl,
-        note: restrictions.length ? restrictions.join(' + ') : 'No Restrictions',
-      });
-    });
-  });
-
-  return dedupeBy(result, (row) => row.id).sort((a, b) => a.roundNo - b.roundNo || a.mode.localeCompare(b.mode));
-}
-
 function normalizeSourceKind(section: string) {
   if (section === '4★ Passive') return '4★ Passive';
   if (section.startsWith('Leadership')) return 'Leadership';
@@ -694,23 +621,24 @@ async function main() {
     writeFile(path.join(OUT_DEBUG, 'cards.json'), cardPage.html, 'utf8'),
     writeFile(path.join(OUT_DEBUG, 'supports.json'), supportPage.html, 'utf8'),
     writeFile(path.join(OUT_DEBUG, 'updates.json'), updatePage.html, 'utf8'),
-    abxlPage ? writeFile(path.join(OUT_DEBUG, 'abxl.html'), abxlPage.html, 'utf8') : Promise.resolve(),
+    abxlPage ? writeFile(path.join(OUT_DEBUG, 'abxl.json'), abxlPage.html, 'utf8') : Promise.resolve(),
   ]);
 
   const apiCharacters = parseArrayPayload<ApiCharacter>(characterPage.html, 'characters', 500);
-  const apiUniforms = parseRecordPayload<ApiUniform>(uniformPage.html, 'uniforms', 400);
+  const rawApiUniforms = parseRecordPayload<ApiUniform>(uniformPage.html, 'uniforms', 400);
   const apiArtifacts = parseArrayPayload<ApiArtifact>(artifactPage.html, 'artifacts', 200);
   const apiCards = parseArrayPayload<ApiComicCard>(cardPage.html, 'cards', 100);
   const apiSupports = parseArrayPayload<ApiSupport>(supportPage.html, 'supports', 300);
   const apiUpdates = parseArrayPayload<ApiUpdate>(updatePage.html, 'updates', 50);
+  const apiUniforms = withUniformUpdateMetadata(rawApiUniforms, apiUpdates);
   console.log(`Fetching skills for ${apiCharacters.length} character appearances...`);
   const uniforms = parseApiUniforms(apiUniforms, apiCharacters, apiUpdates, previous.uniforms);
   const artifacts = parseApiArtifacts(apiArtifacts);
   const comicCards = parseApiComicCards(apiCards);
   const allianceBattleConditions = abxlPage
-    ? parseAllianceBattleConditions(abxlPage.html, abxlPage.url)
+    ? parseApiAllianceBattleConditions(JSON.parse(abxlPage.html), abxlPage.url)
     : previous.allianceBattleConditions ?? [];
-  if (!abxlPage && allianceBattleConditions.length === 0) {
+  if (allianceBattleConditions.length === 0) {
     throw new Error('alliance battle source was removed and no previous rows are available to preserve');
   }
   const legacySupportData = parseApiSupports(apiSupports, apiCharacters);

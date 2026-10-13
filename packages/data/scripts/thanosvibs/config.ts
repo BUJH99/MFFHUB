@@ -13,7 +13,7 @@ export const pages = {
   uniforms: `${BASE_URL}/api/uniforms`,
   artifacts: `${BASE_URL}/api/artifacts`,
   cards: `${BASE_URL}/api/cards`,
-  abxl: `${BASE_URL}/abxl`,
+  abxl: `${BASE_URL}/api/abxl-data`,
   supports: `${BASE_URL}/api/supports`,
   updates: `${BASE_URL}/api/updates`,
 };

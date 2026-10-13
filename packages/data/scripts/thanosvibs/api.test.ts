@@ -6,6 +6,7 @@ import {
   parseApiComicCards,
   parseApiSupports,
   parseApiUniforms,
+  withUniformUpdateMetadata,
   type ApiCharacter,
   type ApiCharacterSkillPayload,
 } from './api';
@@ -59,6 +60,27 @@ describe('THANO$VIB$ JSON API adapter', () => {
       releaseDate: 'July 27, 2026',
       portraitId: 'testhero1',
     });
+  });
+
+  it('fills missing seasonal update versions from the update timeline for dates and latest portraits', () => {
+    const old = { ...baseCharacter, uniform: 'Old Suit', uniformed: 'True', portrait: 'testhero1' };
+    const latest = { ...old, uniform: 'Autumn Suit', portrait: 'testhero2' };
+    const updates = [{
+      potes: [{ version: '12.2.5', date: 'September 23, 2026' }],
+      uniforms: [
+        { portrait: 'testhero1', added_in: '12.0' },
+        { portrait: 'testhero2', added_in: '12.2.5' },
+      ],
+    }];
+    const raw = { testhero1: { update: '12.1' }, testhero2: { flags: ['Seasonal', 'Halloween'] } };
+    const enriched = withUniformUpdateMetadata(raw, updates);
+    expect(raw.testhero2).not.toHaveProperty('update');
+    expect(enriched.testhero1.update).toBe('12.1');
+    expect(enriched.testhero2.update).toBe('12.2.5');
+    expect(parseApiAttributes([baseCharacter, old, latest], enriched).find((row) => row.latestUniform)?.portraitId)
+      .toBe('testhero2');
+    expect(parseApiUniforms(enriched, [baseCharacter, old, latest], updates).find((row) => row.portraitId === 'testhero2'))
+      .toMatchObject({ releaseUpdate: 'Update 12.2.5', releaseDate: 'September 23, 2026', season: 'Halloween' });
   });
 
   it('joins alter-ego uniform names back to the base character identity', () => {

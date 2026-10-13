@@ -109,6 +109,7 @@ const seasonUniforms: SeasonBlock[] = [
           2023: hero('신', 'sin1'),
           2024: hero('웨폰 헥스', 'weaponhex1'),
           2025: hero('메두사', 'medusa3'),
+          2026: hero('시스터 그림', 'sistergrimm3'),
         },
       },
       {
@@ -118,6 +119,7 @@ const seasonUniforms: SeasonBlock[] = [
           2023: hero('고스트 라이더', 'ghostrider5'),
           2024: hero('어보미네이션', 'abomination1'),
           2025: hero('마일즈 모랄레스', 'milesmorales5'),
+          2026: hero('레드 스컬', 'redskull3'),
         },
       },
     ],
